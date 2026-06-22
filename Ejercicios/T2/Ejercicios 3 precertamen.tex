@@ -1,0 +1,399 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+%\lhead{\includegraphics[scale=0.2]{logo.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+%\rhead{\includegraphics[scale=0.2]{FIG/logo-mba-2016.png}} % número de página a la derecha
+
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+
+
+
+\pagebreak
+\vspace*{4mm} 
+
+\begin{center}
+\begin{huge}
+\textbf{\\Ejercicios Econometría 3}
+\end{Large}\\
+%{\large 2023-2}\\
+\end{center}
+
+\begin{enumerate}
+
+  \item  Considere los siguientes datos para estimar el modelo
+$\displaystyle Y_i=\beta_0+\beta_1X_i+u_i$, donde $X_i$
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$i$ & $X_i$ & $Y_i$\\
+\hline
+1 & 1 & 5\\
+2 & 3 & 10\\
+3 & 5 & 11\\
+4 & 7 & 18\\
+5 & 9 & 16\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\begin{enumerate}
+  \item Estime $\hat\beta_0$ y $\hat\beta_1$ mediante MCO.
+  \item Calcule SST, SSR y SSE
+  \item Obtenga el coeficiente $R^2$
+\end{enumerate}
+\section*{Soluci\'on}
+
+\begin{enumerate}
+%-------------------------------------------------------------------
+\item \textbf{Estimación de los parámetros}
+
+Los promedios muestrales son
+\[
+\bar X \;=\;\frac{1+3+5+7+9}{5}=5,
+\qquad
+\bar Y \;=\;\frac{5+10+11+18+16}{5}=12.
+\]
+
+\[
+\hat\beta_1
+=\frac{\sum_{i=1}^{5}(X_i-\bar X)(Y_i-\bar Y)}
+        {\sum_{i=1}^{5}(X_i-\bar X)^2}
+  =\frac{60}{40}
+  =\frac{3}{2}=1.5,
+\qquad
+\hat\beta_0
+=\bar Y-\hat\beta_1\bar X
+ =12-\frac{3}{2}\cdot5
+ =\frac{9}{2}=4.5 .
+\]
+
+Así, la recta ajustada es
+\[
+\widehat{Y}_i \;=\; \hat\beta_0+\hat\beta_1X_i=4.5+1.5X_i.
+\]
+
+%-------------------------------------------------------------------
+\item \textbf{Cálculo de } $SST$, $SSE$ \textbf{y} $SSR$
+
+\[
+\begin{array}{|c|c|c|c|c|}
+\hline
+i & X_i & Y_i & \widehat Y_i = 4.5+1.5X_i & u_i = Y_i-\widehat Y_i \\
+\hline
+1 & 1 & 5  & 6  & -1 \\
+2 & 3 & 10 & 9  & \; 1 \\
+3 & 5 & 11 & 12 & -1 \\
+4 & 7 & 18 & 15 & \; 3 \\
+5 & 9 & 16 & 18 & -2 \\
+\hline
+\end{array}
+\]
+
+\[
+\begin{aligned}
+SSR &= \sum_{i=1}^{5} u_i^{\,2}
+     = (-1)^2 + 1^2 + (-1)^2 + 3^2 + (-2)^2
+     = 16,\\[6pt]
+SST &= \sum_{i=1}^{5} (Y_i-\bar Y)^2
+     = (5-12)^2 + (10-12)^2 + (11-12)^2 + (18-12)^2 + (16-12)^2
+     = 106,\\[6pt]
+SSE &= SST - SSR = 106 - 16 = 90.
+\end{aligned}
+\]
+
+%-------------------------------------------------------------------
+\item \textbf{Coeficiente de determinación}
+
+\[
+R^{2}
+= \frac{SSE}{SST}
+= 1-\frac{SSR}{SST}
+= 1-\frac{16}{106}
+\approx 0.849.
+\]
+
+Por lo tanto,
+\[
+\boxed{\hat\beta_0 = 4.5,\;\; \hat\beta_1 = 1.5,\;\;
+SST = 106,\;\; SSR = 90,\;\; SSE = 16,\;\; R^{2}\approx 0.85.}
+\]
+\end{enumerate}
+
+    \item En un curso de 7 alumnos, se tienen los siguientes datos:
+    \begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$i$ & Nota $\, (Y_i)$ & Horas estudio $\, (X_{1i})$ & IQ $\, (X_{2i})$ & Motivación $\, (X_{3i})$\\
+\hline
+1 & 3 & 1 & 95 & 50\\
+2 & 4 & 2 & 99 & 40\\
+3 & 5 & 3 &100 & 50\\
+4 & 5 & 4 &100 & 60\\
+5 & 6 & 4 &105 & 70\\
+6 & 7 & 5 & 99 & 70\\
+7 & 7 & 6 & 95 & 70\\
+\hline
+\end{tabular}
+\end{center}
+
+se desea estimar la nota mediante las horas de estudio, el IQ y la motivación de la forma:
+$$Nota = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_3 X_3$$
+\begin{enumerate}
+    \item Encuentro los estimados \textbf{$\beta$}, sabiendo que la matriz $(X^tX)^{-1}$ esta dada por:
+\[
+(X'X)^{-1}=
+\begin{pmatrix}
+140.462 & -0.1628 & -1.4317 & \;\;\,0.03412\\
+-0.1628 & \;\;0.201383 & \;\;0.008897 & -0.02454\\
+-1.4317 & \;\;0.008897 & \;\;0.01528 & -0.001924\\
+\;\;\,0.03412 & -0.02454 & -0.001924 & \;\;0.004166
+\end{pmatrix}.
+\]
+
+\item Calcule $R^2$ ajustado del modelo.
+\end{enumerate}
+
+\textbf{Solución}
+
+\paragraph{(a) Matriz de diseño y producto \(X'y\).}
+\[
+X=
+\begin{pmatrix}
+1 & 1 & 95 & 50\\
+1 & 2 & 99 & 40\\
+1 & 3 &100 & 50\\
+1 & 4 &100 & 60\\
+1 & 4 &105 & 70\\
+1 & 5 & 99 & 70\\
+1 & 6 & 95 & 70
+\end{pmatrix},
+\qquad
+y=
+\begin{pmatrix}3\\4\\5\\5\\6\\7\\7\end{pmatrix}.
+\]
+
+\[
+X'y=
+\begin{pmatrix}
+\sum Y_i\\
+\sum X_{1i}Y_i\\
+\sum X_{2i}Y_i\\
+\sum X_{3i}Y_i
+\end{pmatrix}
+=
+\begin{pmatrix}
+37\\ 147\\ 3669\\ 2260
+\end{pmatrix}.
+\]
+
+\paragraph{(b) Estimador MCO.}
+Con la inversa provista
+\[
+(X'X)^{-1}=
+\begin{pmatrix}
+140.462 & -0.1628 & -1.4317 & 0.03412\\
+-0.1628 & 0.201383 & 0.008897 & -0.02454\\
+-1.4317 & 0.008897 & 0.01528 & -0.001924\\
+0.03412 & -0.02454 & -0.001924 & 0.004166
+\end{pmatrix},
+\]
+el vector de coeficientes es
+\[
+\hat{\boldsymbol\beta}
+=(X'X)^{-1}X'y=
+\begin{pmatrix}
+-2.5544\\
+\;0.7668\\
+\;0.04516\\
+\;0.01077
+\end{pmatrix}.
+\]
+
+\[
+\boxed{
+\hat\beta_0=-2.5544,\;
+\hat\beta_1=0.7668,\;
+\hat\beta_2=0.04516,\;
+\hat\beta_3=0.01077}
+\]
+
+\paragraph{(c) Ecuación estimada.}
+\[
+\widehat{\text{Nota}}
+=-2.5544
++0.7668\,(\text{horas})
++0.04516\,(\text{IQ})
++0.01077\,(\text{motivación}).
+\]
+
+--------------------------------------------------------------------
+\subsection*{2.\; Cálculo de \(R^{2}\) y \(R^{2}\) ajustado}
+
+Media de las notas  
+\(\displaystyle \bar Y=\tfrac{37}{7}=5.2857\).
+
+
+\begin{center}
+\begin{tabular}{c|c|c|c|c|c|c}
+\hline
+i & Y_i & \widehat Y_i & u_i = Y_i-\widehat Y_i & Y_i-\bar Y & (Y_i-\bar Y)^2 & u_i^{\,2}\\
+\hline
+1 & 3 & 3.041 & -0.041 & -2.286 & 5.224 & 0.002\\
+2 & 4 & 3.881 &  \;0.119 & -1.286 & 1.653 & 0.014\\
+3 & 5 & 4.801 &  \;0.199 & -0.286 & 0.082 & 0.040\\
+4 & 5 & 5.675 & -0.675 & -0.286 & 0.082 & 0.456\\
+5 & 6 & 6.008 & -0.008 &  \;0.714 & 0.510 & 0.000\\
+6 & 7 & 6.504 &  \;0.496 &  \;1.714 & 2.939 & 0.246\\
+7 & 7 & 7.091 & -0.091 &  \;1.714 & 2.939 & 0.008\\
+\hline
+\multicolumn{5}{r|}{\textstyle\sum} & 13.429 & 0.765\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\[
+SST=\sum (Y_i-\bar Y)^2 = 13.4286,
+\qquad
+SSE=SST-SSR=12.6633.
+\]
+
+\[
+R^{2}
+=\frac{SSE}{SST}
+=1-\frac{SSR}{SST}
+=1-\frac{0.7653}{13.4286}
+=0.9430.
+\]
+
+Con \(n=7\) observaciones y \(k=3\) regresores:
+
+\[
+\boxed{
+\bar R^{2}=1-\frac{SSR/(n-k-1)}{SST/(n-1)}
+=1-\frac{0.7653/3}{13.4286/6}
+=0.8860
+}.
+\]
+
+\bigskip
+\noindent\textbf{Resultados finales}
+
+\[
+\boxed{
+\begin{aligned}
+\hat\beta_0 &= -2.5544,&
+\hat\beta_1 &= 0.7668,&
+\hat\beta_2 &= 0.04516,&
+\hat\beta_3 &= 0.01077;\\
+R^{2} &= 0.9430,&
+\bar R^{2} &= 0.8860.&
+\end{aligned}}
+\]
+
+\\
+
+
+\item Sea un modelo de regresión lineal simple en el cual, en la práctica, se observan $
+Y^* = Y + u, \quad \text{donde } u \sim \mathcal{N}(0,\,1),
+$ y $
+X^* = X + c$, \quad \text{donde } $c \neq 0$ \text{ es una constante}. Si el modelo verdadero (sin errores de medición) es $
+Y = \beta_0 + \beta_1 \, X + \varepsilon$, muestre que, al estimar el modelo usando \((Y^*,\,X^*)\) en lugar de \((Y,\,X)\), se obtiene $E[\hat{\beta}_1^*] \;=\; \hat{\beta}_1,
+\quad
+E[\hat{\beta}_0^*] \;=\; \hat{\beta}_0 \;-\;\hat{\beta}_1 \, c.
+$
+\\
+\\
+\textbf{solución}
+en términos esperados ,el estimador $\hat{\beta^*_1}$ esta dado por:
+$$E(\hat{\beta^*_1})  =  \frac{Cov(X^*,Y^*)}{Var(X^*)} = \frac{Cov(X+c,Y+u)}{Var(X+c)}=\frac{Cov(X+c,\beta_0 + \beta_1X+u)}{Var(X+c)}$$
+$$\frac{Cov(X,\beta_1X)+Cov(X,u)}{Var(X)}$$
+Por supuestos de regresión lineal $Cov(X,u)=0$, por lo tanto
+$$\frac{Cov(X,\beta_1X)}{Var(X)}=\frac{\beta_1Cov(X,X)}{Var(X)}=\beta_1\frac{Var(X)}{Var(X)}=\beta_1$$
+y $E(\hat{\beta^*_0})$, esta dado por:
+$$E(\hat{\beta^*_0})=E(Y^*)-\hat{\beta^*_1}E(X^*)=E(Y+u)-\beta_1E(X+c)$$
+$$E(\hat{\beta^*_0}) = E(Y)+E(u)-\beta_1E(X)-\beta_1c$$
+Se sabe que $E(u)=0$, entonces:
+$$E(\hat{\beta^*_0}) = E(Y)-\beta_1E(X)-\beta_1c=\beta_0-\beta_1c$$
+
+\textbf{solución alternativa para $\beta_1$}
+
+$$\hat{\beta_1^*} = \frac{\sum (X_i^*-\Bar{X^*})(Y_i^*-\Bar{Y^*})}{\sum (X_i^*-\Bar{X^*})^2}$$
+$$\hat{\beta_1^*} = \frac{\sum (X_i+c-(\Bar{X}+c))(Y_i+u-(\Bar{Y}+\Bar{u}))}{\sum (X_i+c-(\Bar{X}+c))^2}$$
+$$\hat{\beta_1^*} = \frac{\sum (X_i-\Bar{X})(Y_i+u-(\Bar{Y}+\Bar{u}))}{\sum (X_i-\Bar{X})^2}$$
+$$\hat{\beta_1^*} = \frac{\sum (X_i-\Bar{X})(Y_i-\Bar{Y})}{\sum (X_i-\Bar{X})^2} + \frac{\sum (X_i-\Bar{X})(u-\Bar{u})}{\sum (X_i-\Bar{X})^2}$$
+$$\hat{\beta_1^*} = \hat{\beta_1} + \frac{\sum (X_i-\Bar{X})(u-\Bar{u})}{\sum (X_i-\Bar{X})^2}$$
+
+el termino $\frac{\sum (X_i-\Bar{X})(u-\Bar{u})}{\sum (X_i-\Bar{X})^2}$ es igual a 0 en terminos esperados, por lo que:
+ $$E(\hat{\beta_1^*}) = E(\hat{\beta_1})$$
+
+
+
+
+\end{enumerate}
+
+\section{Formulario}
+
+
+\begin{itemize}
+
+\item  Estimadores MCO para RLS.
+{
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} $$
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}=\frac{Cov(x,y)}{Var(x)}$$}
+
+
+\item  Estimadores MCO para RLM.
+{
+$${\hat{\beta}} = (X^TX)^{-1} X^TY $$}
+
+
+    \item \[ R^2  = 1 - \frac{SSR}{SST} \] 
+\item  $$SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \quad \quad SSR = \sum_{i=1}^{n}  \hat{u}_i^2 $$
+    \item \[ \bar{R}^2 =  1 - \frac{(n-1)SSR}{(n-k-1)SST} \]
+
+    \item  $$\hat{\sigma}^2 = \frac{\sum_{i=1}^{n} \hat{u}_i^2 }{n-k-1}= \frac{SSR}{n - k - 1}$$
+    \item \[
+\text{Var}(\hat{\beta}|X) = \hat{\sigma}^2(X^{\top}X)^{-1}
+\]
+    \end{itemize}
+
+
+
+\end{document}

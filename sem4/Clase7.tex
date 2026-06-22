@@ -1,0 +1,1105 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+%\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+
+% \lstset{
+%     language=R,
+%     basicstyle=\small\ttfamily,
+%     commentstyle=\color{gray},
+%     keywordstyle=\color{blue},
+%     stringstyle=\color{black},
+%     showstringspaces=false,
+%     tabsize=4,
+%     breaklines=true,
+%     postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+%     numbers=left,
+%     numberstyle=\tiny\color{gray},
+%     frame=single,
+%     backgroundcolor=\color{gray!10}
+% }
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+
+%\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+%\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+\usepackage{lscape}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{multicol} 
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{cmyk}{0.65, 1, 0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings}
+
+\lstset{
+    language=R,
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{gray},
+    keywordstyle=\color{blue},
+    stringstyle=\color{black},
+    showstringspaces=false,
+    tabsize=4,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 7: Propiedades estadísticas e inferencia en MCO}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Enunciar los supuestos clásicos y derivar la insesgadez y la varianza de $\hat{\beta}$.
+    \item[\checkmark] Justificar, bajo el supuesto de normalidad del error, que $\hat{\beta}_j \sim \text{Normal}(\beta_j, \text{Var}(\hat{\beta}_j))$.
+    \item[\checkmark] Estimar $\sigma^2$ y comprender por qué la estandarización conduce a una distribución $t_{n-k-1}$ y no a la Normal.
+    \item[\checkmark] Formular y resolver pruebas de hipótesis (una y dos colas), calcular el $p$-valor y construir intervalos de confianza.
+    \item[\checkmark] Comprender la dualidad entre la prueba $t$ y el intervalo de confianza.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[shrink=10]
+
+\frametitle{Resumen clase anterior}
+
+\begin{itemize}
+    \item Vimos la forma matricial del modelo de regresión lineal múltiple: $y = X\beta + u$
+    \item Demostramos que por MCO se puede obtener: $\hat{\beta} = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \hat{\beta}_2 \\ \vdots \\ \hat{\beta}_k \end{bmatrix} = (X^\top X)^{-1}X^\top y$
+\end{itemize}
+
+Interpretación $\hat{\beta}_1$: Cuando cambia $x_1$ en una unidad, en promedio $y$ cambia $\hat{\beta}_1$ unidades, manteniendo todas las demás $x$ constantes.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink=10]
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$, $n=5$.
+
+Base de datos: \begin{center}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+
+Individuos & unos & $x_1$ (experiencia) & $x_2$ (educación) & $y$ (salario) \\
+\hline
+Juan & 1 & 12 & 93 & 769 \\
+Pedro & 1 & 18 & 119 & 808 \\
+Sofia & 1 & 14 & 108 & 825 \\
+Caro & 1 & 12 & 96 & 650 \\
+Alex & 1 & 11 & 74 & 562 \\
+
+\end{tabular}%
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$, $n=5$.
+
+Base de datos: \begin{center}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+
+Individuos & unos & $x_1$ (experiencia) & $x_2$ (educación) & $y$ (salario) \\
+\hline
+Juan & 1 & 12 & 93 & 769 \\
+Pedro & 1 & 18 & 119 & 808 \\
+Sofia & 1 & 14 & 108 & 825 \\
+Caro & 1 & 12 & 96 & 650 \\
+Alex & 1 & 11 & 74 & 562 \\
+
+\end{tabular}%
+}
+\end{center}
+
+\[
+X = \begin{bmatrix}
+1 & 12 & 93 \\
+1 & 18 & 119 \\
+1 & 14 & 108 \\
+1 & 12 & 96 \\
+1 & 11 & 74 \\
+\end{bmatrix} \quad 
+X^\top = \begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\]
+\[
+X^\top X = \begin{bmatrix}
+5 & 67 & 490 \\
+67 & 929 & 6736 \\
+490 & 6736 & 49166 \\
+\end{bmatrix}
+\]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink=10]
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$, $n=5$.
+
+Base de datos: \begin{center}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+
+Individuos & unos & $x_1$ (experiencia) & $x_2$ (educación) & $y$ (salario) \\
+\hline
+Juan & 1 & 12 & 93 & 769 \\
+Pedro & 1 & 18 & 119 & 808 \\
+Sofia & 1 & 14 & 108 & 825 \\
+Caro & 1 & 12 & 96 & 650 \\
+Alex & 1 & 11 & 74 & 562 \\
+
+\end{tabular}%
+}
+\end{center}
+
+\[
+X = \begin{bmatrix}
+1 & 12 & 93 \\
+1 & 18 & 119 \\
+1 & 14 & 108 \\
+1 & 12 & 96 \\
+1 & 11 & 74 \\
+\end{bmatrix} \quad 
+X^\top = \begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\]
+\[
+X^\top X = \begin{bmatrix}
+5 & 67 & 490 \\
+67 & 929 & 6736 \\
+490 & 6736 & 49166 \\
+\end{bmatrix}
+\quad  (X^\top X)^{-1} =
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}
+\]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+
+\[
+X^\top y =
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+769 \\
+808 \\
+825 \\
+650 \\
+562 \\
+\end{bmatrix}
+= \begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix} 
+\]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+
+\[
+X^\top y =
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+769 \\
+808 \\
+825 \\
+650 \\
+562 \\
+\end{bmatrix}
+= \begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix} = \]
+% 
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Entonces tenemos: $(X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}$
+
+$X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}$
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Entonces tenemos: $(X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}$
+
+$X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}$
+
+\medskip % Salto de línea pequeño
+
+Multiplicando obtenemos los estimadores:
+\medskip
+$\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y=
+\begin{bmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1 \\
+\hat{\beta}_2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+140.59 \\
+-16.79 \\
+8.24 \\
+\end{bmatrix}$\\
+\medskip
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Entonces tenemos: $(X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}$
+
+$X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}$
+
+\medskip % Salto de línea pequeño
+
+Multiplicando obtenemos los estimadores:
+\medskip
+$\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y=
+\begin{bmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1 \\
+\hat{\beta}_2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+140.59 \\
+-16.79 \\
+8.24 \\
+\end{bmatrix}$\\
+\medskip
+Si quisieramos la matrix de prediccion de y, simplemente calculamos:
+\[\hat{y}=X\hat{\beta}\]
+\end{frame}
+
+\begin{frame}{En general}
+
+\[
+X^T X =
+\begin{pmatrix}
+n & \sum_{i=1}^{n} x_{i1} & \sum_{i=1}^{n} x_{i2} & \cdots & \sum_{i=1}^{n} x_{ik} \\
+\sum_{i=1}^{n} x_{i1} & \sum_{i=1}^{n} x_{i1}^2 & \sum_{i=1}^{n} x_{i1}x_{i2} & \cdots & \sum_{i=1}^{n} x_{i1}x_{ik} \\
+\sum_{i=1}^{n} x_{i2} & \sum_{i=1}^{n} x_{i1}x_{i2} & \sum_{i=1}^{n} x_{i2}^2 & \cdots & \sum_{i=1}^{n} x_{i2}x_{ik} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+\sum_{i=1}^{n} x_{ik} & \sum_{i=1}^{n} x_{i1}x_{ik} & \sum_{i=1}^{n} x_{i2}x_{ik} & \cdots & \sum_{i=1}^{n} x_{ik}^2
+\end{pmatrix}
+\]
+    \[
+ X^Ty=\begin{pmatrix}
+ \sum_{i=1}^n y_i \\
+ \sum_{i=1}^n x_{i1}y_i \\
+ \vdots\\
+ \sum_{i=1}^n x_{ik}y_i \\
+ \end{pmatrix}
+ \]
+\end{frame}
+
+\begin{frame}{En R}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{sem5/images/datos_R.png}
+       
+    \end{figure}
+
+%     \begin{lstlisting}
+% experiencia<-c(12,18,14,12,11)
+% educacion<-c(93,119,108,96,74)
+% y_sal<-c(769,808,825,650,562)
+% unos<-c(1,1,1,1,1)
+% X<-cbind(unos,experiencia,educacion)
+% X_T<-t(X)
+% X_TX<-X_T%*%X
+% X_TX_inv<-solve(X_TX)
+% X_TY_sal<-X_T%*%Y_sal
+% beta_hat<-X_TX_inv%*%X_TY_sal
+% Y_hat<-X%*%beta_hat
+% u_hat<-Y_sal-Y_hat
+% \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Regresi\'on }
+
+  
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem5/images/tabla_reg.png}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Supuestos Clásicos}
+¿$\hat{\beta}$ es un buen estimador para $\beta$? ¿Qué significa que sea bueno?\\
+\medskip
+{\color{blue}
+\textbf{\textit{Supuestos clásicos:}}
+
+\begin{enumerate}
+    \item Linealidad en parámetros
+    \item Muestra aleatoria
+    \item Condición de identificación
+    \item Ortogonalidad
+    \item Homocedasticidad
+\end{enumerate}}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 1: Linealidad en Parámetros}
+\begin{itemize}
+    \item La relación poblacional entre las variables sigue un modelo lineal:
+    \[
+    y = X \beta + u \quad (1)
+    \]
+        \[ = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_k x_k + u \quad (2)
+    \]
+    
+    donde $\beta_0, \beta_1, \ldots, \beta_k$ son parámetros desconocidos y $u$ es una variable no observable llamada término de error o perturbación.
+    \item Si el modelo analítico no es lineal en los parámetros, hay que linealizarlo, en la medida de lo posible.
+    \item Por ejemplo:
+    \[
+    Y = A K^{\alpha_1} Q^{\alpha_2} L^{\alpha_3}
+    \]
+    se lineariza como
+    \[
+    \log Y = \log A + \alpha_1 \log K + \alpha_2 \log Q + \alpha_3 \log L
+    \]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 2: Muestra Aleatoria}
+\begin{itemize}
+    \item Las $n$ observaciones provienen de una muestra aleatoria de la población,
+    \[
+    \{(x_{i1}, x_{i2}, \ldots, x_{ik}, y_i) : i = 1, 2, \ldots, n\}
+    \]
+    \item Esto significa que las observaciones son independientes unas de otras, lo que implica que
+    \[
+    \text{cov}(u_i, u_j|X) = 0 \quad \forall i \neq j
+    \]
+    \item En series de tiempo lo anterior implica que los errores no tienen autocorrelación.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 3: Condición de Identificación (No multicolinealidad perfecta)}
+\begin{itemize}
+    \item $X$ tiene rango columna completo $k + 1$.
+    \item No hay relaciones lineales exactas entre las variables independientes.
+    \item Esto implica:
+    \begin{itemize}
+        \item Las columnas de $X$ son linealmente independientes.
+        \item Existe la inversa de $X^{\top}X$.
+        \item $n \geq k + 1$.
+    \end{itemize}
+\end{itemize}
+\textbf{Ejemplo de violación a este supuesto}: $x_2 = 2x_1$. La fila 2 es linealmente dependiente de la 1.
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 4: Ortogonalidad (Exogeneidad)}
+\begin{itemize}
+    \item $E[u|X] = E(u|x_1, x_2, \ldots, x_k) = 0$.
+    \item Esto implica que:
+    \begin{itemize}
+        \item $E[X^{\top}u] = 0$: la covarianza entre las $x$ y el error es cero.
+        \item $E(y|X) = E(X\beta + u|X) = X\beta$.
+    \end{itemize}
+\end{itemize}
+Vamos a ver que este supuesto va a ser el supuesto clave para interpretar causalmente los coeficientes.
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 4: Ortogonalidad (Exogeneidad)}
+\begin{itemize}
+    \item $E[u|X] = E(u|x_1, x_2, \ldots , x_k) = 0$.
+    \item Esto implica que:
+    \begin{itemize}
+        \item $E[X^{\top}u] = 0$: la covarianza entre las $x$ y el error es cero.
+        \item $E(y|X) = E(X\beta + u|X) = X\beta$.
+    \end{itemize}
+    \item Vamos a ver que este supuesto va a ser el supuesto clave para interpretar causalmente los coeficientes.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 4: Ortogonalidad (Exogeneidad)}
+\begin{itemize}
+    \item $E[u|X] = E(u|x_1, x_2, \ldots , x_k) = 0$.
+    \item Esto implica que:
+    \begin{itemize}
+        \item $E[X^{\top}u] = 0$: la covarianza entre las $x$ y el error es cero.
+        \item $E(y|X) = E(X\beta + u|X) = X\beta$.
+    \end{itemize}
+    \item Vamos a ver que este supuesto va a ser el supuesto clave para interpretar causalmente los coeficientes.
+    \item Este supuesto puede no cumplirse por varias razones:
+    \begin{itemize}
+        \item Omisión de una variable que está correlacionada con alguna $x$.
+        \item Errores de medición en los regresores.
+    \end{itemize}
+    \item Por desgracia, muy pocas veces se sabe con seguridad si el valor promedio de los factores no observables de hecho no está relacionado con las variables explicativas. \textcolor{red}{Pero este es el supuesto crítico.}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 5: Homocedasticidad y no autocorrelación}
+\begin{itemize}
+    \item La varianza del error no depende de $X$:
+    \[
+    \text{Var}(u_i|x_1, \ldots , x_k) = E[u_i^2|x] = \sigma^2
+    \]
+    \item En caso de que el supuesto no se cumpla, se dice que el modelo presenta heterocedasticidad.
+    \item Ejemplo donde no se cumpliría esta condición: si tenemos salario en función de años de escolaridad, la varianza de $u$ es probablemente menor para escolaridades pequeñas.
+
+    \item Con esto, la varianza condicional del vector $u$ queda: $\text{Var}(u|X) = \sigma^2I$.
+     \item La covarianza de los errores es cero:
+    \[
+    \text{Covar}(u_i,u_j|x_1, \ldots , x_k) = 0
+    \]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 5: Homocedasticidad}
+\begin{itemize}
+    \item Homocedasticidad en un modelo simple (mismo $\sigma$).
+    
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{sem5/images/het.png}
+\end{figure}
+    
+    \item Heterocedasticidad en un modelo simple.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{sem5/images/het2.png}
+\end{figure}
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Recordatorio: Supuestos}
+\begin{enumerate}
+    \item Linealidad en parámetros ($y = X\beta + u$).
+    \item Muestra aleatoria.
+    \item $X$ tiene rango completo ($k+1$), es decir, todas las variables son linealmente independientes.
+    \item Ortogonalidad: $E[u|X] = 0$.
+    \item Homocedasticidad y no-autocorrelación: $V(u|X) = \sigma^2I$ 
+\end{enumerate}
+\end{frame}
+\begin{frame}
+\frametitle{Propiedades Estadísticas de los Estimadores $\hat{\beta}$}
+Bajo los supuestos clásicos, los estimadores MCO cumplen lo siguiente:
+\begin{enumerate}
+    \item $\hat{\beta}$ es insesgado: $E(\hat{\beta}) = \beta$.
+    \item $V(\hat{\beta}|X) = (X^{\top}X)^{-1}\sigma^2$.
+    \item Teorema de Gauss-Markov: $\hat{\beta}$ es el estimador lineal insesgado de menor varianza.
+\end{enumerate}
+\end{frame}
+%\begin{frame}
+% \frametitle{El Estimador MCO es Insesgado}
+% \begin{itemize}
+%     \item Teorema: Bajo los supuestos 1 a 4, el estimador MCO de $\beta$ es insesgado.
+%     \item Demostración:
+%     \begin{align*}
+%         \hat{\beta} &= (X^{\top}X)^{-1}X^{\top}y \quad \text{(3)} \\
+%         &= (X^{\top}X)^{-1}X^{\top}(X\beta + u) \quad \text{(4)} \\
+%         &= \beta + (X^{\top}X)^{-1}X^{\top}u \quad \text{(5)}
+%     \end{align*}
+% \end{itemize}
+% \end{frame}
+\begin{frame}
+\frametitle{El Estimador MCO es Insesgado}
+
+\begin{alertblock}{Teorema (insesgadez)}
+Bajo los supuestos 1 a 4, el estimador MCO de $\beta$ es insesgado: $E(\hat{\beta}\mid X) = \beta$.
+\end{alertblock}
+
+\begin{exampleblock}{Demostración}
+    \begin{align*}
+        \hat{\beta} &= (X^{\top}X)^{-1}X^{\top}y \\
+        &= (X^{\top}X)^{-1}X^{\top}(X\beta + u) \\
+        &= \beta + (X^{\top}X)^{-1}X^{\top}u \\
+        E(\hat{\beta}|X) &= \beta + (X^{\top}X)^{-1}X^{\top}\underbrace{E(u|X)}_{=0} = \beta \hfill \square
+    \end{align*}
+\end{exampleblock}
+El promedio de los $\hat{\beta}$ sobre todas las muestras posibles es igual a $\beta$.
+\end{frame}
+\begin{frame}
+\frametitle{Varianza del Estimador MCO}
+
+\begin{alertblock}{Teorema (varianza)}
+Bajo los supuestos 1 a 5, $\text{Var}(\hat{\beta}\mid X) = \sigma^2(X^{\top}X)^{-1}$.
+\end{alertblock}
+
+\begin{exampleblock}{Demostración (usa $\hat{\beta}-\beta=(X^{\top}X)^{-1}X^{\top}u$)}
+    \begin{align*}
+        \text{Var}(\hat{\beta}|X) &= E[(\hat{\beta} - \beta)(\hat{\beta} - \beta)^{\top}|X] \\
+        &= E[(X^{\top}X)^{-1}X^{\top}u \, u^{\top}X(X^{\top}X)^{-1}|X] \\
+        &= (X^{\top}X)^{-1}X^{\top}\underbrace{E[u \, u^{\top}|X]}_{=\sigma^2 I}X(X^{\top}X)^{-1} \\
+        &= \sigma^2(X^{\top}X)^{-1}(X^{\top}X)(X^{\top}X)^{-1} = \sigma^2(X^{\top}X)^{-1} \hfill \square
+    \end{align*}
+\end{exampleblock}
+El término $j$ de la diagonal es $\text{Var}(\hat{\beta}_j\mid X)=\sigma^2 [(X^{\top}X)^{-1}]_{jj}$.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BLOQUE DE INFERENCIA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Inferencia en la regresión}
+
+\begin{frame}{De la estimación a la inferencia}
+\begin{itemize}
+    \item Hasta aquí sabemos que $\hat{\beta}$ es insesgado y conocemos su varianza.
+    \item Pero $\hat{\beta}$ es un \textbf{estimador puntual}: con otra muestra obtendríamos otro número.
+    \pause
+    \item Para responder preguntas como \emph{``¿es $\beta_j$ realmente distinto de cero?''} o \emph{``¿en qué rango está $\beta_j$?''}, necesitamos conocer la \textbf{distribución muestral} de $\hat{\beta}_j$.
+    \pause
+    \item Esto exige un supuesto adicional sobre la forma de la distribución del error.
+\end{itemize}
+
+\begin{block}{Supuesto 6: Normalidad del error}
+El error es independiente de $X$ y se distribuye normal:
+\[
+u \mid X \sim \text{Normal}(0,\ \sigma^2 I)
+\]
+\end{block}
+\end{frame}
+
+\begin{frame}{Supuesto de normalidad: discusión}
+\begin{itemize}
+    \item El \textbf{Modelo Lineal Clásico Normal} = supuestos 1--5 + normalidad del error (Supuesto 6).
+    \pause
+    \item Justificación heurística: si $u$ es la suma de \emph{muchos} factores no observados independientes, el \textbf{Teorema Central del Límite} sugiere que $u$ es aproximadamente normal.
+    \pause
+    \item \textbf{Cuidado:} no siempre se cumple (ej.\ salarios tienen cola derecha larga). En ese caso se trabaja con logaritmos o se apela a resultados \emph{asintóticos} ($n$ grande).
+    \pause
+    \item Con $n$ grande, aunque $u$ no sea normal, $\hat{\beta}_j$ es aproximadamente normal por el TCL, y la inferencia que veremos sigue siendo válida de forma aproximada.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Teorema: distribución de $\hat{\beta}_j$ bajo normalidad}
+
+\begin{alertblock}{Teorema (normalidad de $\hat{\beta}$)}
+Bajo los supuestos clásicos 1--5 \emph{más} la normalidad del error (Supuesto 6),
+\[
+\hat{\beta}\mid X \sim \text{Normal}\big(\beta,\ \sigma^2(X^{\top}X)^{-1}\big),
+\]
+y para cada coeficiente individual
+\[
+\hat{\beta}_j \mid X \sim \text{Normal}\big(\beta_j,\ \text{Var}(\hat{\beta}_j)\big),
+\qquad \text{Var}(\hat{\beta}_j)=\sigma^2[(X^{\top}X)^{-1}]_{jj}.
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Demostración}
+\textbf{Paso 1 (combinación lineal del error).} De la insesgadez ya sabemos:
+\[
+\hat{\beta} = \beta + (X^{\top}X)^{-1}X^{\top}u = \beta + A\,u,
+\qquad A \equiv (X^{\top}X)^{-1}X^{\top}.
+\]
+Condicional en $X$, la matriz $A$ es una \emph{constante}.
+
+\medskip
+\textbf{Paso 2 (transformación lineal de una normal).} Un resultado clave de probabilidad: \emph{toda combinación lineal de variables normales es normal}. Como $u\mid X \sim \text{Normal}(0,\sigma^2 I)$ y $A$ es constante, el vector $A\,u$ es normal. Por lo tanto $\hat{\beta}=\beta + A\,u$ también es normal.
+
+\medskip
+\textbf{Paso 3 (media y varianza).} Ya las calculamos en los teoremas anteriores:
+\[
+E(\hat{\beta}\mid X)=\beta, \qquad \text{Var}(\hat{\beta}\mid X)=\sigma^2(X^{\top}X)^{-1}.
+\]
+Una distribución normal queda completamente determinada por su media y su varianza, de donde
+\[
+\hat{\beta}\mid X \sim \text{Normal}\big(\beta,\ \sigma^2(X^{\top}X)^{-1}\big). \hfill \square
+\]
+Tomando la componente $j$ se obtiene el resultado marginal para $\hat{\beta}_j$.
+\end{exampleblock}
+
+\framebreak
+
+\begin{block}{Estandarizando}
+Si conociéramos $\sigma^2$, restando la media y dividiendo por la desviación estándar:
+\[
+\frac{\hat{\beta}_j - \beta_j}{\sqrt{\text{Var}(\hat{\beta}_j)}}
+= \frac{\hat{\beta}_j - \beta_j}{\sigma\sqrt{[(X^{\top}X)^{-1}]_{jj}}}
+\ \sim\ \text{Normal}(0,1).
+\]
+\end{block}
+El problema: \textbf{$\sigma^2$ es desconocido}. Debemos estimarlo, y eso cambia la distribución.
+\end{frame}
+
+\begin{frame}{Estimación de $\sigma^2$}
+
+\begin{block}{Estimador insesgado de la varianza del error}
+\[
+\hat{\sigma}^2 = \frac{\sum_{i=1}^n \hat{u}_i^2}{n-k-1} = \frac{\hat{u}^\top\hat{u}}{n-k-1}
+\]
+\end{block}
+
+\begin{itemize}
+    \item Dividimos por los \textbf{grados de libertad} $n-k-1$ (no por $n$).
+    \pause
+    \item Razón: los residuos $\hat{u}$ cumplen $k+1$ restricciones (las ecuaciones normales $X^\top\hat{u}=0$), por lo que solo $n-k-1$ son ``libres''.
+    \pause
+    \item Se puede demostrar que $E(\hat{\sigma}^2\mid X)=\sigma^2$ (insesgado), mientras que dividir por $n$ daría un estimador sesgado a la baja.
+    \pause
+    \item En \textbf{regresión simple} $k=1$, de modo que $\hat{\sigma}^2=\dfrac{\sum \hat{u}_i^2}{n-2}$.
+    \item La raíz $\hat{\sigma}$ se llama \textbf{error estándar de la regresión}; el \textbf{error estándar} del coeficiente es
+    \[
+    ee(\hat{\beta}_j)=\hat{\sigma}\sqrt{[(X^{\top}X)^{-1}]_{jj}}.
+    \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Teorema: el estadístico $t$ (por qué $t$ y no Normal)}
+
+\begin{alertblock}{Teorema (distribución $t$)}
+Bajo el modelo lineal clásico normal,
+\[
+t_j \equiv \frac{\hat{\beta}_j - \beta_j}{ee(\hat{\beta}_j)}
+= \frac{\hat{\beta}_j - \beta_j}{\hat{\sigma}\sqrt{[(X^{\top}X)^{-1}]_{jj}}}
+\ \sim\ t_{\,n-k-1}.
+\]
+En regresión simple, $t_j \sim t_{\,n-2}$.
+\end{alertblock}
+
+\begin{exampleblock}{Demostración (esquema)}
+La clave es reemplazar el $\sigma$ \emph{desconocido} en la estandarización por su estimador $\hat{\sigma}$. Escribimos:
+\[
+t_j = \frac{\dfrac{\hat{\beta}_j - \beta_j}{\sigma\sqrt{[(X^{\top}X)^{-1}]_{jj}}}}
+{\dfrac{\hat{\sigma}}{\sigma}}
+= \frac{Z}{\sqrt{W/(n-k-1)}}.
+\]
+
+\textbf{(i)} El numerador $Z=\dfrac{\hat{\beta}_j - \beta_j}{\sigma\sqrt{[(X^{\top}X)^{-1}]_{jj}}} \sim \text{Normal}(0,1)$ (teorema anterior).
+
+\medskip
+\textbf{(ii)} Se demuestra que $W = \dfrac{(n-k-1)\hat{\sigma}^2}{\sigma^2}=\dfrac{\hat{u}^\top\hat{u}}{\sigma^2} \sim \chi^2_{\,n-k-1}$.
+
+\medskip
+\textbf{(iii)} Además $Z$ y $W$ son \emph{independientes} (el vector de residuos $\hat{u}$ es ortogonal a $\hat{\beta}$ bajo normalidad).
+
+\medskip
+\textbf{(iv)} Por definición, el cociente de una Normal estándar y la raíz de una $\chi^2$ independiente dividida por sus grados de libertad es una distribución \textbf{$t$ de Student}:
+\[
+\frac{Z}{\sqrt{W/(n-k-1)}} \sim t_{\,n-k-1}. \hfill \square
+\]
+\end{exampleblock}
+
+\framebreak
+
+\begin{block}{¿Por qué $t$ y no Normal?}
+\begin{itemize}
+    \item Al usar $\hat{\sigma}$ en vez de $\sigma$ \textbf{añadimos incertidumbre} (estimamos la varianza con la misma muestra).
+    \item Esa incertidumbre engrosa las colas: la $t$ tiene \textbf{colas más pesadas} que la Normal.
+    \item A medida que $n\to\infty$, $\hat{\sigma}^2\to\sigma^2$ y $t_{n-k-1}\to \text{Normal}(0,1)$. Por eso, para $n$ grande (digamos $n\geq 50$), usamos los valores críticos de la Normal como aproximación.
+\end{itemize}
+\end{block}
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[->] (-3.6,0) -- (3.6,0) node[right] {\small $x$};
+  \draw[->] (0,-0.05) -- (0,0.5) node[above] {\small $f(x)$};
+  % Normal
+  \draw[domain=-3.4:3.4, smooth, thick, blue] plot (\x, {0.4*exp(-0.5*\x*\x)});
+  % t (colas mas pesadas, mas baja en el centro)
+  \draw[domain=-3.4:3.4, smooth, thick, red, dashed] plot (\x, {0.34*(1+(\x*\x)/3)^(-2)});
+  \node[blue] at (1.6,0.36) {\small Normal};
+  \node[red] at (2.3,0.12) {\small $t$ (g.l.\ bajos)};
+\end{tikzpicture}
+\caption{La $t$ (rojo) tiene colas más pesadas que la Normal (azul).}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Prueba de hipótesis: la lógica}
+\begin{itemize}
+    \item Queremos contrastar una afirmación sobre el parámetro poblacional $\beta_j$.
+    \item \textbf{Hipótesis nula} $H_0$: lo que suponemos cierto por defecto (típicamente $\beta_j = 0$, ``la variable no importa'').
+    \item \textbf{Hipótesis alternativa} $H_1$: lo que sospechamos.
+    \pause
+    \item Bajo $H_0:\beta_j = a_j$, el estadístico de prueba es
+    \[
+    t = \frac{\hat{\beta}_j - a_j}{ee(\hat{\beta}_j)} \underset{H_0}{\sim} t_{\,n-k-1}.
+    \]
+    \pause
+    \item Si $t$ es ``demasiado grande'' (cae en la \textbf{región de rechazo}), rechazamos $H_0$: el dato es incompatible con la nula.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dos colas vs.\ una cola}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Test bilateral (dos colas)}
+\[ H_0:\beta_j = a_j \]
+\[ H_1:\beta_j \neq a_j \]
+Rechazo si $|t| > t_{1-\alpha/2,\,n-k-1}$.\\
+Región de rechazo en \emph{ambas} colas, cada una con área $\alpha/2$.
+\end{block}
+
+\column{0.5\textwidth}
+\begin{alertblock}{Test unilateral (una cola)}
+\[ H_0:\beta_j \leq a_j \]
+\[ H_1:\beta_j > a_j \]
+Rechazo si $t > t_{1-\alpha,\,n-k-1}$.\\
+Toda el área $\alpha$ en \emph{una} cola.
+\end{alertblock}
+\end{columns}
+
+\medskip
+{\small Use \textbf{una cola} cuando la teoría económica indica el signo esperado del efecto (ej.\ ``el gasto en campaña \emph{aumenta} los votos''); \textbf{dos colas} cuando solo interesa si el efecto es distinto de cero.}
+\end{frame}
+
+\begin{frame}{Regiones de rechazo (test bilateral, $\alpha$)}
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=1.25]
+  \draw[->] (-3.6,0) -- (3.6,0) node[right] {$t$};
+  \draw[domain=-3.4:3.4, smooth, thick, blue] plot (\x, {0.4*exp(-0.5*\x*\x)});
+  % Cola derecha
+  \fill[red!30, domain=1.96:3.4, variable=\x]
+    (1.96,0) -- plot (\x, {0.4*exp(-0.5*\x*\x)}) -- (3.4,0) -- cycle;
+  % Cola izquierda
+  \fill[red!30, domain=-3.4:-1.96, variable=\x]
+    (-3.4,0) -- plot (\x, {0.4*exp(-0.5*\x*\x)}) -- (-1.96,0) -- cycle;
+  \draw[dashed] (1.96,0) node[below] {\small $t_{1-\alpha/2}$} -- (1.96,0.06);
+  \draw[dashed] (-1.96,0) node[below] {\small $-t_{1-\alpha/2}$} -- (-1.96,0.06);
+  \node at (0,0.18) {\small No rechazo};
+  \node[red] at (2.6,0.10) {\small $\alpha/2$};
+  \node[red] at (-2.6,0.10) {\small $\alpha/2$};
+\end{tikzpicture}
+\caption{Rechazamos $H_0$ si $|t|$ cae en alguna zona roja.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{El $p$-valor}
+\begin{block}{Definición}
+El $p$-valor es la probabilidad, \emph{suponiendo que $H_0$ es cierta}, de observar un estadístico tan o más extremo que el calculado:
+\[
+p = P\big(|T| > |t|\big), \quad T\sim t_{\,n-k-1} \quad (\text{test bilateral}).
+\]
+\end{block}
+\begin{itemize}
+    \item Es el menor nivel de significancia al que se rechaza $H_0$.
+    \pause
+    \item \textbf{Regla:} si $p < \alpha$ $\Rightarrow$ se rechaza $H_0$; si $p \geq \alpha$ $\Rightarrow$ no se rechaza.
+    \pause
+    \item Ventaja: resume la evidencia sin fijar de antemano $\alpha$. Los $^{*}$ de las tablas de regresión codifican el $p$-valor ($^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.1$).
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Intervalos de confianza y dualidad con el test}
+
+\begin{alertblock}{Construcción del intervalo de confianza (IC)}
+Un IC al $(1-\alpha)\times 100\%$ para $\beta_j$ es
+\[
+\Big[\ \hat{\beta}_j - t_{1-\alpha/2,\,n-k-1}\cdot ee(\hat{\beta}_j),\quad
+\hat{\beta}_j + t_{1-\alpha/2,\,n-k-1}\cdot ee(\hat{\beta}_j)\ \Big].
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Derivación}
+Partimos del estadístico $t$ y de que cae con probabilidad $1-\alpha$ entre $\pm t_{1-\alpha/2}$:
+\[
+P\!\left(-t_{1-\alpha/2} \le \frac{\hat{\beta}_j - \beta_j}{ee(\hat{\beta}_j)} \le t_{1-\alpha/2}\right) = 1-\alpha.
+\]
+Multiplicando por $ee(\hat{\beta}_j)$ y despejando $\beta_j$ dentro de la probabilidad:
+\[
+P\!\Big(\hat{\beta}_j - t_{1-\alpha/2}\,ee(\hat{\beta}_j) \le \beta_j \le \hat{\beta}_j + t_{1-\alpha/2}\,ee(\hat{\beta}_j)\Big) = 1-\alpha. \hfill \square
+\]
+\textbf{Interpretación:} si repitiéramos el muestreo muchas veces, el $(1-\alpha)$ de los intervalos así construidos contendría el verdadero $\beta_j$.
+\end{exampleblock}
+
+\framebreak
+
+\begin{block}{Dualidad test $\leftrightarrow$ intervalo de confianza}
+Para un contraste bilateral $H_0:\beta_j = a_j$ con nivel $\alpha$:
+\[
+\text{No se rechaza } H_0 \iff a_j \in \text{IC}_{(1-\alpha)}.
+\]
+\end{block}
+\begin{itemize}
+    \item El IC contiene exactamente los valores de $a_j$ que \emph{no} se rechazarían.
+    \item Caso particular: si el IC al $95\%$ \textbf{no contiene el $0$}, entonces $\beta_j$ es significativo al $5\%$ (test bilateral).
+    \item Por eso un IC entrega más información que un simple ``rechazo / no rechazo'': muestra el rango plausible de valores y la precisión de la estimación.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PROCEDIMIENTO + EJERCICIOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Receta para una prueba de hipótesis sobre $\beta_j$}
+\begin{enumerate}
+    \item Plantear $H_0$ y $H_1$ (decidir una o dos colas).
+    \item Calcular $ee(\hat{\beta}_j) = \hat{\sigma}\sqrt{[(X^{\top}X)^{-1}]_{jj}}$.
+    \item Calcular el estadístico $t=\dfrac{\hat{\beta}_j - a_j}{ee(\hat{\beta}_j)}$.
+    \item Determinar grados de libertad $n-k-1$ y el valor crítico $t_{c}$.
+    \item Decidir: rechazar $H_0$ si $t$ cae en la región de rechazo (o si $p<\alpha$).
+    \item Interpretar en el contexto económico.
+\end{enumerate}
+
+\begin{block}{Valores críticos útiles ($n$ grande, $\approx$ Normal)}
+$t_{95\%}=1.65$ \quad $t_{97.5\%}=1.96$ \quad $t_{99\%}=2.33$ \quad $t_{99.5\%}=2.58$
+\end{block}
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 1: test e intervalo (regresión simple)}
+
+\begin{block}{Ejercicio 1 \scriptsize (adaptado de Control 2, ICS-294)}
+En una regresión lineal simple se estimó el coeficiente de $X_1$:
+\[
+\hat{\beta}_1 = 3.2, \qquad \widehat{\text{Var}}(\hat{\beta}_1)=1.7, \qquad n=300.
+\]
+(a) Plantee $H_0$ y $H_1$ de significancia. (b) Calcule $t$ y decida al $1\%$. (c) Construya el IC al $95\%$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{(a)} $H_0:\beta_1 = 0$ \ vs.\ \ $H_1:\beta_1 \neq 0$ (bilateral).
+
+\textbf{(b)} $ee(\hat{\beta}_1)=\sqrt{1.7}=1.304$, luego $t = \dfrac{3.2-0}{1.304}=2.45$. Con $n-2=298$ g.l., $t_{99.5\%}\approx 2.58$. Como $|2.45| < 2.58$, \textbf{no se rechaza} $H_0$ al $1\%$.
+
+\textbf{(c)} $\text{IC}_{95\%}: 3.2 \pm 1.96\cdot 1.304 = [\,0.644;\ 5.756\,]$. Como el $0$ \emph{no} pertenece al intervalo, $\beta_1$ \textbf{sí} es significativo al $5\%$ (coherente con la dualidad: la decisión depende del nivel).
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2: test de una cola}
+
+\begin{block}{Ejercicio 2 \scriptsize (adaptado de guía de inferencia, gasto de campaña)}
+Modelo $voteA = \beta_0 + \beta_1 lexpendA + \beta_2 lexpendB + \beta_3 prtystrA + u$, con $n=173$. Se obtiene $\hat{\beta}_3 = 0.152$ y $ee(\hat{\beta}_3)=0.062$. La teoría dice que la popularidad del partido \emph{aumenta} los votos. Teste formalmente al $5\%$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+Como el signo esperado es positivo, usamos test \textbf{unilateral}:
+\[
+H_0:\beta_3 = 0 \quad\text{vs.}\quad H_1:\beta_3 > 0.
+\]
+Estadístico: $t = \dfrac{0.152}{0.062}=2.45 \underset{H_0}{\sim} t_{173-4}=t_{169}$.
+
+Valor crítico de una cola al $5\%$: $t_{95\%}\approx 1.65$. Como $2.45 > 1.65$, \textbf{se rechaza} $H_0$: la popularidad del partido tiene un efecto positivo y significativo sobre los votos (de hecho significativo incluso al $1\%$, pues $2.45 > 2.33$).
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 3: hipótesis sobre combinación lineal}
+
+\begin{block}{Ejercicio 3 \scriptsize (adaptado de Control 2, ICS-294)}
+Modelo $y=\beta_0+\beta_1 x_1+\beta_2 x_2+\beta_3 x_3 + u$, $n=250$, con $\hat{\beta}=(3,18,5,2)^\top$, $\hat{\sigma}^2=2$ y
+\[
+(X^\top X)^{-1}=\begin{bmatrix} 0.5&0&0&0\\ 0&0.5&0&-0.5\\ 0&0&1&-0.5\\ 0&-0.5&-0.5&0.5\end{bmatrix}.
+\]
+Teste $H_0:\beta_1 = 4\beta_3$ al $5\%$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+$H_0:\beta_1 - 4\beta_3 = 0$ vs.\ $H_1:\beta_1-4\beta_3\neq 0$. Usando $\text{Var}(\hat{\beta}_j)=\hat{\sigma}^2[(X^\top X)^{-1}]_{jj}$:
+\[
+ee(\hat{\beta}_1-4\hat{\beta}_3)=\sqrt{\hat\sigma^2\big([\cdot]_{11}+16[\cdot]_{33}-8[\cdot]_{13}\big)}
+=\sqrt{2(0.5+16\cdot 0.5-8\cdot(-0.5))}=\sqrt{25}=5.
+\]
+\[
+t = \frac{18-4\cdot 2}{5}=\frac{10}{5}=2 \quad\text{vs.}\quad t_{97.5\%}\approx 1.96.
+\]
+Como $|2|>1.96$, \textbf{se rechaza} $H_0$: hay evidencia de que $\beta_1 \neq 4\beta_3$ al $5\%$.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 4 (Propuesto, rutinario)}
+Una regresión de salario sobre educación con $n=120$ entrega $\hat{\beta}_{educ}=85$ (CLP/hora por año) y $ee=30$. Teste al $5\%$ si la educación tiene efecto y construya el IC al $95\%$.
+\end{block}
+
+\begin{block}{Ejercicio 5 (Propuesto, intermedio)}
+En el modelo de donaciones $gift=\beta_0+\beta_1 mailsyear+\beta_2 giftlast+\beta_3 propresp+u$ ($n=4268$), se reporta $\hat{\beta}_1=2.166$ con $ee=0.332$. Calcule el estadístico $t$, indique los grados de libertad y discuta el $p$-valor implícito.
+\end{block}
+
+\begin{block}{Ejercicio 6 (Propuesto, desafiante)}
+Demuestre que $\hat{\sigma}^2 = \hat{u}^\top\hat{u}/(n-k-1)$ es insesgado, es decir $E(\hat{\sigma}^2\mid X)=\sigma^2$. \emph{Indicación:} use $\hat{u}=My$ con $M=I-X(X^\top X)^{-1}X^\top$ y $\text{traza}(M)=n-k-1$.
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EJEMPLO APLICADO EN R
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Ejemplo aplicado: inferencia en R}
+
+\begin{exampleblock}{Test $t$, $p$-valor e IC con datos de salarios (Chile)}
+\begin{verbatim}
+# Estimar retorno a la educacion
+modelo <- lm(log(salario) ~ educ + exper, data = casen)
+summary(modelo)        # entrega coef., ee, estadistico t y p-valor
+
+# Intervalos de confianza al 95%
+confint(modelo, level = 0.95)
+
+# Test de una cola para H1: beta_educ > 0
+t  <- coef(summary(modelo))["educ","t value"]
+gl <- df.residual(modelo)
+p_unilateral <- pt(t, df = gl, lower.tail = FALSE)
+p_unilateral
+\end{verbatim}
+\end{exampleblock}
+La columna \texttt{Pr(>|t|)} de \texttt{summary()} es el $p$-valor bilateral; \texttt{confint()} aplica directamente la fórmula del IC.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RESUMEN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 7}
+\begin{enumerate}
+    \item Bajo los supuestos clásicos, $\hat{\beta}$ es insesgado con $\text{Var}(\hat{\beta}\mid X)=\sigma^2(X^\top X)^{-1}$.
+    \item Añadiendo normalidad del error, $\hat{\beta}_j\sim\text{Normal}(\beta_j,\text{Var}(\hat{\beta}_j))$.
+    \item Como $\sigma^2$ se estima con $\hat{\sigma}^2=\hat{u}^\top\hat{u}/(n-k-1)$, el estadístico estandarizado sigue una $t_{n-k-1}$ (colas más pesadas que la Normal).
+    \item Con la $t$ construimos pruebas (una/dos colas), el $p$-valor y los intervalos de confianza.
+    \item \textbf{Dualidad:} $a_j\in\text{IC}_{(1-\alpha)} \iff$ no se rechaza $H_0:\beta_j=a_j$.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: pruebas de hipótesis sobre \emph{varios} parámetros a la vez (estadístico $F$) y significancia global del modelo.
+\end{alertblock}
+
+\end{frame}
+
+
+
+\end{document}

@@ -1,0 +1,256 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.11]{figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\Guía 2: Econometría ICS-294}
+\end{large}
+\end{center}
+
+\begin{center}
+\vspace{0.2cm}
+I Semestre 2025\\
+Profesora: Jocelyn Tapia Stefanoni
+\end{center}
+
+
+\section{Ejercicios}
+
+
+\begin{enumerate}
+\item (10 puntos) Sean $\hat{\beta_0}$  y  $\hat{\beta_1}$  el intercepto y la pendiente en la regresión de $y_i$ sobre $x_i$, usando n observaciones.
+Sean $c_1$ y $c_2$ constantes, (con $c_2\neq 0$)  y $\widetilde{\beta_0}$, $\widetilde{\beta_1}$ 
+ respectivamente el intercepto y la pendiente de la
+regresión de $c_1y_i$ sobre $c_2x_i$. Muestre que:
+
+$$\widetilde{\beta_1}={c_1\over c_2}\hat{\beta_1}$$
+
+ $$\widetilde{\beta_0}=c_1\hat{\beta_0}$$
+
+{\color{red}
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} $$
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
+
+
+$$\widetilde{\beta}_1 = \frac{\sum_{i=1}^{n}(c_2\cdot x_i - c_2\cdot\bar{x})(c_1\cdot y_i-c_1\cdot\bar{y})}{\sum_{i=1}^{n}(c_2\cdot x_i - c_2\cdot\bar{x})^2} = \frac{c_2\cdot c_1\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{c_2^2\sum_{i=1}^{n}(x_i - \bar{x})^2}={ c_1 \over c_2}  \hat{\beta}_1 $$ 
+
+
+$$\widetilde{\beta}_0 = c_1\cdot \bar{y} - \widetilde{\beta}_1 c_2\cdot \bar{x} =c_1\cdot \bar{y} +{ c_1 \over c_2}\cdot \hat{\beta}_1 \cdot c_2=c_1(\bar{y} - \hat{\beta}_1 \bar{x})=c_1\cdot \hat{\beta}_0$$
+}
+
+% \item  Josefina se encuentra trabajando para una importante constructora nacional en el \'area de finanzas, el jefe de
+% proveedores le comenta que la media de cuentas por cobrar es de 220.000.000 de pesos. Josefina tiene una  muestra aleatoria de 500 facturas con media igual a 195.000.000 de pesos y una desviaci\'on
+% est\'andar de 1.000.000.
+
+% \begin{enumerate}
+%     \item (6 puntos) Con los datos obtenidos por Josefina construya un intervalo de confianza al 90\% para la media de las cuentas por cobrar.
+
+% El intervalo de confianza 
+
+%     $$\color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}$$
+
+% {\color{red}$[194.926.209,8 ; 195.073.790,2]$}
+
+
+%     \item (4 puntos) Es correcta la afirmación del jefe de proveedores.
+
+%   {\color{red}  El valor que comenta el jefe es 220.000.000 el cual no está en el intervalo de confianza calculado en a), así que  90\% de confianza la afirmación es incorrecta.}
+% \end{enumerate}
+
+
+
+
+    \item Tony  adquiere un negocio en pleno centro de la ciudad de Nueva York, este negocio se basa en
+la administraci\'on de los patrimonios de familias adineradas alrededor del mundo.
+Tony decide medir el rendimiento de su actual plantilla de trabajadores. Tony considera que los rendimientos distribuyen normal con desviaci\'on est\'andar 0.04. 
+\begin{enumerate}
+    \item (10 puntos) ¿Qu\'e tamaño de muestra aleatoria se necesita si se quiere calcular la media del redimiento con un error no superior a 0.01 con un 95\% de confianza?
+
+{\color{red} $$E=z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}=1,96 \frac{0,04}{\sqrt{n}}0,01$$
+
+    $$n\sim 62$$}
+    \item (5 puntos)  Tony espera un costo de 20 d\'olares por recolectar cada observaci\'on. Si tiene un presupuesto de
+2000 d\'olares, ser\'a capaz de llevar a cabo esta tarea. Explique.
+
+{\color{red} El costo de recolectar la información sería $20\times 62= 1240$}
+\end{enumerate}
+
+\item (12 puntos) En un hospital se realiza un estudio sobre las diferencias  en el peso de los bebés al nacer entre dos grupos de mujeres embarazadas: aquellas que viven en el campo y aquellas que viven en la ciudad. Los datos recabados  se resumen en la siguiente tabla:
+
+\begin{center}
+    \begin{tabular}{| l| c | c| c|}
+\hline
+& Tamaño muestra& Peso medio muestra & Desviación estándar poblacional \\ \hline
+Campo &240 &3,8&0,6 \\
+Ciudad & 300& 3,5& 0,8\\ \hline
+\end{tabular}
+\end{center}
+
+Determine si el promedio del peso al nacer de los bebes difiere dependiendo si sus madres  viven en la cuidad o en el campo con 95\% de confianza.
+
+$${\color{red}(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}$$
+
+{\color{red} [0,18; 0,42]}
+
+{\color{red} Dado que 0 no esta en el intervalo de confianza que se construyó en a), el peso de los bebes difiere con 95\% de confianza. }
+
+
+\item De una determinada empresa se conocen los siguientes datos, referidos al volumen de ventas  y al gasto en publicidad (medidos en millones de dólares) de los últimos 5 años: 
+
+
+\begin{center}
+    \begin{tabular}{| l| c | }
+\hline
+Volumen ventas (VV) &  Gasto publicidad (GP)\\ \hline
+10 &1,6  \\
+15 & 3,2\\ 
+20 &4,8  \\
+22 &5  \\
+30 &6,4  \\\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item (15 puntos) Calcule los estimadores de mínimos cuadrados ordinarios (MCO) para el intercepto y la pendiente de un modelo de regresión simple, donde la variable dependiente es el volumen de ventas y el regresor es el gasto en publicidad. 
+
+{\color{red}La variable dependiente es VV y el regresor es GP, por lo tanto el modelo de regresión muestral es:
+
+
+$$\hat{VV}=\hat{\beta_0}+\hat{\beta_1}GP+\hat{u}$$
+
+$$\hat{\beta_0}=2.538.235,29
+ \quad \hat{\beta_1}=4,01$$}
+
+  
+ 
+  \item  (10 puntos) Determine los valores predichos y los residuales para cada observación. 
+
+{\color{red}
+\begin{center}
+    \begin{tabular}{| c| c | c|c| }
+\hline
+Volumen ventas (VV) &  Gasto publicidad (GP)& $\hat{VV}$& $\hat{u}$  \\ \hline
+10.000.000 &1.600.000 & 8.961.755,29 & 1.038.244,71\\
+15.000.000 & 3.200.000 & 15.385.275,29 & -385.275,29 \\ 
+20.000.000 &4.800.000 &  21.808.795,29& -1.808.795,29 \\
+22.000.000 &5.000.000 &  22.611.735,29&  -611.735,29 \\
+30.000.000 &6.400.000 & 28.232.315,29 & 1.767.684,71 \\\hline
+\end{tabular}
+\end{center}}
+
+  \item   (6 puntos) ¿Qué volumen de ventas  se espera si la empresa gasta en publicidad 1 millón de dólares? 
+
+{\color{red}
+$$\hat{VV}=\hat{\beta_0}+\hat{\beta_1}GP+\hat{u}= 2.538.235,29+ 4,01\cdot 1.000.000=6.548.235,29$$}
+  
+  \item  (10 puntos) Si la empresa decide no gastar en publicidad, qué volumen de ventas se esperaría que tuviera. Explique.
+
+{\color{red}
+$$\hat{VV}=\hat{\beta_0}+\hat{\beta_1}GP+\hat{u}= 2.538.235,29+ 4,01\cdot 0=2.538.235,29=\hat{\beta_0}$$
+
+El valor predicho para GP=0 es el estimador del intercepto  $\hat{\beta_0}$. El valor predicho por el modelo de RLS cuando el regresor es 0 es el estimador del intercepto. }
+  
+  
+  \item (12 puntos) ¿Qué porcentaje de la variaci\'on del volumen de ventas en los 5 años observados  es explicada por el gasto en publicidad?
+
+{\color{red}
+$\sum_{i=1}^{n} (y_i - \bar{y})^2 =\sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 +\sum_{i=1}^{n} \hat{u}_i^2$
+
+Para responder la pregunta calculo:
+
+{\color{red}
+${  \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 \over  \sum_{i=1}^{n} (y_i - \bar{y})^2 }=0,96$
+
+}
+  
+\end{enumerate}
+
+\end{enumerate}
+
+\section{Formulario}
+
+\begin{itemize}
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es \emph{\textbf{conocido}}:
+
+$$\color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}$$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la diferencia de medias
+$\mu_x-\mu_y$ es:
+
+$${\color{red}(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}$$
+
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es \emph{\textbf{desconocido}}:
+
+$$\color{red}{\bar{x} \pm t_{(n-1)\frac{\alpha}{2}}\frac{S}{\sqrt{n}}}$$
+
+\item 
+ {\color{red} $z_{0.1}=-1.28 \quad \quad t_{(499){0.1}}=-1.28$
+ 
+ $z_{0.05}=-1.64 \quad \quad t_{(499){0.05}}= -1.65$
+
+ $z_{0.025}=-1.96 \quad \quad t_{(499){0.025}}=-1.96$
+
+\item  Estimadores MCO.
+{\color{red}
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} $$
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$}
+
+    
+\item Sea SST la suma de cuadrados totales (total sum of squares):
+	{\color{red}	\[ SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \]}
+		
+		\item Sea SSE la suma de cuadrados explicados (explained sum of squares):
+	{\color{red}	\[ SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 \]}
+		
+		\item Sea SSR la suma de cuadrados no explicados (residual sum of squares):
+	{\color{red}	\[ SSR = \sum_{i=1}^{n} \hat{u}_i^2 \]}
+
+
+
+	\end{itemize}
+ 
+\end{document}

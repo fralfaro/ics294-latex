@@ -1,0 +1,112 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+\linespread{1.2}                        
+\setlength{\oddsidemargin}{0.0in}            
+\setlength{\textwidth}{6.5in}    
+\usepackage[utf8]{inputenc} % Asegúrate de usar utf8
+\usepackage[T1]{fontenc} % Asegúrate de usar T1 font encoding      
+\setlength{\topmargin}{-.6in}            
+\setlength{\textheight}{9in}
+\usepackage{latexsym} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsxtra}
+\usepackage[mathcal]{eucal} 
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{rotating}
+\usepackage{caption}
+\usepackage{lscape}
+\usepackage{paralist} 
+\usepackage{indentfirst}
+\usepackage[dvipsnames,svgnames]{xcolor} 
+\usepackage{setspace}
+\usepackage{multicol} 
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{cmyk}{0.65, 1, 0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=R, % lenguaje de programación
+    basicstyle=\small\ttfamily, % estilo básico
+    commentstyle=\color{gray}, % estilo para los comentarios
+    keywordstyle=\color{blue}, % estilo para las palabras clave
+    stringstyle=\color{black}, % estilo para las cadenas de texto
+    showstringspaces=false, % no mostrar espacios en cadenas de texto
+    tabsize=4, % tamaño de la tabulación
+    breaklines=true, % permitir el salto de línea automático
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, % símbolo al final de una línea partida
+    numbers=left, % mostrar números de línea
+    numberstyle=\tiny\color{gray}, % estilo para los números de línea
+    frame=single, % mostrar un borde alrededor del código
+    backgroundcolor=\color{gray!10}, % color de fondo
+}
+
+\begin{document}
+
+\begin{center}
+    {\Large  Taller 3: Econometría }
+
+Profesor:    Jocelyn Tapia\\
+Ayudante: Jociney Honorio y Matías Sandoval 
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+    \item Usted dispone de hasta el día 16 de junio a las 22:00  para entregar su taller.
+    \item Puede realizarlo de manera individual o en parejas.
+       \item Puede utilizar su computador y los apuntes tanto de clase como de ayudantía.
+    \item Debe enviar un archivo en formato PDF y un R script (extensión .R)
+\end{itemize}
+
+
+
+Para responder las preguntas siguientes, utilice la base de datos \textit{htv} 
+disponible en la librería \textbf{wooldridge}. Cargue la base eliminando 
+observaciones con valores nulos antes de comenzar el análisis.
+
+\begin{enumerate}
+
+\item (10 puntos) Construya una matriz de correlación entre las variables de 
+la base de datos. Identifique y comente los pares de variables con correlaciones 
+altas (en valor absoluto superiores a 0,7), señalando qué problemas podrían 
+generar en la estimación de un modelo de regresión lineal múltiple.
+
+\item (15 puntos) Estime un modelo de regresión lineal múltiple que explique 
+el salario de los individuos. Justifique la elección de cada regresor incluido, 
+basándose en criterios económicos o en los resultados de la pregunta anterior.
+
+\item (15 puntos) Calcule el Factor de Inflación de Varianza (VIF) para los 
+regresores del modelo estimado en la pregunta anterior. Compare los resultados 
+con los obtenidos en la matriz de correlación y discuta si existe evidencia de 
+multicolinealidad. En caso de detectarla, indique qué variables deberían 
+eliminarse del modelo y por qué.
+
+\item (40 puntos) Reestime el modelo incorporando los ajustes definidos en la 
+pregunta anterior. A continuación:
+\begin{enumerate}[a)]
+    \item Aplique el test de Breusch-Pagan y el test de White para evaluar la 
+    presencia de heterocedasticidad. Plantee claramente las hipótesis nula y 
+    alternativa, y concluya.
+    \item Si detecta heterocedasticidad, reestime el modelo utilizando errores 
+    estándar robustos (White). Compare los errores estándar obtenidos con y sin 
+    corrección y comente las diferencias.
+\end{enumerate}
+
+\item (20 puntos) A partir del modelo final estimado, analice la significancia 
+estadística de cada coeficiente al 5\% de significancia. Identifique qué 
+variables tienen un efecto estadísticamente significativo sobre el salario e 
+interprete el signo y magnitud de sus coeficientes.
+
+\end{enumerate}
+
+
+\end{document}

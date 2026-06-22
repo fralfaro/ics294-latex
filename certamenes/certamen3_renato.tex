@@ -1,0 +1,481 @@
+\documentclass{article} % Clase base sin tamaño
+
+% Página horizontal
+\usepackage[a4paper,landscape,margin=2cm]{geometry}
+\usepackage{float} 
+% Arial y tamaño exacto
+\usepackage{fontspec}
+\setmainfont{Arial}
+\usepackage{xcolor}
+% Para tamaño grande explícito
+\usepackage{setspace}
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{polyglossia}       % Paquete multilingüe moderno
+\setmainlanguage{spanish}   
+
+\newcommand{\bigtable}[1]{{\fontsize{30pt}{36pt}\selectfont\renewcommand{\arraystretch}{2}#1}}
+
+
+\begin{document}
+
+% TODO lo que esté entre estas llaves tendrá tamaño 30pt real
+{\fontsize{30pt}{36pt}\selectfont
+
+\begin{center}
+    
+\textbf{\\CERTAMEN 3:}
+\textbf{Econometría ICS-294}
+\\
+\vspace{0.2cm}
+I Semestre 2025\\
+Profesores: Jocelyn Tapia Stefanoni, Franco Antonucci Fernández y Ricardo Pruneda Urz\'ua\\
+%Ayudante: 
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 90 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+\newpage
+{\bf RdA3.2  Preguntas cortas (40 puntos)}
+
+{\bf Elija solo 4 preguntas y responda. }
+\begin{enumerate}
+
+\item Suponga el siguiente modelo poblacional:
+$$PAT = \gamma_0 + \gamma_1 \cdot \text{hombre} + \gamma_2 \cdot econ + \gamma_3 \cdot \text{hombre} \times econ +u$$
+
+Donde: $PAT$ es el patrimonio que acumula una persona; hombre 1 si individuo es hombre, 0 si mujer; $econ = 1$ si estudia economía, 0 si no.
+\begin{enumerate}
+    \item[(a)] (5 puntos) ¿Cuál es el efecto esperado de haber estudiado economía sobre el patrimonio acumulado?
+    \item[(b)] (5 puntos) ¿Difiere este efecto para
+hombres y mujeres? Explique.
+\end{enumerate}
+
+\newpage
+
+\item 
+Se presenta el siguiente modelo econométrico para explicar las importaciones (IMP) en función del Producto Interno Bruto (PIB), la Inversión (INV) y el Consumo (CONS):
+
+\[
+\text{IMP} = -19.7251 + 0.0322 \cdot \text{PIB} + 0.4142 \cdot \text{INV} + 0.2427 \cdot \text{CONS}
+\]
+
+Considerando la información disponible, responda lo siguiente:
+
+\begin{enumerate}
+    \item(6 puntos) ¿Existe evidencia de multicolinealidad entre las variables explicativas? Fundamente su respuesta.
+
+Para su respuesta considere la siguiente información.
+
+    Matriz de correlaciones:
+
+    \[
+    \begin{array}{c|ccc}
+    & \text{PIB} & \text{INV} & \text{CONS} \\
+    \hline
+    \text{PIB} & 1 & 0.2154 & 0.9989 \\
+    \text{INV} & 0.2154 & 1 & 0.2137 \\
+    \text{CONS} & 0.9989 & 0.2137 & 1 \\
+    \end{array}
+    \]
+
+    Coeficientes de determinación de regresiones auxiliares para cada regresor:
+
+    \[
+    R_{PIB}^2 = 0.9979, \quad R_{INV}^2 = 0.0475, \quad R_{CONS}^2 = 0.9979
+    \]
+
+
+    \item (4 puntos) En caso de confirmarse la existencia de multicolinealidad, ¿qué métodos o estrategias podrían emplearse para mitigar este problema en el modelo?
+
+\newpage
+
+    \item (10 puntos)
+    ¿Cómo podría utilizar el test de White (simplificado) para detectar heterocedasticidad en el modelo \( y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + u_i \)? Describa paso a paso el procedimiento e indique cómo se interpreta el resultado.
+\end{enumerate}
+
+\item  Sea el proceso estocástico \( x_t \) definido por:
+\[
+y_t = y_{t-1} + \varepsilon_t,
+\]
+donde \( \varepsilon_t \) es un proceso de ruido blanco. 
+
+\begin{enumerate}
+    \item[(a)] (3 puntos) ¿Puede afirmarse que \( y_t \) es un \textit{random walk}? Justifique conceptualmente.
+    
+    \item[(b)]  (3 puntos) ¿Es el proceso \( y_t \) estacionario? Justifique su respuesta, considerando tanto la media como la varianza del proceso.
+    
+    \item[(c)]  (4 puntos) ¿Influye el hecho de que \( \varepsilon_t \) sea gaussiano en la clasificación de \( y_t \) como \textit{random walk}? Explique brevemente.
+\end{enumerate}
+
+\item (10 puntos)
+En el estudio de Angrist y Krueger (1991), se utiliza el trimestre de nacimiento como variable instrumental para los años de educación en una regresión sobre ingresos. 
+ Explique por qué el trimestre de nacimiento podría ser considerado un instrumento válido. 
+    Explique qué es el efecto badana.
+
+\newpage
+\item Un investigador ha simulado tres series temporales de 200 observaciones. Dos de ellas corresponden a procesos \textbf{AR(1)} con distintos valores del parámetro \( \phi \), y la tercera corresponde a un proceso de \textbf{ruido blanco} (white noise). Para cada caso se presentan dos gráficos:
+
+\begin{itemize}
+    \item A la izquierda: la serie temporal simulada \( \{X_t\} \)
+    \item A la derecha: su función de autocorrelación (ACF) hasta el rezago 30
+\end{itemize}
+
+\newpage
+Los valores de \( \phi \) utilizados para los procesos AR(1) fueron:
+
+\[
+\phi = -0.95 \quad \text{y} \quad \phi = 0.95
+\]
+
+\[
+X_t = \phi X_{t-1} + \varepsilon_t
+\]
+
+Los gráficos han sido rotulados como \textbf{Caso A}, \textbf{Caso B} y \textbf{Caso C} (sin indicar el valor de \( \phi \) ni el tipo de proceso que representan).
+
+\begin{enumerate}
+    \item (4 puntos)  Identifique cuál de los tres casos corresponde al proceso de \textbf{ruido blanco}. Justifique su respuesta con base en el comportamiento de la serie y su ACF.
+
+\newpage
+    \item (6 puntos) Para los otros dos casos, asigne a cada uno el valor de \( \phi \) correspondiente. Justifique su elección explicando cómo el signo y la magnitud de \( \phi \) se reflejan en la dinámica de la serie y en la forma de su ACF.
+
+   
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{certamenes/autocorr.png}
+\end{figure}
+
+\end{enumerate}
+
+\newpage
+{\bf RdA3.2 Ejercicios (60 puntos)}
+
+
+{\bf A continuación elija solo 3 preguntas y responda. }
+
+\begin{enumerate}
+ \item  Con ayuda de los datos del archivo \texttt{GPA2.RAW} se obtuvo la siguiente ecuación estimada:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{certamenes/reg_c3_ren.1.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{certamenes/reg_c3_ren.2.png}
+\end{figure}
+
+\vspace{1em}
+\noindent
+Otros datos:
+\[
+n = 4{,}137, \quad R^2 = 0.0858
+\]
+
+\newpage
+
+\noindent
+Las variables utilizadas son:
+
+\begin{itemize}
+    \item \textbf{sat:} Puntuación combinada en el examen de admisión (SAT).
+    \item \textbf{hsize:} Tamaño de la cohorte de estudiantes (en centenas) que terminaron el bachillerato en la escuela del estudiante.
+    \item \textbf{female:} Variable binaria que vale 1 si el estudiante es mujer y 0 si es hombre.
+    \item \textbf{lowincome:} Variable binaria que vale 1 si el estudiante es de bajos ingresos y 0 en caso contrario.
+    \item \textbf{female $\times$ lowincome:} Interacción entre género e ingreso bajo.
+\end{itemize}
+
+\newpage
+\begin{enumerate}
+    \item[i)] (5 puntos) ¿Existe alguna evidencia fuerte de que $hsize^2$ deba ser incluida en el modelo? Con base en esta ecuación, ¿cuál es el tamaño óptimo de una escuela?
+    
+    \item[ii)] (5 puntos) Manteniendo $hsize$ constante, ¿cuál es la diferencia estimada en la puntuación del SAT entre mujeres de ingresos altos y hombres de altos ingresos? ¿Es estadísticamente significativa  esta diferencia?
+    \newpage
+    \item[iii)] (5 puntos) ¿Cuál es la diferencia estimada en la puntuación del SAT entre hombres de ingresos altos y hombres de ingreso bajo? Pruebe la hipótesis nula de que no hay diferencia entre estas puntuaciones contra la alternativa de que sí hay diferencia.
+    
+    \item[iv)] (5 puntos) ¿Cuál es la diferencia estimada en la puntuación del SAT entre mujeres de bajos ingresos y mujeres de ingresos altos? ¿Qué se necesita hacer para probar si esta diferencia es estadísticamente significativa?
+\end{enumerate}
+
+\newpage
+\item Un profesor está analizando qué factores explican el rendimiento académico de los estudiantes en su curso de Econometría. Estima el siguiente modelo de regresión:
+
+
+\[
+\text{nota}_i = \beta_0 + \beta_1 \cdot \text{estudio}_i + \beta_2 \cdot \text{trabaja}_i + u_i
+\]
+
+    \newpage
+
+
+Donde:
+\begin{itemize}
+    \item $\text{nota}_i$: nota final del estudiante \(i\) en el curso,
+    \item $\text{estudio}_i$: horas promedio de estudio a la semana,
+    \item $\text{trabaja}_i$: variable dicotómica que vale 1 si el estudiante trabaja durante el semestre, 0 en caso contrario,
+    \item $u_i$: término de error, que incluye factores no observados como concentración, salud, o estrés.
+\end{itemize}
+
+El profesor estima su modelo y obtiene lo siguiente: 
+
+\textbf{Resultados de R  ** indica 5\% de significancia, *** indica 1\% de significancia}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{certamenes/reg_c3_ren.3.png}
+\end{figure}
+
+\begin{enumerate}
+    \item (5 puntos) ¿Por qué podría haber heterocedasticidad en este contexto? ¿Por qué representa un problema para la estimación por MCO?
+
+    \item (5 puntos) Plantee la regresión auxiliar del test de White ampliado para este problema.
+
+    \item (10 puntos) Plantee el test de hipótesis de heterocedasticidad. Si el $R^2$ de la regresión auxiliar asciende al valor de 25\%, ¿existe o no heterocedasticidad al 5\% de significancia? Justifique su respuesta.\\
+
+\end{enumerate}
+
+\item A continuación se presenta el gráfico de la serie temporal del tipo de cambio nominal (pesos por dólar) en Chile, correspondiente al período comprendido entre enero de 1983 y diciembre de 2024, con datos de frecuencia mensual. 
+
+
+\begin{center}
+\textbf{Figura 1: Tipos de cambio (pesos por dólar)}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{certamenes/BCChChart.png}
+\end{figure}
+\end{center}
+
+
+\newpage
+Con el objetivo de evaluar si la serie temporal sigue un proceso de caminata aleatoria (random walk), un grupo de investigadores aplica el test de Dickey-Fuller mediante la estimación de dos modelos auxiliares:
+
+\newpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{certamenes/reg_c3_ren.4.png}
+\end{figure}
+
+  Testee con un 1\% de significancia si el tipo cambio nominal tiene raíz unitaria. Explique su resultado.
+
+\newpage
+\item Un investigador desea estudiar el efecto de las \textbf{horas de entrenamiento semanal} en el \textbf{rendimiento deportivo} de jugadores de básquetbol universitario. Plantea el siguiente modelo:
+
+\[
+y_i = \beta_0 + \beta_1 \cdot x_i + \beta_2 \cdot h_i + u_i
+\]
+
+Donde:
+\begin{itemize}
+    \item $y_i$: promedio de puntos anotados por partido durante la temporada.
+    \item $x_i$: número de horas de entrenamiento individual por semana. 
+    \item $h_i$: altura del jugador en centímetros (variable de control). 
+    \item $u_i$: factores no observados que afectan el rendimiento (motivación, talento, disciplina, etc.).
+\end{itemize}
+
+Sin embargo, se sospecha que la cantidad de horas de entrenamiento está correlacionada con $u_i$. Por ejemplo, los jugadores más motivados podrían entrenar más y también rendir mejor, incluso si el entrenamiento no fuera la causa del mayor rendimiento.
+
+
+\begin{enumerate}
+    \item (5 puntos) ¿Por qué podría ser inválido estimar el modelo por Mínimos Cuadrados Ordinarios (MCO)? Explique con base en los supuestos del modelo clásico.\\
+
+    \item (5 puntos) Explique por qué $\text{distancia\_cancha}_i$ medida como ``la distancia (en minutos caminando) entre el dormitorio del jugador y la cancha de entrenamiento'' (le llamaremos z) podría ser un \textbf{instrumento válido} para $\text{entreno}_i$. ¿Qué condiciones debe cumplir z para ser un buen instrumento? Exprese matemáticamente.\\
+
+    \newpage
+    \item (5 puntos) Suponga que 
+    
+    $\operatorname{Cov}(x_i, z_i) = -2,94765$ y $\operatorname{Cov}(y_i, z_i) = -4,3215$ 
+    
+    ¿Qué valor debería tener $\beta_1$? Derive la operación matemática e interprete.\\
+
+    \item (5 puntos) ¿El coeficiente estimado mediante variable instrumental será mayor o menor que el estimado por MCO?\\
+
+\end{enumerate}
+
+\newpage
+\item Suponga que usted está interesado en determinar los factores que explican
+las diferencias salariales entre distintos individuos. Para realizar
+su análisis, usted especifica la siguiente función de regresión:
+
+\begin{equation}
+wage = \beta_{1} + \beta_{2}IQ + \beta_{3}Educ + \beta_{4}Exper + \beta_{5}Tenure + \beta_{6}personacolor + u \label{eq:original}
+\end{equation}
+
+donde \emph{wage} representa el salario, \emph{IQ} es el coeficiente intelectual,
+\emph{Educ} son los años de educación, \emph{Exper} los años de experiencia laboral,
+\emph{Tenure} la antigüedad en el trabajo actual, y \emph{personacolor} es una variable dicotómica
+que toma el valor 1 cuando la persona se identifica como {persona de color}, y 0 en caso contrario.
+
+
+Los resultados de la regresión se presentan en la Tabla 1, y en la Figura 1 se muestran los residuos
+agrupados según la variable \emph{personacolor}:
+
+\newpage
+\begin{center}
+\textbf{Tabla 1}
+\end{center}
+
+\begin{center}
+Model 1: OLS, using observations 1--935\\ Dependent variable: wage\\
+\end{center}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{certamenes/reg_c3_ren.5.png}
+\end{figure}
+
+\begin{center}
+\textbf{Figura 1: Residuos agrupados por identificación étnico-racial}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{certamenes/racial.png}
+\end{figure}
+\end{center}
+
+\begin{enumerate}
+    \item (4 puntos) De acuerdo a esta información, ¿le parece que existe heterocedasticidad en el modelo? ¿Tiene sentido este resultado? Explique.
+
+ 
+
+    \item (7 puntos)  En la Tabla 2 se presentan los resultados de una regresión de los residuos al cuadrado de la regresión de la tabla 1 sobre las variables explicativas:
+
+\newpage
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{certamenes/reg_c3_ren.6.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{certamenes/reg_c3_ren.7.png}
+\end{figure}
+
+    \newpage
+    ¿Puede usarse esta regresión para testear la presencia de heterocedasticidad? Explique e interprete.
+
+    \item (5 puntos) Observe que la variable \texttt{personacolor} no es estadísticamente significativa según los resultados de la tabla 1. ¿Podemos concluir que \texttt{personacolor} no afecta el ingreso? Fundamente su respuesta considerando la presencia de heterocedasticidad. 
+
+    \item (4 puntos) ¿Cómo se puede corregir el problema anterior para obtener inferencias válidas? ¿Qué tipo de errores estándar se deben utilizar? 
+
+   
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+\end{enumerate}
+\newpage
+
+
+\begin{center}
+    {\Large Formulario  }
+
+ 
+\end{center}
+
+\begin{itemize}
+
+% \item  
+% {\color{red}
+% $$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} $$
+% $$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$}
+
+\item  {\color{red} \[ \hat{\beta} = (X^{\top}X)^{-1}X^{\top}y \]}
+
+\item 
+	{\color{red}	\[ SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \quad SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2  \quad SSR = \sum_{i=1}^{n} \hat{u}_i^2\]}
+		
+
+    \item {\color{red} \[ R^2  = 1 - \frac{SSR}{SST} \quad \quad \bar{R}^2 =  1 - \frac{(n-1)SSR}{(n-k-1)SST} \]}
+
+ \item {\color{red} \[ t_{\hat{\beta_j}}=\frac{\hat{\beta}_j - \beta_j}{\text{s.e.}(\hat{\beta}_j)} \sim t_{n-k-1} \]}
+
+ \item {\color{red}\[
+    F = \frac{SSR_{r} - SSR_{ur}}{SSR_{ur}} \cdot \frac{n - k - 1}{j} \sim F(j, n - k - 1)
+    \]}
+
+\item {\color{red}Test F para regresión auxiliar.}
+\begin{center}
+ {  \color{red}     \(F=\dfrac{R^{2}/j}{(1-R^{2})/(n-k-1)}
+          \sim F(j,\;n-k-1)\).}
+\end{center}
+% \item {\color{red}Considere que el valor crítico a un nivel de significancia del 5\% es 1.645}
+% \item {\color{red}Considere los siguientes valores críticos para t: $\alpha = 0.01 \implies t \approx 2.62$; $\alpha = 0.05 \implies t \approx 1,97$;$\alpha = 0.01 \implies t \approx 2.62$; $\alpha = 0.1 \implies t \approx 1,645$}
+%\item {\color{red}Considere que el valor crítico de F al 1\% con grados de libertad (2,178) es aproximadamente 4.72}
+
+\newpage
+\item \color{red}{ Multiplicador de Lagrange
+
+$$LM = nR^2 \sim \chi^2_{df}$$
+
+Tabla $\chi^2_{df}$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.99 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10645 \\
+        \hline
+    \end{tabular}
+    \end{center}}
+
+\newpage
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.9\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.85\linewidth]{Ejercicios//ejercicios_inferencia/cert2_F2_1184.png}
+% \end{figure}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.85\linewidth]{certamenes/normal.png}
+% \end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{certamenes/normal_1cola.png}
+\end{figure}
+
+
+
+    \end{document}

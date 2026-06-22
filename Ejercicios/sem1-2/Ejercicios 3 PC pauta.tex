@@ -1,0 +1,932 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+%\lhead{\includegraphics[scale=0.2]{logo.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+%\rhead{\includegraphics[scale=0.2]{FIG/logo-mba-2016.png}} % número de página a la derecha
+
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+
+
+
+\pagebreak
+\vspace*{4mm} 
+
+\begin{center}
+\begin{huge}
+\textbf{\\Ejercicios Econometría 3}
+\end{Large}\\
+%{\large 2023-2}\\
+\end{center}
+
+
+\section{Intervalos de Confianza: Proporción}
+
+En una encuesta realizada a 500 personas, se encontró que 220 estaban de acuerdo con una nueva política pública. Calcula los intervalos de confianza para la proporción de personas que están de acuerdo con la política pública al 90\%, 95\% y 99\% de confianza.
+
+\subsection*{Solución}
+
+\textbf{Datos:}
+\begin{itemize}
+    \item \( n = 500 \) (tamaño de la muestra)
+    \item \( x = 220 \) (número de personas de acuerdo con la política pública)
+    \item \( \hat{p} = \frac{x}{n} = \frac{220}{500} = 0.44 \) (proporción muestral)
+\end{itemize}
+
+{Fórmula para el intervalo de confianza para la proporción:}
+\[
+IC = \hat{p} \pm Z_{\alpha/2} \times \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}
+\]
+Donde:
+\begin{itemize}
+    \item \( \hat{p} \) es la proporción muestral.
+    \item \( Z_{\alpha/2} \) es el valor crítico de la distribución normal estándar correspondiente al nivel de confianza deseado.
+    \item \( n \) es el tamaño de la muestra.
+\end{itemize}
+
+\begin{itemize}
+    \item Para un intervalo de confianza del 90\%:
+    \[
+    Z_{0.05} = 1.645
+    \]
+    \[
+    IC_{90\%} = 0.44 \pm 1.645 \times \sqrt{\frac{0.44(1 - 0.44)}{500}} = 0.44 \pm 0.045
+    \]
+    \[
+    IC_{90\%} = [0.403, 0.476]
+    \]
+
+    \item Para un intervalo de confianza del 95\%:
+    \[
+    Z_{0.025} = 1.96
+    \]
+    \[
+    IC_{95\%} = 0.44 \pm 1.96 \times \sqrt{\frac{0.44(1 - 0.44)}{500}} = 0.44 \pm 0.052
+    \]
+    \[
+    IC_{95\%} = [0.396, 0.483]
+    \]
+
+    \item Para un intervalo de confianza del 99\%:
+    \[
+    Z_{0.005} = 2.576
+    \]
+    \[
+    IC_{99\%} = 0.44 \pm 2.576 \times \sqrt{\frac{0.44(1 - 0.44)}{500}} = 0.44 \pm 0.065
+    \]
+    \[
+    IC_{99\%} = [0.382, 0.497]
+    \]
+\end{itemize}
+
+
+\textbf{Solución}
+
+
+\section{Intervalos de Confianza: Diferencia de medias}
+
+Una empresa desea comparar los tiempos promedio de producción de dos plantas, Planta A y Planta B. Se toman muestras aleatorias de los tiempos de producción (en horas) de ambas plantas.
+
+\begin{itemize}
+    \item Para la \textbf{Planta A}, se selecciona una muestra de 50 observaciones con una media muestral de \( \bar{X}_A = 5,2 \) horas y una varianza conocida de \( \sigma_A^2 = 0,16 \) horas.
+    \item Para la \textbf{Planta B}, se selecciona una muestra de 60 observaciones con una media muestral de \( \bar{X}_B = 4,9 \) horas y una varianza conocida de \( \sigma_B^2 = 0,25 \) horas.
+\end{itemize}
+
+ Verifique si la diferencia entre los tiempos de producción de las dos plantas es estadísticamente significativa, al 95\% de confianza.
+
+\textbf{Solución}
+
+El intervalo de confianza para la diferencia de medias con varianzas conocidas se calcula con la siguiente fórmula:
+
+ \[
+ (\bar{X}_A - \bar{X}_B) \pm Z_{\alpha/2} \cdot \sqrt{\frac{\sigma_A^2}{n_A} + \frac{\sigma_B^2}{n_B}}
+\]
+
+{\bf Paso 1: Diferencia de medias}
+
+ \[
+ \bar{X}_A - \bar{X}_B = 5.2 - 4.9 = 0.3
+ \]
+
+{\bf Paso 2: Error estándar de la diferencia de medias}
+
+ \[
+ \text{SE} = \sqrt{\frac{0.16}{50} + \frac{0.25}{60}} = \sqrt{0.0032 + 0.004167} = \sqrt{0.007367} \approx 0.0858
+ \]
+
+{\bf Paso 3: Cálculo del intervalo de confianza}
+
+\[
+ 0.3 \pm 1,96 \times 0.0858
+ \]
+
+ \[
+ 0.3 \pm 0.1682
+ \]
+
+
+ El intervalo de confianza al 99\% para la diferencia de medias es:
+
+\[
+(0.132, 0.468)
+\]
+
+
+Con un 99\% de confianza, la diferencia en los tiempos promedio de producción entre las dos plantas está entre \(0.132\) y \(0.468\) horas. Como el valor 0 no está dentro del intervalo, se puede concluir que la diferencia es estadísticamente significativa al nivel de confianza del 99\%.
+
+
+
+
+\section{Regresión Lineal Multiple}
+
+Se cuenta con la siguiente información para 5 individuos, donde $Y$ es la variable dependiente y $X_1$, $X_2$ son variables explicativas:
+
+\[
+\begin{array}{c|ccc}
+\hline
+\text{Individuo} & X_1 & X_2 & Y \\
+\hline
+1 & 4 & 1 & 5 \\
+2 & 3 & 2 & 7 \\
+3 & 5 & 3 & 10 \\
+4 & 7 & 4 & 13 \\
+5 & 6 & 4 & 12 \\
+\hline
+\end{array}
+\]
+
+\begin{itemize}
+  \item \textbf{(Modelo de Regresión Lineal Simple)} Estime el modelo $Y = \beta_0 + \beta_1\,X_1 + \varepsilon$, ignorando la variable $X_2$. Calcule los coeficientes, el $R^2$, el $R^2$ ajustado y las sumas de cuadrados (SST, SSR y SSE).
+  \item \textbf{Discuta la posibilidad de sesgo} al omitir $X_2$.
+  \item \textbf{(Modelo de Regresión Lineal Múltiple)} Estime el modelo $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$, calcule el nuevo $R^2$ (y las sumas de cuadrados) y compare con el modelo simple.
+\end{itemize}
+
+\section*{Soluci\'on}
+
+\subsection*{1. Regresi\'on Lineal Simple: $Y \sim X_1$}
+
+Deseamos estimar 
+\[
+Y = \beta_0 + \beta_1 X_1 + \varepsilon,
+\]
+ignorando la variable $X_2$.
+
+\paragraph{1.1 Media de $X_1$ y de $Y$.}
+
+\[
+\bar{X}_1
+= \frac{4+3+5+7+6}{5}
+= \frac{25}{5}
+= 5,
+\quad
+\bar{Y}
+= \frac{5+7+10+13+12}{5}
+= \frac{47}{5}
+= 9.4.
+\]
+
+\paragraph{1.2 Varianza, covarianza y c\'alculo de $\beta_1$ y $\beta_0$.}
+
+Para la regresión simple:
+\[
+\beta_1
+= \frac{\mathrm{Cov}(X_1,Y)}{\mathrm{Var}(X_1)},
+\quad
+\beta_0
+= \bar{Y} - \beta_1\,\bar{X}_1.
+\]
+
+Construyamos la tabla con $(X_1-\bar{X}_1)$, $(Y-\bar{Y})$, y sus productos.
+
+\[
+\begin{array}{c|cc|cc|ccc}
+\hline
+\text{Ind} & X_1 & Y 
+& X_1-\bar{X}_1 & Y-\bar{Y}
+& (X_1 - \bar{X}_1)^2 & (Y - \bar{Y})^2
+& (X_1-\bar{X}_1)(Y-\bar{Y})\\
+\hline
+1 & 4 & 5 
+& 4-5=-1
+& 5-9.4=-4.4
+& 1
+& 19.36
+& (+4.4) \\[6pt]
+2 & 3 & 7
+& 3-5=-2
+& 7-9.4=-2.4
+& 4
+& 5.76
+& (+4.8) \\[6pt]
+3 & 5 & 10
+& 5-5=0
+& 10-9.4=0.6
+& 0
+& 0.36
+& 0 \\[6pt]
+4 & 7 & 13
+& 7-5=2
+& 13-9.4=3.6
+& 4
+& 12.96
+& 7.2 \\[6pt]
+5 & 6 & 12
+& 6-5=1
+& 12-9.4=2.6
+& 1
+& 6.76
+& 2.6 \\[6pt]
+\hline
+\text{Suma} & & & & 
+& 10
+& 45.20
+& 19.0 \\[6pt]
+\hline
+\end{array}
+\]
+
+De la última fila:
+\[
+\sum (X_1-\bar{X}_1)^2 = 10,
+\quad
+\sum (Y - \bar{Y})^2 = 45.20,
+\quad
+\sum (X_1-\bar{X}_1)(Y-\bar{Y}) = 19.0.
+\]
+Entonces
+\[
+\mathrm{Var}(X_1)
+= \frac{1}{n-1}\sum (X_1-\bar{X}_1)^2
+= \frac{10}{4}
+= 2.5,
+\quad
+\mathrm{Cov}(X_1,Y)
+= \frac{19.0}{4}
+= 4.75.
+\]
+\[
+\beta_1
+= \frac{4.75}{2.5}
+= 1.90,
+\quad
+\beta_0
+= 9.4 - (1.90)(5)
+= 9.4 - 9.5
+= -0.1.
+\]
+
+\[
+\boxed{
+\widehat{\beta}_0 \approx -0.10,
+\quad
+\widehat{\beta}_1 \approx 1.90.
+}
+\]
+
+\paragraph{1.3 C\'alculo de SST, SSE, SSR y $R^2$.}
+
+\[
+\text{SST}
+= \sum (Y_i - \bar{Y})^2
+= 45.20.
+\]
+El valor ajustado: 
+\[
+\hat{Y}_i
+= -0.1 +1.90\,X_{1i}.
+\]
+Calculamos los residuos $e_i = Y_i - \hat{Y}_i$:
+
+\[
+\begin{array}{c|cc|c|c|c}
+\hline
+\text{Ind} & X_1 & Y 
+& \hat{Y}_i = -0.1 +1.90X_1
+& e_i= Y-\hat{Y}_i
+& e_i^2
+\\\hline
+1 & 4 & 5 
+& -0.1 +1.90\cdot4 =-0.1 +7.6=7.5
+& 5-7.5=-2.5
+& 6.25
+\\
+2 & 3 &7
+& -0.1 +1.90\cdot3 =-0.1 +5.7=5.6
+& 7-5.6=1.4
+& 1.96
+\\
+3 & 5 &10
+& -0.1 +1.90\cdot5 =-0.1 +9.5=9.4
+& 10-9.4=0.6
+& 0.36
+\\
+4 & 7 &13
+& -0.1 +1.90\cdot7 =-0.1 +13.3=13.2
+& 13-13.2=-0.2
+& 0.04
+\\
+5 & 6 &12
+& -0.1 +1.90\cdot6 =-0.1 +11.4=11.3
+& 12-11.3=0.7
+& 0.49
+\\
+\hline
+& & & & \sum e_i^2= & 9.10
+\\\hline
+\end{array}
+\]
+\[
+\text{SSE} = \sum e_i^2 \approx 9.10,
+\quad
+\text{SSR} = \text{SST} - \text{SSE} = 45.20 -9.10=36.10.
+\]
+\[
+R^2
+= 1 - \frac{\text{SSE}}{\text{SST}}
+= 1 - \frac{9.10}{45.20}
+\approx 0.7991.
+\]
+Es decir, el \textbf{modelo simple} explica alrededor de $80\%$ de la variabilidad de $Y$.
+
+\paragraph{1.3.1 $R^2$ ajustado (modelo simple).}
+
+Con $n=5$, $k=1$:
+\[
+R_{\text{ajustado}}^2
+= 1 - \frac{\text{SSE}/(n - k -1)}{\text{SST}/(n-1)}
+= 1 - \frac{9.10/3}{45.20/4}
+= 1 - \frac{3.0333}{11.30}
+\approx 1 -0.2684
+= 0.7316.
+\]
+
+\subsubsection*{Conclusi\'on (modelo simple):}
+\[
+Y \approx -0.10 +1.90\,X_1,
+\quad
+R^2 \approx 0.799,
+\quad
+R_{\text{ajustado}}^2 \approx 0.732.
+\]
+
+\subsection*{2. Discusi\'on: posible omisi\'on de $X_2$}
+La variable $X_2$ podr\'ia ser relevante. Si $X_2$ est\'a correlacionada con $X_1$ o explica parte de la variabilidad de $Y$, omitirla puede causar que la pendiente estimada $\beta_1$ en la regresión simple sea \emph{sesgada}. Para observar si este es el caso, estimamos ahora el modelo con ambas variables y vemos si $R^2$ crece y si $\beta_1$ se modifica.
+
+\subsection*{3. Regresi\'on Lineal M\'ultiple: $Y \sim X_1 + X_2$}
+
+El modelo completo:
+\[
+Y = \beta_0 + \beta_1\,X_1 + \beta_2\,X_2 + \varepsilon.
+\]
+En notaci\'on matricial:
+\[
+\hat{\boldsymbol{\beta}}
+= (\mathbf{X}^\top \mathbf{X})^{-1} \, (\mathbf{X}^\top \mathbf{Y}),
+\]
+donde
+\[
+\mathbf{X}
+=
+\begin{bmatrix}
+1 & X_1 & X_2
+\end{bmatrix},
+\quad
+\mathbf{Y}
+=
+\begin{bmatrix}
+Y
+\end{bmatrix}.
+\]
+
+\paragraph{3.1 Construir $\mathbf{X}^\top \mathbf{X}$ y $\mathbf{X}^\top \mathbf{Y}$.}
+
+\[
+\mathbf{X}
+=
+\begin{bmatrix}
+1 & 4 & 1\\
+1 & 3 & 2\\
+1 & 5 & 3\\
+1 & 7 & 4\\
+1 & 6 & 4
+\end{bmatrix},
+\quad
+\mathbf{Y}
+=
+\begin{bmatrix}
+5\\
+7\\
+10\\
+13\\
+12
+\end{bmatrix}.
+\]
+\[
+\mathbf{X}^\top
+=
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+4 & 3 & 5 & 7 & 6 \\
+1 & 2 & 3 & 4 & 4
+\end{bmatrix}.
+\]
+Entonces
+\[
+\mathbf{X}^\top \mathbf{X}
+= \begin{bmatrix}
+\sum 1 & \sum X_1 & \sum X_2 \\
+\sum X_1 & \sum X_1^2 & \sum X_1X_2 \\
+\sum X_2 & \sum X_1X_2 & \sum X_2^2
+\end{bmatrix}.
+\]
+\[
+\sum 1 = 5,\quad
+\sum X_1 = 4+3+5+7+6=25,\quad
+\sum X_2 = 1+2+3+4+4=14.
+\]
+\[
+\sum X_1^2 = 4^2 +3^2 +5^2 +7^2 +6^2=16 +9 +25 +49 +36=135.
+\]
+\[
+\sum X_2^2 = 1^2 +2^2 +3^2 +4^2 +4^2=1 +4 +9 +16 +16=46.
+\]
+\[
+\sum (X_1X_2) = 4\cdot1 +3\cdot2 +5\cdot3 +7\cdot4 +6\cdot4 =4 +6 +15 +28 +24=77.
+\]
+Por lo tanto:
+\[
+\mathbf{X}^\top \mathbf{X}
+=
+\begin{bmatrix}
+5 & 25 & 14\\
+25 &135 & 77\\
+14 & 77 & 46
+\end{bmatrix}.
+\]
+
+Ahora,
+\[
+\mathbf{X}^\top \mathbf{Y}
+=
+\begin{bmatrix}
+\sum Y\\
+\sum (X_1 Y)\\
+\sum (X_2 Y)
+\end{bmatrix}.
+\]
+\[
+\sum Y =5+7+10+13+12=47.
+\]
+\[
+\sum (X_1 Y)=4\cdot5 +3\cdot7 +5\cdot10 +7\cdot13 +6\cdot12=20 +21 +50 +91 +72=254.
+\]
+\[
+\sum (X_2 Y)=1\cdot5 +2\cdot7 +3\cdot10 +4\cdot13 +4\cdot12=5 +14 +30 +52 +48=149.
+\]
+\[
+\mathbf{X}^\top \mathbf{Y}
+=
+\begin{bmatrix}
+47\\
+254\\
+149
+\end{bmatrix}.
+\]
+
+\paragraph{3.2 Invertir $(\mathbf{X}^\top \mathbf{X})$.}
+
+
+Sea
+\[
+A 
+= 
+\mathbf{X}^\top \mathbf{X}
+=
+\begin{bmatrix}
+5 & 25 &14\\
+25 &135 &77\\
+14 & 77 &46
+\end{bmatrix}.
+\]
+
+\subsection*{3.3 Determinante de $A$}
+
+Desarrollamos por la primera fila:
+\[
+\det(A)
+= 5\,
+\det\begin{bmatrix}
+135 & 77\\
+77 & 46
+\end{bmatrix}
+\;-\;
+25\,
+\det\begin{bmatrix}
+25 & 77\\
+14 & 46
+\end{bmatrix}
+\;+\;
+14\,
+\det\begin{bmatrix}
+25 &135\\
+14 & 77
+\end{bmatrix}.
+\]
+\[
+\det\begin{bmatrix}
+135 &77\\
+77 &46
+\end{bmatrix}
+=135\cdot46 -77\cdot77=6210-5929=281.
+\]
+\[
+\det\begin{bmatrix}
+25 &77\\
+14 &46
+\end{bmatrix}
+=25\cdot46 -77\cdot14=1150 -1078=72.
+\]
+\[
+\det\begin{bmatrix}
+25 &135\\
+14 &77
+\end{bmatrix}
+=25\cdot77 -135\cdot14=1925 -1890=35.
+\]
+Entonces:
+\[
+\det(A)=5(281)-25(72)+14(35)=1405 -1800 +490=95.
+\]
+\[
+\boxed{\det(A)=95.}
+\]
+
+\subsection*{3.4 Matriz de cofactores y adjunta}
+
+Para cada cofactor $C_{ij}=(-1)^{i+j}\,M_{ij}$ (donde $M_{ij}$ es la determinante del menor correspondiente).
+
+\[
+C_{11} 
+= +\det\begin{bmatrix}135 & 77\\ 77 &46\end{bmatrix} = +281,
+\quad
+C_{12} 
+= -\det\begin{bmatrix}25 &77\\14 &46\end{bmatrix} = -72,
+\quad
+C_{13} 
+= +\det\begin{bmatrix}25 &135\\14 &77\end{bmatrix} = +35.
+\]
+
+\[
+C_{21}
+= -\det\begin{bmatrix}25 &14\\77 &46\end{bmatrix}.
+\]
+La submatriz se obtiene suprimiendo la fila 2 y col 1:
+\[
+\begin{bmatrix}25 &14\\77 &46\end{bmatrix}
+\]
+\[
+\det=25\cdot46 -14\cdot77=1150-1078=72,
+\quad
+\text{con signo negativo}=-72.
+\]
+
+\[
+C_{22}
+= +\det\begin{bmatrix}5 &14\\14 &46\end{bmatrix}
+= +(5\cdot46 -14\cdot14)=230-196=34.
+\]
+
+\[
+C_{23}
+= -\det\begin{bmatrix}5 &25\\14 &77\end{bmatrix}.
+\]
+La submatriz surge al quitar fila2,col3. Determinante:
+\[
+5\cdot77 -25\cdot14=385-350=35,
+\quad
+\text{con signo}=-35.
+\]
+
+\[
+C_{31}
+= +\det\begin{bmatrix}25 &14\\135 &77\end{bmatrix}.
+\]
+Quitar fila3,col1 deja
+\[
+\begin{bmatrix}25 &14\\135 &77\end{bmatrix}.
+\]
+\[
+\det=25\cdot77 -14\cdot135=1925-1890=35,
+\quad
+(\text{signo }+)\Rightarrow +35.
+\]
+
+\[
+C_{32}
+= -\det\begin{bmatrix}5 &14\\25 &77\end{bmatrix}.
+\]
+Esa submatriz es
+\[
+\begin{bmatrix}5 &14\\25 &77\end{bmatrix},
+\quad
+5\cdot77 -14\cdot25=385-350=35,
+\]
+signo $- \Rightarrow -35.$
+
+\[
+C_{33}
+= +\det\begin{bmatrix}5 &25\\25 &135\end{bmatrix}
+=5\cdot135 -25\cdot25=675-625=50.
+\]
+
+La \emph{matriz de cofactores} $C$ es pues
+\[
+C
+=
+\begin{bmatrix}
+281 & -72 & 35\\
+-72 & 34 & -35\\
+35 & -35 & 50
+\end{bmatrix}.
+\]
+La \emph{adjunta} $\mathrm{adj}(A)$ es la traspuesta de $C$, pero en este caso $C$ es simétrica, así que
+\[
+\mathrm{adj}(A) = C^\top = C.
+\]
+
+\subsection*{3.5 Matriz inversa}
+
+\[
+A^{-1}
+= \frac{1}{\det(A)} \,\mathrm{adj}(A)
+= \frac{1}{95}
+\begin{bmatrix}
+281 & -72 & 35\\
+-72 & 34 & -35\\
+35 & -35 & 50
+\end{bmatrix}.
+\]
+
+
+
+\section*{4. Producto final: $\hat{\boldsymbol{\beta}} = A^{-1}(\mathbf{X}^\top \mathbf{Y})$}
+
+Sea
+\[
+b
+=
+\mathbf{X}^\top \mathbf{Y}
+=
+\begin{bmatrix}
+47\\
+254\\
+149
+\end{bmatrix}.
+\]
+
+Primero calculamos 
+\(\mathrm{adj}(A)\cdot b\),
+sin dividir todavía por 95:
+\[
+\begin{bmatrix}
+281 & -72 & 35\\
+-72 & 34 & -35\\
+35 & -35 & 50
+\end{bmatrix}
+\begin{bmatrix}
+47\\
+254\\
+149
+\end{bmatrix}
+=
+\begin{bmatrix}
+\text{fila1}\\
+\text{fila2}\\
+\text{fila3}
+\end{bmatrix}.
+\]
+\[
+\text{(fila 1)} 
+= 281\cdot47 + (-72)\cdot254 + 35\cdot149.
+\]
+\[
+281\cdot47=13207,\quad
+(-72)\cdot254=-18288,\quad
+35\cdot149=5215.
+\]
+Suma:
+\[
+13207 -18288 +5215= 13207 +5215=18422,\quad 18422-18288=134.
+\]
+\[
+\text{(fila 2)}
+= (-72)\cdot47 +34\cdot254 +(-35)\cdot149.
+\]
+\[
+(-72)\cdot47=-3384,\quad
+34\cdot254=8636,\quad
+(-35)\cdot149=-5215.
+\]
+Suma:
+\[
+-3384+8636=5252,\quad 5252-5215=37.
+\]
+\[
+\text{(fila 3)}
+= 35\cdot47 +(-35)\cdot254 +50\cdot149.
+\]
+\[
+35\cdot47=1645,\quad
+(-35)\cdot254=-8890,\quad
+50\cdot149=7450.
+\]
+Suma:
+\[
+1645-8890 +7450=9095-8890=205.
+\]
+El vector intermedio es
+\[
+\begin{bmatrix}
+134\\
+37\\
+205
+\end{bmatrix}.
+\]
+Dividimos por $95$:
+\[
+\hat{\boldsymbol{\beta}}
+=
+\frac{1}{95}
+\begin{bmatrix}
+134\\
+37\\
+205
+\end{bmatrix}
+=
+\begin{bmatrix}
+134/95\\
+37/95\\
+205/95
+\end{bmatrix}
+\approx
+\begin{bmatrix}
+1.41\\
+0.39\\
+2.16
+\end{bmatrix}.
+\]
+\[
+\boxed{
+\hat{\beta}_0 \approx 1.41,
+\quad
+\hat{\beta}_1 \approx 0.39,
+\quad
+\hat{\beta}_2 \approx 2.16.
+}
+\]
+
+
+\section*{5. Cálculo de $R^2$ y $R_{\text{ajustado}}^2$ (modelo múltiple)}
+
+\paragraph{5.1 SSE, SSR, SST.}
+
+La \emph{Suma Total de Cuadrados} (SST) es
+\[
+\text{SST}
+= \sum_{i=1}^5 (\,Y_i - \bar{Y}\,)^2.
+\]
+En este caso, la SST resulta $45.20$ (véase el modelo simple).  
+
+El valor ajustado es
+\[
+\hat{Y}_i
+= 1.41 + 0.39\,X_{1i} + 2.16\,X_{2i}.
+\]
+Los residuos $e_i=Y_i-\hat{Y}_i$ dan la \emph{Suma de Cuadrados de Residuos} (SSE). Tras los cálculos numéricos (ver tabla de $e_i^2$), se obtiene
+\[
+\text{SSE} \approx 0.253.
+\]
+Entonces
+\[
+\text{SSR}
+= \text{SST} - \text{SSE}
+= 45.20 - 0.253
+= 44.947.
+\]
+\[
+R^2
+= 1-\frac{\text{SSE}}{\text{SST}}
+= 1 - \frac{0.253}{45.20}
+\approx 0.9944.
+\]
+
+\paragraph{5.2 $R_{\text{ajustado}}^2$.}
+
+Con $n=5$ y $k=2$ variables explicativas (sin contar la constante), la fórmula es:
+\[
+R_{\text{ajustado}}^2
+= 1
+- 
+\frac{\text{SSE}/(n-k-1)}{\text{SST}/(n-1)},
+\]
+es decir
+\[
+= 1
+- 
+\frac{0.253/(5-2-1)}{45.20/(5-1)}
+= 1
+- 
+\frac{0.253/2}{45.20/4}.
+\]
+\[
+0.253/2 = 0.1265,
+\quad
+45.20/4=11.30,
+\quad
+\frac{0.1265}{11.30}\approx 0.0112,
+\]
+\[
+R_{\text{ajustado}}^2
+= 1-0.0112
+= 0.9888.
+\]
+\[
+\boxed{
+R^2 \approx 0.9944,
+\quad
+R_{\text{ajustado}}^2 \approx 0.9888.
+}
+\]
+
+
+
+\subsection*{4. Verificaci\'on con software (opcional)}
+
+\paragraph{4.1 C\'alculos en R.} Usamos \texttt{lm()}:
+
+\begin{verbatim}
+# Datos
+X1 <- c(4,3,5,7,6)
+X2 <- c(1,2,3,4,4)
+Y  <- c(5,7,10,13,12)
+datos <- data.frame(X1, X2, Y)
+
+# Modelo simple:
+mod_simple <- lm(Y ~ X1, data=datos)
+summary(mod_simple)
+# (Muestra coeficientes, R^2, etc.)
+
+# Modelo multiple:
+mod_multiple <- lm(Y ~ X1 + X2, data=datos)
+summary(mod_multiple)
+# (Nuevos coeficientes, R^2 mayor, etc.)
+\end{verbatim}
+
+El \textbf{summary} de cada modelo exhibirá los coeficientes (\(\beta_0,\beta_1,\beta_2\)) y el \(R^2\). Revisando \texttt{residuals(mod_multiple)} y \texttt{fitted.values(mod_multiple)} se obtienen SSE y Y ajustadas, etc.
+
+\section*{Conclusi\'on: Comparaci\'on de modelos}
+
+\begin{itemize}
+ \item \textbf{Modelo simple $(Y \sim X_1)$:}  $\hat{\beta}_0\approx -0.10$, $\hat{\beta}_1\approx 1.90$, con 
+   $R^2\approx 0.80$.
+ \item \textbf{Modelo m\'ultiple $(Y \sim X_1+X_2)$:} El ajuste mejora (aumenta el $R^2$) y $\beta_1$ se modifica. 
+\end{itemize}
+
+Con ello se demuestra c\'omo omitir la variable $X_2$ puede generar \emph{sesgo} en $\beta_1$ y reducir el poder explicativo del modelo.
+
+
+
+\end{document}

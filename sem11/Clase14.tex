@@ -1,0 +1,625 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color}
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 14: Variables independientes binarias }}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]{
+	Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Incorporar información \textbf{cualitativa} a una regresión mediante variables dummy.
+    \item[\checkmark] Interpretar el coeficiente de una dummy como una \textbf{diferencia de medias condicionales}, $E[y\mid d=1]-E[y\mid d=0]$.
+    \item[\checkmark] Comprender y evitar la \textbf{trampa de la variable dummy} (colinealidad perfecta), usando $g-1$ dummies para $g$ categorías.
+    \item[\checkmark] Modelar \textbf{cambios de intercepto} (efecto aditivo) y \textbf{cambios de pendiente} (interacción dummy$\times$continua).
+    \item[\checkmark] Interpretar interacciones \textbf{dummy$\times$dummy} (los cuatro subgrupos).
+    \item[\checkmark] Contrastar hipótesis sobre dummies y aplicar el \textbf{Test de Chow} para diferencias entre grupos.
+\end{itemize}
+
+\end{frame}
+
+\section{Variables dummy: motivación}
+
+\begin{frame}{Introducción}
+    \begin{itemize}
+
+        \item Usando variables binarias podemos incorporar información cualitativa como:
+        \begin{itemize}
+            \item región
+            \item género
+            \item raza
+            \item religión
+            \item situación marital
+            \item rama de actividad económica
+            \item participación en sindicatos
+            \item carrera universitaria
+        \end{itemize}
+
+    \end{itemize}
+\end{frame}
+\begin{frame}{Variables Dummy (binarias o dicotómicas)}
+    \begin{itemize}
+        \item En todos estos casos se puede definir una o más variables que toman dos valores, 0 ó 1, en que 1 representa la posesión de una cualidad y 0 la ausencia.
+        \item Estas variables son llamadas variables dummy.
+        \pause
+        \item Podemos distinguir dos tipos de efectos:
+        \begin{itemize}
+            \item Efecto aditivo (diferencias de intercepto)
+            \item Efecto interacción (diferencias de pendiente)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Efecto aditivo (cambio de intercepto)}
+
+\begin{frame}{Efecto aditivo}
+    \begin{itemize}
+        \item Suponga el caso de una variable regresora dummy para la variable género (asumiendo que solo hay hombres o mujeres en la base de datos),
+        \[
+        \text{salario} = \beta_0 + \delta_0 \text{mujer} + \beta_1 \text{educ} + u
+        \]
+        \item Podemos generar una variable "mujer" que toma valor 1 si es mujer y cero si es hombre.
+        \pause
+        \item Noten que dado supuesto de \( E[u | \text{mujer}, \text{educ}] = 0 \):
+        \[
+        E[\text{salario} | \text{mujer} = 0, \text{educ}] = \beta_0 + \beta_1 \text{educ} \quad \textcolor{gray}{\text{reemplazando mujer=0}}
+        \]
+        \[
+        E[\text{salario} | \text{mujer} = 1, \text{educ}] = \beta_0 + \delta_0 + \beta_1 \text{educ} \quad \textcolor{gray}{\text{reemplazando mujer=1}}
+        \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{El coeficiente dummy como diferencia de medias}
+
+\begin{alertblock}{Proposición: interpretación del coeficiente aditivo}
+En el modelo $y = \beta_0 + \delta_0\, d + u$, con $d\in\{0,1\}$ y $E[u\mid d]=0$, el coeficiente $\delta_0$ es exactamente la \textbf{diferencia de medias condicionales}:
+\[
+\delta_0 = E[y\mid d=1] - E[y\mid d=0].
+\]
+\end{alertblock}
+
+\pause
+
+\begin{exampleblock}{Demostración}
+Tomando esperanza condicional y usando $E[u\mid d]=0$:
+\[
+E[y\mid d=1] = \beta_0 + \delta_0(1) = \beta_0 + \delta_0,
+\qquad
+E[y\mid d=0] = \beta_0 + \delta_0(0) = \beta_0.
+\]
+Restando ambas expresiones:
+\[
+E[y\mid d=1] - E[y\mid d=0] = (\beta_0+\delta_0) - \beta_0 = \delta_0. \hfill\square
+\]
+Es decir, $\beta_0$ recoge la media del grupo base ($d=0$) y $\delta_0$ el \emph{salto} de intercepto del grupo $d=1$.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Gráfico: \(\delta_0 < 0\) (Discriminacion salarial a mujeres)}
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem11/images/1.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Efecto aditivo}
+
+\begin{itemize}
+    \item ¿Cómo se testea la hipótesis nula de no discriminación salarial contra las mujeres?
+
+        \[H_0: \delta_0 = 0\]
+        \[H_1: \delta_0 < 0\]
+    \item Es un test $t$ de una cola: se rechaza $H_0$ si $\; t=\dfrac{\hat\delta_0}{se(\hat\delta_0)} < -t_{\alpha,\,n-k-1}$.
+\end{itemize}
+
+\end{frame}
+
+\section{Trampa de la variable dummy}
+
+\begin{frame}{Regla de oro de las variables de categoría}
+\begin{itemize}
+
+    \item Si hay $q$ categorías, se pueden incluir hasta $q - 1$ categorías. En nuestro ejemplo, $q = 2$.
+    \item La constante toma el promedio de la categoría que no incluyeron. Esta se llama categoría base.
+    \item Incluir las $q$ dummies \emph{más} la constante genera \textbf{colinealidad perfecta}: la \textit{trampa de la variable dummy}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{¿Por qué solo $q-1$ dummies? (trampa de colinealidad)}
+
+\begin{alertblock}{Teorema: trampa de la variable dummy}
+Si una variable cualitativa tiene $q$ categorías exhaustivas y mutuamente excluyentes, y se incluyen \textbf{las $q$ dummies} junto con un \textbf{intercepto}, la matriz de regresores $\mathbf{X}$ no tiene rango completo (hay multicolinealidad perfecta) y el estimador MCO $\hat{\beta}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}$ \textbf{no existe}.
+\end{alertblock}
+
+\framebreak
+
+\begin{exampleblock}{Demostración}
+Sea $d_1,\dots,d_q$ las dummies, con $d_{ij}=1$ si la observación $i$ pertenece a la categoría $j$. Como las categorías son exhaustivas y excluyentes, cada observación está en \emph{exactamente una} categoría, luego para todo $i$:
+\[
+d_{i1} + d_{i2} + \cdots + d_{iq} = 1.
+\]
+\pause
+Pero la columna del intercepto es justamente el vector de unos $\mathbf{1}=(1,\dots,1)'$. Entonces existe una combinación lineal \emph{exacta} entre las columnas de $\mathbf{X}$:
+\[
+\mathbf{d}_1 + \mathbf{d}_2 + \cdots + \mathbf{d}_q = \mathbf{1}.
+\]
+\pause
+Esto viola el supuesto de \textbf{ausencia de multicolinealidad perfecta} (Gauss-Markov): las columnas son linealmente dependientes, por lo que $\operatorname{rango}(\mathbf{X})<k+1$ y $\mathbf{X}'\mathbf{X}$ es \textbf{singular} (no invertible). Por tanto $(\mathbf{X}'\mathbf{X})^{-1}$ no existe y $\hat{\beta}$ está indeterminado. \hfill$\square$
+\end{exampleblock}
+
+\framebreak
+
+\begin{block}{Solución: omitir una categoría}
+Se incluyen solo $q-1$ dummies. La categoría omitida pasa a ser la \textbf{categoría base}, absorbida por el intercepto $\beta_0$. Cada coeficiente restante se interpreta \emph{en relación} a esa base.
+
+\medskip
+\textit{(Alternativa: incluir las $q$ dummies pero eliminar el intercepto. Nunca ambas a la vez.)}
+\end{block}
+
+\end{frame}
+
+\section{Múltiples categorías}
+
+\begin{frame}{Variables Dummy con más de 2 categorías}
+\begin{itemize}
+    \item ¿Qué hacer cuando se usa una variable cualitativa como Carrera Universitaria, que tiene \(q > 2\) categorías? Existen SOLO 4 carreras universitarias: Economía, Medicina, Ingeniería, No hizo universidad.
+    \item Se crean \(q - 1\) variables binarias. Cada una correspondiente a una dummy que vale 1 para una cierta categoría y 0 en otro caso. Variables: Economía, Medicina, Ingeniería.
+    \item La categoría cuya variable dummy no fue incluida se considera la categoría base y la interpretación de los coeficientes de las categorías restantes se hace en relación a esta categoría base.
+\end{itemize}
+\end{frame}
+\begin{frame}[shrink=10, t]{Ejemplo: salario por carrera universitaria}
+    \begin{itemize}
+        \item Considere una variable con cuatro categorías: economía, medicina, ingeniería, no terminó universidad.
+        \item \textit{salario} = \(\beta_0\) + \(\beta_1\)economía + \(\beta_2\)medicina + \(\beta_3\)Ingeniería + \(u\)
+        \item \(\hat{salario} = 100 + 500\)economía + 300medicina + 600Ingeniería
+    \end{itemize}
+\end{frame}
+\begin{frame}[shrink=10, t]{Ejemplo: salario por carrera universitaria}
+    \begin{itemize}
+        \item Considere una variable con cuatro categorías: economía, medicina, ingeniería, no terminó universidad.
+        \item \textit{salario} = \(\beta_0\) + \(\beta_1\)economía + \(\beta_2\)medicina + \(\beta_3\)Ingeniería + \(u\)
+        \item \(\hat{salario} = 100 + 500\)economía + 300medicina + 600Ingeniería
+        \item ¿Cómo se interpreta \(\hat{\beta_0} = 100\)?
+        \begin{itemize}
+            \item \(\beta_0\): \(E[salario|econ = 0, med = 0, ing = 0]\). Es decir, el promedio de salario para los individuos en la categoría base (en este caso, no universidad).
+            \item Entonces, los individuos que no fueron a la universidad ganan en promedio 100 dólares mensuales.
+        \end{itemize}
+        \item Noten que el promedio para los que estudiaron economía es:
+        \begin{itemize}
+            \item \(E[salario|econ = 1, med = 0, ing = 0] = \beta_0 + \beta_1\).
+            \item Entonces, \(\beta_1\) es la diferencia promedio de salario entre estudiar economía y los que no fueron a la universidad.
+            \item En promedio se estima, los que estudian economía ganan 500 dólares más que los que no estudian.
+        \end{itemize}
+        \item \(\beta_2\): la diferencia promedio entre estudiar medicina y no estudiar.
+        \item \(\beta_3\): la diferencia promedio entre estudiar ingeniería y no estudiar.
+        \item ¿Cómo comparo economía versus medicina?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Comparar dos categorías no-base}
+\begin{itemize}
+    \item Para comparar \textbf{economía vs.\ medicina} no basta con mirar un solo coeficiente: ambas se miden respecto de la base.
+    \[
+    E[salario\mid econ=1] - E[salario\mid med=1] = (\beta_0+\beta_1)-(\beta_0+\beta_2)=\beta_1-\beta_2.
+    \]
+    \item En el ejemplo: $500-300=200$. Economía paga, en promedio, 200 dólares más que medicina.
+    \pause
+    \item Para testear si la diferencia es significativa se usa
+    \[
+    t=\frac{\hat\beta_1-\hat\beta_2}{se(\hat\beta_1-\hat\beta_2)},\qquad
+    se(\hat\beta_1-\hat\beta_2)=\sqrt{\widehat{Var}(\hat\beta_1)+\widehat{Var}(\hat\beta_2)-2\,\widehat{Cov}(\hat\beta_1,\hat\beta_2)}.
+    \]
+    \item \textit{Truco práctico:} reestimar usando \emph{medicina} como base; el coeficiente de economía será directamente $\beta_1-\beta_2$ con su error estándar.
+\end{itemize}
+\end{frame}
+
+\section{Interacción dummy $\times$ dummy}
+
+\begin{frame}[shrink=20, t]{Interacción entre variables dummy}
+    \begin{itemize}
+        \item Considere el siguiente modelo:
+        \begin{equation*}
+            \text{wage} = \beta_0 + \beta_1 \text{mujer} + \beta_2 \text{casad} + \beta_3 \text{mujer} \times \text{casad} + u
+        \end{equation*}
+        \item Esto nos permite testear, por ejemplo, si la discriminación salarial depende del estado civil de las mujeres o si el premio por matrimonio afecta diferente a hombres o mujeres.
+        \item Noten que los coeficientes nos ayudan a entender los promedios para los 4 subgrupos de la población.
+        \begin{enumerate}
+            \item \(E[\text{wage}|\text{mujer} = 0, \text{casad} = 0] = \beta_0\): promedio para hombres solteros.
+            \item \(E[\text{wage}|\text{mujer} = 1, \text{casad} = 0] = \beta_0 + \beta_1\): promedio para mujeres solteras.
+            \item \(E[\text{wage}|\text{mujer} = 0, \text{casad} = 1] = \beta_0 + \beta_2\): promedio para hombres casados.
+            \item \(E[\text{wage}|\text{mujer} = 1, \text{casad} = 1] = \beta_0 + \beta_1 + \beta_2 + \beta_3\): promedio para mujeres casadas.
+        \end{enumerate}
+        \item \((2) - (1) = \beta_1\): La diferencia salarial entre las mujeres y los hombres cuando ambos son solteros.
+        \item \((3) - (1) = \beta_2\): La diferencia salarial entre casados y solteros, para el grupo de hombres.
+        \item \((4) - (3) = \beta_1 + \beta_3\): La diferencia salarial entre mujeres y hombres, cuando ambos están casados.
+                \item \(\beta_3\): La diferencia extra que hay en la discriminacion salarial a las
+mujeres por estar casadas.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Interacción entre variables dummy}
+    \begin{itemize}
+        \item Considere el siguiente modelo:
+        \begin{equation*}
+            \text{wage} = \beta_0 + \beta_1 \text{mujer} + \beta_2 \text{casad} + \beta_3 \text{mujer} \times \text{casad} + u
+        \end{equation*}
+        \item Otra forma de verlo es pensar en cómo cambia \textit{wage} cuando cambia el estado civil:
+        \begin{equation*}
+            \beta_2 + \beta_3 \times \text{mujer}
+        \end{equation*}
+        \begin{itemize}
+            \item \(\beta_2\): el efecto de estar casado para los hombres.
+            \item \(\beta_2 + \beta_3\): el efecto de estar casado para las mujeres.
+            \textcolor{red}{\item \(\beta_3\): la diferencia del premio por matrimonio para hombres y para mujeres.}
+        \end{itemize}
+        \item {\color{red}Entonces, testear la hipótesis nula de que el premio por matrimonio no depende del género corresponde a testear que el coeficiente \(\beta_3\) no es significativo.}
+
+    \end{itemize}
+\end{frame}
+
+\section{Interacción dummy $\times$ continua}
+
+\begin{frame}[shrink=10]{Interacción con variables cuantitativas}
+\begin{itemize}
+    \item Considere el siguiente modelo:
+    \[
+    salario = \beta_0 + \delta_0 \cdot mujer + \beta_1 \cdot educ + \delta_1 \cdot mujer \cdot educ + u
+    \]
+\end{itemize}
+\textbf{ Diferencia de interceptos}
+    \begin{itemize}
+        \item Para los hombres, el intercepto es \(\beta_0\) (\(educ = 0\); \(mujer = 0\))
+        \item Para las mujeres, el intercepto es \(\beta_0 + \delta_0\) (\(educ = 0\); \(mujer = 1\))
+        \item \(\delta_0\): mide la diferencia en los interceptos entre mujeres y hombres. Es decir, la diferencia salarial entre hombres y mujeres con cero años de educación.
+    \end{itemize}
+
+\textbf{Diferencia de pendiente}
+    \begin{itemize}
+        \item Noten que la interacción nos permite tener también pendientes diferentes del efecto de educación para cada grupo:
+        \[
+        \frac{\triangle salario}{\triangle educ} = \beta_1 + \delta_1 \cdot mujer
+        \]
+        \item \(\beta_1\): el efecto de un año más de educación en salarios para los hombres.
+        \item \(\beta_1 + \delta_1\): el efecto de un año más de educación para las mujeres.
+        \item \(\delta_1\): la diferencia en los retornos a la educación de las mujeres con respecto a los hombres.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: diferentes pendientes e interceptos para mujer y hombres}
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem11/images/3.png}
+    \end{figure}
+
+\end{frame}
+
+\section{Test de hipótesis sobre dummies}
+
+\begin{frame}{Test de hipótesis}
+
+    \[
+    salario = \beta_0 + \delta_0 \cdot mujer + \beta_1 \cdot educ + \delta_1 \cdot mujer \cdot educ + u
+    \]
+
+\begin{itemize}
+    \item ¿Cómo testearía que los retornos a un año más de educación son diferentes para hombres y mujeres? \\
+    \(H_0: \delta_1 = 0\)\\
+    \(H_1: \delta_1 \neq 0\) Si rechazo la hipótesis nula, entonces los retornos son diferentes.
+\end{itemize}
+
+\begin{itemize}
+    \item ¿Cómo testearía que las mujeres ganan diferente a los hombres dada sus características? Noten que esto puede ser por diferencias en el intercepto o por diferencias en la pendiente. \\
+→ \(H_0: \delta_0 = \delta_1 = 0\)
+Si rechazo la hipótesis nula, entonces hay diferencias en las remuneraciones de las mujeres con respecto a los hombres.
+
+\end{itemize}
+
+\begin{itemize}
+    \item Pueden hacer un test F como los que vimos en clases pasadas.
+\end{itemize}
+\end{frame}
+\begin{frame}[shrink=10]{ Diferencias entre grupos}
+\begin{itemize}
+    \item Suponga el siguiente modelo:
+    \[
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u
+    \]
+    y que se puede clasificar las \(n\) observaciones en \(G\) grupos distintos.
+\end{itemize}
+
+\begin{itemize}
+    \item Se quiere testear que el modelo es el mismo para todos los grupos, es decir, los coeficientes son los mismos.
+    \item En series de tiempo esto equivale a testear un cambio de régimen o cambio “estructural”.
+\end{itemize}
+
+\begin{itemize}
+    \item Suponga \(G = 2\). Para realizar el test planteamos el modelo sin restringir:
+    \[
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \gamma_0 D + \gamma_1 x_1 D + \gamma_2 x_2 D + \gamma_3 x_3 D + u
+    \]
+    donde \(D\) es una variable dummy para observaciones de un mismo grupo (e.g: mujer).
+\end{itemize}
+
+\begin{itemize}
+    \item La hipótesis nula correspondiente es:
+    \[
+    H_0 : \gamma_0 = \gamma_1 = \gamma_2 = \gamma_3 = 0
+    \]
+    \item Y se puede hacer un test F.
+\end{itemize}
+\end{frame}
+\begin{frame}[shrink=10]{Test de Chow: diferencias entre grupos}
+\begin{itemize}
+    \item Otra forma de verificar esta hipótesis es usando el Test de Chow que plantea hacer una regresión para cada grupo.
+    \item Estimar la ecuación:
+    \[
+    y = \beta_{0}^g + \beta_{1}^g x_1 + \beta_{2}^g x_2 + \beta_{3}^g x_3 + u
+    \]
+    para cada subpoblación \(g = 1, \ldots, G\).
+\end{itemize}
+
+\begin{itemize}
+    \item Obtener la \(SSR_g\) correspondiente a la regresión para dicho subgrupo, y construir \(SSR_{ur} = \sum_{g=1}^G SSR_g\).
+    \item Estimar la ecuación restringida:
+    \[
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u
+    \]
+    usando todas las observaciones y obtener su \(SSR_r\).
+\end{itemize}
+
+\begin{itemize}
+    \item Construir el estadístico del Test de Chow:
+    \[
+    F = \frac{(SSR_r - SSR_{ur}) / ((G - 1)(k + 1))}{SSR_{ur} / (n - G(k + 1))} \sim F((G - 1)(k + 1), n - G(k + 1))
+    \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo test de Chow }
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{sem11//images/chow.png}
+\end{figure}
+
+\end{frame}
+
+\section{Ejercicios resueltos}
+
+\begin{frame}{Ejercicio Resuelto 1}
+
+{\small Una ecuación que explica el sueldo de los presidentes de consejos de administraci\'on es:}
+
+{\tiny
+\begin{align*}
+\log(\widehat{salary}) &= 4.59 + 0.257 \log(sales) + 0.011 \, roe + 0.158 \, finance
+ + 0.181 \, consprod - 0.283 \, utility \\
+&\quad (0.30) \quad \quad \quad (0.032) \quad  \quad \quad  \quad \quad  (0.004) \quad \quad \quad \quad \quad (0.089) \quad\quad \quad \quad \quad  (0.085) \quad \quad \quad \quad  (0.099) \\
+n &= 209, \quad R^2 = 0.357
+\end{align*}
+}
+
+{\small donde \textit{finance}, \textit{consprod} y \textit{utility} son binarias de las industrias financiera, de productos de consumo y de servicios. La categoría omitida (base) es la \textbf{industria del transporte}.}
+\begin{block}{Ejercicio 1}
+\begin{itemize}
+\item {\small (a) Calcule la diferencia porcentual aproximada entre los sueldos estimados de las industrias de servicios y de transporte, manteniendo \textit{sales} y \textit{roe} constantes. ¿Es estadísticamente significativa?}
+\item {\small (b) ¿Cuál es la diferencia porcentual entre productos de consumo y el sector financiero? ¿Cómo probaría su significancia?}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 1 — Solución (a)}
+\begin{exampleblock}{(a) Servicios vs.\ transporte}
+El coeficiente de \textit{utility} (servicios) es $\hat\beta_{utility}=-0.283$.
+
+\textbf{Aproximado:} el sueldo en servicios es $\approx 28.3\%$ menor que en transporte.
+
+\textbf{Exacto} (válido porque $|\hat\beta|$ no es pequeño):
+\[
+\%\Delta = 100\,(e^{-0.283}-1) = 100\,(0.753-1) = -24.7\%.
+\]
+\textbf{Significancia:} $t=\dfrac{-0.283}{0.099}\approx -2.86$. Como $|t|>1.96$, se \textbf{rechaza} $H_0:\beta_{utility}=0$ al 5\%: la brecha con transporte es significativa.
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 1 — Solución (b)}
+\begin{exampleblock}{(b) Productos de consumo vs.\ financiero}
+Se comparan dos categorías no-base, luego importa la \textbf{diferencia} de coeficientes:
+\[
+\Delta\log(salary)=\hat\beta_{consprod}-\hat\beta_{finance}=0.181-0.158=0.023,
+\]
+es decir, productos de consumo paga $\approx 100(e^{0.023}-1)=2.33\%$ más que el sector financiero.
+
+\textbf{Significancia:} se necesita $se(\hat\beta_{consprod}-\hat\beta_{finance})=\sqrt{Var(\hat\beta_{c})+Var(\hat\beta_{f})-2\,Cov(\cdot)}$. Con $Cov=0$:
+\[
+se=\sqrt{0.085^2+0.089^2}\approx 0.123,\qquad t=\frac{0.023}{0.123}\approx 0.19.
+\]
+Como $|t|<1.96$, \textbf{no se rechaza} la igualdad. (En la práctica se reestima con financiero como base para leer $t$ directamente.)
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2 — Test de Chow}
+\begin{block}{Ejercicio 2 (fuente: guía T3)}
+{\small Una cadena de neumáticos modela $Ventas=\beta_0+\beta_1 ADV+\beta_2 PROD+\beta_3 CLI+u$ ($ADV$: publicidad, $PROD$: producción previa, $CLI$: clientes). Se sospecha que las ventas difieren por zona (NORTE, CENTRO, SUR), así que se estima un modelo por grupo. Con $n=50$ tiendas:}
+\begin{center}\small
+\begin{tabular}{|c|c|}\hline
+Modelo & SSR \\ \hline
+Base (pooled) & 250 \\ \hline
+Norte & 80 \\ \hline
+Centro & 70 \\ \hline
+Sur & 50 \\ \hline
+\end{tabular}
+\end{center}
+{\small Con $\alpha=5\%$, ¿son distintas las ventas por zona? Dato: $F_{0.95,(8,38)}=2.19$.}
+\end{block}
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2 — Solución}
+\begin{exampleblock}{Solución (Test de Chow, $G=3$, $k=3$)}
+\textbf{Paso 1.} SSR no restringido:
+\[
+SSR_{ur}=80+70+50=200,\qquad SSR_r=250.
+\]
+\textbf{Paso 2.} Grados de libertad:
+\[
+df_1=(G-1)(k+1)=2\cdot4=8,\qquad df_2=n-G(k+1)=50-3\cdot4=38.
+\]
+\textbf{Paso 3.} Estadístico:
+\[
+F=\frac{(250-200)/8}{200/38}=\frac{6.25}{5.263}\approx 1.19.
+\]
+\textbf{Paso 4.} Como $F=1.19 < 2.19 = F_{crit}$, \textbf{no se rechaza} $H_0$: no hay evidencia de que el modelo de ventas difiera entre zonas.
+\end{exampleblock}
+\end{frame}
+
+\section{Ejemplo aplicado}
+
+\begin{frame}[fragile]{Ejemplo aplicado en R: retornos por género (CASEN)}
+\begin{exampleblock}{Interacción dummy$\times$continua con datos chilenos}
+\begin{verbatim}
+# datos: log(salario), educacion (anios), mujer (0/1)
+casen <- read.csv("casen.csv")
+
+# Intercepto y pendiente distintos por genero
+m <- lm(log(salario) ~ educacion + mujer +
+        educacion:mujer, data = casen)
+summary(m)
+
+# delta_0 = coef(mujer): brecha de intercepto
+# delta_1 = coef(educacion:mujer): brecha en retorno
+# Test conjunto H0: delta_0 = delta_1 = 0
+anova(lm(log(salario) ~ educacion, data = casen), m)
+\end{verbatim}
+\end{exampleblock}
+\end{frame}
+
+\section{Ejercicios propuestos}
+
+\begin{frame}{Ejercicio Propuesto 1}
+\begin{block}{Ejercicio 1 (Propuesto — rutinario)}
+Se estima $\log(precio)=\beta_0+\beta_1\,m^2+\delta\,\text{centro}+u$ para viviendas en Santiago, donde \textit{centro}$=1$ si la propiedad está en una comuna céntrica. Se obtiene $\hat\delta=0.18$ con $se=0.05$.
+\begin{itemize}
+    \item Interprete $\hat\delta$ en términos porcentuales.
+    \item ¿Es la ubicación céntrica significativa al 5\%?
+\end{itemize}
+\end{block}
+{\small \textit{Indicación: use $100\,\hat\delta$ y, si quiere ser exacto, $100(e^{\hat\delta}-1)$.}}
+\end{frame}
+
+\begin{frame}{Ejercicio Propuesto 2}
+\begin{block}{Ejercicio 2 (Propuesto — intermedio)}
+En una encuesta de hogares la variable \textit{region} tiene 3 categorías: Norte, Centro, Sur. Un investigador corre:
+\[
+gasto = \beta_0 + \beta_1\,\text{Norte}+\beta_2\,\text{Centro}+\beta_3\,\text{Sur}+u
+\]
+incluyendo además el intercepto.
+\begin{itemize}
+    \item Explique qué problema computacional aparecerá y por qué.
+    \item Proponga DOS especificaciones correctas y diga cómo se interpreta el intercepto en cada una.
+\end{itemize}
+\end{block}
+{\small \textit{Indicación: recuerde $\text{Norte}+\text{Centro}+\text{Sur}=1$.}}
+\end{frame}
+
+\begin{frame}{Ejercicio Propuesto 3}
+\begin{block}{Ejercicio 3 (Propuesto — desafiante)}
+Considere $y=\beta_0+\beta_1 x+\gamma_0 D+\gamma_1 (D\cdot x)+u$, con $D$ dummy. Un analista quiere contrastar que \textbf{toda} la relación entre $y$ y $x$ es idéntica en ambos grupos.
+\begin{itemize}
+    \item Escriba $H_0$ y $H_1$.
+    \item Describa cómo construir el test F a partir de $SSR_r$ y $SSR_{ur}$, indicando los grados de libertad.
+    \item Muestre que este test F coincide con el Test de Chow para $G=2$.
+\end{itemize}
+\end{block}
+{\small \textit{Indicación: el modelo restringido omite $\gamma_0$ y $\gamma_1$.}}
+\end{frame}
+
+\section{Resumen}
+
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 14}
+\begin{enumerate}
+    \item Una dummy $d$ codifica información cualitativa; su coeficiente es $E[y\mid d=1]-E[y\mid d=0]$ (cambio de intercepto).
+    \item Para $q$ categorías se incluyen $q-1$ dummies: incluir las $q$ con intercepto causa colinealidad perfecta (\textbf{trampa de la dummy}).
+    \item La interacción dummy$\times$continua genera \textbf{pendientes distintas}; la interacción dummy$\times$dummy describe los \textbf{cuatro subgrupos}.
+    \item Comparar dos categorías no-base requiere $\hat\beta_j-\hat\beta_l$ y su error estándar (covarianza incluida).
+    \item El \textbf{Test de Chow} (o el test F con todas las interacciones) contrasta si el modelo es estable entre grupos.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: ¿qué pasa cuando la variable \emph{dependiente} es binaria? Modelo de Probabilidad Lineal (MPL).
+\end{alertblock}
+
+\end{frame}
+
+\end{document}

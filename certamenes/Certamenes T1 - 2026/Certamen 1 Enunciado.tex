@@ -1,0 +1,300 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 1}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+I trimestre 2026\\
+Profesor: Pedro Comte Hidalgo\\
+Ayudantes: Jociney Honorio y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Ejercicios}
+
+
+\begin{enumerate}
+    \item (20 puntos) Una consultora quiere medir el efecto de un programa de capacitación laboral sobre el salario mensual de los trabajadores seis meses después. Se observa la siguiente muestra de 6 personas:
+
+    \[
+    \begin{array}{|c|c|c|c|}
+    \hline
+    \text{Persona} & \text{Salario } (Y) & \text{Tratamiento } (T) & \text{Motivación } (M)\\
+    \hline
+    1 & 560 & 1 & 10\\
+    2 & 520 & 1 & 8\\
+    3 & 500 & 1 & 7\\
+    4 & 420 & 0 & 6\\
+    5 & 400 & 0 & 4\\
+    6 & 380 & 0 & 5 \\
+    \hline
+    \end{array}
+    \]
+
+    donde:
+    \begin{itemize}
+        \item \(Y\): salario mensual, medido en miles de pesos.
+        \item \(T=1\): el trabajador participó en la capacitación.
+        \item \(T=0\): el trabajador no participó en la capacitación.
+        \item \(M\): índice de motivación laboral.
+    \end{itemize}
+
+    Considere primero el siguiente modelo:
+    \[
+    Y_i=\beta_0+\beta_1 T_i+u_i
+    \]
+
+    Luego, considere el modelo ampliado:
+    \[
+    Y_i=\beta_0+\beta_1 T_i+\beta_2 M_i+u_i
+    \]
+
+    Responda:
+
+    \begin{enumerate}
+        \item (5 puntos) Calcule el estimador \(\hat{\beta}_1\) en la regresión simple de \(Y\) sobre \(T\) e interprete dentro del contexto.
+        \item (5 puntos) Discuta si este estimador puede interpretarse como el efecto causal de la capacitación sobre el salario y la posibilidad de distintos sesgos en este modelo.
+        \item (5 puntos) Si se incorpora la variable motivación \(M\) en la regresión, discuta si esperaría que el coeficiente estimado de \(T\) aumente, disminuya o se mantenga igual. Justifique.
+        \item (5 puntos) Si al incluir la variable motivación \(M\) el modelo queda dado por:
+        $$\hat{Y}_i = 345 + 90T_i + 11M_i$$
+        ¿De que valor era el sesgo en este caso?
+    \end{enumerate}
+
+
+
+    \item (20 puntos) Una empresa del área comercial quiere estudiar cómo el número de llamadas de seguimiento realizadas por un ejecutivo afecta sus ventas mensuales. Para ello, observa la siguiente información de 8 ejecutivos:
+
+    \[
+    \begin{array}{|c|c|c|c|}
+    \hline
+    \text{Ejecutivo} & Y \text{ (ventas)} & X \text{ (llamadas)} & Z \text{ (experiencia)}\\
+    \hline
+    1 & 18 & 10 & 1\\
+    2 & 21 & 12 & 2\\
+    3 & 23 & 12 & 3\\
+    4 & 26 & 15 & 4\\
+    5 & 26 & 16 & 5\\
+    6 & 29 & 14 & 6\\
+    7 & 31 & 17 & 5\\
+    8 & 34 & 16 & 4 \\
+    \hline
+    \end{array}
+    \]
+
+    donde \(Y\) son las ventas mensuales del ejecutivo, medidas en cientos de miles de pesos, \(X\) el número de llamadas de seguimiento realizadas en la semana, y \(Z\) los años de experiencia en el área comercial.
+
+    \begin{enumerate}
+        \item (8 puntos) Estime por MCO el siguiente modelo de regresión lineal simple:
+        \[
+        Y_i=\beta_0+\beta_1X_i+u_i
+        \]
+ e interprete \(\hat{\beta}_0\) y \(\hat{\beta}_1\) en el contexto del ejercicio.
+
+        \item (8 puntos) Estime por MCO el siguiente modelo de regresión lineal múltiple:
+        \[
+        Y_i=\beta_0+\beta_1X_i+\beta_2Z_i+u_i
+        \]
+Sabiendo que 
+$$(X'X)^{-1}=
+        \begin{pmatrix}
+        7.013 & -0.644 & 0.567\\
+        -0.644 & 0.067 & -0.079\\
+        0.567 & -0.079 & 0.145
+        \end{pmatrix} $$
+e interprete \(\hat{\beta}_1\) y \(\hat{\beta}_2\) en el contexto del ejercicio. (Use 3 decimales)
+
+        \item (4 puntos) Compare el coeficiente de \(X\) en el modelo simple y en el múltiple. ¿Qué sugiere esta diferencia? Discuta si en el modelo simple existe sesgo por variable omitida y encuentre el valor del sesgo.
+    \end{enumerate}
+
+
+\item (20 puntos)  Una universidad estima el siguiente modelo de regresión lineal múltiple para explicar el puntaje final de estudiantes en un curso:
+
+    \[
+    PF_i=\beta_0+\beta_1he_{i}+\beta_2pa_{i}+\beta_3pd_{i}+\beta_4as_{i}+u_i
+    \]
+
+    donde \(pf_i\) es puntaje final del estudiante, \(he_{i}\) son horas de estudio semanales, \(pa_{i}\) es el porcentaje de asistencia a clases, \(pd_{i}\) el puntaje en una prueba diagnóstica y \(as_{i}\) el número de ayudantías asistidas. Con una muestra de estimación de \(n=100\) estudiantes, se obtuvo la siguiente regresión:
+
+    \[
+    \hat Y_i = 12 + 1.2he_{i} + 0.3pa_{i} + 0.4pd_{i} + 1.5as_{i}
+    \]
+
+    Además, para la muestra de estimación se sabe que:
+
+    \[
+    R^2 = 0.80
+    \qquad\qquad
+    \bar R^2 = 0.791
+    \qquad\qquad
+    SST = 2500
+    \]
+
+    \begin{enumerate}
+\item (8 puntos) Calcule el estimador de la varianza del error en la muestra de estimación, \(\hat\sigma^2\).
+        \item  (6 puntos)   Luego, se desea evaluar el desempeño predictivo del modelo en una muestra out-of-time de 6 estudiantes del semestre siguiente:
+
+    \[
+    \begin{array}{|c|c|c|c|c|c|}
+    \hline
+    \text{Estudiante} & X_1 & X_2 & X_3 & X_4 & Y \\
+    \hline
+    1 & 10 & 80 & 50 & 2 & 69 \\
+    2 & 8 & 75 & 45 & 1 & 59 \\
+    3 & 12 & 90 & 60 & 3 & 79 \\
+    4 & 6 & 70 & 40 & 1 & 54 \\
+    5 & 9 & 85 & 55 & 2 & 71 \\
+    6 & 11 & 88 & 58 & 2 & 75 \\
+    \hline
+    \end{array}
+    \]
+        
+        Calcule el valor predicho \(\hat Y\) para cada estudiante de la muestra out-of-time. 
+        \item (6 puntos) Calcule la varianza del error en la muestra out-of-time, definida como:
+        \[
+        \hat\sigma^2_{OOT}=\frac{1}{m}\sum_{i=1}^{m}\hat u_i^2
+        \]
+        donde \(m\) es el número de observaciones out-of-time.
+    \end{enumerate}
+
+
+
+
+
+    \item (20 puntos) Considere el siguiente modelo verdadero:
+
+\[
+Y_i = \beta_0 + \beta_1 X_i^* + \varepsilon_i
+\]
+
+Sin embargo, el investigador no observa \(X_i^*\). En su lugar observa:
+
+\[
+X_i = 0.8X_i^* + w_i
+\]
+
+donde \(w_i\) es un error de medición clásico con media cero y varianza \(\sigma_w^2\), y además es independiente de \(X_i^*\) y de \(\varepsilon_i\). Sea el modelo con errores de medición
+
+\[
+Y_i = \tilde\beta_0 + \tilde\beta_1 X_i + \varepsilon_i
+\]
+
+
+\(\tilde{\beta}_1\) la pendiente poblacional de la regresión de \(Y_i\) sobre \(X_i\). 
+
+\begin{enumerate}
+    \item (10 puntos) Calcule \(\tilde{\beta}_1\) en función de \(\beta_1\), \(\mathrm{Var}(X_i^*)\) y \(\sigma_w^2\).
+    \item (10 puntos) Discuta si el sesgo en $\tilde\beta_1$ corresponde necesariamente a sesgo de atenuación. Justifique su respuesta.
+\end{enumerate}
+
+
+
+    \item (20 puntos) Considere el siguiente modelo estimado:
+
+\[
+\log(salario_i)= 5.2 + 0.06\,educ_i + 0.12\,\log(tenure_i) + 0.12\,\log(exp_i) - 0.00015\,exp_i^2 + u_i
+\]
+
+donde $salario_i$ es el salario mensual del trabajador $i$, $educ_i$ los años de educación del trabajador $i$, $tenure_i$ los años que el trabajador $i$ lleva en la empresa actual,  $exp_i$ los años de experiencia laboral del trabajador $i$, y $u_i$ el término de error.
+
+
+
+\begin{enumerate}
+    \item[a)] (5 puntos) Calcule el retorno marginal del salario dado los años de educación.
+    \item[b)] (5 puntos) Calcule el retorno marginal del salario por los años en la compañía ($tenure$).
+    \item[c)] (5 puntos) Calcule el retorno marginal del salario por los años de experiencia.
+    \item[d)] (5 puntos) ¿En qué nivel de experiencia los retornos marginales del salario empiezan a ser negativos?
+\end{enumerate}
+
+
+\end{enumerate}
+
+\newpage
+\section{Formulario}
+\begin{itemize}
+
+\item Calculo de $\beta$ en Regresión lineal Simple, mediante MCO:
+\[
+\hat{\beta}_1=\frac{\sum_i (X_i-\bar{X})(Y_i-\bar{Y})}{\sum_i (X_i-\bar{X})^2},\qquad
+\hat{\beta}_0=\bar{Y}-\hat{\beta}_1\bar{X}.
+\]
+\item Calculo de $\beta's$ en regresión lineal múltiple, mediante MCO:
+$$y = \beta X$$
+$$\beta = (X^TX)^{-1}X^ty$$
+
+
+\item Suma de cuadrados Totales:
+$$SST=\sum (y_i-\bar{y})^2$$
+
+\item Suma de cuadrados Residuales:
+$$SST=\sum (y_i-\hat{y_i})^2$$
+
+\item Bondad de ajuste
+$$R^2 = 1-\frac{SSR}{SST}$$
+
+\item Varianza del error:
+$$\hat{\sigma}^2=\frac{\sum \hat{u_i}^2}{n-k-1}$$
+
+
+\end{itemize}
+
+
+\end{document}

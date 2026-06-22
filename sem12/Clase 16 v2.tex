@@ -1,0 +1,769 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 16: Heterocedasticidad }}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Distinguir entre homocedasticidad y heterocedasticidad, y reconocerla gráficamente.
+    \item[\checkmark] Enumerar y justificar las consecuencias de la heterocedasticidad sobre el estimador MCO y la inferencia.
+    \item[\checkmark] Derivar la varianza ``sándwich'' $\operatorname{Var}(\hat\beta\mid X)=(X'X)^{-1}X'\Omega X(X'X)^{-1}$.
+    \item[\checkmark] Detectar heterocedasticidad mediante los tests de Breusch--Pagan y de White.
+    \item[\checkmark] Corregir la inferencia con errores estándar robustos de White y mediante MCG/MCP.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Hoja de ruta de la clase}
+\tableofcontents
+\end{frame}
+
+\section{Homocedasticidad vs Heterocedasticidad}
+
+\begin{frame}{Homocedasticidad vs Heterocedasticidad}
+
+\begin{block}{Definición: Homocedasticidad}
+Los errores son \textbf{homocedásticos} si su varianza condicional es constante:
+\[
+  \operatorname{Var}(u_i \mid X_i) = \sigma^2 \qquad \text{para todo } i.
+\]
+\end{block}
+
+\begin{alertblock}{Definición: Heterocedasticidad}
+Los errores $u_i$ son \textbf{heterocedásticos} si la varianza condicional de $u_i$ dado $X_i$, $\operatorname{Var}(u_i\mid X_i)=\sigma_i^2$, \emph{no} es constante (depende de $i$ o de los regresores).
+\end{alertblock}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{sem12/d2.png}
+\end{figure}
+\centering{\scriptsize La dispersión del ahorro crece con el ingreso $\Rightarrow$ heterocedasticidad.}
+
+\end{frame}
+
+\begin{frame}{Consecuencias de la heterocedastidad}
+
+\begin{itemize}
+    \item El estimador MCO sigue siendo insesgado y consistente, $E[\hat{\beta}|X]=\beta$.
+    \item Pero el estimador de MCO no es MELI.
+    \item Los estimadores de las varianzas, $Var(\hat{\beta})$, serían sesgados.
+    \item También, los estadísticos t no distribuirán t, ni los estadísticos F distribuirán F. 
+    \item {\bf{\color{blue} Estos problemas no se resuelven con tamaños de muestra grande.}}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Homocedasticidad vs Heterocedasticidad}
+    
+
+\centering
+{\small
+\begin{tabular}{@{} p{2.5cm} p{3cm} p{3.5cm} @{}}
+
+\textbf{Propiedad} & \textbf{Homocedasticidad} & \textbf{Heterocedasticidad} \\
+\hline
+Insesgadez y consistencia de $\hat{\beta}$ & Se mantienen & Se mantienen \\
+\hline
+Eficiencia (MELI) & Sí & No (hay estimadores lineales más eficientes) \\
+\hline
+Var($\hat{\beta}$) & Estimada sin sesgo & Sesgada $\Rightarrow$ estadísticas $t$ y $F$ no fiables \\
+\hline
+Inferencia asintótica & Correcta & Las varianzas sesgadas persisten, por tanto los tests no mejoran \\
+\hline
+
+\end{tabular}
+}
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+Considere el siguiente modelo lineal:
+
+\begin{equation}
+    Salario_i = \beta_0 + \beta_1 \cdot educacion_i + u_i
+\end{equation}
+
+
+En este contexto, analizamos si se cumple la \textbf{suposición de homocedasticidad} del término de error \( u_i \). Esta condición implica que la varianza del término de error, condicional a los años de educación, sea constante:
+
+\begin{itemize}
+    \item Para que haya homocedasticidad, debe cumplirse que: 
+    \[
+        \text{Var}[u_i \mid educacion_i] = \sigma^2
+    \]
+    \item Es decir, la varianza del término de error no debe depender del número de años de educación.
+    \item Bajo homocedasticidad, los errores tienen varianza constante y no sistemáticamente relacionada con los niveles de educación.
+\end{itemize}
+ 
+
+    
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{sem12/d5.png}
+    \end{figure}
+\end{frame}
+
+
+
+\section{Detección: Breusch--Pagan y White}
+
+\begin{frame}{Test para la heterocedasticidad (Breusch-Pagan)}
+
+{\footnotesize
+\begin{itemize}
+    \item Considere el modelo MRL múltiple:
+    $$y=\beta_0+\beta_1x_1+\beta_2x_2+...+\beta_kx_k+u$$
+    \item La hipótesis nula de homocedasticidad es: 
+
+    $$H_0:E(u^2|x_1,...,x_k)=E(u^2)=\sigma^2$$
+    \item Se busca probar si $u^2$ se relaciona con las variables explicativas.
+    \item Se puede suponer la siguiente relación:
+
+    $$u^2=\delta_0+\delta_1x_1++...+\delta_kx_k+v$$
+    \item Con la hipótesis nula:
+
+    $$H_0: \delta_1=\delta_2=...=\delta_3=0$$
+
+    \item No se conocen los errores de MLR original, pero se usan los residuos $\hat{u_i}$. Se estima:
+
+    $$\hat{u}^2_i= \delta_0 +\delta_1x_1+...+\delta_kx_k+v$$
+
+    \item Uitilizamos el test F de significancia global.
+\end{itemize}
+  }
+\end{frame}
+
+\begin{frame}{Estadístico $F$ global (Breusch-Pagan)}
+\textbf{Hipótesis}\par
+$H_0$: $\delta_1 = \dots = \delta_k = 0$ (homocedasticidad)\par
+$H_1$: Al menos un $\delta_j \neq 0$ (heterocedasticidad)\bigskip
+
+\textbf{Regresión auxiliar}
+\[
+\hat u_i^{2} = \delta_0 + \delta_1 x_{1i} + \dots + \delta_k x_{ki} + v_i
+\]
+
+\textbf{Estadístico F}
+\[
+F = \frac{R_{\text{aux}}^{2}/k}{(1 - R_{\text{aux}}^{2})/(n - k - 1)} \quad \sim \quad F_{k,\, n - k - 1}
+\]
+
+\textbf{Decisión}
+\begin{itemize}
+  \item Rechazar $H_0$ si $F > F_{1-\alpha,k, n-k-1,}$.
+    \item Cuanto \textbf{más} grande sea el valor de $F$, mayor será la probabilidad de \emph{rechazar} la hipótesis nula; es decir, de concluir que existe heterocedasticidad.
+ 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Estadístico global (Breusch\textendash Pagan)}
+    \begin{itemize}
+      
+        \item Las pruebas de \textbf{Lagrange Multiplier (LM)} constituyen una alternativa equivalente para detectar heterocedasticidad :
+        \[
+            LM = n R_{\text{aux}}^{2} \;\sim\; \chi^{2}_{(k)}.
+        \]
+        \item Es una alternativa asintótica al test F.
+        \item En \textsf{R} puede utilizarse la función \textbf{\textit{bptest}} del paquete \textbf{\textit{lmtest}} para aplicar esta prueba mediante el estadístico \textbf{LM}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Justificación del estadístico LM de Breusch--Pagan}
+
+\begin{alertblock}{Resultado}
+Bajo $H_0$ (homocedasticidad), el estadístico del Multiplicador de Lagrange
+\[
+  \text{LM}=n\,R^2_{\text{aux}} \;\overset{d}{\to}\; \chi^2_{(k)},
+\]
+donde $R^2_{\text{aux}}$ proviene de regresar $\hat u_i^2$ sobre $x_1,\dots,x_k$.
+\end{alertblock}
+
+\begin{exampleblock}{Demostración (sketch)}
+\textbf{Paso 1.} Estimamos por MCO el modelo original y obtenemos los residuos $\hat u_i$. La regresión auxiliar es
+\[
+  \hat u_i^2 = \delta_0 + \delta_1 x_{1i} + \dots + \delta_k x_{ki} + v_i .
+\]
+
+\textbf{Paso 2.} Bajo $H_0$: $\delta_1=\dots=\delta_k=0$, es decir, $\hat u_i^2$ no debe estar (linealmente) explicado por los regresores. Por lo tanto, esperamos $R^2_{\text{aux}}\approx 0$.
+
+\textbf{Paso 3.} El estadístico $F$ de significancia global de la regresión auxiliar es
+\[
+  F=\frac{R^2_{\text{aux}}/k}{(1-R^2_{\text{aux}})/(n-k-1)} \;\sim\; F_{k,\,n-k-1}.
+\]
+
+\framebreak
+
+\textbf{Paso 4.} En muestras grandes, multiplicando por $k$ y usando que $R^2_{\text{aux}}\to 0$ bajo $H_0$ (de modo que $1-R^2_{\text{aux}}\to 1$):
+\[
+  k\,F = \frac{R^2_{\text{aux}}}{(1-R^2_{\text{aux}})/(n-k-1)} \;\approx\; (n-k-1)\,R^2_{\text{aux}} \;\approx\; n\,R^2_{\text{aux}}.
+\]
+
+\textbf{Paso 5.} Por el resultado general del Multiplicador de Lagrange (válido bajo los supuestos de Gauss--Markov, sin requerir normalidad), $n$ veces el $R^2$ de una regresión auxiliar de $q$ restricciones converge a una $\chi^2_{(q)}$. Aquí $q=k$, luego
+\[
+  \text{LM}=n\,R^2_{\text{aux}} \;\overset{d}{\to}\; \chi^2_{(k)}.
+\]
+\textbf{Decisión:} se rechaza $H_0$ (hay heterocedasticidad) si $\text{LM}>\chi^2_{1-\alpha,\,k}$. \hfill $\square$
+\end{exampleblock}
+
+\end{frame}
+
+
+
+%\begin{frame}{Test para la heterocedasticidad (Breusch-Pagan)}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{sem12/d1.png}
+%    \end{figure}
+%\end{frame}
+
+
+\begin{frame}{Test de White para la heterocedasticidad}
+\begin{itemize}
+  \item Extiende BP: la regresión auxiliar incluye cada regresora $x_j$, sus cuadrados $x_j^{2}$ y los productos cruzados $x_jx_{\ell}$.
+  \item Hipótesis nula: $\delta_1=\dots=\delta_q=0$ (homocedasticidad).
+  \item Estadísticos equivalentes:
+  \[
+    \text{LM}=nR_{\text{aux}}^{2}\;\sim\;\chi^{2}_{(q)},\quad
+    F=\frac{R_{\text{aux}}^{2}/q}{(1-R_{\text{aux}}^{2})/(n-q-1)}\;\sim\;F_{q,\,n-q-1}.
+  \]
+  \item $q$ crece rápidamente: $q=k+\tfrac{k(k+1)}{2}$ si incluyes todos los términos.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Regresión auxiliar (Test de White, $k=3$)}
+Sea
+\[
+y_i \;=\;\beta_0+\beta_1x_{1i}+\beta_2x_{2i}+\beta_3x_{3i}+u_i ,
+\qquad i=1,\dots,n .
+\]
+
+\medskip
+\textbf{Paso 2 del test (regresión auxiliar):}
+\[
+\begin{aligned}
+\hat{u}_i^{\,2}\;=\; &
+\delta_0
++\delta_1 x_{1i}+\delta_2 x_{2i}+\delta_3 x_{3i}
++\delta_4 x_{1i}^{2}+\delta_5 x_{2i}^{2}+\delta_6 x_{3i}^{2} \\
+&+\delta_7 x_{1i}x_{2i}+\delta_8 x_{1i}x_{3i}+\delta_9 x_{2i}x_{3i}
++ v_i .
+\end{aligned}
+\]
+
+\begin{itemize}
+  \item Incluye: los 3 regresores originales, sus 3 cuadrados y los 3 productos cruzados.
+  \item Número de restricciones simultáneas: \(q =k+ \tfrac{k(k+1)}{2} = 9\).
+  \item Contraste global: \(\text{LM}=nR_{\text{aux}}^{2}\sim\chi^{2}_{(9)}\)  
+        o bien  
+        \(F=\dfrac{R_{\text{aux}}^{2}/9}{(1-R_{\text{aux}}^{2})/(n-9-1)}
+          \sim F_{9,\;n-10}\).
+\end{itemize}
+\end{frame}
+
+% \begin{frame}{Test de White para la heterocedasticidad}
+%    \begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{sem12/d9.png}
+%    \end{figure}
+
+%    La
+% prueba de White para heterocedasticidad es el estadístico ML y también puede utilizarse una prueba F.
+% \end{frame}
+
+
+\begin{frame}{Test de White simplificado}
+\begin{itemize}
+    \item Una alternativa simplificada es emplear los valores ajustados $\hat{y}$ (y $\hat{y}^{2}$) como regresores auxiliares.
+    $$\hat{u}^2=\delta_0 + \delta_1\hat{y}+\delta_2\hat{y}^2+v$$
+\item Esto implica evaluar sólo 2 restricciones, sin importar el número de variables explicativas en el modelo original.
+\item Se construye el valor 
+$$LM = nR_{\hat{u}^2}^2\sim X_{2}^2$$
+  \item Ventajas:
+    \begin{itemize}
+      \item Reduce $q$, siendo igual a 2.
+      \item Sigue capturando dependencias cuadráticas de la varianza.
+    \end{itemize}
+  \item Desventaja: menos claro en la forma de la heterocedasticidad, cuando depende de variables específicas.
+\end{itemize}
+\end{frame}
+
+%\begin{frame}{Test de White simplificado}
+%\begin{figure}
+%        \centering
+%        \includegraphics[width=0.9\linewidth]{sem12/d10.png}
+%    \end{figure}   
+%
+%    Se
+%utilizan los valores ajustados porque éstos son funciones de las variables independientes.
+%\end{frame}
+
+
+
+% \begin{frame}{Test ML}
+
+%     El nombre estadístico del multiplicador de Lagrange proviene de la optimización con restricciones.
+
+%     La forma del estadístico ML que se obtiene aquí se apoya en los supuestos de Gauss-Markov,
+% los mismos supuestos que justifican el estadístico F en muestras grandes. El supuesto de normalidad
+% no es necesario.
+
+% Para obtener el estadístico ML considere el modelo de regresión múltiple usual con k variables
+% independientes:
+% $$y=\beta_0+\beta_1x_1+...+\beta_kx_k+u$$
+% Se desea probar, por ejemplo, si las q últimas variables tienen parámetros poblacionales igual a
+% cero, esto impone q restricciones de exclusión al modelo.
+
+% \end{frame}
+
+% \begin{frame}{Test ML}
+%  El estadístico ML sólo requiere la estimación del modelo restringido.
+
+
+%  Si las q variables omitidas  en realidad tienen coeficientes poblacionales iguales a
+%  cero, entonces, por lo menos de manera aproximada, los residuos de la regresión restringida no deberían estar correlacionados con ninguna
+%  de estas variables de la muestra. Para testearlo se corre una regresión auxiliar de dichos residuos sobre los k regresores. 
+
+%  \begin{eqnarray*}    y=\tilde{\beta}_0+\tilde{\beta}_1x_1+...+\tilde{\beta}_{k-q}x_{k-q}+\tilde{u}\\
+% \tilde{u}=\hat{\delta}_0+\hat{\delta}_1x_1+...+\hat{\delta}_kx_k
+%  \end{eqnarray*}
+
+%  La R-cuadrada de  debe tener un valor cercano a cero, asi $\tilde{u}$  no está correlacionada aproximadamente con ninguna de las variables independientes.
+% \end{frame}
+
+% \begin{frame}{Test ML}
+    
+
+% Como siempre en las pruebas de hipótesis, la cuestión es cómo determinar cuándo es
+% suficientemente grande el estadístico para rechazar la hipótesis nula al nivel de significancia elegido.
+% Resulta que, bajo la hipótesis nula, el tamaño de la muestra multiplicado por la R-cuadrada
+% usual de la regresión auxiliar  tiene una distribución asintótica como variable aleatoria $\chi^2_q$.
+
+%  \end{frame}
+%\begin{frame}{Inferencia robusta a la heterocedasticidad}
+%\begin{figure}
+%       \centering
+%       \includegraphics[width=0.9\linewidth]{sem12/d13.png}
+%   \end{figure}   
+%\end{frame}
+
+\section{Corrección: errores robustos y MCG/MCP}
+
+%-------------------------------- Frame 1 --------------------------------
+\begin{frame}[allowframebreaks]{Demostración: varianza ``sándwich'' de MCO}
+
+\begin{alertblock}{Proposición (varianza sándwich)}
+Para $y=X\beta+u$ con $\mathbb{E}(uu'\mid X)=\Omega$ (errores no esféricos),
+\[
+  \operatorname{Var}(\hat\beta_{\text{MCO}}\mid X) = (X'X)^{-1}X'\,\Omega\,X\,(X'X)^{-1}.
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Demostración}
+\textbf{Paso 1.} El estimador MCO admite la descomposición
+\[
+  \hat\beta_{\text{MCO}} = (X'X)^{-1}X'y = (X'X)^{-1}X'(X\beta+u) = \beta + (X'X)^{-1}X'u .
+\]
+
+\textbf{Paso 2.} Como $\mathbb{E}(u\mid X)=0$, el estimador es insesgado: $\mathbb{E}(\hat\beta\mid X)=\beta$. El término aleatorio es $A\,u$ con $A=(X'X)^{-1}X'$ (no aleatoria dado $X$).
+
+\framebreak
+
+\textbf{Paso 3.} Aplicamos la regla $\operatorname{Var}(Au\mid X)=A\,\operatorname{Var}(u\mid X)\,A'$:
+\[
+  \operatorname{Var}(\hat\beta\mid X)=(X'X)^{-1}X'\;\underbrace{\operatorname{Var}(u\mid X)}_{=\,\Omega}\;X(X'X)^{-1}.
+\]
+
+\textbf{Paso 4.} Sustituyendo $\Omega$:
+\[
+  \operatorname{Var}(\hat\beta_{\text{MCO}}\mid X)=(X'X)^{-1}X'\Omega X(X'X)^{-1}.
+\]
+
+\textbf{Caso homocedástico.} Si $\Omega=\sigma^2 I_n$, entonces $X'\Omega X=\sigma^2 X'X$ y la fórmula colapsa al resultado clásico
+\[
+  \operatorname{Var}(\hat\beta_{\text{MCO}}\mid X)=\sigma^2 (X'X)^{-1}.
+\]
+\hfill $\square$
+\end{exampleblock}
+\end{frame}
+
+%-------------------------------- Frame 1b --------------------------------
+\begin{frame}{Perturbaciones esféricas vs no esféricas}
+\begin{columns}
+  \column{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{sem12/image.png}\\
+  {\scriptsize Esférica: $\Omega=\sigma^2 I$.}
+
+  \column{0.52\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{sem12/no_esf.png}\\
+  {\scriptsize No esférica: $\Omega$ general.}
+\end{columns}
+\vspace{2mm}
+{\scriptsize Las curvas de \emph{isoprobabilidad} (igual densidad) son circulares bajo homocedasticidad y elípticas/inclinadas cuando $\Omega\neq\sigma^2 I$.}
+\end{frame}
+
+%-------------------------------- Frame 1 --------------------------------
+\begin{frame}{Varianza del estimador de MCO con heterocedasticidad}
+\begin{itemize}
+  \item Considere el modelo de regresión lineal
+        \[
+            y \;=\; X\beta + u,
+        \]
+        donde $y$ es el vector de $n$ observaciones de la variable dependiente,
+        $X$ es la matriz de diseño $n\times k$, $\beta$ el vector de parámetros
+        y $u$ el vector de errores.
+  \medskip
+  \item Suponemos \alert{heterocedasticidad}: la matriz de varianzas–covarianzas
+        de los errores no es esférica,
+        \[
+            \mathbb{E}(u u') \;=\; \Omega
+            \quad\text{(general\, $n\times n$).}
+        \]
+        Si fuera homocedástica tendríamos $\Omega = \sigma^{2} I_n$.
+\end{itemize}
+\end{frame}
+
+%-------------------------------- Frame 2 --------------------------------
+\begin{frame}{Estimador MCO y su descomposición}
+\begin{align*}
+  \hat{\beta}_{\text{MCO}}
+      &= (X'X)^{-1} X' y \\
+      &= (X'X)^{-1} X' (X\beta + u) \\
+      &= \beta \;+\; (X'X)^{-1} X' u.
+\end{align*}
+\medskip
+\begin{itemize}
+  \item El término aleatorio es $(X'X)^{-1}X'u$.
+  \item Para evaluar la precisión de $\hat{\beta}_{\text{MCO}}$ necesitamos su
+        varianza condicional en presencia de $\Omega$.
+\end{itemize}
+\end{frame}
+
+%-------------------------------- Frame 3 --------------------------------
+\begin{frame}{Varianza general y caso homocedástico}
+\begin{block}{Varianza con heterocedasticidad}
+\[
+  \operatorname{Var}(\hat{\beta}_{\text{MCO}})
+      \;=\;
+      (X'X)^{-1} X' \,\Omega\, X (X'X)^{-1}.
+\]
+%Podemos expresar $\Omega=diag({u}_i^2)$
+\end{block}
+\begin{block}{Caso particular (homocedasticidad)}
+Si $\Omega = \sigma^{2} I_n$, se reduce a
+\[
+  \operatorname{Var}(\hat{\beta}_{\text{MCO}})
+      \;=\;
+      \sigma^{2} (X'X)^{-1}.
+\]
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Errores robustos}
+
+    En la práctica trabajamos con:
+
+    \[
+\widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}}) =
+(X'X)^{-1} X' \hat{\Omega} X (X'X)^{-1}
+\]
+
+\[
+\hat{\Omega} =
+\begin{bmatrix}
+\hat{u}_1^2 & 0 & \cdots & 0 \\
+0 & \hat{u}_2^2 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \vdots \\
+0 & 0 & \cdots & \hat{u}_n^2
+\end{bmatrix}
+= \operatorname{diag}(\hat{u}_1^2, \hat{u}_2^2, \dots, \hat{u}_n^2)
+\]
+
+\[
+\widehat{\operatorname{Var}}(\hat{\boldsymbol{\beta}}) =
+(X'X)^{-1} \left( \sum_{i=1}^n \hat{u}_i^2 x_i x_i' \right) (X'X)^{-1}
+\]
+
+    Los \textbf{errores estándar robustos de White} son iguales a la raíz cuadrada de los elementos en la diagonal de la matriz $\widehat{\operatorname{Var}}(\hat{\beta}_{\text{MCO}})$
+
+    
+\end{frame}
+\begin{frame}{Errores robustos White }
+    \begin{itemize}
+  \item En el MRL múltiple también podemos calcular los errores robustos:
+  \[
+  \widehat{\text{Var}}[\hat{\beta}_j|X] = \frac{\sum_{i=1}^n \hat{r}_{ij}^2 \hat{u}_i^2}{SSR_j^2}
+  \]
+  donde $\hat{r}_{ij}^2$ es el i-ésimo residuo de la regresión de $x_j$ sobre las otras variables independientes, y $SSR_j^2$ es la suma residual de cuadrados de esa regresión.
+  
+  % \item La raíz cuadrada de $\widehat{\text{Var}}(\hat{\beta}_j)$ se denomina \textcolor{red}{\textbf{error estándar robusto}} a la heterocedasticidad de $\beta_j$ (White, 1980).
+  
+  \item Usando estos errores estándar robustos se puede calcular los tests de hipótesis tal como lo hacíamos antes. Por ejemplo, un estadístico $t$ robusto a la heterocedasticidad como
+  \[
+  t = \frac{\text{estimador} - \text{valor hipotético}}{\text{error estándar robusto}}
+  \]
+\end{itemize}
+\end{frame}
+
+%==================== MCG / MCP ====================
+\begin{frame}{Corrección: Mínimos Cuadrados Generalizados (MCG)}
+\begin{itemize}
+  \item Los errores robustos \emph{corrigen la inferencia}, pero MCO sigue siendo \alert{ineficiente}. Si conocemos la estructura de $\Omega$, podemos recuperar el estimador MELI vía \textbf{MCG}.
+  \item Idea: si $\mathbb{E}(uu'\mid X)=\Omega=\sigma^2 V$, existe una matriz $P$ tal que $P'P=V^{-1}$. Transformando el modelo,
+  \[
+    \underbrace{Py}_{y^*}=\underbrace{PX}_{X^*}\beta + \underbrace{Pu}_{u^*},
+  \]
+  los errores transformados son homocedásticos: $\operatorname{Var}(u^*\mid X)=\sigma^2 I_n$.
+  \item Aplicando MCO al modelo transformado:
+  \[
+    \hat\beta_{\text{MCG}}=(X'V^{-1}X)^{-1}X'V^{-1}y,
+    \qquad
+    \operatorname{Var}(\hat\beta_{\text{MCG}})=\sigma^2 (X'V^{-1}X)^{-1}.
+  \]
+  \item Por el teorema de Aitken, $\hat\beta_{\text{MCG}}$ es \textbf{MELI} bajo heterocedasticidad conocida.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{MCP: Mínimos Cuadrados Ponderados (caso práctico)}
+\begin{itemize}
+  \item Caso usual: $\operatorname{Var}(u_i\mid X)=\sigma^2 h_i$ con $h_i>0$ \alert{conocida} (heterocedasticidad multiplicativa). Entonces $\Omega=\sigma^2\operatorname{diag}(h_1,\dots,h_n)$.
+  \item MCG se reduce a \textbf{ponderar} cada observación por $1/\sqrt{h_i}$ (dividir $y_i$ y cada $x_{ji}$ por $\sqrt{h_i}$) y aplicar MCO:
+  \[
+    \min_{\beta}\sum_{i=1}^n \frac{(y_i-x_i'\beta)^2}{h_i}.
+  \]
+  \item Las observaciones con mayor varianza reciben \emph{menor} peso.
+  \item Cuando $h_i$ es desconocida, se modela (p.ej.\ $\hat h_i=\exp(\hat g_i)$ de una regresión auxiliar de $\log\hat u_i^2$) y se obtiene \textbf{MCP factible (FGLS)}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{¿Robustos o MCG/MCP? Guía práctica}
+\begin{columns}
+  \column{0.5\textwidth}
+  \begin{block}{Errores robustos de White}
+  \begin{itemize}
+    \item No requieren conocer $\Omega$.
+    \item MCO + inferencia válida.
+    \item Estándar en economía aplicada.
+    \item No recupera eficiencia.
+  \end{itemize}
+  \end{block}
+  \column{0.5\textwidth}
+  \begin{alertblock}{MCG / MCP}
+  \begin{itemize}
+    \item Requiere modelar $\Omega$ (o $h_i$).
+    \item Recupera eficiencia (MELI).
+    \item Sensible a mala especificación de $h_i$.
+  \end{itemize}
+  \end{alertblock}
+\end{columns}
+\vspace{2mm}
+{\scriptsize Regla práctica: usar errores robustos por defecto; reservar MCP cuando se conoce bien la forma de la varianza.}
+\end{frame}
+
+%==================== EJERCICIOS RESUELTOS ====================
+\section{Ejercicios}
+
+\begin{frame}{Ejercicio Resuelto 1: Test de White}
+
+\begin{block}{Ejercicio 1 (fuente: Certamen T2 -- C3)}
+Con $n=500$ observaciones se estimó
+$$Salario_i=\beta_0+\beta_1 Educ_i+\beta_2 Exper_i+u_i.$$
+Se aplica el test de \textbf{White (no simplificado)}. (a) Plantee la regresión auxiliar. (b) Formule $H_0$ y $H_1$. (c) Si $R^2_{\text{aux}}=0{,}03$, contraste al $1\%$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{(a)} Regresión auxiliar (regresores, cuadrados y producto cruzado):
+{\footnotesize $$\hat u_i^2=\alpha_0+\alpha_1 Educ_i+\alpha_2 Exper_i+\alpha_3 Educ_i^2+\alpha_4 Exper_i^2+\alpha_5 (Educ_i\!\cdot\! Exper_i)+v_i.$$}
+\textbf{(b)} $H_0:\alpha_1=\dots=\alpha_5=0$ (homocedasticidad) vs.\ $H_1:$ algún $\alpha_j\neq0$.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 1: Test de White (cont.)}
+\begin{exampleblock}{Solución (c)}
+\textbf{Paso 1.} Estadístico LM: hay $q=5$ restricciones, luego
+\[
+  \text{LM}=n R^2_{\text{aux}}=500\times 0{,}03 = 15 \;\sim\; \chi^2_{(5)}.
+\]
+\textbf{Paso 2.} Valor crítico al $1\%$: $\chi^2_{0{,}99,\,5}=15{,}086$.
+
+\textbf{Paso 3.} Comparación: $\text{LM}=15 < 15{,}086 \Rightarrow$ \alert{no se rechaza} $H_0$.
+
+\textbf{Conclusión:} al $1\%$ no hay evidencia de heterocedasticidad (se concluye homocedasticidad). Nótese que la decisión es marginal: al $5\%$ ($\chi^2_{0{,}95,5}=11{,}07$) sí se rechazaría.
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2: errores robustos e inferencia}
+
+\begin{block}{Ejercicio 2 (fuente: guía heterocedasticidad, GPA3)}
+En una regresión del GPA semestral se obtuvo $\hat\beta_{season}=-0{,}157$, con error estándar usual $0{,}098$ y robusto $0{,}07$. ¿Tiene efecto practicar deporte en otoño sobre el GPA? Use ambos errores ($\alpha=5\%$, dos colas).
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{Paso 1 (usual):} $t=\dfrac{-0{,}157}{0{,}098}=-1{,}60$. Como $|{-}1{,}60|<1{,}96\Rightarrow$ \alert{no se rechaza} $H_0$.
+
+\textbf{Paso 2 (robusto):} $t=\dfrac{-0{,}157}{0{,}07}=-2{,}24$. Como $|{-}2{,}24|>1{,}96\Rightarrow$ \textbf{se rechaza} $H_0$.
+
+\textbf{Conclusión:} la decisión \emph{depende} del error estándar usado. Bajo sospecha de heterocedasticidad, los errores robustos son preferibles: el efecto de \textit{season} es significativo al $5\%$.
+\end{exampleblock}
+
+\end{frame}
+
+%==================== EJEMPLO APLICADO ====================
+\begin{frame}[fragile]{Ejemplo aplicado en R: detección y corrección}
+\begin{exampleblock}{Salarios CASEN: Breusch--Pagan, White y errores robustos}
+\begin{verbatim}
+library(lmtest); library(sandwich)
+datos <- read.csv("casen_salarios.csv")
+m <- lm(log(salario) ~ educ + exper, data = datos)
+
+# Test de Breusch-Pagan  (LM = n * R^2_aux)
+bptest(m)
+
+# Test de White (incluye cuadrados y productos)
+bptest(m, ~ educ*exper + I(educ^2) + I(exper^2),
+       data = datos)
+
+# Errores estandar robustos de White (HC0/HC1)
+coeftest(m, vcov = vcovHC(m, type = "HC1"))
+\end{verbatim}
+\end{exampleblock}
+\end{frame}
+
+%==================== EJERCICIOS PROPUESTOS ====================
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 3 (Propuesto -- rutinario)}
+En un modelo con $k=2$ regresores se aplica el test de White no simplificado. ¿Cuántas restricciones $q$ tiene la regresión auxiliar? Generalice para $k$ regresores.
+\end{block}
+
+\begin{block}{Ejercicio 4 (Propuesto -- intermedio)}
+Con $n=200$ y $R^2_{\text{aux}}=0{,}08$ en una regresión auxiliar de Breusch--Pagan con $k=3$, calcule el estadístico LM y decida al $5\%$ ($\chi^2_{0{,}95,3}=7{,}81$).
+\end{block}
+
+\begin{block}{Ejercicio 5 (Propuesto -- desafiante)}
+Demuestre que, si $\operatorname{Var}(u_i\mid X)=\sigma^2 x_{1i}^2$, dividir toda la ecuación por $x_{1i}$ produce errores homocedásticos. Identifique el estimador MCP resultante.
+\end{block}
+
+{\scriptsize \textit{Indicación (Ej.\ 3): $q=k+\tfrac{k(k+1)}{2}$. (Ej.\ 5): calcule $\operatorname{Var}(u_i/x_{1i}\mid X)$.}}
+
+\end{frame}
+
+%==================== RESUMEN ====================
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 16}
+\begin{enumerate}
+    \item La heterocedasticidad ($\operatorname{Var}(u_i\mid X)\neq\sigma^2$) deja a MCO insesgado y consistente, pero \textbf{ineficiente} y con varianzas sesgadas $\Rightarrow$ inferencia $t$/$F$ inválida.
+    \item La varianza correcta es la \emph{sándwich}: $(X'X)^{-1}X'\Omega X(X'X)^{-1}$.
+    \item \textbf{Breusch--Pagan} y \textbf{White} detectan heterocedasticidad vía regresión auxiliar de $\hat u_i^2$, con $\text{LM}=nR^2_{\text{aux}}\sim\chi^2$.
+    \item Los \textbf{errores robustos de White} corrigen la inferencia sin conocer $\Omega$.
+    \item \textbf{MCG/MCP} recuperan eficiencia (MELI) cuando se conoce/modela la forma de la varianza.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: supuesto $\mathbb{E}(u\mid X)=0$ y qué ocurre cuando $\operatorname{Cov}(x,u)\neq 0$ (endogeneidad y variables instrumentales).
+\end{alertblock}
+
+\end{frame}
+
+% \begin{frame}{Recomendaciones}
+
+% La forma funcional logarítmica de la variable dependiente suele reducir la heterocedasticidad.
+
+% Si los residuales cuadrados se regresan
+% sólo sobre una variable independiente, la prueba
+% para la heterocedasticidad es precisamente
+% el estadístico t usual de esa variable. Un estadístico
+% t significativo sugiere que la heterocedasticidad
+% es un problema.
+    
+% \end{frame}
+
+% \begin{frame}{}
+    
+% \end{frame}
+\end{document}

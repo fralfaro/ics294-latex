@@ -1,0 +1,151 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+\linespread{1.2}                        
+\setlength{\oddsidemargin}{0.0in}            
+\setlength{\textwidth}{6.5in}    
+\usepackage[utf8]{inputenc} % Asegúrate de usar utf8
+\usepackage[T1]{fontenc} % Asegúrate de usar T1 font encoding      
+\setlength{\topmargin}{-.6in}            
+\setlength{\textheight}{9in}
+\usepackage{latexsym} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsxtra}
+\usepackage[mathcal]{eucal} 
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{rotating}
+\usepackage{caption}
+\usepackage{lscape}
+\usepackage{paralist} 
+\usepackage{indentfirst}
+\usepackage[dvipsnames,svgnames]{xcolor} 
+\usepackage{setspace}
+\usepackage{multicol} 
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{cmyk}{0.65, 1, 0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=R, % lenguaje de programación
+    basicstyle=\small\ttfamily, % estilo básico
+    commentstyle=\color{gray}, % estilo para los comentarios
+    keywordstyle=\color{blue}, % estilo para las palabras clave
+    stringstyle=\color{black}, % estilo para las cadenas de texto
+    showstringspaces=false, % no mostrar espacios en cadenas de texto
+    tabsize=4, % tamaño de la tabulación
+    breaklines=true, % permitir el salto de línea automático
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, % símbolo al final de una línea partida
+    numbers=left, % mostrar números de línea
+    numberstyle=\tiny\color{gray}, % estilo para los números de línea
+    frame=single, % mostrar un borde alrededor del código
+    backgroundcolor=\color{gray!10}, % color de fondo
+}
+
+\begin{document}
+
+\begin{center}
+    {\Large  Taller 2: Econometría }
+
+Profesor:    Pedro Comte\\
+Ayudantes: Jociney Honorio y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+    \item Usted dispone de 60 minutos  para intentar los 100 puntos del taller.
+    \item Cuide la presentación y redacción de sus respuestas.
+    \item Puede utilizar su computador y los apuntes tanto de clase como de ayudantía.
+    \item Debe enviar un archivo en formato PDF y un R script (extensión .R)
+\end{itemize}
+
+\section{Trabajo Base de Datos (40 puntos)}
+
+Para responder las preguntas siguientes, utilice la base de datos \textit{ceosal1} de la librería \textbf{wooldridge}. Asegúrese de cargarla correctamente (sin nulos) y de especificar el programa de forma rigurosa para evitar cambios por aleatoriedad.
+
+\begin{enumerate}
+
+\item (10 puntos) Examine la base y elabore una breve descripción de sus variables, distinguiendo entre dependientes, explicativas, continuas y \textit{dummies}. \textquestiondown Para qué tipo de estudio económico se emplea habitualmente esta base de datos?
+
+\begin{lstlisting}
+set.seed(1)
+data(ceosal1)
+ceosal1 <- na.omit(ceosal1)
+?ceosal1
+\end{lstlisting}
+
+    \item (10 puntos) Genere una variable indicadora (\textit{dummy}) que tome el valor 1 cuando la variable \textit{sales} supere su promedio y 0 en caso contrario. Asigne a esta nueva variable un nombre que sea fácilmente identificable. \textquestiondown Que efecto, a priori, causaría esta variable en el salario?
+    
+\begin{lstlisting}
+ceosal1$sales_mayor_promedio <- ifelse(ceosal1$sales>mean(ceosal1$sales),1,0)
+\end{lstlisting}
+A priori se pensaria que causa un efecto positivo, a mayor ventas mayor sería el salario del CEO.
+
+    \item (5 puntos) Cree una variable de la multuplicación entre la variable \textit{dummy} antes creada y la variable \textit{indus}. \textquestiondown Qué indica esta interacción? 
+
+\begin{lstlisting}
+ceosal1$sales_mayor_promedio_indus <- ceosal1$sales_mayor_promedio*ceosal1$indus
+\end{lstlisting} 
+Esta interacción solo se activa cuando la empresa pertenece a industrias, por lo que es una dummy que toma valor 1 si tiene ventas sobre el promedio y además pertenece a industria.
+
+
+    \item (10 puntos) Cree una variable de la multiplicación entre la variable continua \textit{roe}  y la variable \textit{dummy} antes creada en el punto 2. \textquestiondown Qué indica esta interacción? \textquestiondown Que efecto, a priori, causaría esta variable en el salario y de que forma afecta?
+
+\begin{lstlisting}
+ceosal1$sales_mayor_promedio_roe <- ceosal1$sales_mayor_promedio*ceosal1$roe
+\end{lstlisting} 
+Esta interacción nos da el valor roe solo para las empresas con ventas mayor al promedio. A priori el efecto sería positivo y afecta a la pendiente.
+
+    \item (5 puntos) Cree una variable que indique si el compañia corresponde a industria (\textit{indus}) ó si \textit{finance}.  Asigne a esta nueva variable un nombre que sea fácilmente identificable.
+
+\begin{lstlisting}
+ceosal1$indus_o_finance <- ceosal1$indus + ceosal1$finance
+\end{lstlisting} 
+
+\end{enumerate}
+
+\section{Modelos de Regresión Lineal (60 puntos)}
+
+\begin{enumerate}
+
+    \item (20 puntos) Genere un modelo de regresión lineal, sobre alguna de las variables dependientes, con respecto a las variables \textit{sales}, \textit{roe} y \textit{ros}. Interprete sus resultados y la significancia de los regresores. \textquestiondown El modelo tiene significancia global al 5\%?
+
+\begin{lstlisting}
+# puede usarse tanto salary, como lsalary, pero cambian sus interpretaciones
+modelo <- lm(salary ~ sales+roe+ros, data=ceosal1)
+\end{lstlisting}
+
+\item (20 puntos) Al modelo de regresión lineal anterior, agregue las variables creadas en el inciso 1.2 y 1.4, interprete sus resultados. \textquestiondown Cómo afectan los regresores de estas variables en el salario? ¿Son significativos al 5\% individualmente?
+
+\begin{lstlisting}
+# puede usarse tanto salary, como lsalary, pero cambian sus interpretaciones
+modelo <- lm(salary ~ sales+roe+ros+sales_mayor_promedio+ sales_mayor_promedio_roe, data=ceosal1)
+\end{lstlisting}
+
+\item (20 puntos) Realiza un test de hipotesis para evaluar si las dos variables que se agregaron son significativas para el modelo simultaneamente e interprete su resultado. Use significancia del 5\%.
+\begin{lstlisting}
+F_critico <- qf(0.95, 2 , 203)
+R2_r <-0.03191
+R2_ur <-0.04059
+F_est <- (R2_ur-R2_r)/(1-R2_ur)*203/2
+if (F_est>F_critico) {"Se rechaza H0"} else {"No se rechaza H0"}
+\end{lstlisting}
+
+
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+

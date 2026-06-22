@@ -1,0 +1,476 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{tikz}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 3}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+III trimestre 2025\\
+Profesor: Pedro Comte Hidalgo\\
+Ayudantes: Matias Balboa y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Preguntas conceptuales (30 puntos)}
+
+\begin{enumerate}
+
+\item ¿Cuál es la diferencia principal entre multicolinealidad perfecta y alta multicolinealidad?
+¿Por qué es importante detectar cada una de estas condiciones para la estimación e inferencia con Mínimos Cuadrados Ordinarios (MCO)?
+\\
+\textbf{Solución}
+\begin{itemize}
+    \item \textbf{Multicolinealidad perfecta:} ocurre cuando una o más variables explicativas son combinaciones lineales exactas de otras, es decir,
+    existe un vector no nulo $a$ tal que $X a = 0$. En este caso, $X'X$ es \emph{singular} y el estimador MCO
+    $\hat\beta = (X'X)^{-1} X'y$ no está definido. Consecuencia: el modelo no es \emph{identificable} y no es posible
+    estimar separadamente los coeficientes afectados; se debe eliminar o reespecificar variables (o recolectar datos) para restaurar la invertibilidad.
+    \item \textbf{Alta (severa) multicolinealidad:} no existe dependencia \emph{exacta}, pero algunas variables están fuertemente correlacionadas.
+    Aquí $X'X$ es invertible, por lo que MCO sigue siendo \emph{insesgado y consistente} bajo los supuestos clásicos,
+    pero las \emph{varianzas} de los estimadores aumentan (inflación de los errores estándar), lo que produce
+    intervalos de confianza amplios y pruebas $t$ con \emph{baja potencia}. Esto genera estimaciones numéricamente inestables y sensibilidad a pequeñas perturbaciones en los datos.
+\end{itemize}
+
+\noindent
+\textbf{Importancia práctica.}
+\begin{enumerate}
+    \item \emph{Perfecta:} impide la estimación (falla de identificabilidad). Debe corregirse antes de cualquier inferencia.
+    \item \emph{Alta:} afecta la \emph{precisión} e \emph{inferencias individuales}: estimadores con alta varianza pueden parecer no significativos
+    aun cuando el efecto sea relevante. Se suele diagnosticar con $R^2$ altos y estadísticas $t$ bajas, o con el \emph{VIF}
+    $\mathrm{VIF}_j = \frac{1}{1 - R_j^2}$ (umbrales prácticos como 10).
+    Mitigaciones: recolectar más información, reparametrizar (centrar/estandarizar), combinar o seleccionar variables,
+    o usar métodos alternativos (p.ej., componentes principales) según el objetivo.
+\end{enumerate}
+
+\item Mencione y describa los cuatro componentes clásicos de una serie de tiempo.
+
+\textbf{Solución}
+Las cuatro componentes de una serie de tiempo son:
+\begin{itemize}
+    \item Tendencia (T): movimiento de \emph{largo plazo} que capta la dirección general de la serie
+  (creciente, decreciente o curva suave) a lo largo del tiempo, sin las oscilaciones de corto plazo.
+    \item Ciclo (C): fluctuaciones \emph{supraperiódicas} de \emph{mediano a largo plazo} alrededor de la tendencia,
+  típicamente asociadas al ciclo económico. No tienen periodicidad fija, a diferencia de la estacionalidad.
+  \item Estacionalidad (E): patrón \emph{regular y repetitivo} dentro del año (mensual, trimestral, etc.),
+  con periodicidad fija. Refleja efectos de calendario, clima, festividades u organización productiva.
+  \item Ruido o aleatoriedad (A):  componente \emph{no sistemático} que recoge choques idiosincráticos,
+  medición y variación no explicada por los otros componentes.
+
+\end{itemize}
+
+\item Tomando como referencia Angrist y Krueger (1991), quienes utilizan el trimestre de nacimiento como instrumento para la educación ¿Por qué esta variable es válida como instrumento? ¿Qué efecto tiene incluir una variable instrumental en la estimación del efecto de la educación sobre el salario?
+\\
+\textbf{Solución}
+
+\textbf{(a) Validez del instrumento.}
+Un instrumento válido debe cumplir dos condiciones:
+\emph{relevancia} (\(\mathrm{Cov}(Z,X)\neq0\)) y \emph{exogeneidad} o restricción de exclusión (\(\mathrm{Cov}(Z,u)=0\)). 
+En este contexto, \(Z\) es el trimestre de nacimiento y \(X\) son los años de educación. 
+La \emph{relevancia} se justifica porque, dadas las leyes de escolaridad obligatoria y las fechas de corte de matrícula, el trimestre de nacimiento afecta la edad de ingreso y la permanencia en la escuela, generando variación en la escolaridad. 
+La \emph{exogeneidad} se argumenta porque el trimestre de nacimiento no debería afectar el salario por canales distintos a la educación (una vez controlado el resto), de modo que no está correlacionado con los factores inobservables del error \(u\). 
+Formalmente, si \(Z\) cumple \(\mathrm{Cov}(Z,u)=0\) y \(\mathrm{Cov}(Z,X)\neq 0\), entonces es un instrumento válido. 
+\\
+
+
+\textbf{(b) Efecto de incluir una variable instrumental.}
+Si existe endogeneidad (\(\mathrm{Cov}(X,u)\neq0\)), el estimador MCO es sesgado e inconsistente. Al usar VI/MC2E se identifica el efecto causal utilizando solo la parte \emph{exógena} de \(X\) inducida por \(Z\), obteniendo un estimador \(\hat\beta_{IV}\) consistente. 
+En modelos simples, \(\hat\beta_{IV} = \dfrac{\mathrm{Cov}(Y,Z)}{\mathrm{Cov}(X,Z)}\). 
+Comparativamente, cuando la omisión de habilidad provoca que MCO sobreestime el retorno a la educación, suele observarse \(\hat\beta_{MCO}>\hat\beta_{IV}\); si el problema fuera error de medición en \(X\), entonces \(\hat\beta_{MCO}<\hat\beta_{IV}\). 
+Eso sí, la varianza de \(\hat\beta_{IV}\) tiende a ser mayor que la de MCO y aumenta si el instrumento es débil (bajo \(R^2\) en la primera etapa). 
+
+\item ¿Por qué los estadísticos \(t\) y \(F\) utilizados para contrastar hipótesis no son válidos en presencia de heterocedasticidad?
+¿Cómo puede solucionarse este problema?
+\\
+\textbf{Solución}
+Bajo los supuestos clásicos de MCO, la validez de los contrastes \(t\) y \(F\) descansa en la hipótesis de
+\emph{homocedasticidad}, es decir, \(\mathrm{Var}(u_i \mid X)=\sigma^2\) constante. En tal caso,
+\(\mathrm{Var}(\hat\beta)=\sigma^2 (X'X)^{-1}\) y los errores estándar ``clásicos'' producen
+estadísticos \(t\) y \(F\) con las distribuciones de referencia adecuadas.
+
+Con \emph{heterocedasticidad} (\(\mathrm{Var}(u_i \mid X)=\sigma_i^2\) no constante),
+la varianza correcta es
+\[
+\mathrm{Var}(\hat\beta)=(X'X)^{-1} X' \Omega X (X'X)^{-1},
+\]
+donde \(\Omega=\mathrm{diag}(\sigma_1^2,\dots,\sigma_n^2)\).
+Si se siguen usando los errores estándar clásicos (que suponen \(\Omega=\sigma^2 I\)),
+los errores estándar quedan mal calculados; por tanto, los \(t\)-y \(F\)-estadísticos
+\emph{no siguen} sus distribuciones teóricas, lo que distorsiona niveles de significancia
+(p-valores) y decisiones de hipótesis.
+
+\medskip
+   Para solucionar esto se puede utilizar \textbf{Errores estándar robustos de White}.
+  Con estos errores estándar, los contrastes \(t\) (o Wald) y \(F\) \emph{robustos}
+  son asintóticamente válidos.
+\end{enumerate}
+
+
+
+\section{Ejercicios (60 puntos)}
+
+\begin{enumerate}
+    
+% =========================
+% ENUNCIADO (versión corregida)
+% =========================
+
+\item (20 puntos) Card (1995) utiliza la distancia a una universidad como variable instrumental de la educación para explicar el salario. Considere la siguiente muestra:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+i & Salario & Educ & Dist_U \\
+\hline
+1 & 6.0 & 10 & 2 \\
+2 & 6.4 & 11 & 3.5 \\
+3 & 7.1 & 12 & 1.5 \\
+4 & 5.7 & 10 & 4.5 \\
+5 & 7.6 & 13 & 1.5 \\
+6 & 5.4 &  9 & 5 \\
+7 & 7.1 & 12 & 2.5 \\
+8 & 6.7 & 11 & 3.5 \\
+\hline
+\end{tabular}
+\end{center}
+Donde \textbf{Salario} es el salario por hora, \textbf{Educ} los años de educación y\textbf{Dist_U} la distancia a la universidad más cercana en Kilometros.
+
+\begin{enumerate}
+    \item (5 puntos) Indique por qué la distancia a una universidad es un buen instrumento para la educación al explicar el salario.
+    \item (10 puntos) Calcule \(\beta^{IV}\).
+    \item (5 puntos) Interprete el resultado de \(\beta^{IV}\).
+\end{enumerate}
+
+\textbf{Solución}
+\\
+% =========================
+% SOLUCIÓN (IV con distancia como instrumento)
+% =========================
+
+\textbf{Solución.}
+
+\textbf{(a)} La distancia a la universidad es un buen instrumento porque (i) afecta la educación (\emph{relevancia}: \(\mathrm{Cov}(Z,X)\neq 0\)) y (ii) bajo la restricción de exclusión no influye en el salario por canales distintos de la educación (\emph{exogeneidad}: \(\mathrm{Cov}(Z,u)=0\)).
+
+\medskip
+\textbf{(b)} En el modelo simple \(y_i=\beta_0+\beta_1 x_i+u_i\) con instrumento \(z_i\),
+\[
+\hat\beta^{IV}=\frac{S_{yz}}{S_{xz}},\qquad
+S_{yz}=\sum_{i=1}^n (y_i-\bar y)(z_i-\bar z),\quad
+S_{xz}=\sum_{i=1}^n (x_i-\bar x)(z_i-\bar z).
+\]
+
+\textit{Medias (exactas a 1 decimal):}\quad
+\(\displaystyle \bar y=\frac{52.0}{8}=6.5,\;\; \bar x=\frac{88}{8}=11.0,\;\; \bar z=\frac{24.0}{8}=3.0.\)
+
+\begin{center}
+\small
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|}
+\hline
+\(i\) & \(y_i\) & \(x_i\) & \(z_i\) & \(y_i-\bar y\) & \(x_i-\bar x\) & \(z_i-\bar z\) & \((y_i-\bar y)(z_i-\bar z)\) & \((x_i-\bar x)(z_i-\bar z)\) \\
+\hline
+1 & 6.0 & 10 & 2.0 & -0.5 & -1.0 & -1.0 & \phantom{-}0.5 & \phantom{-}1.0 \\
+2 & 6.4 & 11 & 3.5 & -0.1 & \phantom{-}0.0 & \phantom{-}0.5 & -0.05 & \phantom{-}0.00 \\
+3 & 7.1 & 12 & 1.5 & \phantom{-}0.6 & \phantom{-}1.0 & -1.5 & -0.9 & -1.5 \\
+4 & 5.7 & 10 & 4.5 & -0.8 & -1.0 & \phantom{-}1.5 & -1.2 & -1.5 \\
+5 & 7.6 & 13 & 1.5 & \phantom{-}1.1 & \phantom{-}2.0 & -1.5 & -1.65 & -3.0 \\
+6 & 5.4 &  9 & 5.0 & -1.1 & -2.0 & \phantom{-}2.0 & -2.2 & -4.0 \\
+7 & 7.1 & 12 & 2.5 & \phantom{-}0.6 & \phantom{-}1.0 & -0.5 & -0.3 & -0.5 \\
+8 & 6.7 & 11 & 3.5 & \phantom{-}0.2 & \phantom{-}0.0 & \phantom{-}0.5 & \phantom{-}0.1 & \phantom{-}0.00 \\
+\hline
+\multicolumn{7}{|r|}{\(\sum\)} & \(-5.7\) & \(-9.5\) \\
+\hline
+\end{tabular}
+\end{center}
+
+\[
+\boxed{\;\hat\beta^{IV}=\frac{S_{yz}}{S_{xz}}=\frac{-5.7}{-9.5}=0.6\;}
+\]
+
+\medskip
+\textbf{(c)} \textit{Interpretación:} un año adicional de educación incrementa el salario en \(0.6\) unidades (en las unidades de \(y\) de la tabla).
+
+
+% =========================
+% SOLUCIÓN
+% =========================
+
+
+
+      \color{black}  
+    \item (20 puntos) Considere el modelo de ventas trimestrales de una empresa:
+\[
+\text{ventas}_i \equiv y_i \;=\; \beta_0 \;+\; \beta_1\,\text{marketing}_i \;+\; \beta_2\,\text{clientes}_i \;+\; \beta_3\,\text{PIB}_i \;+\; u_i,
+\]
+donde \(y_i\) son ventas (en miles de USD), \(\text{marketing}_i\) es el gasto en publicidad,
+\(\text{clientes}_i\) es el número de clientes activos y \(\text{PIB}_i\) es el PIB del país (índice base 100).
+
+\begin{enumerate}
+\item Utilizando el método de White no simplificado, formule la {regresión auxiliar} y las {hipótesis} a contrastar para testear heterocedasticidad.
+
+\item Con una muestra de \(n=200\), la regresión auxiliar entrega \(R^2 = 0{.}02\).
+Calcule la estadística LM y decida al 5\% de significancia.
+
+\item Compare el test no simplificado con el test de White \emph{simplificado}. Discuta ventajas y desventajas de cada enfoque.
+\end{enumerate}
+
+% =========================================================
+% SOLUCIÓN
+% =========================================================
+
+\textbf{Solución.}
+
+\textbf{(a) White no simplificado: regresión auxiliar e hipótesis.}
+
+Sea \(x_{1i}=\text{marketing}_i\), \(x_{2i}=\text{clientes}_i\), \(x_{3i}=\text{PIB}_i\).
+Estime primero el modelo por MCO y obtenga los residuos \(\hat u_i\).
+El test de White (no simplificado) se basa en la regresión auxiliar
+\[
+\hat u_i^{\,2} \;=\; \delta_0 \;+\; \delta_1 x_{1i} \;+\; \delta_2 x_{2i} \;+\; \delta_3 x_{3i}
+\;+\; \delta_{11} x_{1i}^2 \;+\; \delta_{22} x_{2i}^2 \;+\; \delta_{33} x_{3i}^2
+\;+\; \delta_{12} x_{1i}x_{2i} \;+\; \delta_{13} x_{1i}x_{3i} \;+\; \delta_{23} x_{2i}x_{3i} \;+\; v_i.
+\]
+
+Con \(k=3\) regresores en el modelo original, el número de regresores (excluyendo el intercepto) en la auxiliar es
+\[
+q \;=\; k \;+\; \frac{k(k+1)}{2}
+\;=\; 3 \;+\; \frac{3\cdot 4}{2}
+\;=\; 3 + 6 \;=\; 9.
+\]
+
+\noindent\emph{Hipótesis (LM de White):}
+\[
+H_0:\; \delta_1=\delta_2=\delta_3=\delta_{11}=\delta_{22}=\delta_{33}=\delta_{12}=\delta_{13}=\delta_{23}=0
+\quad\text{(homocedasticidad)}
+\]
+versus
+\[
+H_1:\; \text{al menos uno de los } \delta_j \neq 0
+\quad\text{(heterocedasticidad)}.
+\]
+La estadística es \(\text{LM} = n \times R^2_{\text{aux}} \;\sim\; \chi^2(q)\) asintóticamente.
+
+\medskip
+\textbf{(b) Cálculo del LM y decisión.}
+
+Dado \(n=200\) y \(R^2_{\text{aux}}=0{.}02\):
+\[
+\text{LM} \;=\; 200 \times 0{.}02 \;=\; 4{.}00.
+\]
+
+Bajo \(H_0\), \(\text{LM}\sim \chi^2(q)\) con \(q=9\).
+El valor crítico al 5\% es \(\chi^2_{0.95}(9)\approx 16{.}92\).
+Como \(4{.}00 < 16{.}92\), \textbf{no se rechaza} \(H_0\) al 5\%.
+(Equivalente: el \(p\)-valor es alto, \(\;p=\Pr[\chi^2_9\ge 4]\approx 0{.}90\).)
+Conclusión: \emph{no hay evidencia estadística suficiente} de heterocedasticidad según este test.
+
+\medskip
+\textbf{(c) Comparación con el test de White simplificado.}
+
+El \textbf{White simplificado} usa como regresores solo el ajustado y su cuadrado:
+\[
+\hat u_i^{\,2} \;=\; \gamma_0 \;+\; \gamma_1 \hat y_i \;+\; \gamma_2 \hat y_i^{\,2} \;+\; e_i,
+\]
+y la estadística \(\text{LM}_S = n\times R_S^2 \sim \chi^2(2)\) asintóticamente (excluyendo el intercepto).
+
+\emph{Ventajas del no simplificado:}
+\begin{itemize}
+  \item Mayor \textbf{flexibilidad} para detectar formas generales de heterocedasticidad al incluir \(x\), \(x^2\) y cruces.
+  \item \textbf{Más potente} cuando la varianza depende de combinaciones específicas de las \(x\).
+\end{itemize}
+
+\emph{Desventajas del no simplificado:}
+\begin{itemize}
+  \item Puede tener \textbf{muchos regresores} en la auxiliar (rápido crecimiento de \(q\)), perdiendo potencia en muestras finitas.
+  \item Riesgo de \textbf{multicolinealidad} y menor precisión en la auxiliar.
+\end{itemize}
+
+\emph{Ventajas del simplificado:}
+\begin{itemize}
+  \item \textbf{Parco} en parámetros (solo \(\hat y\) y \(\hat y^2\)); sencillo de implementar y con pocos grados de libertad.
+  \item \textbf{Más estable} en muestras pequeñas o cuando \(k\) es grande.
+\end{itemize}
+
+\emph{Desventajas del simplificado:}
+\begin{itemize}
+  \item Menor \textbf{generalidad}: si la heterocedasticidad depende de funciones de \(x\) no capturadas por \(\hat y\) y \(\hat y^2\), puede perder potencia o pasarla por alto.
+  \item Puede ser sensible a \textbf{mala especificación} del modelo principal (pues \(\hat y\) proviene de esa especificación).
+\end{itemize}
+
+\noindent En resumen: el \emph{no simplificado} es más general pero más “costoso” en grados de libertad; el \emph{simplificado} es más liviano y práctico, aunque potencialmente menos potente ante formas complejas de heterocedasticidad.
+
+
+    \item  (20 puntos) 
+ 
+\end{enumerate}
+
+\newpage
+\section*{Formulario}
+\begin{itemize}
+
+\item Estadistico t para $\beta_j = a_j$
+
+$$\color{red}{t_{\beta_j}=\frac{\hat{\beta_j}-a_j}{s.e.(\hat{\beta_j})}}$$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para el estimador $\beta_j$:
+
+$${\color{red}\hat{\beta_j} \pm t_{\frac{\alpha}{2},n-k-1}s.e.(\hat{\beta_j})}$$
+
+
+\item para el estadistico F entre dos modelos:
+
+$$\color{red}{F=\frac{SSR_r-SSR_{ur}}{SSR_{ur}}\frac{n-k-1}{j}}$$
+$$\color{red}{F=\frac{R^2_{ur}-R^2_{r}}{1-R^2_{ur}}\frac{n-k-1}{j}}$$
+
+\item Test de Chow para Grupos.
+
+    \[\color{red}
+    F = \frac{(SSR_r - SSR_{ur}) / ((G - 1)(k + 1))}{SSR_{ur} / (n - G(k + 1))} \sim F((G - 1)(k + 1), n - G(k + 1))
+    \]
+
+Con
+
+$$\color{red}SSR_{ur} = \sum_{g=1}^G SSR_g$$
+
+\item Estadistico t para igualdad entre parametros:
+ \[\color{red}t_{\text{estadístico}} = \frac{\hat{\beta}_1 - \hat{\beta}_2 - 0}{\sqrt{\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)}}\]
+
+
+\item  Varianza de una suma.
+{\color{red}
+$$\text{Var}(kA + cB) = k^2\text{Var}(A) + c^2\text{Var}(B) + 2kc\text{COV}(A, B)$$}
+
+\item $t_{0.95,n} = 1.64$ cuando $n >50$.
+\item $t_{0.975,n} = 1.96$ cuando $n >50$.
+\item $t_{0.99,n}=2.33$ cuando $n>50$
+\item $t_{0.995,n}=2.58$ cuando $n>50$
+
+
+\item Tabla Fisher para 5\%:
+\begin{table}[H]
+\centering
+\caption{Valores críticos de la distribución F (cola superior) para $\alpha=0.05$. 
+El numerador usa $df_1$ y el denominador $df_2$.}
+\label{tab:Fcrit_5pct}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+& \multicolumn{5}{c|}{$df_2$} \\
+\hline
+$df_1$ & 50 & 100 & 150 & 200 & 250 \\
+\hline
+1  & 4.0343 & 3.9361 & 3.9042 & 3.8884 & 3.8789 \\
+\hline
+2  & 3.1826 & 3.0873 & 3.0564 & 3.0411 & 3.0319 \\
+\hline
+3  & 2.7900 & 2.6955 & 2.6649 & 2.6498 & 2.6407 \\
+\hline
+4  & 2.5572 & 2.4626 & 2.4320 & 2.4168 & 2.4078 \\
+\hline
+5  & 2.4004 & 2.3053 & 2.2745 & 2.2592 & 2.2501 \\
+\hline
+6  & 2.2840 & 2.1893 & 2.1584 & 2.1431 & 2.1340 \\
+\hline
+7  & 2.1953 & 2.1009 & 2.0699 & 2.0546 & 2.0454 \\
+\hline
+8  & 2.1267 & 2.0325 & 2.0014 & 1.9861 & 1.9769 \\
+\hline
+9  & 2.0720 & 1.9779 & 1.9467 & 1.9314 & 1.9222 \\
+\hline
+10 & 2.0270 & 1.9331 & 1.9018 & 1.8865 & 1.8773 \\
+\hline
+\end{tabular}
+\end{table}
+
+\item Tabla Fisher para 1\%:
+\begin{table}[H]
+\centering
+\caption{Valores críticos de la distribución F (cola superior) para $\alpha = 0.01$.
+Filas: $df_1$ (numerador). Columnas: $df_2$ (denominador).}
+\label{tab:Fcrit_1pct_transpuesta}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$df_1 \backslash df_2$ 
+& 50 & 100 & 150 & 200 & 250 \\
+\hline
+1  & 7.171 & 6.895 & 6.806 & 6.762 & 6.735 \\
+\hline
+2  & 5.414 & 5.220 & 5.157 & 5.126 & 5.107 \\
+\hline
+3  & 4.546 & 4.380 & 4.326 & 3.881 & 4.283 \\
+\hline
+4  & 4.052 & 3.907 & 3.860 & 3.837 & 3.823 \\
+\hline
+5  & 3.733 & 3.603 & 3.561 & 3.540 & 3.528 \\
+\hline
+6  & 3.511 & 3.393 & 3.354 & 3.336 & 3.324 \\
+\hline
+7  & 3.347 & 3.239 & 3.204 & 3.186 & 3.176 \\
+\hline
+8  & 3.222 & 3.121 & 3.089 & 3.072 & 3.063 \\
+\hline
+9  & 3.122 & 3.028 & 2.997 & 2.982 & 2.973 \\
+\hline
+10 & 3.041 & 2.952 & 2.923 & 2.908 & 2.900 \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{itemize}
+
+ 
+\end{document}

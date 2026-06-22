@@ -1,0 +1,849 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 1}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+I trimestre 2026\\
+Profesor: Pedro Comte Hidalgo\\
+Ayudantes: Jociney Honorio y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Ejercicios}
+
+
+\begin{enumerate}
+    \item (20 puntos) Una consultora quiere medir el efecto de un programa de capacitación laboral sobre el salario mensual de los trabajadores seis meses después. Se observa la siguiente muestra de 6 personas:
+
+    \[
+    \begin{array}{|c|c|c|c|}
+    \hline
+    \text{Persona} & \text{Salario } (Y) & \text{Tratamiento } (T) & \text{Motivación } (M)\\
+    \hline
+    1 & 560 & 1 & 10\\
+    2 & 520 & 1 & 8\\
+    3 & 500 & 1 & 7\\
+    4 & 420 & 0 & 6\\
+    5 & 400 & 0 & 4\\
+    6 & 380 & 0 & 5 \\
+    \hline
+    \end{array}
+    \]
+
+    donde:
+    \begin{itemize}
+        \item \(Y\): salario mensual, medido en miles de pesos.
+        \item \(T=1\): el trabajador participó en la capacitación.
+        \item \(T=0\): el trabajador no participó en la capacitación.
+        \item \(M\): índice de motivación laboral.
+    \end{itemize}
+
+    Considere primero el siguiente modelo:
+    \[
+    Y_i=\beta_0+\beta_1 T_i+u_i
+    \]
+
+    Luego, considere el modelo ampliado:
+    \[
+    Y_i=\beta_0+\beta_1 T_i+\beta_2 M_i+u_i
+    \]
+
+    Responda:
+
+    \begin{enumerate}
+        \item (5 puntos) Calcule el estimador \(\hat{\beta}_1\) en la regresión simple de \(Y\) sobre \(T\) e interprete dentro del contexto.
+        \item (5 puntos) Discuta si este estimador puede interpretarse como el efecto causal de la capacitación sobre el salario y la posibilidad de distintos sesgos en este modelo.
+        \item (5 puntos) Si se incorpora la variable motivación \(M\) en la regresión, discuta si esperaría que el coeficiente estimado de \(T\) aumente, disminuya o se mantenga igual. Justifique.
+        \item (5 puntos) Si al incluir la variable motivación \(M\) el modelo queda dado por:
+        $$\hat{Y}_i = 345 + 90T_i + 11M_i$$
+        ¿De que valor era el sesgo en este caso?
+    \end{enumerate}
+
+    \textbf{Solución}
+
+    \begin{enumerate}
+        \item Como \(T\) es una variable binaria, en una regresión simple con intercepto el coeficiente \(\hat{\beta}_1\) se puede obtener como la diferencia entre el promedio de \(Y\) en el grupo tratado y el promedio de \(Y\) en el grupo no tratado.
+
+        Promedio del salario en el grupo tratado:
+        \[
+        \bar{Y}_1=\frac{560+520+500}{3}=\frac{1580}{3}=526.67
+        \]
+
+        Promedio del salario en el grupo no tratado:
+        \[
+        \bar{Y}_0=\frac{420+400+380}{3}=\frac{1200}{3}=400
+        \]
+
+        Por lo tanto,
+        \[
+        \hat{\beta}_1=\bar{Y}_1-\bar{Y}_0=526.67-400=126.67
+        \]
+
+        Entonces,
+        \[
+        \boxed{\hat{\beta}_1=126.67}
+        \]
+
+      La interpretación económica es que los trabajadores que participaron en la capacitación presentan, en promedio, un salario mensual mayor en \(126.67\) miles de pesos respecto de quienes no participaron.
+
+\item Este estimador no necesariamente puede interpretarse como el efecto causal de la capacitación. La diferencia observada entre tratados y no tratados podría deberse no solo al tratamiento, sino también a diferencias previas entre ambos grupos. \\ 
+  Puede existir sesgo de selección porque los trabajadores que participaron en la capacitación tienen niveles de motivación más altos que los no tratados. Verifiquemos esto con los promedios de motivación:
+
+        \[
+        \bar{M}_1=\frac{9+8+7}{3}=8
+        \qquad
+        \bar{M}_0=\frac{4+3+2}{3}=3
+        \]
+
+        Por lo tanto, los tratados tienen en promedio una motivación mayor. Si los trabajadores más motivados tienen más probabilidad de entrar al programa, entonces la asignación al tratamiento no es aleatoria. \\ 
+        También puede existir sesgo por variable omitida porque la motivación afecta al salario y, al mismo tiempo, está correlacionada con la variable tratamiento.
+
+        \item  Si la regresión omitiera \(M\), entonces esta variable quedaría contenida en el término de error \(u_i\). En ese caso, \(T_i\) estaría correlacionada con el error y se violaría el supuesto:
+        \[
+        E[u_i \mid T_i]=0
+        \]
+
+        Así, el coeficiente de tratamiento en la regresión simple recogería tanto el efecto de la capacitación como parte del efecto de la motivación.
+
+        \item Si se incorpora la variable motivación \(M\) en la regresión
+        \[
+        Y_i=\beta_0+\beta_1 T_i+\beta_2 M_i+u_i
+        \]
+        se esperaría que el coeficiente estimado de \(T\) disminuya.
+
+        La razón es que en la regresión simple el efecto estimado de \(T\) estaba sobrestimado, ya que capturaba:
+        \begin{itemize}
+            \item el efecto propio de la capacitación;
+            \item parte del efecto positivo de la motivación sobre el salario.
+        \end{itemize}
+
+        Como la motivación está positivamente correlacionada con el tratamiento y además afecta positivamente al salario, la omisión de \(M\) genera un sesgo positivo en la estimación de \(\beta_1\). Al controlar por motivación, ese sesgo debería reducirse, y por lo tanto el coeficiente de \(T\) debería bajar.
+
+
+        \item Como pasamos de un $\tilde{\beta_1}=126,67$ a $\hat{\beta_1}=90$ el valor del sesgo esta dado por:
+        $$Sesgo = \tilde{\beta_1} - \hat{\beta_1} = 126.67 - 90 = 36.67$$
+    \end{enumerate}
+
+    \item (20 puntos) Una empresa del área comercial quiere estudiar cómo el número de llamadas de seguimiento realizadas por un ejecutivo afecta sus ventas mensuales.
+
+    Para ello, observa la siguiente información de 8 ejecutivos:
+
+    \[
+    \begin{array}{|c|c|c|c|}
+    \hline
+    \text{Ejecutivo} & Y \text{ (ventas)} & X \text{ (llamadas)} & Z \text{ (experiencia)}\\
+    \hline
+    1 & 18 & 10 & 1\\
+    2 & 21 & 12 & 2\\
+    3 & 23 & 12 & 3\\
+    4 & 26 & 15 & 4\\
+    5 & 26 & 16 & 5\\
+    6 & 29 & 14 & 6\\
+    7 & 31 & 17 & 5\\
+    8 & 34 & 16 & 4 \\
+    \hline
+    \end{array}
+    \]
+
+    donde:
+    \begin{itemize}
+        \item \(Y\): ventas mensuales del ejecutivo, medidas en cientos de miles de pesos,
+        \item \(X\): número de llamadas de seguimiento realizadas en la semana,
+        \item \(Z\): años de experiencia en el área comercial.
+    \end{itemize}
+
+    Se pide:
+
+    \begin{enumerate}
+        \item (8 puntos) Estime por MCO el siguiente modelo de regresión lineal simple:
+        \[
+        Y_i=\beta_0+\beta_1X_i+u_i
+        \]
+ e interprete \(\hat{\beta}_0\) y \(\hat{\beta}_1\) en el contexto del ejercicio.
+
+        \item (8 puntos) Estime por MCO el siguiente modelo de regresión lineal múltiple:
+        \[
+        Y_i=\beta_0+\beta_1X_i+\beta_2Z_i+u_i
+        \]
+Sabiendo que 
+$$(X'X)^{-1}=
+        \begin{pmatrix}
+        7.013 & -0.644 & 0.567\\
+        -0.644 & 0.067 & -0.079\\
+        0.567 & -0.079 & 0.145
+        \end{pmatrix} $$
+e interprete \(\hat{\beta}_1\) y \(\hat{\beta}_2\) en el contexto del ejercicio. (Use 3 decimales)
+
+        \item (4 puntos) Compare el coeficiente de \(X\) en el modelo simple y en el múltiple. ¿Qué sugiere esta diferencia? Discuta si en el modelo simple existe sesgo por variable omitida y encuentre el valor del sesgo.
+    \end{enumerate}
+\textbf{Pauta}
+
+\begin{enumerate}
+    \item Para el modelo de regresión lineal simple
+    \[
+    Y_i=\beta_0+\beta_1X_i+u_i
+    \]
+    estimamos por MCO usando:
+    \[
+    \hat{\beta}_1=\frac{\sum_{i=1}^n (X_i-\bar X)(Y_i-\bar Y)}{\sum_{i=1}^n (X_i-\bar X)^2},
+    \qquad
+    \hat{\beta}_0=\bar Y-\hat{\beta}_1\bar X
+    \]
+
+    Primero calculamos las medias:
+    \[
+    \bar X=\frac{10+12+12+15+16+14+17+16}{8}=14
+    \]
+    \[
+    \bar Y=\frac{18+21+23+26+26+29+31+34}{8}=26
+    \]
+
+\begin{center}
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+\text{Ejecutivo} & X_i & Y_i & (X_i-\bar X) & (Y_i-\bar Y) & (X_i-\bar X)(Y_i-\bar Y) & (X_i-\bar X)^2 \\
+\hline
+1 & 10 & 18 & -4 & -8 & 32 & 16 \\
+2 & 12 & 21 & -2 & -5 & 10 & 4 \\
+3 & 12 & 23 & -2 & -3 & 6 & 4 \\
+4 & 15 & 26 & 1 & 0 & 0 & 1 \\
+5 & 16 & 26 & 2 & 0 & 0 & 4 \\
+6 & 14 & 29 & 0 & 3 & 0 & 0 \\
+7 & 17 & 31 & 3 & 5 & 15 & 9 \\
+8 & 16 & 34 & 2 & 8 & 16 & 4 \\
+\hline
+ &  &  &  &  & 79 & 42 \\
+\hline
+\end{array}
+\end{center}
+
+
+
+    Luego:
+    \[
+    \sum (X_i-\bar X)(Y_i-\bar Y)=79
+    \]
+    \[
+    \sum (X_i-\bar X)^2=42
+    \]
+
+    Por lo tanto:
+    \[
+    \hat{\beta}_1=\frac{79}{42}=1.88
+    \]
+
+    y
+    \[
+    \hat{\beta}_0=26-1.88(14)=-0.32
+    \]
+
+    Entonces, la regresión estimada es:
+    \[
+    \hat Y_i=-0.32+1.88X_i
+    \]
+
+    \textbf{Interpretación de \(\hat{\beta}_0\):}  
+    Si un ejecutivo realizara \(0\) llamadas de seguimiento, las ventas esperadas serían \(-0.32\) cientos de miles de pesos.  
+    Su interpretación económica es limitada, porque \(X=0\) está fuera del rango observado en la muestra.
+
+    \textbf{Interpretación de \(\hat{\beta}_1\):}  
+    Por cada llamada adicional de seguimiento, las ventas mensuales esperadas aumentan en promedio en \(1.88\) cientos de miles de pesos, es decir, aproximadamente \(161{,}000\) pesos.
+
+    \item Para el modelo de regresión lineal múltiple
+    \[
+    Y_i=\beta_0+\beta_1X_i+\beta_2Z_i+u_i
+    \]
+    calculamos primero:
+    \[
+    X'Y=
+    \begin{pmatrix}
+    208\\
+    2991\\
+    828
+    \end{pmatrix}
+    \]
+
+
+    Es decir:
+    \[
+    \begin{pmatrix}
+    \hat\beta_0\\
+    \hat\beta_1\\
+    \hat\beta_2
+    \end{pmatrix}
+    =        \begin{pmatrix}
+        7.013 & -0.644 & 0.567\\
+        -0.644 & 0.067 & -0.079\\
+        0.567 & -0.079 & 0.145
+        \end{pmatrix} 
+    \begin{pmatrix}
+    208\\
+    2991\\
+    828
+    \end{pmatrix}
+    \]
+
+    Resolviendo, se obtiene:
+    \[
+\begin{pmatrix}
+    \hat\beta_0\\
+    \hat\beta_1\\
+    \hat\beta_2
+    \end{pmatrix} = 
+    \begin{pmatrix}
+    1.976\\
+    1.033\\
+    1.707
+    \end{pmatrix}
+    \]
+
+    Por lo tanto, la regresión múltiple estimada es:
+    \[
+    \hat Y_i=1.976+1.033X_i+1.707Z_i
+    \]
+
+    \textbf{Interpretación de \(\hat{\beta}_1\):}  
+    Manteniendo constante la experiencia, una llamada adicional de seguimiento aumenta en promedio las ventas mensuales en \(1.033\) cientos de miles de pesos.
+
+    \textbf{Interpretación de \(\hat{\beta}_2\):}  
+    Manteniendo constante el número de llamadas, un año adicional de experiencia aumenta en promedio las ventas mensuales en \(1.707\) cientos de miles de pesos.
+
+    \item En el modelo simple, el coeficiente de \(X\) es:
+    \[
+    \hat\beta_1^{RLS}=1.88
+    \]
+    mientras que en el modelo múltiple es:
+    \[
+    \hat\beta_1^{RLM}=1.033
+    \]
+
+    El coeficiente de las llamadas disminuye al incorporar la experiencia. Esto sugiere que en el modelo simple había un \textbf{sesgo por variable omitida}.
+
+    La razón es que la experiencia \(Z\):
+    \begin{itemize}
+        \item afecta a las ventas \(Y\),
+        \item y además está correlacionada con el número de llamadas \(X\).
+    \end{itemize}
+
+    Al omitir \(Z\) del modelo simple, parte de su efecto queda recogido por el coeficiente de \(X\), inflando su estimación.
+
+    El valor del sesgo por variable omitida se puede calcular como:
+    \[
+    \text{Sesgo}=\hat\beta_1^{RLS}-\hat\beta_1^{RLM}
+    \]
+    entonces:
+    \[
+    \text{Sesgo}=1.88-1.033=0.847
+    \]
+
+    Por lo tanto:
+    \[
+    \boxed{\text{Sesgo}=0.847}
+    \]
+
+    Como el sesgo es positivo, el modelo simple sobreestima levemente el efecto de las llamadas sobre las ventas.
+
+\end{enumerate}
+
+\item (20 puntos)  Una universidad estima el siguiente modelo de regresión lineal múltiple para explicar el puntaje final de estudiantes en un curso:
+
+    \[
+    PF_i=\beta_0+\beta_1he_{i}+\beta_2pa_{i}+\beta_3pd_{i}+\beta_4as_{i}+u_i
+    \]
+
+    donde \(pf_i\) es puntaje final del estudiante, \(he_{i}\) son horas de estudio semanales, \(pa_{i}\) es el porcentaje de asistencia a clases, \(pd_{i}\) el puntaje en una prueba diagnóstica y \(as_{i}\) el número de ayudantías asistidas. Con una muestra de estimación de \(n=100\) estudiantes, se obtuvo la siguiente regresión:
+
+    \[
+    \hat Y_i = 12 + 1.2he_{i} + 0.3pa_{i} + 0.4pd_{i} + 1.5as_{i}
+    \]
+
+    Además, para la muestra de estimación se sabe que:
+
+    \[
+    R^2 = 0.80
+    \qquad\qquad
+    \bar R^2 = 0.791
+    \qquad\qquad
+    SST = 2500
+    \]
+
+    \begin{enumerate}
+\item (8 puntos) Calcule el estimador de la varianza del error en la muestra de estimación, \(\hat\sigma^2\).
+        \item  (6 puntos)   Luego, se desea evaluar el desempeño predictivo del modelo en una muestra out-of-time de 6 estudiantes del semestre siguiente:
+
+    \[
+    \begin{array}{|c|c|c|c|c|c|}
+    \hline
+    \text{Estudiante} & X_1 & X_2 & X_3 & X_4 & Y \\
+    \hline
+    1 & 10 & 80 & 50 & 2 & 69 \\
+    2 & 8 & 75 & 45 & 1 & 59 \\
+    3 & 12 & 90 & 60 & 3 & 79 \\
+    4 & 6 & 70 & 40 & 1 & 54 \\
+    5 & 9 & 85 & 55 & 2 & 71 \\
+    6 & 11 & 88 & 58 & 2 & 75 \\
+    \hline
+    \end{array}
+    \]
+        
+        Calcule el valor predicho \(\hat Y\) para cada estudiante de la muestra out-of-time. 
+        \item (6 puntos) Calcule la varianza del error en la muestra out-of-time, definida como:
+        \[
+        \hat\sigma^2_{OOT}=\frac{1}{m}\sum_{i=1}^{m}\hat u_i^2
+        \]
+        donde \(m\) es el número de observaciones out-of-time.
+    \end{enumerate}
+
+    \textbf{Solución}
+
+    \begin{enumerate}
+        \item Sabemos que:
+        \[
+        R^2=1-\frac{SSR}{SST}
+        \]
+
+        Entonces:
+        \[
+        0.80 = 1-\frac{SSR}{2500}
+        \]
+
+        \[
+        \frac{SSR}{2500}=0.20
+        \]
+
+        \[
+        SSR=0.20(2500)=500
+        \]
+
+        Por lo tanto:
+        \[
+        \boxed{SSR=500}
+        \]
+
+         La varianza estimada del error en la muestra de estimación es:
+        \[
+        \hat\sigma^2=\frac{SSR}{n-k-1}
+        \]
+
+        Como \(n=100\) y \(k=4\), se tiene:
+        \[
+        \hat\sigma^2=\frac{500}{100-4-1}=\frac{500}{95}=5.26
+        \]
+
+        Por lo tanto:
+        \[
+        \boxed{\hat\sigma^2=5.26}
+        \]
+
+        \item La ecuación estimada es:
+        \[
+        \hat Y = 12 + 1.2he + 0.3pa + 0.4pd + 1.5as
+        \]
+
+        Para cada estudiante de la muestra out-of-time:
+
+        \[
+        \hat Y_1=12+1.2(10)+0.3(80)+0.4(50)+1.5(2)=71
+        \]
+
+        \[
+        \hat Y_2=12+1.2(8)+0.3(75)+0.4(45)+1.5(1)=63.6
+        \]
+
+        \[
+        \hat Y_3=12+1.2(12)+0.3(90)+0.4(60)+1.5(3)=81.9
+        \]
+
+        \[
+        \hat Y_4=12+1.2(6)+0.3(70)+0.4(40)+1.5(1)=57.7
+        \]
+
+        \[
+        \hat Y_5=12+1.2(9)+0.3(85)+0.4(55)+1.5(2)=73.3
+        \]
+
+        \[
+        \hat Y_6=12+1.2(11)+0.3(88)+0.4(58)+1.5(2)=77.8
+        \]
+
+        Por lo tanto:
+        \[
+        \boxed{\hat Y_1=71,\ \hat Y_2=63.6,\ \hat Y_3=81.9,\ \hat Y_4=57.7,\ \hat Y_5=73.3,\ \hat Y_6=77.8}
+        \]
+
+        \item Los residuos de predicción se calculan como:
+        \[
+        \hat u_i = Y_i-\hat Y_i
+        \]
+
+        Entonces:
+
+        \[
+        \hat u_1=69-71=-2
+        \]
+
+        \[
+        \hat u_2=59-63.6=-4.6
+        \]
+
+        \[
+        \hat u_3=79-81.9=-2.9
+        \]
+
+        \[
+        \hat u_4=54-57.7=-3.7
+        \]
+
+        \[
+        \hat u_5=71-73.3=-2.3
+        \]
+
+        \[
+        \hat u_6=75-77.8=-2.8
+        \]
+
+        Por lo tanto:
+        \[
+        \boxed{\hat u_1=-2,\ \hat u_2=-4.6,\ \hat u_3=-2.9,\ \hat u_4=-3.7,\ \hat u_5=-2.3,\ \hat u_6=-2.8}
+        \]
+
+        La varianza del error en la muestra out-of-time es:
+        \[
+        \hat\sigma^2_{OOT}=\frac{1}{m}\sum_{i=1}^{m}\hat u_i^2
+        \]
+
+        Como \(m=6\), primero calculamos:
+        \[
+        \sum \hat u_i^2
+        =
+        (-2)^2+(-4.6)^2+(-2.9)^2+(-3.7)^2+(-2.3)^2+(-2.8)^2
+        \]
+
+        \[
+        =4+21.16+8.41+13.69+5.29+7.84
+        \]
+
+        \[
+        =60.39
+        \]
+
+        Entonces:
+        \[
+        \hat\sigma^2_{OOT}=\frac{60.39}{6}=10.065
+        \]
+
+        Por lo tanto:
+        \[
+        \boxed{\hat\sigma^2_{OOT}=10.07}
+        \]
+    \end{enumerate}
+
+
+
+    \item (20 puntos) Considere el siguiente modelo verdadero:
+
+\[
+Y_i = \beta_0 + \beta_1 X_i^* + \varepsilon_i
+\]
+
+Sin embargo, el investigador no observa \(X_i^*\). En su lugar observa:
+
+\[
+X_i = 0.8X_i^* + w_i
+\]
+
+donde \(w_i\) es un error de medición clásico con media cero y varianza \(\sigma_w^2\), y además es independiente de \(X_i^*\) y de \(\varepsilon_i\). Sea el modelo con errores de medición
+
+\[
+Y_i = \tilde\beta_0 + \tilde\beta_1 X_i + \varepsilon_i
+\]
+
+
+\(\tilde{\beta}_1\) la pendiente poblacional de la regresión de \(Y_i\) sobre \(X_i\). 
+
+\begin{enumerate}
+    \item Calcule \(\tilde{\beta}_1\) en función de \(\beta_1\), \(\mathrm{Var}(X_i^*)\) y \(\sigma_w^2\).
+    \item Discuta si el sesgo en $\tilde\beta_1$ corresponde necesariamente a sesgo de atenuación. Justifique su respuesta.
+\end{enumerate}
+
+\textbf{Respuesta:}
+
+Sabemos que la pendiente poblacional al regredir \(Y_i\) sobre \(X_i\) es:
+
+\[
+\tilde{\beta}_1 = \frac{\mathrm{Cov}(Y_i,X_i)}{\mathrm{Var}(X_i)}
+\]
+
+Por lo tanto, debemos calcular \(\mathrm{Cov}(Y_i,X_i)\) y \(\mathrm{Var}(X_i)\).
+
+Como el modelo verdadero es:
+
+\[
+Y_i = \beta_0 + \beta_1 X_i^* + \varepsilon_i
+\]
+
+entonces:
+
+\[
+\mathrm{Cov}(Y_i,X_i)
+=
+\mathrm{Cov}(\beta_0 + \beta_1 X_i^* + \varepsilon_i,\; X_i)
+\]
+
+Usando propiedades de covarianza:
+
+\[
+\mathrm{Cov}(Y_i,X_i)
+=
+\beta_1 \mathrm{Cov}(X_i^*,X_i) + \mathrm{Cov}(\varepsilon_i,X_i)
+\]
+
+Como \(\varepsilon_i\) es independiente de \(X_i^*\) y de \(w_i\), también es independiente de \(X_i=0.8X_i^*+w_i\), por lo que:
+
+\[
+\mathrm{Cov}(\varepsilon_i,X_i)=0
+\]
+
+Además, como:
+
+\[
+X_i = 0.8X_i^* + w_i
+\]
+
+se tiene:
+
+\[
+\mathrm{Cov}(X_i^*,X_i)
+=
+\mathrm{Cov}(X_i^*,0.8X_i^* + w_i)
+=
+0.8\,\mathrm{Var}(X_i^*) + \mathrm{Cov}(X_i^*,w_i)
+\]
+
+Dado que \(w_i\) es independiente de \(X_i^*\), entonces:
+
+\[
+\mathrm{Cov}(X_i^*,w_i)=0
+\]
+
+Por lo tanto:
+
+\[
+\mathrm{Cov}(Y_i,X_i)=\beta_1 \cdot 0.8\,\mathrm{Var}(X_i^*)
+\]
+
+Ahora calculamos la varianza de \(X_i\):
+
+\[
+\mathrm{Var}(X_i)
+=
+\mathrm{Var}(0.8X_i^* + w_i)
+=
+0.8^2\mathrm{Var}(X_i^*) + \mathrm{Var}(w_i)
+\]
+
+como \(X_i^*\) y \(w_i\) son independientes. Así:
+
+\[
+\mathrm{Var}(X_i)=0.64\,\mathrm{Var}(X_i^*)+\sigma_w^2
+\]
+
+Finalmente, reemplazando en la expresión de la pendiente:
+
+\[
+\tilde{\beta}_1
+=
+\frac{\mathrm{Cov}(Y_i,X_i)}{\mathrm{Var}(X_i)}
+=
+\frac{\beta_1 \cdot 0.8\,\mathrm{Var}(X_i^*)}{0.64\,\mathrm{Var}(X_i^*)+\sigma_w^2}
+\]
+
+Por lo tanto,
+
+\[
+\boxed{
+\tilde{\beta}_1
+=
+\beta_1\,
+\frac{0.8\,\mathrm{Var}(X_i^*)}{0.64\,\mathrm{Var}(X_i^*)+\sigma_w^2}
+}
+\]
+
+b)
+
+No necesariamente corresponde a sesgo de atenuación. El sesgo de atenuación ocurre cuando el factor que acompaña al $\beta$ es menor a 1. En este caso solo es menor a 1 cuando 
+$$0.64Var(X^*)+\sigma^2_w > 0.8Var(X^*)$$
+Entonces es de atenuación si
+$$\sigma^2_w>0.16Var(X^*)$$
+En otro los otros casos, cuando 
+$$\sigma^2_w=0.16Var(X^*)$$
+Los  betas son iguales y el sesgo se elimina, y para cuando
+$$\sigma^2_w<0.16Var(X^*)$$
+El sesgo está sobrestimando. 
+
+    \item (20 puntos) Considere el siguiente modelo estimado:
+
+\[
+\log(salario_i)= 5.2 + 0.06\,educ_i + 0.12\,\log(tenure_i) + 0.12\,\log(exp_i) - 0.00015\,exp_i^2 + u_i
+\]
+
+donde:
+
+\begin{itemize}
+    \item $salario_i$: salario mensual del trabajador $i$.
+    \item $educ_i$: años de educación del trabajador $i$.
+    \item $tenure_i$: años que el trabajador $i$ lleva en la empresa actual.
+    \item $exp_i$: años de experiencia laboral del trabajador $i$.
+    \item $u_i$: término de error.
+\end{itemize}
+
+
+\begin{enumerate}
+    \item[a)] (5 puntos) Calcule el retorno marginal del salario dado los años de educación.
+    \item[b)] (5 puntos) Calcule el retorno marginal del salario por los años en la compañía ($tenure$).
+    \item[c)] (5 puntos) Calcule el retorno marginal del salario por los años de experiencia.
+    \item[d)] (5 puntos) ¿En qué nivel de experiencia los retornos marginales del salario empiezan a ser negativos?
+\end{enumerate}
+
+\subsection*{Solución}
+
+\begin{enumerate}
+    \item[a)] El retorno marginal del salario respecto a los años de educación se obtiene derivando $\log(salario_i)$ respecto de $educ_i$:
+
+    \[
+    \frac{\partial \log(salario_i)}{\partial educ_i} = 0.06
+    \]
+
+    Como la variable dependiente está en logaritmo y $educ_i$ está en niveles, esto implica que:
+
+    \[
+    \text{un año adicional de educación aumenta el salario en aproximadamente } 6\%
+    \]
+
+    ceteris paribus.
+
+    \item[b)] El retorno marginal del salario respecto a los años en la compañía se obtiene derivando respecto de $tenure_i$:
+
+    \[
+    \frac{\partial \log(salario_i)}{\partial tenure_i}
+    = 0.12 \cdot \frac{1}{tenure_i}
+    = \frac{0.12}{tenure_i}
+    \]
+
+    Esto muestra que el efecto marginal no es constante: depende del nivel de $tenure_i$.
+
+    En particular, como se trata de una relación log-log, el coeficiente 0.12 también puede interpretarse como una elasticidad:
+
+    \[
+    \text{un aumento de 1\% en } tenure_i \text{ incrementa el salario en aproximadamente } 0.12\%
+    \]
+
+    ceteris paribus.
+
+    \item[c)] El retorno marginal del salario respecto a los años de experiencia se obtiene derivando respecto de $exp_i$:
+
+    \[
+    \frac{\partial \log(salario_i)}{\partial exp_i}
+    = 0.12 \cdot \frac{1}{exp_i} - 0.0003\,exp_i
+    \]
+
+    es decir,
+
+    \[
+    \frac{\partial \log(salario_i)}{\partial exp_i}
+    = \frac{0.12}{exp_i} - 0.0003\,exp_i
+    \]
+
+    Este efecto marginal depende del nivel de experiencia. El primer término es positivo, pero el segundo término es negativo y crece en magnitud a medida que aumenta $exp_i$, por lo que el retorno marginal de la experiencia va disminuyendo.
+
+    \item[d)] Los retornos marginales empiezan a ser negativos cuando el efecto marginal se hace igual a cero. Entonces resolvemos:
+
+    \[
+    \frac{0.12}{exp_i} - 0.0003\,exp_i = 0
+    \]
+
+    Multiplicando por $exp_i$:
+
+    \[
+    0.12 - 0.0003\,exp_i^2 = 0
+    \]
+
+    \[
+    0.0003\,exp_i^2 = 0.12
+    \]
+
+    \[
+    exp_i^2 = \frac{0.12}{0.0003} = 400
+    \]
+
+    \[
+    exp_i = 20
+    \]
+
+    Por lo tanto, los retornos marginales del salario por experiencia son cero cuando el trabajador tiene 20 años de experiencia. A partir de ese punto, los retornos marginales comienzan a ser negativos.
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}

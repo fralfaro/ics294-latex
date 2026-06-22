@@ -1,0 +1,115 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.11]{figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+\begin{center}
+\begin{Large}
+\textbf{\\Formulario Econometría ICS-294}
+\end{Large}\\
+\end{center}
+
+    
+\section{Formulario}
+\begin{itemize}
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es \emph{\textbf{conocido}}:
+
+$$\color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}$$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la diferencia de medias
+$\mu_x-\mu_y$ es:
+
+$${\color{red}(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}$$
+
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es \emph{\textbf{desconocido}}:
+
+$$\color{red}{\bar{x} \pm z_{(n-1)\frac{\alpha}{2}}\frac{S}{\sqrt{n}}}$$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la proporción poblacional $p$ es:
+
+$$\color{red}{\hat{p} \pm z_{(n-1)\frac{\alpha}{2}}\sqrt{\frac{\hat{p}(1-\hat{p})}{{n}}}}$$
+
+
+\item  Estimadores MCO para RLS.
+{\color{red}
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} $$
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}=\frac{Cov(x,y)}{Var(x)}$$}
+
+
+\item  Estimadores MCO para RLM.
+{\color{red}
+$${\hat{\beta}} = (X^TX)^{-1} X^TY $$}
+
+    
+\item SST la suma de cuadrados totales (total sum of squares):
+	{\color{red}	\[ SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \]}
+		
+		\item  SSE la suma de cuadrados explicados (explained sum of squares):
+	{\color{red}	\[ SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 \]}
+		
+		\item  SSR la suma de cuadrados no explicados (residual sum of squares):
+	{\color{red}	\[ SSR = \sum_{i=1}^{n} \hat{u}_i^2 \]}
+
+		\item  $R^2$:
+	{\color{red}	\[ R^2= 1 - \frac{SSR}{SST} \]}
+
+    		\item  $R^2$ ajustado:
+	{\color{red}	\[ R^2_{adj}= 1 - \frac{n-1}{n-k-1}\frac{SSR}{SST} \]}
+
+
+\end{itemize}
+
+\newpage
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.2\linewidth, angle=90]{figuras/normal_critic.png}
+
+    
+\end{figure}
+
+\end{document}
+
+   

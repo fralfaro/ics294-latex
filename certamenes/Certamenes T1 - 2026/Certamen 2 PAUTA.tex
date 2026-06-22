@@ -1,0 +1,506 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{tikz}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 2}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+I trimestre 2026\\
+Profesor: Pedro Comte Hidalgo\\
+Ayudantes: Jociney Honorio y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Preguntas conceptuales (30 puntos)}
+
+\begin{enumerate}
+    \item  (10 puntos) ¿Qué efectos se generan al incorporar variables dummy en un modelo de regresión lineal, tanto de manera directa como a través de interacciones con otra variable dummy? 
+Explique los distintos casos posibles.
+\\
+\textbf{Solución}
+\\
+La inclusión de variables dummy permite capturar diferencias estructurales entre grupos. Considere el modelo general con dos dummies $D_1$ y $D_2$ y su interacción:
+\[
+y = \beta_0 + \beta_1 D_1 + \beta_2 D_2 + \beta_3 (D_1 \cdot D_2) + u
+\]
+
+\textbf{Caso 1: Solo dummies directas.} Si se incluyen únicamente $D_1$ y $D_2$:
+\[
+y = \beta_0 + \beta_1 D_1 + \beta_2 D_2 + u
+\]
+El efecto de cada dummy es \textbf{aditivo e independiente}. Los valores esperados son:
+\begin{center}
+\begin{tabular}{c|cc}
+ & $D_2 = 0$ & $D_2 = 1$ \\ \hline
+$D_1 = 0$ & $\beta_0$ & $\beta_0 + \beta_2$ \\
+$D_1 = 1$ & $\beta_0 + \beta_1$ & $\beta_0 + \beta_1 + \beta_2$
+\end{tabular}
+\end{center}
+Gráficamente se observan cuatro niveles, donde la diferencia al activar una dummy es constante.
+
+\textbf{Caso 2: Con interacción dummy $\times$ dummy.} Al incluir $D_1 \cdot D_2$:
+\begin{center}
+\begin{tabular}{c|cc}
+ & $D_2 = 0$ & $D_2 = 1$ \\ \hline
+$D_1 = 0$ & $\beta_0$ & $\beta_0 + \beta_2$ \\
+$D_1 = 1$ & $\beta_0 + \beta_1$ & $\beta_0 + \beta_1 + \beta_2 + \beta_3$
+\end{tabular}
+\end{center}
+Aquí el efecto de $D_1$ tambien es \textbf{aditivo}: vale $\beta_1$ cuando $D_2=0$ y $\beta_1 + \beta_3$ cuando $D_2=1$. El coeficiente $\beta_3$ mide el \textbf{efecto diferencial} entre grupos.
+
+
+    \item (10 puntos) ¿Qué similitudes y diferencias existen entre realizar inferencia bajo el supuesto 6 (normalidad de los errores) y realizar inferencia en una muestra suficientemente grande sin asumir normalidad?
+\\
+\textbf{Solución}
+\\
+Similitud ( 5 puntos):
+En ambos escenarios los estadísticos
+t y F son válidos para realizar inferencia (tests de hipótesis e intervalos de confianza) sobre los parámetros del modelo. En ambos casos los estimadores MCO son insesgados, consistentes y eficientes (BLUE bajo Gauss-Markov), y los estadísticos siguen aproximadamente las mismas distribuciones de referencia (
+t de Student y
+F de Fisher), por lo que los valores críticos utilizados son los mismos. \\
+Diferencia ( 5 puntos):
+La diferencia central radica en si la inferencia es exacta o aproximada (asintótica):
+
+Bajo el supuesto 6 de normalidad, los estimadores MCO tienen distribución normal exacta en muestras finitas, y por lo tanto los estadísticos
+t y
+F siguen exactamente las distribuciones de Student y Fisher, respectivamente. Esto permite inferencia válida incluso con muestras pequeñas.
+En cambio, sin el supuesto de normalidad pero con muestra grande, la validez de la inferencia se sustenta en propiedades asintóticas: los estadísticos
+t y
+F siguen sus distribuciones de referencia solo de manera aproximada, y esta aproximación mejora a medida que n crece. Con muestras pequeñas y errores no normales, la inferencia podría ser inválida.
+    
+\item (10 puntos) Explique que es el modelo nulo y como sirve para encontrar la significancia global del modelo.
+\\
+\textbf{Solución}
+\\
+ El modelo nulo (o modelo restringido al intercepto) es la especificación más simple posible:
+\[
+y_i = \beta_0 + u_i
+\]
+No incluye variables explicativas, por lo que el estimador MCO es $\hat{\beta}_0 = \bar{y}$. La suma de cuadrados de los residuos coincide con la suma de cuadrados totales del modelo completo:
+\[
+SSR_{\text{nulo}} = \sum_{i=1}^{n}(y_i - \bar{y})^2 = SST
+\]
+Lo que implica que su $R^2$ es cero.
+
+El test de significancia global evalúa si el conjunto de regresores explica $y$ más allá del modelo nulo:
+\[
+H_0: \beta_1 = \beta_2 = \cdots = \beta_k = 0 \quad \text{vs} \quad H_1: \text{al menos un } \beta_j \neq 0
+\]
+Bajo $H_0$, el modelo se reduce exactamente al modelo nulo. El estadístico $F$ compara ambos ajustes.
+
+
+\end{enumerate}
+
+
+\section{Ejercicios (70 puntos)}
+
+\begin{enumerate}
+
+     \color{black}  
+    \item (40 puntos) El Instituto Nacional de Estadísticas (INE) le encarga estudiar las diferencias salariales en el mercado laboral chileno, con especial interés en evaluar si existe discriminación de género en el sector privado y si esta varía según el nivel educacional. Usted dispone de una muestra de 256 trabajadores asalariados y estima el siguiente modelo:
+\begin{align*}
+\log(salario) &= \beta_0 + \beta_1 \, educ + \beta_2 \, exper + \beta_3 \, mujer + \beta_4 (mujer \cdot educ) + \beta_5 \, sector\_priv + u
+\end{align*}
+donde:
+\begin{itemize}
+    \item $educ$: años de educación formal.
+    \item $exper$: años de experiencia laboral.
+    \item $mujer$: dummy igual a 1 si el trabajador es mujer, 0 si es hombre.
+    \item $sector\_priv$: dummy igual a 1 si trabaja en el sector privado, 0 si trabaja en el sector público.
+\end{itemize}
+
+Los resultados de la estimación son:
+\[
+\widehat{\log(salario)} = \underset{(0.180)}{6.20} + \underset{(0.012)}{0.085} \, educ + \underset{(0.014)}{0.042} \, exper - \underset{(0.095)}{0.310} \, mujer + \underset{(0.008)}{0.012} (mujer \cdot educ) + \underset{(0.045)}{0.135} \, sector\_priv
+\]
+donde los valores entre paréntesis son las desviaciones estándar. $R^2$ de $0.648$ para este modelo.
+
+La matriz de varianzas y covarianzas estimada de los coeficientes asociados a $educ$, $mujer$ y $(mujer \cdot educ)$ es:
+\[
+\widehat{Var}(\hat{\beta}_1, \hat{\beta}_3, \hat{\beta}_4) = 
+\begin{pmatrix}
+0.000144 & -0.00060 & 0.00004 \\
+-0.00060 & 0.009025 & -0.00065 \\
+0.00004 & -0.00065 & 0.000064
+\end{pmatrix}
+\]
+
+\begin{enumerate}
+    \item[(a)] (6 puntos) Interprete económicamente los coeficientes $\hat{\beta}_3$ y $\hat{\beta}_4$. ¿Cuál es el retorno marginal de un año adicional de educación para una mujer? ¿Y para un hombre?
+    
+    \item[(b)] (7 puntos) Plantee y resuelva el test de hipótesis para evaluar si existe \textbf{discriminación salarial directa} contra las mujeres (es decir, si $\beta_3 < 0$). Use un nivel de significancia del 5\%.
+
+      \item[(c)] (7 puntos) Realice el intervalo de confianza del 99\% para el parametro asociado a la \textit{dummy} \textbf{sector_priv}, interprete y concluya entorno a la significancia en el modelo de esta variable.
+    
+    \item[(d)] (10 puntos) El INE sospecha que el género no afecta los salarios de ninguna forma (ni por intercepto ni por interacción con educación). Plantee la hipótesis nula correspondiente, sabiendo que al estimar el modelo \textbf{sin} las variables $mujer$ y $(mujer \cdot educ)$ se obtiene un $R^2$ de $0.612$. Realice el test al 5\% de significancia y concluya.
+    
+    \item[(e)] (10 puntos) Un investigador plantea que el efecto negativo de ser mujer sobre el salario es exactamente compensado por el efecto positivo de la interacción con educación cuando una mujer tiene un cierto nivel de educación. Específicamente, propone testear si:
+    \[
+    \beta_3 + 12 \beta_4 = 0
+    \]
+    Plantee las hipótesis, calcule el estadístico de prueba al 5\% de significancia y concluya. Interprete económicamente el resultado.
+    
+\end{enumerate}
+
+\textbf{Solución.}
+
+\textbf{(a) Interpretación de coeficientes (6 puntos).}
+
+\begin{itemize}
+    \item $\hat{\beta}_3 = -0.310$: Para una persona con $educ = 0$, el hecho de ser mujer está asociado con un salario aproximadamente $31\%$ menor que el de un hombre comparable. Captura el diferencial de intercepto entre géneros.
+    
+    \item $\hat{\beta}_4 = 0.012$: La interacción indica que, por cada año adicional de educación, la brecha salarial de género se reduce en aproximadamente $1.2$ puntos porcentuales. Es decir, las mujeres obtienen un retorno mayor a la educación que los hombres.
+\end{itemize}
+
+El retorno marginal de un año adicional de educación es:
+\[
+\text{Hombres: } \hat{\beta}_1 = 8.5\%, \quad \text{Mujeres: } \hat{\beta}_1 + \hat{\beta}_4 = 0.085 + 0.012 = 9.7\%
+\]
+
+\medskip
+
+\textbf{(b) Test t individual: discriminación directa (7 puntos).}
+
+Las hipótesis para testear si existe discriminación salarial directa contra las mujeres son:
+\[
+H_0: \beta_3 = 0 \quad \text{vs} \quad H_1: \beta_3 < 0
+\]
+
+El estadístico $t$ es:
+\[
+t = \frac{\hat{\beta}_3}{se(\hat{\beta}_3)} = \frac{-0.310}{0.095} \approx -3.26
+\]
+
+Test de cola inferior al 5\%, valor crítico $t_{0.05; \, 299} \approx -1.64$. Como:
+\[
+t_{calc} = -3.26 < t_{crit} = -1.64
+\]
+se \textbf{rechaza} $H_0$. Existe evidencia estadística al 5\% de discriminación salarial directa contra las mujeres en el intercepto del modelo.
+
+\medskip
+
+\textbf{(c) Intervalo de confianza al 99\% para $\beta_5$ (7 puntos).}
+
+El intervalo de confianza al 99\% para el coeficiente asociado a $sector\_priv$ es:
+\[
+IC_{99\%} = \hat{\beta}_5 \pm t_{0.995; \, 299} \cdot se(\hat{\beta}_5) = 0.135 \pm 2.58 \cdot 0.045
+\]
+\[
+IC_{99\%} = 0.135 \pm 0.116 = [0.019; \, 0.251]
+\]
+
+Como el intervalo \textbf{no contiene al cero}, la variable $sector\_priv$ es estadísticamente significativa al 1\%. 
+
+\textbf{Interpretación económica:} con un 99\% de confianza, los trabajadores del sector privado ganan entre un $1.9\%$ y un $25.1\%$ más que los del sector público, manteniendo todo lo demás constante. La variable es relevante para explicar las diferencias salariales en la muestra.
+
+\medskip
+
+\textbf{(d) Test F de conjunto: género en su totalidad (10 puntos).}
+
+Las hipótesis para testear si el género no afecta los salarios de ninguna forma son:
+\[
+H_0: \beta_3 = \beta_4 = 0 \quad \text{vs} \quad H_1: \text{al menos uno es distinto de cero}
+\]
+
+Bajo $H_0$, el modelo se reduce a uno sin las variables $mujer$ y $(mujer \cdot educ)$. Con $R^2_{ur} = 0.648$, $R^2_r = 0.612$, $n = 305$, $k = 5$ y $j = 2$ restricciones:
+\[
+F = \frac{(R^2_{ur} - R^2_r)/j}{(1 - R^2_{ur})/(n - k - 1)} = \frac{(0.648 - 0.612)/2}{(1 - 0.648)/(355 - 5 - 1)}
+\]
+\[
+F \approx 12.73
+\]
+
+El valor crítico al 5\% es aproximadamente $F_{0.05}(2, 250) \approx 3.03$. Como:
+\[
+F_{calc} = 12.73 > F_{crit} = 3.03
+\]
+se \textbf{rechaza} $H_0$ al 5\%. 
+
+\textbf{Conclusión:} el género (en su efecto directo y en su interacción con la educación) tiene un efecto conjunto significativo sobre el salario, por lo que estas variables no pueden ser excluidas del modelo.
+
+\medskip
+
+\textbf{(e) Test t entre parámetros: combinación lineal (10 puntos).}
+
+Las hipótesis son:
+\[
+H_0: \beta_3 + 12 \beta_4 = 0 \quad \text{vs} \quad H_1: \beta_3 + 12 \beta_4 \neq 0
+\]
+
+El estimador de la combinación es:
+\[
+\hat{\beta}_3 + 12 \hat{\beta}_4 = -0.310 + 12 \cdot 0.012 = -0.310 + 0.144 = -0.166
+\]
+
+Aplicando la fórmula de varianza de una suma con $k=1$ y $c=12$:
+\[
+Var(\hat{\beta}_3 + 12 \hat{\beta}_4) = Var(\hat{\beta}_3) + 144 \cdot Var(\hat{\beta}_4) + 24 \cdot Cov(\hat{\beta}_3, \hat{\beta}_4)
+\]
+\[
+= 0.009025 + 144 \cdot 0.000064 + 24 \cdot (-0.00065)
+\]
+\[
+= 0.009025 + 0.009216 - 0.0156 = 0.002641
+\]
+
+El error estándar es:
+\[
+se = \sqrt{0.002641} \approx 0.0514
+\]
+
+El estadístico $t$ es:
+\[
+t = \frac{-0.166}{0.0514} \approx -3.23
+\]
+
+Valor crítico bilateral al 5\%: $t_{0.975; \, 299} \approx 1.96$. Como:
+\[
+|t_{calc}| = 3.23 > 1.96
+\]
+se \textbf{rechaza} $H_0$ al 5\%.
+
+\textbf{Interpretación económica:} para una mujer con 12 años de educación (enseñanza media completa), el efecto total de ser mujer sobre el salario sigue siendo significativamente distinto de cero. En particular, una mujer con educación media gana aproximadamente un $16.6\%$ menos que un hombre comparable, y esta brecha es estadísticamente significativa. Por lo tanto, la educación media no logra compensar el diferencial de género observado.
+
+
+
+\item (30 puntos) En enero de 2020 entró en vigor una nueva regulación ambiental que afectó a las empresas mineras en Chile, imponiendo mayores estándares de emisiones y costos asociados al cumplimiento normativo. Un investigador desea evaluar si la relación entre la rentabilidad de las empresas y sus principales determinantes cambió tras la entrada en vigencia de esta regulación. 
+
+Se cuenta con datos de 150 empresas-año del sector minero chileno (75 antes y 75 después de la regulación), y se estima el siguiente modelo:
+\[
+ROA = \beta_0 + \beta_1 \log(activos) + \beta_2 \, leverage + \beta_3 \log(precio_{cobre}) + \beta_4 \, costo_{energ} + u
+\]
+donde $ROA$: rentabilidad sobre activos de la empresa (\%), $\log(activos)$: logaritmo de los activos totales (proxy de tamaño), $leverage$: razón deuda/patrimonio, $\log(precio_{cobre})$: logaritmo del precio promedio del cobre en el año y $costo_{energ}$: costo unitario de energía eléctrica (USD/MWh).
+
+Considerando las distintas formas de ver si existen diferencia pre y post regulación, siendo estas:
+    \begin{itemize}
+        \item usando el test de Chow con dos submuestras (pre y post regulación).
+        \item usando un modelo único con una variable \textit{dummy} \textit{post} y sus interacciones con los regresores.
+    \end{itemize}
+
+\begin{enumerate}    
+    \item[(b)] (15 puntos) Sabiendo que las sumas de cuadrados de los residuos son:
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            Modelo & SSR \\
+            \hline
+            Base &  18.4 \\
+            Pre 2020 & 7.2 \\
+            Post 2020 & 8.5 \\
+            \hline
+        \end{tabular}
+        \label{tab:placeholder}
+    \end{table}
+
+    Realice el test de hipotesis de diferencia de grupos de Chow y concluya al 5\% de significancia.
+    
+    \item[(c)] (15 puntos) Considere ahora la utilización de la variable \textit{dummy} \textit{post}, para ver la difencia entre grupos. Considerando que el SSR de este modelo es 16.8, plantee el modelo y realice el test de hipotesis de diferencia de grupos al 5\% de significancia usando este enfoque. 
+
+    
+\textbf{Solución.}
+
+\textbf{(a)} Las hipótesis del test de Chow son:
+\[
+H_0: \beta^{(\text{pre})} = \beta^{(\text{post})} \quad \text{vs} \quad H_1: \text{al menos un coeficiente difiere entre periodos}
+\]
+
+La suma de cuadrados del modelo no restringido es:
+\[
+SSR_{ur} = SSR_1 + SSR_2 = 7.20 + 8.50 = 15.70
+\]
+
+Con $G = 2$ grupos, $k = 4$ regresores y $n = 150$, los grados de libertad son:
+\[
+gl_1 = (G-1)(k+1) = 1 \cdot 5 = 5, \quad gl_2 = n - G(k+1) = 150 - 10 = 140
+\]
+
+El estadístico $F$ es:
+\[
+F = \frac{(SSR_R - SSR_{ur}) / [(G-1)(k+1)]}{SSR_{ur} / [n - G(k+1)]} = \frac{(18.40 - 15.70)/5}{15.70/140} = \frac{0.540}{0.1121} \approx 4.82
+\]
+
+El valor crítico al 5\% es aproximadamente $F_{0.05}(5, 140) \approx 2.27$. Como:
+\[
+F_{calc} = 4.82 > F_{crit} = 2.27
+\]
+se \textbf{rechaza} $H_0$ al 5\% de significancia.
+
+\textbf{Conclusión económica:} existe evidencia estadística de un cambio estructural en la ecuación de rentabilidad de las empresas mineras chilenas tras la entrada en vigor de la regulación ambiental de 2020. Esto sugiere que la nueva normativa modificó la sensibilidad del $ROA$ frente a variables clave como el tamaño de la empresa, el endeudamiento, el precio del cobre y el costo energético.
+
+\medskip
+
+\textbf{(b)} En este enfoque se estima un modelo único que incluye la dummy $post$ y sus interacciones con cada regresor, lo que permite capturar diferencias tanto en el intercepto como en las pendientes entre los dos grupos:
+\begin{align*}
+ROA &= \beta_0 + \beta_1 \log(activos) + \beta_2 \, leverage + \beta_3 \log(precio_{cobre}) + \beta_4 \, costo_{energ} \\
+&\quad + \delta_0 \, post + \delta_1 (post \cdot \log(activos)) + \delta_2 (post \cdot leverage) \\
+&\quad + \delta_3 (post \cdot \log(precio_{cobre})) + \delta_4 (post \cdot costo_{energ}) + u
+\end{align*}
+
+Testear si existe diferencia entre grupos equivale a testear que todos los coeficientes asociados a $post$ y sus interacciones son simultáneamente cero:
+\[
+H_0: \delta_0 = \delta_1 = \delta_2 = \delta_3 = \delta_4 = 0
+\]
+\[
+H_1: \text{al menos uno de los } \delta_j \text{ es distinto de cero}
+\]
+
+Bajo $H_0$, el modelo se reduce al modelo restringido (pooled) sin diferencias entre periodos, con $SSR_R = 18.40$. El modelo no restringido (con dummy e interacciones) tiene $SSR_{ur} = 16.80$.
+
+Se imponen $j = 5$ restricciones, con $n = 150$ y $k = 9$ regresores en el modelo no restringido (4 originales + 1 dummy + 4 interacciones). El estadístico $F$ es:
+\[
+F = \frac{(SSR_R - SSR_{ur})/j}{SSR_{ur}/(n - k - 1)} = \frac{(18.40 - 16.80)/5}{16.80/(150 - 9 - 1)} = \frac{0.320}{16.80/140} = \frac{0.320}{0.120} \approx 2.67
+\]
+
+El valor crítico al 5\% es aproximadamente $F_{0.05}(5, 140) \approx 2.27$. Como:
+\[
+F_{calc} = 2.67 > F_{crit} = 2.27
+\]
+se \textbf{rechaza} $H_0$ al 5\% de significancia.
+
+\textbf{Conclusión:} existe evidencia estadística de diferencias estructurales entre las empresas mineras antes y después de la regulación ambiental, ya sea en el intercepto, en las pendientes o en ambos. Este resultado es \textbf{equivalente al obtenido mediante el test de Chow del item (b)}, lo que confirma que ambos enfoques son matemáticamente análogos y entregan estadísticos $F$ con los mismos grados de libertad.
+\end{enumerate}
+
+
+\newpage
+\section*{Formulario}
+\begin{itemize}
+
+\item Estadistico t para $\beta_j = a_j$
+
+$$\color{red}{t_{\beta_j}=\frac{\hat{\beta_j}-a_j}{s.e.(\hat{\beta_j})}}$$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para el estimador $\beta_j$:
+
+$${\color{red}\hat{\beta_j} \pm t_{\frac{\alpha}{2},n-k-1}s.e.(\hat{\beta_j})}$$
+
+
+\item para el estadistico F entre dos modelos:
+
+$$\color{red}{F=\frac{SSR_r-SSR_{ur}}{SSR_{ur}}\frac{n-k-1}{j}}$$
+$$\color{red}{F=\frac{R^2_{ur}-R^2_{r}}{1-R^2_{ur}}\frac{n-k-1}{j}}$$
+
+\item Test de Chow para Grupos.
+
+    \[\color{red}
+    F = \frac{(SSR_r - SSR_{ur}) / ((G - 1)(k + 1))}{SSR_{ur} / (n - G(k + 1))} \sim F((G - 1)(k + 1), n - G(k + 1))
+    \]
+
+Con
+
+$$\color{red}SSR_{ur} = \sum_{g=1}^G SSR_g$$
+
+\item Estadistico t para igualdad entre parametros:
+ \[\color{red}t_{\text{estadístico}} = \frac{\hat{\beta}_1 - \hat{\beta}_2 - 0}{\sqrt{\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)}}\]
+
+
+\item  Varianza de una suma.
+{\color{red}
+$$\text{Var}(kA + cB) = k^2\text{Var}(A) + c^2\text{Var}(B) + 2kc\text{COV}(A, B)$$}
+
+\item $t_{0.95,n} = 1.64$ cuando $n >50$.
+\item $t_{0.975,n} = 1.96$ cuando $n >50$.
+\item $t_{0.99,n}=2.33$ cuando $n>50$
+\item $t_{0.995,n}=2.58$ cuando $n>50$
+
+
+\item Tabla Fisher para 5\%:
+\begin{table}[H]
+\centering
+\caption{Valores críticos de la distribución F (cola superior) para $\alpha=0.05$. 
+El numerador usa $df_1$ y el denominador $df_2$.}
+\label{tab:Fcrit_5pct}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+& \multicolumn{5}{c|}{$df_2$} \\
+\hline
+$df_1$ & 50 & 100 & 150 & 200 & 250 \\
+\hline
+1  & 4.0343 & 3.9361 & 3.9042 & 3.8884 & 3.8789 \\
+\hline
+2  & 3.1826 & 3.0873 & 3.0564 & 3.0411 & 3.0319 \\
+\hline
+3  & 2.7900 & 2.6955 & 2.6649 & 2.6498 & 2.6407 \\
+\hline
+4  & 2.5572 & 2.4626 & 2.4320 & 2.4168 & 2.4078 \\
+\hline
+5  & 2.4004 & 2.3053 & 2.2745 & 2.2592 & 2.2501 \\
+\hline
+6  & 2.2840 & 2.1893 & 2.1584 & 2.1431 & 2.1340 \\
+\hline
+7  & 2.1953 & 2.1009 & 2.0699 & 2.0546 & 2.0454 \\
+\hline
+8  & 2.1267 & 2.0325 & 2.0014 & 1.9861 & 1.9769 \\
+\hline
+9  & 2.0720 & 1.9779 & 1.9467 & 1.9314 & 1.9222 \\
+\hline
+10 & 2.0270 & 1.9331 & 1.9018 & 1.8865 & 1.8773 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\end{itemize}
+
+ \end{enumerate}
+
+\end{document}

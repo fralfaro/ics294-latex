@@ -1,0 +1,70 @@
+\documentclass[12pt]{article}
+
+% ==== PAQUETES ====
+\usepackage[utf8]{inputenc}      % Codificación
+\usepackage[T1]{fontenc}         % Acentos y símbolos en PDF
+\usepackage[spanish]{babel}      % Idioma
+\usepackage{amsmath, amssymb}    % Símbolos matemáticos
+\usepackage{geometry}            % Márgenes
+\usepackage{lmodern}             % Fuente mejorada
+\usepackage{enumitem}            % Mejoras en listas
+\usepackage{hyperref}            % Enlaces
+\geometry{margin=2.5cm}
+
+% ==== DOCUMENTO ====
+\begin{document}
+
+\section*{Grados de libertad del test \textit{F} de White}
+
+El test de White para heterocedasticidad se basa en una regresión auxiliar de los residuos al cuadrado $\hat{u}_i^2$ sobre todas las variables explicativas del modelo original, sus cuadrados y sus productos cruzados. Esta regresión auxiliar tiene como propósito detectar cualquier relación no lineal entre los regresores y la varianza de los errores, sin imponer una forma funcional específica.
+
+\[
+\hat{u}_i^2 = \delta_0 + \delta_1 x_{1i} + \dots + \delta_k x_{ki} + \delta_{k+1} x_{1i}^2 + \dots + \delta_{2k} x_{ki}^2 + \text{(productos cruzados)} + v_i
+\]
+
+El estadístico \textit{F} se construye para probar la hipótesis nula:
+
+\[
+H_0: \delta_1 = \delta_2 = \dots = \delta_q = 0 \quad \text{(homocedasticidad)}
+\]
+
+El estadístico \textit{F} tiene la forma:
+
+\[
+F = \frac{(R_{aux}^2 / q)}{(1 - R_{aux}^2) / (n - q - 1)} \quad \sim \quad F_{q,\;n - q - 1}
+\]
+
+donde:
+
+\begin{itemize}
+  \item $n$ es el número de observaciones,
+  \item $q$ es el número de regresores en la regresión auxiliar (excluyendo el intercepto),
+  \item $R_{aux}^2$ es el coeficiente de determinación de la regresión auxiliar.
+\end{itemize}
+
+El número total de variables en la regresión auxiliar (es decir, los grados de libertad del numerador del estadístico \textit{F}) es:
+
+\[
+q = k + \frac{k(k+1)}{2}
+\]
+
+donde $k$ es el número de regresores en el modelo original (sin incluir la constante). Esta fórmula incluye:
+
+\begin{itemize}
+  \item $k$ regresores originales,
+  \item $k$ términos cuadráticos,
+  \item $\frac{k(k-1)}{2}$ productos cruzados entre regresores distintos.
+
+  Para determinar cuántos productos cruzados distintos se incluyen en la regresión auxiliar, consideramos todas las combinaciones posibles de pares de regresores distintos del modelo original. Esto se calcula usando combinatoria:
+
+\[
+\text{Número de productos cruzados distintos} = \binom{k}{2} = \frac{k(k - 1)}{2}
+\]
+
+Esta expresión representa el número de formas de seleccionar dos regresores diferentes de un total de $k$, sin importar el orden (es decir, $x_1x_2$ y $x_2x_1$ se consideran el mismo término).
+
+\end{itemize}
+
+
+
+\end{document}

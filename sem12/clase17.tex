@@ -1,0 +1,308 @@
+\documentclass[10pt]{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{15pt}
+%\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 17: Variables instrumentales}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{certamenes/logo_usm.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}{Introducción}
+    \begin{itemize}
+        \item En las clases pasadas vimos que cuando omitimos una variable $x_{2}$ que se correlaciona con $x_{1}$ se viola el supuesto $E\left[u \mid x_{1}\right]=0$ y nuestro estimador MCO estara sesgado.
+        \item Cuando esto pasa, decimos que $x_{1}$ es endógeno (esta correlacionado con el error).
+        \item Controlar: Una solucion es incluir la variable $x_{2}$ en el modelo y controlar por ella, pero en general no contamos con todas las variables.
+        \item Entonces, que podemos hacer?
+        \item Metodo 1: Metodo de variables instrumentales (IV).
+    \end{itemize}
+\end{frame}
+
+\section{Endogeneidad y IV}
+
+\begin{frame}{Causas de la Endogeneidad}
+    Generalmente observamos problemas de endogeneidad en una de estas 3 situaciones:
+    \begin{enumerate}
+        \item Variables omitidas: 
+        \begin{itemize}
+            \item Son variables que están correlacionadas con los $x$ (los regresores) pero no las podemos incluir por ser inobservables
+        \end{itemize}
+        \item Simultaneidad: $x \rightarrow y$ y $y \rightarrow x$
+        \item Error de medida en las $X$
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Endogeneidad}
+    El problema de la endogeneidad:
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.3\linewidth]{z SebastianG/Imagenes/Grafico4_1.jpeg}
+    \end{figure}
+    $$
+    E\left[\hat{\beta}_{1}^{M C O}\right]=\beta_{1}+\delta_{1} \beta_{2}
+    $$  
+\end{frame}
+
+\begin{frame}{Solución 1: Variables Instrumentales}
+    Una variable instrumental valida, es una variable $\mathbf{Z}$ que correlaciona con $X$, pero no con el error.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{z SebastianG/Imagenes/Grafico4_2.jpeg}
+    \end{figure}
+    Formalmente, un instrumento es valido si cumple con DOS supuestos claves:
+    \begin{enumerate}
+        \item Relevancia: $\operatorname{Cov}(X, Z) \neq 0$. La variable $Z$ afecta $X$. Noten que observamos $Z$ y X por lo que este supuseto es testeable.
+        \item Exogeneidad o restriccion de exclusion: $\operatorname{Cov}(Z, U)=0$. Dos interpretaciones:
+        \begin{itemize}
+            \item El instrumento no correlaciona con el error.
+            \item $E[Y \mid X]=E[Y \mid X, Z]$ : El instrumento $Z$ no le pega directamente a $Y$. Solo le pega a Y a traves de su efecto en X .
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Intuición}
+    \begin{itemize}
+        \item La intuicion es que X tiene dos partes. Una parte exogena y una parte endogena (que esta correlacionada con u).
+        \item El instrumento Z, al no estar correlacionado con u, me va a permitir usar solo la parte exogena de X para identificar su efecto en Y .
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: el efecto de hacer el servicio militar en el crimen}
+    $$
+    \textit{crimen}=\alpha+\beta_{1} X+U
+    $$  
+    $X$: toma valor $1$ si la persona hizo el servicio militar en el pasado.
+    \begin{itemize}
+        \item $X$ es endógena, $E[U \mid X] \neq 0$. Por que?
+        \item Entonces el estimador MCO esta sesgado.
+        \item Instrumento $Z$: $1$ si la persona salio sorteada aleatoriamente para hacer el servicio militar. Cumple los supuestos?
+        
+        \begin{enumerate}
+            \item Relevante: $\operatorname{Si}!\  \operatorname{Cov}(Z, X) \neq 0$ porque si salías sorteado, el estado te obligaba a ir.
+            \item Exógeno: $\operatorname{Si!}\ \operatorname{Cov}(Z, U)=0$ porque $Z$ depende de un sorteo. No correlaciona con nada, salvo con que vayas al servicio militar.
+        \end{enumerate}
+        
+        \item Entonces, se puede usar Z para identificar el efecto. La idea es que el metodo va a usar la variabilidad de las personas que fueron al militar solo porque fueron (o no) sorteados, y no va a usar la variabilidad de las personas que eligieron ir (endógena).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Buenos y malos instrumentos}
+    \begin{itemize}
+        \item ¿Cuál de los siguientes $Z$ es un buen instrumento?
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.8\linewidth]{z SebastianG/Imagenes/Grafico4_3.jpeg}
+        \end{figure}
+        \item  Solo el A es un instrumento valido. Ya que cumple con: 1) Relevancia: $\operatorname{cov}(z, x) \neq 0$ y exogeneidad: 2) $\operatorname{cov}(z, u)=0$.
+        \item El caso 2 viola exogeneidad porque el instrumento correlaciona con el error. Tenemos que $\operatorname{Cov}(z, u) \neq 0$. Un ejemplo de esto seria usar como instrumento para servicio militar, $Z=$ inteligencia.
+        \item El caso 3 viola relevancia. Si bien el instrumento no correlaciona con el error, tampoco correlaciona con X . Es decir, tenemos que se viola relevancia porque $\operatorname{Cov}(x, z)=0$. Un ejemplo de esto seria usar la hora en la que la persona nació.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplos de variables endógenas e instrumentos en papers}
+    \begin{itemize}
+        \item \textbf{Retornos de la educación:}
+        $$
+        \log \left(\text{salario}\right)_{i}=\beta_{0}+\beta_{1} \text { educ }_{i}+u_{i}.
+        $$
+        \begin{itemize}
+            \item $Z$: dummy trimestre de nacimiento (Angrist and Krueger, 1991)
+            \item $Z$: proximidad geográfica con alguna Universidad (Card, 1995)
+        \end{itemize}
+
+        \item \textbf{Efecto de instituciones en PBI per cápita:}
+        $$
+        \operatorname{GDP2015}_{i}=\beta_{0}+\beta_{1} \text { instituciones } 2015_{i}+u_{i}
+        $$
+        \begin{itemize}
+            \item $Z$: mortalidad por enfermedades en el pais cuando llegaron los europeos cientos de años atrás (Acemoglu et al,2001).
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Variables Instrumentales}
+
+\begin{frame}{Implementación del método IV}
+    \begin{itemize}
+        \item Vamos a ver dos métodos para encontrar el $\hat{\beta}^{I V}$.
+        \begin{enumerate}
+            \item Estimación por Variables Instrumentales (VI). Hoy.
+            \item Mínimos cuadrados en dos etapas (MC2E). Proxima clase.
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimación por Variables Instrumentales (VI)}
+    \begin{itemize}
+        \item Tenemos nuestro modelo de regresión simple:
+        $$
+        y_{i}=\beta_{0}+\beta_{1} x_{i}+u_{i} \quad \forall i=1 \ldots N
+        $$
+        \item Problema: $\operatorname{Cov}\left(u_{i}, x_{i}\right) \neq 0$
+        \item Tenemos un instrumento $z$ que cumple con:
+        \begin{enumerate}
+            \item $\operatorname{Cov}\left(u_{i}, z_{i}\right)=0$
+            \item $\operatorname{Cov}\left(x_{i}, z_{i}\right)\neq 0$
+        \end{enumerate}
+        \item Podemos escribir entonces:
+        $$
+        \begin{aligned}
+        \operatorname{Cov}\left(y_{i}, z_{i}\right) & =\operatorname{Cov}(\underbrace{\beta_{0}+\beta_{1} x_{i}+u_{i}}_{y_{i}}, z_{i}) \\
+        & =\underbrace{\operatorname{Cov}\left(\beta_{0}, z_{i}\right)}_{0}+\operatorname{Cov}\left(\beta_{1} x_{i}, z_{i}\right)+\underbrace{\operatorname{Cov}\left(u_{i}, z_{i}\right)}_{0} \\
+        & =\beta_{1} \operatorname{Cov}\left(x_{i}, z_{i}\right)
+        \end{aligned}
+        $$
+        \item Despejando:
+        $$
+        \beta_{1}=\frac{\operatorname{Cov}\left(y_{i}, z_{i}\right)}{\operatorname{Cov}\left(x_{i}, z_{i}\right)}
+        $$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Relación a nivel poblacional y su análogo en la muestra}
+    \begin{itemize}
+        \item Ahora que tenemos una relación en la \textbf{población} podemos aplicar un criterio de analogía y llevarlo a la muestra para tener una expresión para el \textbf{estimador} de $\beta$ en la \textbf{muestra}
+        \item Usamos las covarianzas muestrales y definimos el $\hat{\beta}_{V I}$
+        $$
+        \hat{\beta}_{V I}=\frac{S_{y_{i}, z_{i}}}{S_{x_{i}, z_{i}}}=\frac{\sum_{i=1}^{N}\left(y_{i}-\bar{y}\right)\left(z_{i}-\bar{z}\right)}{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right)\left(z_{i}-\bar{z}\right)}
+        $$
+        \item Todo esto es observable por lo que podemos estimarlo. (R lo hace por ustedes).
+        \item Además, si se cumplen los supuestos del instrumento Z, tenemos que el estimador es un estimador consistente (insesgado) del verdadero $\beta$.
+        \begin{align*}
+            &\underbrace{\hat{\beta}_{V I} \xrightarrow{p} \beta}\\
+            &\text{¡}\hat{\beta}_{V I} \text{ es consistente!}
+        \end{align*}
+        
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimación con VI en Modelos de Regresión Múltiple}
+    \begin{itemize}
+        \item La estimación por IV es fácilmente generalizable a modelos con múltiples regresores
+        \item En el curso nos centraremos principalmente en el caso un solo regresor endógeno distintos controles exógenos, aunque existe la posibilidad de tener más de una variable endógena
+    \end{itemize}
+
+    \underline{\textbf{Estimación por VI con una endógena y varias exógenas}}
+    $$
+    \ln \left(\text { salario }_{i}\right)=\beta_{0}+\beta_{1} \text { educ }_{i}+\beta_{2} \text { mujer }+u_{i}
+    $$
+    \begin{itemize}
+        \item Idea: usamos la exógena como su propio instrumento :la matriz de $Z$ incluirá; (i) la constante; (ii) el instrumento para educ; y (iii) mujer
+        \item Usamos la fórmula anterior!
+        $$
+        \hat{\beta}_{V I}=\frac{\sum_{i=1}^{N}\left(y_{i}-\bar{y}\right)\left(z_{i}-\bar{z}\right)}{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right)\left(z_{i}-\bar{z}\right)}=\left(Z^{T} X\right)^{-1} Z^{T} Y
+        $$
+        \item donde Z es de nxk, X es de nxk, Y es de nxk. $\beta^{IV}$ de kx1.
+    \end{itemize}    
+\end{frame}
+
+\begin{frame}{Comparar $\hat{\beta}^{IV}$ con $\hat{\beta}^{MCO}$}  
+    $$
+    \ln \left(\text {salario}_{i}\right)=\beta_{0}+\beta_{1} \text { educ }_{i}+u_{i}
+    $$
+    \begin{itemize}
+        \item Supongamos que la unica variable omitida es inteligencia.
+        \item como inteligencia correlaciona positivamente con educ y salario, uno esperaria
+        $$
+        E\left[\hat{\beta}^{M C O}\right]>\beta
+        $$
+        \item Imaginen que tengo un instrumento valido. Entonces,
+        $$
+        E\left[\hat{\beta}^{\prime V}\right]=\beta
+        $$
+        \item Entonces, si hago las dos estimaciones, esperaria ver que:
+        $$
+        \hat{\beta}^{M C O}>\hat{\beta}^{I V}
+        $$
+        \item porque corregi el sesgo de MCO que, en este caso, era sobreestimar el efecto.
+        \item Que pasa si no hay variable omitida, pero educ esta mal medida? Como comparan: $\hat{\beta}^{M C O}$ y $\hat{\beta}^{I V}$ ? $\hat{\beta}^{M C O}<\hat{\beta}^{I V}$ porque elimine el sesgo de atenuacion de MCO
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusiones}
+    \begin{itemize}
+        \item Decimos que una variable es endógena cuando $\operatorname{Cov}(u, x) \neq 0$
+        \item En presencia de endogeneidad no se cumple uno de los supuestos de Gauss-Markov, y entonces $\hat{\beta}_{\text {MCO }}$ será:
+        \begin{itemize}
+            \item Sesgado
+            \item Inconsistente
+            \item No eficiente
+        \end{itemize}
+        \item Hay 3 fuentes de endogeneidad frecuentes en economía:
+        \begin{enumerate}
+            \item Omisión de variables relevantes
+            \item Simultaneidad
+            \item Errores de Medida
+        \end{enumerate}
+        \item Para poder estimar consistentemente vamos precisar un \textbf{instrumento}
+        \item Un instrumento válido es una tercer variable $z$ que cumple con:
+        \begin{itemize}
+            \item Exogeneidad: $\operatorname{Cov}(u, z)=0$
+            \item Relevancia: $\operatorname{Cov}(x, z) \neq 0$
+        \end{itemize}
+        \item El metodo de IV nos permite estimar consistentemente $\beta$
+    \end{itemize}
+\end{frame}
+
+\end{document}

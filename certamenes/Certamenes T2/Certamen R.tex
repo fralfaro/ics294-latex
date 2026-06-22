@@ -1,0 +1,551 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{float}
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN RECUPERATIVO}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+II trimestre 2025\\
+Profesor: Pedro Comte Hidalgo
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+
+
+\section{Preguntas Cortas (40 Puntos)}
+
+\begin{enumerate}
+
+\item (8 Puntos) ¿Que es la heterocedasticidad y por qué en presencia de ella la inferencia estadística deja de ser consistente?
+\\
+\textbf{Solución}
+\\
+La heterocedasticidad ocurre cuando la varianza de los errores no es constante a lo largo de las observaciones. La inferencia estadística deja de ser válida porque los errores estándar calculados de manera tradicional resultan incorrectos, de modo que los estadísticos t y F pierden validez.
+
+\item (8 Puntos) Suponga un modelo que mide la probabilidad de cometer un asesinato dado que la persona realizó el servicio militar. Sabiendo que existe endogeneidad, ¿cuál podría ser una variable instrumental válida para este problema y por qué? \\
+\textbf{Solución} 
+\\
+
+Una variable instrumental en este problema es si la persona fue escogida aleatoriamente para realizar el servicio militar y no lo hizo de manera voluntaria. En este caso se cumplen las dos condiciones que debe tener una variable instrumental: 
+
+\begin{enumerate}
+    \item \textbf{Relevancia}: la covarianza entre la variable instrumental $Z$ y la variable explicativa $X$ es distinta de cero; en este contexto, haber sido sorteado está correlacionado con haber realizado el servicio militar. 
+    \item \textbf{Exogeneidad}: el sorteo es aleatorio y, por lo tanto, no tiene correlación con el término de error ni con otras características individuales relacionadas con la probabilidad de cometer un asesinato.
+\end{enumerate}
+
+
+\item (8 Puntos) ¿Cuál es la diferencia entre multicolinealidad perfecta y alta multicolinealidad, y como afectan al calculo de los regresores mediante MCO?\\
+\textbf{Solución}
+\\
+La \textit{multicolinealidad perfecta} se presenta cuando una variable explicativa es una combinación lineal exacta de otras variables del modelo. En este caso, la matriz $X'X$ es singular y no puede invertirse, por lo que los estimadores de MCO no pueden calcularse: el modelo no es identificable.  
+
+En cambio, la \textit{alta multicolinealidad} ocurre cuando las variables explicativas están fuertemente correlacionadas, pero no de manera exacta. Aquí los estimadores de MCO sí pueden calcularse, pero presentan una varianza elevada, lo que se traduce en errores estándar grandes y dificulta la inferencia estadística, ya que los coeficientes pueden aparecer como no significativos aun cuando la variable sea relevante, y dificultando su interpretación.
+
+\item (8 puntos) Explique brevemente por qué una variable que sigue una caminata aleatoria (\textit{random walk}) no es estacionaria.\\
+\textbf{Solución}\\
+Una caminata aleatoria no es estacionaria porque su media depende de la condición inicial y su varianza crece sin límite a medida que aumenta el tiempo. Esto implica que la distribución de la serie cambia en el tiempo, por lo que no cumple con los requisitos de estacionariedad.
+
+\item (8 puntos) ¿Qué efecto tiene aplicar primeras diferencias a una serie con raíz unitaria?
+\\
+\textbf{Solución}
+\\
+Aplicar primeras diferencias a una serie con raíz unitaria (por ejemplo, un random walk) elimina la no estacionariedad y transforma la serie en estacionaria.
+
+\end{enumerate}
+
+\section{Ejercicios (60 Puntos)}
+
+\begin{enumerate}
+
+
+\item (20 puntos) Se tienen los siguientes datos de años de eduación universitaria y experiencia laboral y salario de 5 individuos:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Individuo} & \textbf{Educ} ($X_1$) & \textbf{Exp} ($X_2$)  & \textbf{Salario ($Y$)}\\
+\hline
+1 & 0 &  8 & 1800 \\
+2 & 2 &  6 & 2300 \\
+3 & 4 &  5 & 2400 \\
+4 & 6 &  4 & 2500 \\
+5 & 8 &  3 & 3000 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item (5 puntos) Planteando un modelo donde el salario sólo dependa de la educación universitaria de la forma:
+    $$Salario = \beta_0 + \beta_1 \cdot Educ$$
+    Encuentre los valores de los estimadores $\hat{\beta_0}$ y $\hat{\beta_1}$ que predicen el valor del salario, e interprete su resultado.
+    \\
+    \textbf{solución}
+
+\[
+\bar X=\frac{0+2+4+6+8}{5}=4, 
+\qquad
+\bar Y=\frac{1800+2300+2400+2500+3000}{5}=2400.
+\]
+
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\toprule
+\hline
+$X_i$ & $Y_i$ & $X_i-\bar X$ & $Y_i-\bar Y$ & $(X_i-\bar X)^2$ & $(X_i-\bar X)(Y_i-\bar Y)$ \\
+\hline
+\midrule
+0 & 1800 & $-4$ & $-600$ & $16$ & $2400$ \\
+2 & 2300 & $-2$ & $-100$ & $4$ & $200$ \\
+4 & 2400 & $0$  & $0$    & $0$ & $0$ \\
+6 & 2500 & $2$  & $100$  & $4$ & $200$ \\
+8 & 3000 & $4$  & $600$  & $16$ & $2400$ \\
+\midrule
+\hline
+\multicolumn{4}{r}{\textbf{Suma:}} & $\displaystyle S_{xx}=40$ & $\displaystyle S_{xy}=5200$ \\
+
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+\hat\beta_1=\frac{S_{xy}}{S_{xx}}=\frac{5200}{40}=130,
+\qquad
+\hat\beta_0=\bar Y-\hat\beta_1\,\bar X=2400-130\cdot 4=1880.
+\]
+
+\[
+\boxed{\;\widehat{Salario}=1880+130\cdot Educ\;}
+\]
+Siendo el intercepto 1880 y por cada año de educación en promedio aumenta 130 el salario.
+
+    \item (5 puntos) Calcule Bondad de ajuste de este modelo, concluya.
+    \\
+    \textbf{Solución}
+    \\
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\toprule
+$X$ (Educ) & $Y$ (Salario) & $\hat Y=1880+130X$ & $e=Y-\hat Y$ \\
+\midrule
+0 & 1800 & 1880 & $-80$ \\
+2 & 2300 & 2140 & $160$ \\
+4 & 2400 & 2400 & $0$ \\
+6 & 2500 & 2660 & $-160$ \\
+8 & 3000 & 2920 & $80$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+Sea $\bar Y=2400$. Entonces
+\[
+\text{SST}=\sum (Y_i-\bar Y)^2
+=600^2+100^2+0^2+100^2+600^2
+=740{,}000,
+\]
+\[
+\text{SSR}=\sum e_i^2
+=80^2+160^2+0^2+160^2+80^2
+=64{,}000,
+\qquad
+\text{SSE}=\text{SST}-\text{SSE}=676{,}000.
+\]
+
+Bondad de ajuste:
+\[
+R^2=\frac{\text{SSR}}{\text{SST}}=\frac{676{,}000}{740{,}000}=0.9135
+\]
+    
+    \item (5 puntos) Luego se realiza un modelo incluyendo la variable Experiencia, por lo que el salario estaría explicado por la educación universitaria y la experiencia de la siguiente manera:
+    $$Salario = \beta_0 + \beta_1 \cdot Educ + \beta_2 \cdot Exp$$
+    Calcule los estimadores $\hat{\beta_0}$, $\hat{\beta_1}$ y $\hat{\beta_2}$, que nos sirven para predecir el salario, sabiendo que:
+    \[
+(X^tX)^{-1} \;=\;
+\begin{pmatrix}
+145 & -11.5 & -19 \\
+-11.5 & 0.925 & 1.5 \\
+-19 & 1.5 & 2.5
+\end{pmatrix}
+\]
+    \\
+    \textbf{solución}
+    \\
+Con intercepto, $X=\begin{bmatrix}\mathbf{1}&X_1&X_2\end{bmatrix}$ y $Y$:
+\[
+X=
+\begin{pmatrix}
+1 & 0 & 8\\
+1 & 2 & 6\\
+1 & 4 & 5\\
+1 & 6 & 4\\
+1 & 8 & 3
+\end{pmatrix},
+\qquad
+Y=
+\begin{pmatrix}
+1800\\2300\\2400\\2500\\3000
+\end{pmatrix}.
+\]
+Entonces:
+\[
+X^TY=
+\begin{pmatrix}
+1 & 1 & 1 & 1 & 1\\
+0 & 2 & 4 & 6 & 8\\
+8 & 6 & 5 & 4 & 3\\
+\end{pmatrix}
+\begin{pmatrix}
+1800\\2300\\2400\\2500\\3000
+\end{pmatrix}=
+\begin{pmatrix}
+12000\\53200\\59200
+\end{pmatrix}
+\]
+
+Se sabe que:
+\[
+\hat\beta=(X^{\!t}X)^{-1}X^{\!t}Y.
+\]
+Dado
+\[
+(X^{\!t}X)^{-1}=
+\begin{pmatrix}
+145 & -11.5 & -19 \\
+-11.5 & 0.925 & 1.5 \\
+-19 & 1.5 & 2.5
+\end{pmatrix},
+\]
+se tiene la \textbf{forma matricial explícita}:
+\[
+\hat\beta=
+\underbrace{\begin{pmatrix}
+145 & -11.5 & -19 \\
+-11.5 & 0.925 & 1.5 \\
+-19 & 1.5 & 2.5
+\end{pmatrix}}_{(X^{\!t}X)^{-1}}
+\underbrace{\begin{pmatrix}
+12000\\ 53200\\ 59200
+\end{pmatrix}}_{X^{\!t}Y}
+=
+\begin{pmatrix}
+145(12000)-11.5(53200)-19(59200)\\[2pt]
+-11.5(12000)+0.925(53200)+1.5(59200)\\[2pt]
+-19(12000)+1.5(53200)+2.5(59200)
+\end{pmatrix}.
+\]
+
+Por lo que cada beta es:
+\[
+\begin{aligned}
+\hat\beta_0&=1{,}740{,}000\;-\;611{,}800\;-\;1{,}124{,}800 \;=\; \boxed{3400},\\[4pt]
+\hat\beta_1&=-138{,}000\;+\;49{,}610\;+\;88{,}800 \;=\; \boxed{10},\\[4pt]
+\hat\beta_2&=-228{,}000\;+\;79{,}800\;+\;148{,}000 \;=\; \boxed{-200}.
+\end{aligned}
+\]
+
+Y la regresión quedaría:
+\[
+\boxed{\;\widehat{Salario}=\hat\beta_0+\hat\beta_1\,Educ+\hat\beta_2\,Exp
+=3400\;+\;10\cdot Educ\;-\;200\cdot Exp\;}
+\]
+
+    \item (5 puntos) Calcule Bondad de ajuste de este último modelo, concluya.
+
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+Ind. & $X_1$ (Educ) & $X_2$ (Exp) & $Y$ & $\hat Y=3400+10X_1-200X_2$ & $e=Y-\hat Y$ \\
+\midrule
+1 & 0 & 8 & 1800 & 1800 & $0$ \\
+2 & 2 & 6 & 2300 & 2220 & $80$ \\
+3 & 4 & 5 & 2400 & 2440 & $-40$ \\
+4 & 6 & 4 & 2500 & 2660 & $-160$ \\
+5 & 8 & 3 & 3000 & 2880 & $120$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+
+\[
+\begin{aligned}
+\text{SST}&=740{,}000,\\[3pt]
+\text{SSR}&=\sum e_i^2
+=0^2+80^2+(-40)^2+(-160)^2+120^2=48{,}000,\\[3pt]
+\text{SSE}&=\text{SST}-\text{SSR}=740{,}000-48{,}000=692{,}000.
+\end{aligned}
+\]
+Por lo que la bondad de ajuste es:
+\[
+R^2=\frac{\text{SSR}}{\text{SST}}=\frac{692{,}000}{740{,}000}=0.9351
+\]
+    
+    
+\end{enumerate}
+
+\item (20 Puntos) Se dispone de una muestra de 250 observaciones con la cual se estimó el siguiente modelo de regresión lineal múltiple:
+$$Y_i = \beta_0 + \beta_1\,\textit{L}_i + \beta_2\,\textit{K}_i + u_i$$
+Donde . $Y$ es la producción, $L$ es cantidad de dinero puesta en Trabajo, y $K$ la cantidad de dinera puesta en capital.
+Se desea contrastar el supuesto de heterocedasticidad y, para ello, se aplicará el método de Breusch-Pagan.
+\begin{enumerate}
+    \item (5 Puntos) Plantee la regresión auxiliar para el método de Breusch-Pagan\\
+    \textbf{Solución}\\
+    $$\hat{u}_i^{\,2} = \alpha_0 + \alpha_1 {L}_i + \alpha_2 {K}_i + v_i$$
+    
+    \item (5 puntos) Formule la hipótesis nula y la hipótesis alternativa para contrastar la presencia de heterocedasticidad.\\
+    \textbf{Solución}\\
+    $$H_0:\ \alpha_1 = \alpha_2 =0$$
+    $$H_1:\ \alpha_1 \neq 0 \ \text{o}\ \alpha_2 \neq 0 $$
+    
+    \item (10 Puntos) Si el $R^2$ de la regresión auxiliar es $0.05$, contraste, al 5\% de significación, la existencia de heterocedasticidad.\\
+    \textbf{Solución}\\
+    $$LM \;=\; n R^2_{\text{aux}} \;=\; 250 \times 0.05\;=\; 12.5 \;\sim\; \chi^2_{(2)}$$
+    El valor crítico de $\chi^2_{(2)}$ al 5\% es $5.991$. Como
+    $$12.5 \;>\; 5.991,$$
+    Se rechaza la hipótesis nula y se concluye que existe Heterocedasticidad.
+\end{enumerate}
+
+\item Se realiza un modelo de regresión lineal múltiple para una muestra de 209 datos que entrega el siguiente resultado:
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\linewidth]{certamenes/Certamenes T2/salida_modelo_cr.png}
+    \end{figure}
+\end{center}
+Realice los siguientes test de hipotesis:
+\begin{enumerate}
+    \item La variable ROE es igual 15, con un nivel de significancia del 5\%.
+    \\
+    \textbf{Solución}
+    \\
+    $$t_{est} = \frac{22.2388-15}{11.5927}=0.624$$
+    el valor critico es 
+    $$t_{critico}= 1,96$$
+    como $|0.624|<|1,96|$ entonces no se rechaza la hipotesis nula y por tanto existe evidencia de que el ROE es igual a 15.
+    \item La variable ROS es menor a 0, con una significancia del 1\%.
+    \\
+    \textbf{Solución}
+    \\
+    $$t_{est}=\frac{-1.1956}{1.4769}$$
+    y para el test de una cola (inferior) el valor critico es:
+    $$t_{critico}=2.33$$
+    
+    \item Que el modelo el significativo globalmente, al 5\%.
+    \\ 
+    \textbf{Solución}
+    \\
+    $$F_{est}=\frac{0.03315}{1-0.03315}\frac{209-5-1}{5}=1.39$$
+    El F critico con 5 y 203 grados de libertad es:
+    $$F_{critico}=2.2592$$
+    Como $F_{est}<F_{critico}$ no se rechaza $H_0$ y no se tiene significancia global.
+\end{enumerate}
+
+
+\end{enumerate}
+
+
+\section*{Formulario}
+
+
+\begin{itemize}
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es \emph{\textbf{conocido}}:
+$\color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la diferencia de medias
+$\mu_x-\mu_y$ es:
+${\color{red}(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}$
+
+\item  Estimadores MCO.
+{\color{red}
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \quad \quad   \hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$}
+    
+\item 
+	{\color{red}	\[ SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \quad \quad  SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 \quad \quad SSR = \sum_{i=1}^{n} \hat{u}_i^2  \]}
+		
+		
+    \item Vector de estimadores:    
+{\color{red}    $\hat{\beta}=(X^TX)^{-1}X^Ty$}
+
+\item {\color{red}\[
+A = \begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+\qquad
+A^{-1} = \frac{1}{det(A)} \begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}
+\]}
+\end{itemize}
+
+\begin{itemize}
+
+\item Estadistico t para $\beta_j = a_j$
+
+$$\color{red}{t_{\beta_j}=\frac{\hat{\beta_j}-a_j}{s.e.(\hat{\beta_j})}}$$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para el estimador $\beta_j$:
+
+$${\color{red}\hat{\beta_j} \pm t_{\frac{\alpha}{2},n-k-1}s.e.(\hat{\beta_j})}$$
+
+
+\item para el estadistico F entre dos modelos:
+
+$$\color{red}{F=\frac{SSR_r-SSR_{ur}}{SSR_{ur}}\frac{n-k-1}{j}}$$
+$$\color{red}{F=\frac{R^2_{ur}-R^2_{r}}{1-R^2_{ur}}\frac{n-k-1}{j}}$$
+
+\item Test de Chow para Grupos.
+
+    \[\color{red}
+    F = \frac{(SSR_r - SSR_{ur}) / ((G - 1)(k + 1))}{SSR_{ur} / (n - G(k + 1))} \sim F((G - 1)(k + 1), n - G(k + 1))
+    \]
+
+Con
+
+$$\color{red}SSR_{ur} = \sum_{g=1}^G SSR_g$$
+
+\item Estadistico t para igualdad entre parametros:
+ \[\color{red}t_{\text{estadístico}} = \frac{\hat{\beta}_1 - \hat{\beta}_2 - 0}{\sqrt{\hat{Var}(\hat{\beta}_1 - \hat{\beta}_2)}}\]
+
+
+\item  Varianza de una suma.
+{\color{red}
+$$\text{Var}(kA + cB) = k^2\text{Var}(A) + c^2\text{Var}(B) + 2kc\text{COV}(A, B)$$}
+
+\item $t_{0.95,n} = 1.64$ cuando $n >50$.
+\item $t_{0.975,n} = 1.96$ cuando $n >50$.
+\item $t_{0.99,n}=2.33$ cuando $n>50$
+
+
+\item tabla Fisher para 5\%:
+\begin{table}[H]
+\centering
+\caption{Valores críticos de la distribución F (cola superior) para $\alpha=0.05$. 
+El numerador usa $df_1$ y el denominador $df_2$.}
+\label{tab:Fcrit_5pct}
+\begin{tabular}{|l|r|r|r|r|r|}
+\toprule
+\hline
+& \multicolumn{5}{c|}{$df_2$} \\
+\hline
+$df_1$ & 50 & 100 & 150 & 200 & 250 \\
+\hline
+\midrule
+1 & 4.0343 & 3.9361 & 3.9042 & 3.8884 & 3.8789 \\
+\hline
+2 & 3.1826 & 3.0873 & 3.0564 & 3.0411 & 3.0319 \\
+\hline
+3 & 2.7900 & 2.6955 & 2.6649 & 2.6498 & 2.6407 \\
+\hline
+4 & 2.5572 & 2.4626 & 2.4320 & 2.4168 & 2.4078 \\
+\hline
+5 & 2.4004 & 2.3053 & 2.2745 & 2.2592 & 2.2501 \\
+\end{tabular}
+\end{table}
+
+\begin{itemize}
+
+\item Tabla $\chi^2$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.99 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10645 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\item Multiplicado de Lagrange
+
+$$\color{red}{LM = nR^2 \sim \chi^2}$$
+
+\item Test F para regresión auxiliar.
+\begin{center}
+ {  \color{red}     \(F=\dfrac{R_{\text{aux}}^{2}/q}{(1-R_{\text{aux}}^{2})/(n-k-1)}
+          \sim F_{q,\;n-k-1}\).}
+\end{center}
+
+
+
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+\end{itemize}
+\end{document}

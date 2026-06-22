@@ -216,3 +216,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---- LaTeX build artifacts (ICS294) ----
+.build/
+*.aux
+*.lof
+*.lot
+*.toc
+*.nav
+*.snm
+*.vrb
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz

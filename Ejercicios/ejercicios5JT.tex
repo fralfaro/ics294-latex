@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{caption}
+\geometry{margin=1in}
+
+\title{Precertamen 3}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Ejercicio 1}
+Un investigador estima el siguiente modelo para explicar el ingreso anual ($Salario$) de individuos en una muestra aleatoria de 500 trabajadores residentes en una ciudad latinoamericana:
+
+\begin{equation}
+Salario_i = \beta_0 + \beta_1 \cdot Educacion_i + \beta_2 \cdot Experiencia_i + \beta_3 \cdot Genero_i + \beta_4 \cdot SectorPublico_i + \varepsilon_i
+\end{equation}
+
+\textbf{Variables}:
+\begin{itemize}
+  \item $Salario$: ingreso anual en dólares
+  \item $Educacion$: años de escolaridad
+  \item $Experiencia$: años de experiencia laboral
+  \item $Genero$: dummy = 1 si es hombre, 0 si es mujer
+  \item $SectorPublico$: dummy = 1 si trabaja en el sector público
+  \item $Habilidad$: resultado en test estandarizado de habilidad laboral
+  \item $DistanciaEscuela$: distancia (km) al colegio más cercano en la infancia
+  \item $Hermanos$: número de hermanos
+\end{itemize}
+
+\section*{Estimación por MCO}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Variable & Coeficiente & Error Estándar & Valor-p \\
+\midrule
+Intercepto       & 10450*** & 1720 & 0.000 \\
+Educacion        & 820***   & 110  & 0.000 \\
+Experiencia      & 520***   & 85   & 0.000 \\
+Genero           & 3100***  & 950  & 0.001 \\
+SectorPublico    & 2100***  & 740  & 0.004 \\
+\midrule
+$R^2$ = 0.42 & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Preguntas}
+
+\subsection*{1. Variables Dummy}
+\begin{enumerate}
+  \item[a)] ¿Cómo se interpreta el coeficiente de $Genero$? ¿Qué sugiere este resultado?
+  \item[b)] ¿Qué precauciones metodológicas deben considerarse al incluir variables dummy?
+\end{enumerate}
+
+\subsection*{2. Multicolinealidad}
+
+\textbf{Factores de inflación de varianza (VIF)}:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Variable & VIF \\
+\midrule
+Educacion       & 6.4 \\
+Experiencia     & 5.8 \\
+Genero          & 1.4 \\
+SectorPublico   & 1.5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item[a)] ¿Existe multicolinealidad? ¿Qué implicancias tiene para los estimadores de MCO?
+  \item[b)] ¿Qué estrategias puede seguir el investigador para mitigar este problema?
+\end{enumerate}
+
+\subsection*{3. Endogeneidad y Variables Instrumentales}
+
+Se sospecha que $Educacion$ está correlacionada con el término de error. Se proponen dos instrumentos:
+\begin{itemize}
+  \item $DistanciaEscuela$: distancia al colegio más cercano en la infancia
+  \item $Hermanos$: número de hermanos
+\end{itemize}
+
+\textbf{Primera etapa (regresión auxiliar)}:
+\begin{equation*}
+Educacion_i = \pi_0 + \pi_1 \cdot DistanciaEscuela_i + \pi_2 \cdot Hermanos_i + \pi_3 \cdot Experiencia_i + \pi_4 \cdot Genero_i + \pi_5 \cdot SectorPublico_i + v_i
+\end{equation*}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Variable & Coeficiente & Error Estándar \\
+\midrule
+DistanciaEscuela & -1.20 & (0.40) \\
+Hermanos         & -0.35 & (0.15) \\
+\midrule
+$R^2$ = 0.31 & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Segunda etapa (2SLS)}:
+\begin{equation*}
+Salario_i = \beta_0 + \hat{\beta}_1 \cdot EducacionInstrumentada_i + \beta_2 \cdot Experiencia_i + \beta_3 \cdot Genero_i + \beta_4 \cdot SectorPublico_i + \varepsilon_i
+\end{equation*}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Variable & Coeficiente & Error Estándar \\
+\midrule
+Educacion        & 1150  & (250) \\
+Experiencia      & 400   & (95)  \\
+Genero           & 2900  & (980) \\
+SectorPublico    & 2000  & (780) \\
+\midrule
+$R^2$ = 0.39 & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+  \item[a)] ¿Por qué $Educacion$ podría ser endógena en este modelo?
+  \item[b)] Compare la validez de los instrumentos propuestos. ¿Cuál cumple mejor con los requisitos?
+  \item[c)] Compare los coeficientes de $Educacion$ entre MCO y 2SLS. ¿Qué interpretación tiene esta diferencia?
+\end{enumerate}
+
+\subsection*{4. Heterocedasticidad}
+
+Se realiza el test de Breusch-Pagan y se obtiene un p-valor = 0.004.
+\begin{enumerate}
+  \item[a)] ¿Qué indica este resultado sobre los supuestos del modelo?
+  \item[b)] ¿Qué consecuencias tiene sobre los errores estándar y la inferencia estadística?
+  \item[c)] ¿Cómo puede corregirse este problema?
+\end{enumerate}
+
+\subsection*{5. Reflexión Final}
+Analiza cómo cada uno de los problemas discutidos (dummies, multicolinealidad, endogeneidad y heterocedasticidad) afecta la validez del modelo. ¿Cuál de ellos consideras más grave en este contexto y por qué?
+
+\end{document}

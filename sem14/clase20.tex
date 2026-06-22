@@ -1,0 +1,352 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 20: Raíces unitarias}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}{Introducción}
+    \begin{itemize}
+        \item La clase pasada vimos datos de series de tiempo.
+        \item Estos tienen la particularidad de estar ordenados y pueden presentar tendencias temporales.
+        \item Esto es un problema a la hora de interpretar las estimaciones ya que podemos estar frente a \textbf{correlaciones espurias}:
+        \begin{itemize}
+            \newline -- Correlaciones muy fuertes entre dos variables que no se deben más que a tendencias temporales en cada una de ellas.
+            \newline -- Si la tendencia es determinística se puede solucionar incluyendo una tendencia temporal como regresor en el MRL.
+        \end{itemize}
+        \item También vimos que hay series con tendencias estocásticas \textbf{altamente persistentes }–caminatas aleatorias– para las que precisamos diferenciar para poder estimar.
+        \item Hoy vamos a ver como testear la “alta persistencia” con test de raíces unitarias de Dickey-Fuller.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Raíces unitarias, tendencia estocástica y regresión espuria}
+    \begin{itemize}
+        \item Queremos estimar el modelo:
+        \[
+        Y_t = \beta_0 + \beta_1 X_t + u_t
+        \]
+        \item Supongamos que el proceso de cada variable es el siguiente:
+        \[
+        Y_t = \alpha_1 + \rho_1 Y_{t-1} + \epsilon_t
+        \]
+        \[
+        X_t = \alpha_2 + \rho_2 X_{t-1} + v_t
+        \]
+        \item Si $-1 < \rho < 1$, entonces los procesos son AR(1) estacionarios y se puede hacer la regresión sin problema. También se los llama integrados de orden 0.
+        \item Si $\rho = 1$ la serie es una caminata aleatoria. Diremos que tiene raíz unitaria o que es integrada de orden 1.
+        \item Esto es problemático y hace que se encuentren relaciones espurias entre $x$ e $y$: $\beta_1$ significativo cuando en realidad no hay relación.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Solución al problema de regresión espuria por raíz unitaria: diferenciar las variables}
+    \begin{itemize}
+        \item Si $\rho = 1$, en lugar de estimar el modelo original, hacemos lo siguiente:
+        \begin{enumerate}
+            \item Diferenciamos las variables:
+            \[
+            \Delta Y_t = Y_t - Y_{t-1}, \quad \Delta X_t = X_t - X_{t-1}
+            \]
+            \item Hacemos la regresión en diferencias:
+            \[
+            \Delta Y_t = \beta_0 + \beta_1 \Delta X_t + u_t
+            \]
+        \end{enumerate}
+        \item Intuición:
+        \[
+        Y_t = \alpha_1 + Y_{t-1} + \epsilon_t \implies \text{altamente persistente}
+        \]
+        \[
+        \Delta Y_t = \alpha_1 + \epsilon_t \implies \text{¡estacionario!}
+        \]
+        \item Por lo que las series en diferencias ya no tienen el problema.
+    \end{itemize}
+\end{frame}
+\begin{frame}{¿Cómo saber si $\rho = 1$? Test visual y Test de D-F}
+    \begin{itemize}
+        \item Naturalmente uno querría estimar el siguiente modelo para saber si la serie tiene una raíz unitaria:
+        \[
+        y_t = \alpha + \rho y_{t-1} + \epsilon_t
+        \]
+        \item Y hacer una prueba de hipótesis sobre $\rho = 1$.
+        \item El problema es que si $\rho = 1$ la estimación de $\rho$ no es válida y el estadístico t de contraste no seguirá una distribución paramétrica conocida, ni siquiera en muestras grandes.
+        \item En otras palabras, estaríamos usando para hacer la prueba un estadístico que no podemos estimar consistentemente y por eso la prueba no es válida.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Test de raíces unitarias}
+    \begin{itemize}
+        \item Dickey-Fuller (D-F) derivan distribuciones asintóticas válidas para estos casos que nos van a permitir hacer inferencia válida sobre $\rho$:
+        \[
+        y_t = \alpha + \rho y_{t-1} + \epsilon_t
+        \]
+        \[
+        y_t - y_{t-1} = \alpha + \rho y_{t-1} - y_{t-1} + \epsilon_t
+        \]
+        \[
+        \Delta y_t = \alpha + (\rho - 1) y_{t-1} + \epsilon_t
+        \]
+     \textcolor{red}{   \[
+        \Delta y_t = \alpha + \phi y_{t-1} + \epsilon_t
+        \]}
+        \item Para esta especificación tenemos las tablas de distribución de D-F y por tanto podemos testear:
+        \begin{itemize}
+            \item $H_0: \phi = 0 \implies \rho = 1 \implies \text{Raíz unitaria (1)}$
+            \item $H_1: \phi < 0 \implies \rho < 1 \implies \text{Serie estacionaria (2)}$
+        \end{itemize}
+        \item Construimos el estadístico t para la significación de $\phi$ y luego comparamos con los valores críticos de las tablas D-F.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Distribuciones de D-F}
+    \begin{itemize}
+        \item No existe una única distribución de D-F: dependerá de contra qué estemos comparando la hipótesis nula de existencia de raíz unitaria.
+        \item Esto básicamente depende de cómo se comportan los datos y por tanto de cómo esté especificado el modelo.
+        \item En otras palabras, en cada caso debemos pensar que nuestra hipótesis nula es que la serie tiene raíz unitaria y la alternativa puede ser:
+        \begin{enumerate}
+            \item Que sea estacionaria pero se mueva en el tiempo en torno a una media distinta de cero.
+            \item Que sea estacionaria pero tenga una tendencia lineal en el tiempo (creciente o decreciente).
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+\begin{frame}{Distribuciones de D-F}
+    \begin{itemize}
+        \item D-F distinguen entre dos casos:
+        \begin{enumerate}
+            \item Solo constante: bajo la alternativa la serie no tiene raíz unitaria pero tiene una media distinta de cero
+            \[
+            y_t = \alpha + \rho y_{t-1} + \epsilon_t
+            \]
+            \item Constante y tendencia lineal: bajo la hipótesis alternativa la serie tiene tendencia pero es lineal en el tiempo
+            \[
+            y_t = \alpha + \rho y_{t-1} + \delta t + \epsilon_t
+            \]
+        \end{enumerate}
+        \item En cada caso hay una tabla distinta con valores críticos distintos.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Valores críticos de las distribuciones de D-F}
+    \begin{itemize}
+        \item Los valores críticos varían según la hipótesis alternativa contra la que se quiere testear y según el tamaño de la muestra.
+
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+        
+        \item Para ver cuál es el modelo alternativo que tiene sentido, hay que empezar por mirar los datos.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Valores cr\'iticos de las distribuciones de D-F}
+    Los valores críticos para la prueba de Dickey-Fuller suelen obtenerse a través de simulaciones Monte Carlo, reflejando mejor la distribución real del estadístico bajo la hipótesis nula. Esto implica que los valores críticos se derivan empíricamente y son específicos a la estructura del modelo de la prueba.
+\end{frame}
+
+%\begin{frame}{Exploración gráfica - AR(1)}
+%    \begin{itemize}
+%        \item AR(1) con $\rho = 0.5$
+%    \end{itemize}
+%             \begin{figure}
+%        \centering
+%        \includegraphics[width=0.7\linewidth]{sem14/images/ar1.png}
+%    \end{figure}
+%\end{frame}
+\begin{frame}{Exploración gráfica - AR(1)}
+    \begin{itemize}
+        \item AR(1) con $\rho = 0.95$
+    \end{itemize}
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{sem14/images/ar2.png}
+    \end{figure}
+    \begin{itemize}
+        \item Vemos cómo aumenta la persistencia.
+        \item Aquí ya podríamos pensar en diferenciar el modelo.
+    \end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Exploraci\'on gr\'afica - I(1)}
+
+\begin{itemize}
+    \item Ar(1) con $\rho = 1$
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/images/i1.png}
+    \end{figure}
+    \item La persistencia es muy alta
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Exploraci\'on gr\'afica - Primera diferencia de una I(1)}
+
+\begin{itemize}
+    \item La serie con orden de integraci\'on 1 la diferenciamos, y ¿qu\'e obtenemos?
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{sem14/images/i2.png}
+    \end{figure}
+    \item Si la serie est\'a en logaritmos, ¿A qu\'e se parece la primera diferencia?
+    \item Muchas series macroecon\'omicas siguen este tipo de procesos
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{El PIB Chileno}
+
+\begin{itemize}
+    \item Queremos saber cu\'al es el orden de integraci\'on del PIB chileno.
+    \item Comenzamos por una exploraci\'on gr\'afica
+
+                 \begin{figure}
+        \centering
+        \includegraphics[width=0.6\linewidth]{sem14/images/azul.png}
+    \end{figure}
+    
+   
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{El PIB Chileno - Primera Diferencia}
+
+\begin{itemize}
+    \item Primera diferencia del PIB
+
+                     \begin{figure}
+        \centering
+        \includegraphics[width=0.6\linewidth]{sem14/images/rojo.png}
+    \end{figure}
+    
+    \item ¿Qu\'e impresi\'on nos da?
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{El PIB Chileno - Ambas Gráficas}
+
+\begin{itemize}
+    \item Poniendo ambas gr\'aficas juntas
+\end{itemize}
+
+                 \begin{figure}
+        \centering
+        \includegraphics[width=0.6\linewidth]{sem14/images/azulroj.png}
+    \end{figure}
+
+\end{frame}
+\begin{frame}
+\frametitle{El PIB Chileno - Test de DF}
+
+\begin{itemize}
+    \item Realizamos el test de D-F para ver si se trata de una serie integrada de orden 1
+    \item Dada nuestra exploraci\'on gr\'afica, corresponder\'ia usar como modelo alternativo el que incluye una tendencia temporal
+$$\Delta PIB_t = \alpha + \phi PIB_{t-1} + \delta t +\epsilon_t$$
+                     
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{pib.png}
+    \end{figure}
+    
+    \item ¿Con qu\'e valor cr\'itico comparamos el estad\'istico t?
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{El PIB Chileno - Test de DF}
+
+\begin{itemize}
+    \item Vamos a usar los valores de tabla de DF
+    \item $\hat{\phi} = -0.0373029$ y $\hat{\sigma_{\phi}}=0.0228403$ 
+    \item Como nuestra muestra es de 60, podemos usar los valores cr\'iticos de la de 50:
+    \begin{itemize}
+        \item VC al 5\%: -3.50
+        \item $| -1.63 | < | -3.50 |$
+        \item No rechazo $H_0$
+    \end{itemize}
+    \item Evidencia a favor de que el PIB chileno tiene una ra\'iz unitaria: no es una serie estacionaria
+\end{itemize}
+
+\end{frame}
+\begin{frame}[shrink=10]
+\frametitle{Conclusiones y Repaso}
+
+\begin{itemize}
+    \item Cuando trabajamos con series de tiempo debemos comenzar por ver si las series tienen tendencias temporales: determin\'isticas o estoc\'asticas
+    \item Si es determinista, agregamos una tendencia:
+    \[
+    Y_t = \beta_0 + \beta_1 X_t + \alpha t + u_t
+    \]
+    \item Interpretaci\'on de $\beta_1$ ahora?
+    \item Para saber si tiene una tendencia estoc\'astica (ra\'iz unitaria) procedemos a realizar el test de Dickey-Fuller
+    \item Este test tiene valores cr\'iticos espec\'ificos y los mismos dependen del modelo alternativo que nos estemos planteando (con o sin tendencia determin\'istica)
+    \item Para determinar el modelo alternativo comenzamos por una exploraci\'on gr\'afica
+    \item Si encontramos que la serie tiene una ra\'iz unitaria (no rechazamos $H_0$) vamos a tener que diferenciar la serie y estimar nuestro modelo en diferencias.
+\end{itemize}
+
+\end{frame}
+
+
+\end{document}

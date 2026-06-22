@@ -1,0 +1,238 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{tikz}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 3}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+III trimestre 2025\\
+Profesor: Pedro Comte Hidalgo\\
+Ayudantes: Matias Balboa y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Preguntas conceptuales (40 puntos)}
+
+\begin{enumerate}
+
+\item (10 puntos) ¿Cuál es la diferencia principal entre multicolinealidad perfecta y alta multicolinealidad?
+¿Por qué es importante detectar cada una de estas condiciones para la estimación e inferencia con Mínimos Cuadrados Ordinarios (MCO)?
+
+
+\item (10 puntos) Mencione y describa los cuatro componentes clásicos de una serie de tiempo.
+
+
+\item (10 puntos) Tomando como referencia Angrist y Krueger (1991), quienes utilizan el trimestre de nacimiento como instrumento para la educación ¿Por qué esta variable es válida como instrumento? ¿Qué efecto tiene incluir una variable instrumental en la estimación del efecto de la educación sobre el salario?
+
+
+\item (10 puntos) ¿Por qué los estadísticos \(t\) y \(F\) utilizados para contrastar hipótesis no son válidos en presencia de heterocedasticidad?
+¿Cómo puede solucionarse este problema?
+
+\end{enumerate}
+
+
+
+\section{Ejercicios (60 puntos)}
+
+\begin{enumerate}
+    
+
+\item (20 puntos) Card (1995) utiliza la distancia a una universidad como variable instrumental de la educación para explicar el salario. Considere la siguiente muestra:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+i & Salario & Educ & Dist_U \\
+\hline
+1 & 6.0 & 10 & 2 \\
+2 & 6.4 & 11 & 3.5 \\
+3 & 7.1 & 12 & 1.5 \\
+4 & 5.7 & 10 & 4.5 \\
+5 & 7.6 & 13 & 1.5 \\
+6 & 5.4 &  9 & 5 \\
+7 & 7.1 & 12 & 2.5 \\
+8 & 6.7 & 11 & 3.5 \\
+\hline
+\end{tabular}
+\end{center}
+Donde \textbf{Salario} es el salario por hora, \textbf{Educ} los años de educación y\textbf{$Dist_U$} la distancia a la universidad más cercana en Kilometros.
+
+\begin{enumerate}
+    \item (5 puntos) Indique por qué la distancia a una universidad es un buen instrumento para la educación al explicar el salario.
+    \item (10 puntos) Calcule \(\beta^{IV}\).
+    \item (5 puntos) Interprete el resultado de \(\beta^{IV}\).
+\end{enumerate}
+
+
+ 
+    \item (15 puntos) Considere el modelo de ventas trimestrales de una empresa:
+\[
+\text{ventas}_i \equiv y_i \;=\; \beta_0 \;+\; \beta_1\,\text{marketing}_i \;+\; \beta_2\,\text{clientes}_i \;+\; \beta_3\,\text{PIB}_i \;+\; u_i,
+\]
+donde \(y_i\) son ventas (en miles de USD), \(\text{marketing}_i\) es el gasto en publicidad,
+\(\text{clientes}_i\) es el número de clientes activos y \(\text{PIB}_i\) es el PIB del país (índice base 100).
+
+\begin{enumerate}
+\item (5 puntos) Utilizando el método de White no simplificado, formule la {regresión auxiliar} y las {hipótesis} a contrastar para testear heterocedasticidad.
+
+\item (5 puntos) Con una muestra de \(n=200\), la regresión auxiliar entrega \(R^2 = 0{.}02\).
+Calcule la estadística LM y decida al 5\% de significancia.
+
+\item (5 puntos) Compare el test no simplificado con el test de White \emph{simplificado}. Discuta ventajas y desventajas de cada enfoque.
+\end{enumerate}
+
+
+\item (25 puntos) Se desea estimar un modelo de regresión en series de tiempo para explicar el PIB per cápita mediante la inversión neta en activos no financieros. Con datos entre 1972 y 2016, se muestran las siguientes gráficas:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{certamenes/Certamenes T3/imagen1c3.png}
+    \caption{PIB per cápita por año}
+    \label{fig:pib}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{certamenes/Certamenes T3/imagen2c3.png}
+    \caption{Inversión neta en activos no financieros por año}
+    \label{fig:inv}
+\end{figure}
+
+Se desea evaluar si estas series siguen un proceso con raíz unitaria.
+\begin{enumerate}
+    \item (5 puntos) Plantee la ecuación a testear y las hipótesis nula y alternativa, indicando sus implicancias para cada variable.
+    \item (12 puntos) Considerando los siguientes resultados de regresión lineal para ambas variables:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{certamenes/Certamenes T3/imagen3c3.png}
+        \caption{Regresión para el test sobre PIB per cápita.}
+        \label{fig:reg_pib}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{certamenes/Certamenes T3/imagen4c3.png}
+        \caption{Regresión para el test sobre inversión neta en activos no financieros.}
+        \label{fig:reg_inv}
+    \end{figure}
+
+¿Se puede concluir que existe raíz unitaria en cada variable al 5\% de significancia?
+
+\item (8 puntos) Según el resultado anterior, ¿cómo debiese especificarse la regresión para evitar sesgos?
+\end{enumerate}
+\end{enumerate}
+
+\newpage
+\section*{Formulario}
+\begin{itemize}
+
+\item Beta mediante IV:
+$$\beta^{IV}=\frac{Cov(y,z)}{Cov(z,x)}=\frac{\sum (y_i - \bar{y})(z_i - \bar{z})}{\sum (x_i - \bar{x})(z_i - \bar{z})}$$
+
+\item Tabla $\chi^2$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.99 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10,645 \\
+        \hline
+        7 &  18.475 & 14.067 & 12,017 \\
+        \hline
+        8 &  20.090 & 15.507 & 13,362 \\
+        \hline
+        9 &  21.666 & 16.919 & 14,683 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\item Multiplicado de Lagrange
+
+$$\color{red}{LM = nR^2 \sim \chi^2}$$
+
+\item Estadistico D-F para $\phi = 0$
+
+$$\color{red}{DF_{\phi}=\frac{\hat{\phi}}{s.e.(\hat{\phi})}}$$
+
+
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+
+
+ 
+\end{document}

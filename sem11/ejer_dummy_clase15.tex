@@ -1,0 +1,116 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+
+\begin{document}
+
+
+\section*{Ejercicio: Diferencias salariales entre industrias}
+
+Se estima la siguiente ecuación de regresión para los sueldos de los presidentes de consejos de administración:
+
+{\small
+\begin{align*}
+\log(\widehat{salary}) &= 4.59 + 0.257 \log(sales) + 0.011 \, roe + 0.158 \, finance 
+ + 0.181 \, consprod - 0.283 \, service \\
+&\quad (0.30) \quad \quad \, (0.032) \quad \quad \qquad \, (0.004) \qquad \qquad (0.089) \qquad \quad (0.085) \qquad \qquad \qquad (0.099) \\
+n &= 209, \quad R^2 = 0.357
+\end{align*}
+}
+
+\noindent
+donde las variables \textit{finance}, \textit{consprod} y \textit{service} son \textbf{dummies} que indican si la empresa pertenece a los sectores financiero, de productos de consumo o de servicios, respectivamente.  
+La categoría de referencia (omitida) corresponde a la \textbf{industria del transporte}.
+
+---
+
+\subsection*{(a) Diferencia porcentual entre servicios y transporte}
+
+El coeficiente de la variable \textit{service} es $\hat{\beta}_{service} = -0.283$.
+
+\begin{itemize}
+  \item \textbf{Interpretación aproximada:}  
+  El salario en el sector servicios es aproximadamente un $28.3\%$ menor que en el transporte.
+  
+  \item \textbf{Cálculo exacto:}
+  \[
+  \Delta \% salary = 100 \cdot \left( e^{\hat{\beta}_{service}} - 1 \right)
+  = 100 \cdot (e^{-0.283} - 1)
+  = 100 \cdot (0.753 - 1) = -24.7\%.
+  \]
+  Por lo tanto, los sueldos en la industria de servicios son un \textbf{24.7\% menores} que en la industria del transporte, manteniendo constantes \textit{sales} y \textit{roe}.\footnote{
+\textit{Nota:} La diferencia entre el cálculo aproximado ($-28.3\%$) y el exacto ($-24.7\%$) se debe a que la aproximación lineal $100\beta$ es válida solo para valores pequeños de $|\beta|$.
+}
+\end{itemize}
+
+
+
+El error estándar del coeficiente es $se(\hat{\beta}_{service}) = 0.099$, por lo que el estadístico $t$ es:
+\[
+t = \frac{-0.283}{0.099} \approx -2.86.
+\]
+
+Dado que $|t| > 1.96$, se \textbf{rechaza $H_0: \beta_{service} = 0$} al 5\%.  
+La diferencia salarial con respecto al transporte es estadísticamente significativa.
+
+---
+
+\subsection*{(b) Diferencia porcentual entre productos de consumo y sector financiero}
+
+Se comparan los coeficientes de \textit{consprod} y \textit{finance}:
+
+\[
+\Delta \log(salary) = \hat{\beta}_{consprod} - \hat{\beta}_{finance}
+= 0.181 - 0.158 = 0.023.
+\]
+
+\noindent
+\textbf{Interpretación:}  
+Aproximadamente, los sueldos en el sector de productos de consumo son un $2.3\%$ más altos que en el sector financiero.
+
+\[
+\Delta \% salary = 100 \cdot \left( e^{0.023} - 1 \right)
+= 100 \cdot (1.0233 - 1) = 2.33\%.
+\]
+
+---
+
+\subsection*{(c) Prueba de significancia para la diferencia}
+
+El error estándar de la diferencia se calcula como:
+
+\[
+se(\hat{\beta}_{consprod} - \hat{\beta}_{finance})
+= \sqrt{Var(\hat{\beta}_{consprod}) + Var(\hat{\beta}_{finance}) - 2 \, Cov(\hat{\beta}_{consprod}, \hat{\beta}_{finance})}.
+\]
+
+\noindent
+Como la covarianza no fue reportada, consideramos distintos escenarios:
+
+\begin{itemize}
+\item \textbf{Caso 1:} $\text{Cov} = 0$
+\[
+se = \sqrt{(0.085)^2 + (0.089)^2}
+= \sqrt{0.015146} \approx 0.123,
+\quad
+t = \frac{0.023}{0.123} \approx 0.19.
+\]
+Dado que $|t| < 1.96$, no se puede rechazar $H_0$ de igualdad de salarios.
+
+\item \textbf{Caso 2:} $\text{Cov} < 0$  
+\[
+se = \sqrt{(0.085)^2 + (0.089)^2 - 2\,\text{Cov}} > 0.123.
+\]
+El valor de $t$ sería aún más cercano a 0, por lo tanto, no se rechazaría $H_0$ de igualdad de salarios.
+
+\item \textbf{Caso 3:} $\text{Cov} > 0$  
+El error estándar sería menor que 0.123, en este caso el resultado del test es ambiguo depende de que tanto disminuya se.  
+\end{itemize}
+
+---
+
+
+
+\end{document}

@@ -1,0 +1,220 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 19: Dependencia de los errores en series de tiempo}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}{}
+
+    \begin{itemize}
+  \item Las series de tiempo tienen una diferencia grande con los datos de corte transversal: los datos están ordenados.
+  \item Esto genera varias particularidades que hace que haya que tener \textbf{CUIDADO} a la hora de estimar esos modelos por MCO e interpretarlos como causales.
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{El modelo lineal clásico-supuestos: Dependencia de los errores}
+
+\begin{itemize}
+  \item El teorema de Gauss-Markov especifica que MCO es MELI cuando:
+  \begin{itemize}
+    \item Linealidad de los parámetros
+    \item Muestreo aleatorio
+    \item Colinealidad imperfecta
+    \item Media condicional cero $E[u|X]=0$
+    \item Homoscedasticidad
+  \end{itemize}
+  \item Pero, ¿qué pasa si se viola el segundo supuesto? ¿Qué pasa si las observaciones no son iid? ¿Si no son independientes? Violación de muestreo aleatorio.
+  \item Esta clase vamos a ver qué implicaciones tiene esto en nuestras estimaciones por MCO y cómo se puede detectar.
+  \item Nos vamos a enfocar en series de tiempo.
+\end{itemize}
+
+\end{frame}
+\begin{frame}[shrink=10]
+\frametitle{Observaciones no independientes - errores correlacionados}
+
+\begin{itemize}
+  \item Efecto de no tener observaciones iid: errores correlacionados
+  \item Errores correlacionados: el término de error de una observación está correlacionado con el término de error de otra
+  \begin{itemize}
+    \item \( \text{COV}(u_i, u_j) \neq 0 \quad \forall i \neq j \)
+  \end{itemize}
+  \item Dependiendo de la estructura de los datos esta dependencia tendrá distinto nombre e interpretación:
+  \begin{itemize}
+    \item Series de tiempo: hablamos de autocorrelación serial
+    \begin{itemize}
+      \item El error que cometemos al explicar la relación entre desempleo e inflación en 2017 estará relacionado con el error que cometemos explicando esta relación en 2018 \( \text{Cov}(u_t, u_{t-1}) \neq 0 \).
+    \end{itemize}
+    \item Sección cruzada: hablamos de correlación espacial
+    \begin{itemize}
+      \item El error que cometemos explicando el resultado de un niño en una clase está relacionado con el error que cometemos explicando el resultado de otro niño de esa misma clase (efecto del maestro).
+    \end{itemize}
+    \item Panel: Pueden ocurrir ambas, típicamente pensamos que los errores de la misma observación en el tiempo están correlacionados: \( \text{Cov}(u_{it}, u_{it-1}) \neq 0 \)
+    \end{itemize}
+  \end{itemize}
+
+\end{frame}
+\begin{frame}[shrink=20]
+\frametitle{Dependencia de los errores y autocorrelación serial}
+
+\begin{itemize}
+  \item Bajo los supuestos clásicos MCO:
+  \[
+  \Sigma = E(UU') = 
+  \begin{pmatrix}
+  \sigma^2 & 0 & 0 & \cdots & 0 \\
+  0 & \sigma^2 & 0 & \cdots & 0 \\
+  0 & 0 & \sigma^2 & \cdots & 0 \\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & 0 & \cdots & \sigma^2
+  \end{pmatrix}
+  \]
+
+  \item Con heteroscedasticidad y sin dependencia:
+  \[
+  \Sigma = E(UU') = 
+  \begin{pmatrix}
+  \sigma^2_1 & 0 & 0 & \cdots & 0 \\
+  0 & \sigma^2_2 & 0 & \cdots & 0 \\
+  0 & 0 & \sigma^2_3 & \cdots & 0 \\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  0 & 0 & 0 & \cdots & \sigma^2_T
+  \end{pmatrix}
+  \]
+
+  \item Con homoscedasticidad y dependencia de los errores:
+  \[
+  \Sigma = E(UU') = 
+  \begin{pmatrix}
+  \sigma^2 & \sigma^2 \rho_{1,2} & \sigma^2 \rho_{1,3} & \cdots & \sigma^2 \rho_{1,T} \\
+  \sigma^2 \rho_{2,1} & \sigma^2 & \sigma^2 \rho_{2,3} & \cdots & \sigma^2 \rho_{2,T} \\
+  \sigma^2 \rho_{3,1} & \sigma^2 \rho_{3,2} & \sigma^2 & \cdots & \sigma^2 \rho_{3,T} \\
+  \vdots & \vdots & \vdots & \ddots & \vdots \\
+  \sigma^2 \rho_{T,1} & \sigma^2 \rho_{T,2} & \sigma^2 \rho_{T,3} & \cdots & \sigma^2
+  \end{pmatrix}
+  \]
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{¿Qué problema nos trae?}
+
+\begin{itemize}
+  \item La correlación de los errores nos trae un problema a la hora de estimar la varianza.
+  \item La estimación puntual por MCO NO se ve afectada: el estimador sigue siendo insesgado.
+  \item Repasamos: ¿Cuál es el problema de estimar la varianza con sesgo?
+  \begin{itemize}
+    \item Errores estándar no válidos \(\rightarrow\) Pruebas t no válidas.
+    \item ¿Cómo sabemos entonces con certeza si nuestra estimación es estadísticamente cero o no?
+  \end{itemize}
+  \item Vamos a tener un problema de \textbf{EFICIENCIA} (precisión) pero \textbf{NO DE SESGO }de los estimadores.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Estimación por MCO con errores robustos a la autocorrelación}
+
+\begin{itemize}
+  \item Al igual que con la heteroscedasticidad, podemos estimar por MCO y obtener errores robustos a la autocorrelación.
+  \item \textbf{Newey} y \textbf{West} proponen una forma de estimar los errores robusta a la autocorrelación y la heteroscedasticidad.
+  \item Llamamos a estos errores \textbf{HAC}, robustos a la heterocedasticidad y autocorrelación.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Errores Robustos de \textbf{Newey} y \textbf{West}}
+
+\begin{itemize}
+    \item La metodología de Newey y West permite obtener errores estándar robustos en presencia de:
+    \begin{itemize}
+        \item \textbf{Heterocedasticidad} (varianza no constante)
+        \item \textbf{Autocorrelación} (errores correlacionados en el tiempo de orden q)
+    \end{itemize}
+
+    \item Es una extensión del estimador “sandwich”:
+    \[
+    \widehat{\text{Var}}(\hat{\beta}) = (X'X)^{-1} \hat{\Omega} (X'X)^{-1}
+    \]
+          \item  \( \hat{\Omega} \) es una estimación robusta de la matriz de varianzas-covarianzas de los errores, para obtenerla se estima el modelo por MCO y se obtienen los residuos \( \hat{\epsilon}_t\).
+ 
+
+\item Considera pesos aplicados a cada rezago, que disminuyen linealmente. Estos pesos reducen la importancia de correlaciones lejanas, haciendo que el estimador sea más estable.
+   
+\end{itemize}
+\end{frame}
+
+
+\end{document}

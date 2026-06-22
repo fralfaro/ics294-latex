@@ -1,0 +1,109 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+\linespread{1.2}                        
+\setlength{\oddsidemargin}{0.0in}            
+\setlength{\textwidth}{6.5in}    
+\usepackage[utf8]{inputenc} % Asegúrate de usar utf8
+\usepackage[T1]{fontenc} % Asegúrate de usar T1 font encoding      
+\setlength{\topmargin}{-.6in}            
+\setlength{\textheight}{9in}
+\usepackage{latexsym} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsxtra}
+\usepackage[mathcal]{eucal} 
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{rotating}
+\usepackage{caption}
+\usepackage{lscape}
+\usepackage{paralist} 
+\usepackage{indentfirst}
+\usepackage[dvipsnames,svgnames]{xcolor} 
+\usepackage{setspace}
+\usepackage{multicol} 
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{cmyk}{0.65, 1, 0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=R, % lenguaje de programación
+    basicstyle=\small\ttfamily, % estilo básico
+    commentstyle=\color{gray}, % estilo para los comentarios
+    keywordstyle=\color{blue}, % estilo para las palabras clave
+    stringstyle=\color{black}, % estilo para las cadenas de texto
+    showstringspaces=false, % no mostrar espacios en cadenas de texto
+    tabsize=4, % tamaño de la tabulación
+    breaklines=true, % permitir el salto de línea automático
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, % símbolo al final de una línea partida
+    numbers=left, % mostrar números de línea
+    numberstyle=\tiny\color{gray}, % estilo para los números de línea
+    frame=single, % mostrar un borde alrededor del código
+    backgroundcolor=\color{gray!10}, % color de fondo
+}
+
+\begin{document}
+
+\begin{center}
+    {\Large  Taller 2: Econometría }
+
+Profesor:    Jocelyn Tapia Stefanoni\\
+Ayudantes:     Barbara Buffo y Matias 
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+    \item Usted dispone de 60 minutos  para intentar los 100 puntos del taller.
+    \item Cuide la presentación y redacción de sus respuestas.
+    \item Puede utilizar su computador y los apuntes tanto de clase como de ayudantía.
+    \item Debe enviar un archivo en formato PDF y un R script (extensión .R)
+\end{itemize}
+
+
+Use los datos del archivo twoyear del paquete wooldridge  asociado a la invetigaci\'on de Kane y Rouse (1995). En dicha investigación los autores proporcionan un análisis detallado de los rendimientos asociados a estudios universitarios de dos y cuatro años.
+
+La población de interés está compuesta por personas trabajadoras que han terminado el bachillerato, y el modelo econométrico base es el siguiente:
+
+\begin{equation}
+\log(\text{wage}) = \beta_0 + \beta_1 \cdot \text{jc} + \beta_2 \cdot \text{univ} + \beta_3 \cdot \text{exper} + u
+\label{eq:4.17}
+\end{equation}
+
+donde:
+
+\begin{itemize}
+    \item \texttt{jc} = cantidad de años de asistencia a una carrera universitaria corta;
+    \item \texttt{univ} = cantidad de años de asistencia a una carrera universitaria larga;
+    \item \texttt{exper} = meses en la fuerza laboral;
+\end{itemize}
+
+Ojo: Es posible que una persona tenga cualquier combinación de años en carrera corta o universitaria, incluyendo \texttt{jc} = 0 y \texttt{univ} = 0.
+
+\begin{enumerate}
+
+\item (14 puntos) Describa los datos disponibles en la base datos.
+       \item (12 puntos) Testee la hipótesis de si un año adicional de estudios en una carrera corta tiene el mismo efecto sobre el salario que un año adicional de estudios universitarios.
+
+\item (12 puntos) Cu\'antas personas en la muestra no cuentan con estudios universitarios? 
+        
+ \item (12 puntos)   La variable \texttt{phsrank} representa el percentil de una persona en el ranking de su bachillerato. Un valor más alto indica una mejor posición relativa. Por ejemplo, un valor de 90 significa que el individuo está ubicado por encima del 90\% de quienes completaron el bachillerato en ese año. Determine el valor mínimo, máximo y promedio de \texttt{phsrank} en la muestra. Realice un grafico de caja para esta variable  e interprete. 
+
+    \item (12 puntos)
+    Añada la variable \texttt{phsrank} a la ecuación \eqref{eq:4.17} y estime el modelo por Mínimos Cuadrados Ordinarios (MCO), ponga las dos regresiones en una misma tabla.  Analice si \texttt{phsrank} es estadísticamente significativa. 
+
+    \item (12 puntos)
+    Discuta si la inclusión de \texttt{phsrank} en la ecuación \eqref{eq:4.17} modifica sustancialmente las conclusiones previas respecto al rendimiento salarial de haber cursado dos o cuatro años de universidad. Justifique su respuesta en términos de los coeficientes y significancia estadística.
+
+    \item (26 puntos) Sugiera dos variables explicativas que deberían agregarse al modelo y analice su significancia conjunta.
+   
+\end{enumerate}
+
+\end{document}

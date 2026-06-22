@@ -1,0 +1,312 @@
+\documentclass[10pt]{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{15pt}
+%\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 1}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{certamenes/logo_usm.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+\end{frame}
+
+\section{Introducción}
+
+\begin{frame}{Introducción}
+    \begin{itemize}
+        \item  En la clase anterior vimos que cuando teníamos un regresor endógeno precisabamos un instrumento
+        \item Para que el instrumento $z$ sea válido precisamos:
+        \begin{enumerate}
+            \item Exógeneidad: $\operatorname{Cov}(u, z)=0$
+            \item Relevancia: $\operatorname{Cov}(x, z) \neq 0$
+        \end{enumerate}
+        \item Hoy vamos a ver como podemos usar ese instrumento para estimar consistentemente
+        \item Vamos a ver dos métodos:
+        \begin{enumerate}
+            \item Estimación por Variables Instrumentales (VI) (clase pasada y un poco de hoy)
+            \item Mínimos cuadrados en dos etapas (MC2E) (hoy)
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\section{VI}
+
+\begin{frame}{Estimación por Variables Instrumentales (VI)}
+    \begin{itemize}
+        \item La clase pasada vimos que el estimador por VI lo podemos calcular como:
+        $$
+        \hat{\beta}_{V I}=\frac{S_{y_{i}, z_{i}}}{S_{x_{i}, z_{i}}}=\frac{\sum_{i=1}^{N}\left(y_{i}-\bar{y}\right)\left(z_{i}-\bar{z}\right)}{\sum_{i=1}^{N}\left(x_{i}-\bar{x}\right)\left(z_{i}-\bar{z}\right)}
+        $$
+        \item Si se cumplen los supuestos del instrumento, es un estimador insesgado de la relacion entre Xe Y .
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Inferencia y estimación por variables Instrumentales}
+    \begin{itemize}
+        \item Al igual que MCO, VI es un \underline{método de estimación}\\
+        $\rightarrow$ Un método para obtener un estimador de nuestro parámetro de interés $\beta$
+        \item Tal como con MCO, una vez obtenidas las estimaciones $\hat{\beta}_{V I}$ queremos hacer inferencia estadística sobre las mismas. Necesitamos errores estandar!\\
+        $\rightarrow$ Ej. pruebas $t$ de significación de los parámetros
+        \item Tal como en MCO, vamos a asumir homoscedasticidad, ahora condicional en el instrumento $z: \operatorname{Var}(u \mid z)=\sigma^{2}$
+        \item Se puede demostrar que se puede estimar la varianza de $\beta^{V I}$ como:
+        \item s $\hat{\beta}_{V I}$ :
+        $$
+        \operatorname{Var}\left(\hat{\beta}_{V I}\right)=\frac{\hat{\sigma}^{2}}{S C T_{x} R_{x, z}^{2}}
+        $$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimacion de varianza de estimador VI}
+    \begin{itemize}
+        \item Se puede demostrar que se puede estimar la varianza de $\beta^{V I}$ como:
+        \item $\hat{\beta}_{V I}$ :
+        $$
+        \operatorname{Var}\left(\hat{\beta}_{V I}\right)=\frac{\hat{\sigma}^{2}}{S C T_{x} R_{x, z}^{2}} \quad \text { donde }
+        $$
+        \begin{enumerate}
+            \item $\hat{\sigma}^{2}$ surge de calcular los $\hat{u}_{i}$. \textbf{Noten los $\beta$ que usamos!}
+            $$
+            \begin{gathered}
+            \hat{u}_{i}=y_{i}-\hat{\beta}^{VI}_0-\hat{\beta}^{VI}_{1} x_{i} \\
+            \hat{\sigma^{2}}=\frac{1}{n-2} \sum_{i=1}^{n} \hat{u}_{i}^{2}
+            \end{gathered}
+            $$
+            \item $R_{x, Z}^{2}$ es el $R^{2}$ de la regresion: $X_{i}=\pi_{0}+\pi_{1} Z_{i}+v$
+            \item $S C T_{X}=\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}$ es la suma de cuadrados explicada de $X$.
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimacion de varianza de estimador VI}
+    \begin{itemize}
+        \item Noten que:
+        $$
+        \hat{\operatorname{Var}}\left(\hat{\beta}_{V I}\right)=\frac{\hat{\sigma}^{2}}{S C T_{x} R_{X, Z}^{2}}
+        $$
+        \item \textbf{Noto:} Mientras mas débil la relación entre $x$ y su instrumento $z \rightarrow$ menor $R_{x, z}^{2}$ $\rightarrow$ Mayor $\hat{\operatorname{Var}}\left(\hat{\beta}_{V I}\right)$
+        \item Recuerdo, en el Modelo de Regresión Simple:
+        $$
+        \hat{\operatorname{Var}}\left(\hat{\beta}_{M C O}\right)=\frac{\hat{\sigma}^{2}}{S C T_{X}}
+        $$
+        \item Dado que $R_{x, z}^{2} \leq 1$, la varianza de las estimaciones por VI será mayor o igual a la varianza de los estimadores MCO
+        \begin{itemize}
+            \item Mientras mas fuerte la relación entre $x$ y $z$, mas se acercarán las varianzas
+            \item Caso extremo: $x$ es exógena $\rightarrow x$ es el instrumento de $x \rightarrow R_{x, z}^{2}=1 \rightarrow$ $\hat{\operatorname{Var}}\left(\hat{\beta}_{V I}\right)=\hat{\operatorname{Var}}\left(\hat{\beta}_{M C O}\right)$
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{MC2E}
+
+\begin{frame}{Estimación por mínimos cuadrados en dos etapas}
+    \begin{itemize}
+        \item Otro método para estimar consistentemente los parámetros con instrumentos es el Mínimos Cuadrados en 2 etapas (MC2E). El coeficiente que obtenemos sera el mismo.
+        \item Comenzamos con el siguiente modelo donde estamos interesados en el efecto de $x_{1}$ en $y_{1}$.
+        $$
+        y_{i}=\beta_{0}+\beta_{1} \underbrace{x_{1 i}}_{\text {Endo }}+\beta_{2} \underbrace{x_{2 i}}_{\text {Exog }}+u_{i} \quad \forall i=1 \ldots N
+        $$
+        
+        Con: (i) $\operatorname{Cov}\left(x_{1 i}, u_{i}\right) \neq 0$; (ii) $\operatorname{Cov}\left(x_{2 i}, u_{i}\right)=0$; y (iii) $\operatorname{Cov}\left(z_{i}, u_{i}\right)=0$
+        \item  Por ejemplo:
+        $$
+        \operatorname{ln}\left(\text{salario}_{i}\right)=\beta_{0}+\beta_{1} \text { educ }_{i}+\beta_{2} \text { mujer }+u_{i}
+        $$
+        \item Y podemos usar como instrumento de educ la distancia al establecimiento educativo mas cercano.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{MC2E - Etapa 1}
+    \underline{\textbf{Primera etapa: $Z \rightarrow X$}} Regresamos la variable \textbf{endógena} sobre \textbf{todas las exógenas} incluido el instrumento
+
+    \begin{itemize}
+        \item Paso 1: Estimamos la siguiente ecuación por MCO.
+
+        \begin{equation*}
+        \underbrace{x_{1 i}}_{\text {End }}=\pi_{0}+\pi_{1} \underbrace{z_{i}}_{\substack{\text { Instr } \\ \text { (Exog) }}}+\pi_{2} \underbrace{x_{2 i}}_{\text {Exog }}+v_{i} \tag{1}
+        \end{equation*}
+        
+        \item Paso 2: Obtenemos los y construimos el valor predicho de $x_{1}$ :
+        
+        \begin{equation*}
+        \hat{x}_{1 i}=\hat{\pi}_{0}+\hat{\pi}_{1} z_{i}+\hat{\pi}_{2} x_{2 i} \tag{2}
+        \end{equation*}
+        
+        \item Noten que $\hat{x}$ es una funcion de $z$ y $x_{2}$ que son variables exogenas. Por lo tanto, no correlaciona c/ el error ( $u$ ). El instrumento permite quedarnos con la parte exogena de x .
+        \item Intuición: $x_{i}=\hat{x}_{i}+\hat{v}_{i}$. Solo usamos la parte exogena: $\hat{x}_{i} y$
+        \item Paso 3: Noten que durante este paso, se aprovecha para testear la relevancia del instrumento. Haciendo un test de $\hat{\pi}_{1} \neq 0$. Si $F>10$, \\ relevante.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{MC2E - Etapa 2}
+    \underline{\textbf{Segunda etapa: $\hat{x} \rightarrow y$}}
+
+    \begin{itemize}
+        \item En la ecuacion original, remplazamos la variable endógena $x_{1}$ por la predicción de esta variable que obtuvimos en la primera etapa $\hat{x}_{1}$ (Ec.2)
+        \item Nuestra ecuación original (Ec.1) la podemos escribir entonces:
+        
+        \begin{equation*}
+        y_{i}=\beta_{0}+\beta_{1} \hat{x}_{1 i}+\beta_{2} x_{2 i}+u_{i} \tag{3}
+        \end{equation*}
+        
+        \item $\hat{x}_{1 i}$ es exógena, ya que es una combinación lineal de variables exógenas (Ec.2)
+        \item Ahora, podemos estimar Ec. 3 por MCO!
+        $$
+        \hat{\beta}_{M C 2 E}=\left(\hat{X}^{\prime} \hat{X}^{\prime}\right)^{-1} \hat{X}^{\prime} Y
+        $$
+        $$
+        \operatorname{con} \hat{X}=\left(\begin{array}{ccc}
+        1 & \hat{x}_{1,1} & x_{2,1} \\
+        1 & \hat{x}_{1,2} & x_{2,2} \\
+        \vdots & \vdots & \vdots \\
+        1 & \hat{x}_{1, n} & x_{2, n}
+        \end{array}\right)
+        $$
+        \item El $\hat{\beta}_{1}$ hallado de esta manera se conoce como $\hat{\beta}_{1, M C 2 E}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{MC2E- Varianza e inferencia}
+    \begin{itemize}
+        \item Si bien $\hat{\beta}_{M C 2 E}$ son la estimación por MCO de la segunda etapa su varianza no es tal cuál la varianza de un estimador MCO ya que debe recoger las correlaciones entre la primera y la segunda etapa
+        \item La varianza de los estimadores MC2E se puede aproximar asintóticamente a:
+        $$
+        \operatorname{Var}\left(\hat{\beta}_{1, M C 2 E}\right) \approx \frac{\sigma^{2}}{S \hat{C} T_{\hat{x}}\left(1-\hat{R}_{1}^{2}\right)} ; \operatorname{Var}\left(\hat{\beta}_{1, M C O}\right)=\frac{\sigma^{2}}{S C T_{x}\left(1-R_{1}^{2}\right)}
+        $$
+        \item Donde:
+        \item $S \hat{C} T_{\hat{x}}=\sum_{i=1}^{i=n}(\hat{x}-\overline{\hat{x}})^{2}$ es la variación total de $\hat{x}$
+        \item $\hat{R}_{1}^{2}$ es el $R^{2}$ de regresar $\hat{x_{1}}$ sobre los demás regresores ( $x_{2}$ ): e.g: obtener el $R^{2}$ de $\hat{x_{1}}=\alpha+\alpha_{1} x_{2}+c$
+        \item Siempre $S C T_{x} \geq S \hat{C} T_{\hat{x}}$. Intuicion? acuerdense que de toda la variabilidad de X , agarramos solo una parte (la parte exogena). Ademas, generalmente, $\hat{R}_{1}^{2} \geq R_{1}^{2}$
+        \item Entonces: $\operatorname{Var}\left(\hat{\beta}_{1, M C 2 E}\right) \geq \operatorname{Var}\left(\hat{\beta}_{1, M C O}\right)$
+        
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{R cuadrado y pruebas F}
+    \begin{itemize}
+        \item Al igual que con VI , una relación débil entre la variable endógena y su instrumento incrementa la varianza de la estimación (porque achica el $S C T_{\hat{\chi}}$).
+        \item Tanto cuando estimamos por VI como por MC2E el $R^{2}$ calculado carecen de interpretación.
+        \item Estimar usando instrumentos nos permite tener una \underline{\textbf{estimación consistente de la relación causal entre $x$ y $y$}} cuando $x$ es endógena, $y$ su objetivo no es mejorar la prediccion del modelo.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{MC2E -Ejemplo 1 etapa}
+    \begin{itemize}
+        \item Queremos saber los efectos del turismo en México en los ingresos de la ciudad.
+        $$
+        \operatorname{ln}\left(\text {income}_{i}\right)=\beta_{0}+\beta_{1} \text{HotelSales}_{i}+\beta_{2} \log (\text{temp})_i+u_{i}
+        $$
+        \item Ciudades mas ricas pueden atraer mas turismo, entonces hay endogeneidad. Usamos: distancia de la ciudad a USA como instrumento y estimamos por MC2E.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Primera Etapa}
+    \begin{itemize}
+        \item Estimamos la primera etapa por MCO (instrumentos en X)
+        $$
+        \log (\text { HotelSales })_{i}=\pi_{0}+\pi_{1} \operatorname{distUS}+\pi_{2} \log (\text { temp })_{i}+v_{i}
+        $$
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{SebastianGatica/Imagenes/Tabla5_1.jpeg}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{MC2E -Ejemplo 2 etapa: prediccion de X en Y}
+    Usamos los valores predichos HoteîSales con la primera etapa y estimamos la segunda etapa:
+    $$
+    \ln\left(\text{Income}_{i}\right)=\beta_{0}+\beta_{1} \log(\hat{\text{HotelSales}})_{i}+\beta_{2} \log (\text {temp})_{i}+u_{i}.
+    $$
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{SebastianGatica/Imagenes/Tabla5_2.jpeg}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{MC2E -Comparamos con MCO}
+    \begin{itemize}
+        \item 0.45 con una estimamos por MCO:
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{SebastianGatica/Imagenes/Tabla5_3.jpeg}
+    \end{figure}
+    \begin{itemize}
+        \item Estimación por MC2E: un incremento de 1\% en las ventas de hoteles aumenta $0.45 \%$ el ingreso de la ciudad.
+        \item Estimación por MCO: un incremento de $1 \%$ de las ventas en hoteles aumenta $0.05 \%$ el ingreso en la ciudad. MCO estaba sesgado, subestimando el verdadero valor.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Conclusiones}
+    \begin{itemize}
+        \item Vimos dos métodos para estimar consistentemente los parámetros cuando el regresor es endógeno y contamos con un instrumento válido
+        \begin{itemize}
+            \item VI
+            \item MC2E
+        \end{itemize}
+        \item En el MRS, con un sólo instrumento: ambos métodos nos darán las mismas estimaciones puntuales y los mismos errores estándar
+        \item Los resultados serán distintos cuando tengamos más de un instrumento para la variable endógena
+        \item Estimar por estos métodos nos asegura la consistencia (insesgadez) de las estimaciones siempre que los instrumentos sean válidos
+        \item Pero pagaremos el precio de menos precisión en esas estimaciones (errores estándar más grandes que en MCO)
+        \item La próxima clase vamos a ver que pasa cuando tenemos instrumentos débiles, como podemos testear si hay endogeneidad y en algunos casos incluso la restricción de exogeneidad.
+    \end{itemize}
+\end{frame}
+
+\end{document}

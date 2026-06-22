@@ -1,0 +1,436 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+%\lhead{\includegraphics[scale=0.2]{logo.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+%\rhead{\includegraphics[scale=0.2]{FIG/logo-mba-2016.png}} % número de página a la derecha
+
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+
+
+
+\pagebreak
+\vspace*{4mm} 
+
+\begin{center}
+\begin{huge}
+\textbf{\\Ejercicios Econometría 2}
+\end{Large}\\
+%{\large 2023-2}\\
+\end{center}
+
+
+\section{Muestreo e Intervalos de Confianza}
+
+Un investigador quiere estimar el gasto promedio mensual en transporte de los estudiantes de una universidad. Para ello, selecciona una muestra aleatoria de 100 estudiantes y obtiene los siguientes datos:
+
+\begin{itemize}
+    \item \textbf{Media poblacional} ($\mu$) = 120 dólares (dado como referencia)
+    \item \textbf{Varianza poblacional} ($\sigma^2$) = 900 dólares
+    \item \textbf{Media muestral} ($\bar{x}$) = 125 dólares
+    \item \textbf{Tamaño de la muestra} ($n$) = 100
+    \item \textbf{Nivel de confianza} = 95\%
+\end{itemize}
+
+\textbf{Preguntas:}
+
+\begin{enumerate}
+    \item Calcula el intervalo de confianza del 95\% para la media poblacional.
+    \item Interpreta el intervalo de confianza en el contexto del problema.
+    \item Determina el tamaño mínimo de la muestra ($n$) necesario para que la media poblacional de 120 no pertenezca al intervalo de confianza del 95\% basado en la media muestral de 125.
+\end{enumerate}
+
+\textbf{Solución}
+
+\textbf{Intervalo de confianza}
+El intervalo de confianza para la media poblacional se calcula con la fórmula:
+
+\begin{equation}
+IC = \left( \bar{x} \pm Z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} \right)
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Desviación estándar poblacional:} 
+    \begin{equation}
+    \sigma = \sqrt{\sigma^2} = \sqrt{900} = 30
+    \end{equation}
+    \item \textbf{Error estándar de la media:}
+    \begin{equation}
+    SE = \frac{\sigma}{\sqrt{n}} = \frac{30}{\sqrt{100}} = \frac{30}{10} = 3
+    \end{equation}
+    \item \textbf{Valor crítico para un 95\% de confianza:}
+    \begin{equation}
+    Z_{\alpha/2} = 1.96
+    \end{equation}
+    \item \textbf{Cálculo del intervalo:}
+    \begin{equation}
+    IC = \left( 125 \pm 1.96 \cdot 3 \right)
+    \end{equation}
+    \begin{equation}
+    IC = \left( 125 \pm 5.88 \right)
+    \end{equation}
+    \begin{equation}
+    IC = (119.12, 130.88)
+    \end{equation}
+\end{itemize}
+
+\textbf{Interpretación}
+Con un 95\% de confianza, el verdadero gasto promedio mensual en transporte de los estudiantes está entre \textbf{119.12 y 130.88 dólares}. Esto significa que si repitiéramos este muestreo muchas veces, el 95\% de los intervalos construidos contendrían la verdadera media poblacional.\\
+
+\textbf{Tamaño mínimo de la muestra ($n$)}
+Queremos encontrar el mínimo $n$ tal que $\mu = 120$ no pertenezca al intervalo de confianza. Es decir, buscamos que:
+
+\begin{equation}
+\bar{x} - Z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} > 120
+\end{equation}
+
+Sustituyendo los valores conocidos:
+
+\begin{equation}
+125 - 1.96 \cdot \frac{30}{\sqrt{n}} > 120
+\end{equation}
+
+Restamos 125 en ambos lados:
+
+\begin{equation}
+- 1.96 \cdot \frac{30}{\sqrt{n}} > -5
+\end{equation}
+
+Multiplicamos por $-1$ (cambiando el sentido de la desigualdad):
+
+\begin{equation}
+1.96 \cdot \frac{30}{\sqrt{n}} < 5
+\end{equation}
+
+Dividimos por 1.96:
+
+\begin{equation}
+\frac{30}{\sqrt{n}} < \frac{5}{1.96}
+\end{equation}
+
+Aproximamos:
+
+\begin{equation}
+\frac{30}{\sqrt{n}} < 2.55
+\end{equation}
+
+Invirtiendo la ecuación:
+
+\begin{equation}
+\sqrt{n} > \frac{30}{2.55}
+\end{equation}
+
+\begin{equation}
+\sqrt{n} > 11.76
+\end{equation}
+
+Elevamos al cuadrado:
+
+\begin{equation}
+n > 138.3
+\end{equation}
+
+Como $n$ debe ser un número entero, tomamos $n = 139$.
+
+\section{Regresión Lineal Simple con suma de Constante}
+
+Sean \(\hat{\beta}_0\) y \(\hat{\beta}_1\) el intercepto y la pendiente en la regresión de \(y_i\) sobre \(x_i\), usando \(n\) observaciones.
+
+Ahora, sean \(\tilde{\beta}_0\) y \(\tilde{\beta}_1\) la intersección con el eje \(y\) y la pendiente en la regresión de \((c_1 + y_i)\) sobre \((c_2 + x_i)\) (sin ninguna restricción sobre \(c_1\) o \(c_2\)). Muestre que \(\tilde{\beta}_1 = \hat{\beta}_1\) y \(\tilde{\beta}_0 = \hat{\beta}_0 +c_1- c_2 \cdot \hat{\beta}_1\). Compare los $R^2$ de ambas regresiones.
+
+\textbf{Solución}
+{ Estimadores MCO.
+
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} $$
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
+
+
+$$\tilde{\beta}_1 = \frac{\sum_{i=1}^{n}((x_i+c_2) - (\bar{x}+c_2))((y_i+c_1)-(\bar{y}+c_1))}{\sum_{i=1}^{n}((x_i+c_2) - (\bar{x}+c_2))^2}=\hat{\beta}_1$$
+
+$$\tilde{\beta}_0 = (\bar{y}+c_1) - \tilde{\beta}_1 (\bar{x}+c_2)= (\bar{y}+c_1) - \hat{\beta}_1 (\bar{x}+c_2)=\hat{\beta}_0+c_1-c_2\hat{\beta}_1  $$
+}
+
+
+
+    
+{ SST la suma de cuadrados totales (total sum of squares):
+		\[ SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \]
+		
+	 SSE la suma de cuadrados explicados (explained sum of squares):
+	{	\[ SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 \]}	
+
+ Para el segundo caso
+		\[ SST' = \sum_{i=1}^{n} ((y_i+c_1) - (\bar{y}+c_1))^2 =SST\]
+		
+		
+$$\tilde{y}_i=\tilde{\beta_0}+\tilde{\beta_1}(x_i+c_2)=\hat{\beta}_0+c_1-c_2\hat{\beta}_1 + \hat{\beta_1}(x_i+c_2)= \hat{\beta_0}+c_1+\hat{\beta_1}x_i$$
+	{	\[ SSE' = \sum_{i=1}^{n} (\tilde{y}_i - (\bar{y}+c_1))^2=SSE \]
+
+ $$SSE' \sum_{i=1}^{n} (\hat{\beta_0}+c_1+\hat{\beta_1}x_i - (\bar{y}+c_1))^2=SSE $$
+ 
+ Luego el $R^2$ de ambos modelos es igual. 
+ }		
+ 
+ 
+ }
+
+
+
+\section{Regresión Lineal Simple: Sesgo por error de medición}
+
+Sean \( \hat{\beta}_0 \) y \( \hat{\beta}_1 \) los parámetros estimados de la regresión de \( y_i \) sobre \( x_i \), y sean \( \tilde{\beta}_0 \) y \( \tilde{\beta}_1 \) los parámetros estimados de la regresión de \( y_i \) sobre \( (u + x_i) \), donde \( u \sim N(0, 1) \). 
+\begin{enumerate}
+    \item Encuentre los nuevos valores de \( \tilde{\beta}_0 \) y \( \tilde{\beta}_1 \) en función de \( \hat{\beta}_0 \) y \( \hat{\beta}_1 \).
+
+    \item Supongamos que tenemos una muestra de 1000 datos con $\Bar{x} = 5$, $\Bar{y}=10$, $Var(x) = 4$ y $Cov(x,y)=3$, encuentre el valor de los estimadores \( \hat{\beta}_0 \) y \( \hat{\beta}_1 \) y de \( \tilde{\beta}_0 \) y \( \tilde{\beta}_1 \), y las ecuaciones que describen al regresando.
+
+\end{enumerate}
+
+\textbf{Solución}
+\begin{enumerate}
+    \item \textbf{Modelo original}
+El modelo original es:
+\[
+y_i = \beta_0 + \beta_1 x_i + \epsilon_i
+\]
+donde \( \epsilon_i \) es el error aleatorio. \\
+
+\textbf{Nuevo modelo}
+En el nuevo modelo, regresamos \( y_i \) sobre \( (u_i + x_i) \), lo que da la ecuación:
+\[
+y_i = \tilde{\beta}_0 + \tilde{\beta}_1 (u_i + x_i) + \nu_i
+\]
+donde \( u \sim N(0, 1) \) es una variable aleatoria con media cero y varianza uno. Usemos  $\tilde{x}_i = x_i + u_i$ \\
+
+\textbf{Relación entre \( \hat{\beta}_0, \hat{\beta}_1 \) y \( \tilde{\beta}_0, \tilde{\beta}_1 \)}
+Sabemos que:
+\[
+\hat{\beta}_1 = \frac{Cov(x,y)}{Var(x)} 
+\]
+y
+\[
+\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} 
+\]
+
+para los nuevos valores tenemos que 
+$$\tilde{\beta}_1 = \frac{Cov(\tilde{x},y)}{Var(\tilde{x})} = \frac{Cov(x+u,y)}{Var(x+u)}$$
+Sabemos que $Cov(u,y)=0$, por lo que:
+$$\tilde{\beta}_1 = \frac{Cov(x,y)}{Var(x+u)}$$
+sustituyendo $y = \hat{\beta_0} + \hat{\beta_1}x +\epsilon $ tenemos:
+$$\tilde{\beta}_1 = \frac{Cov(x,\hat{\beta_0} + \hat{\beta_1}x +\epsilon)}{Var(x+u)} = \hat{\beta_1} \frac{Cov(x,x)}{Var(x+u)} = \hat{\beta_1}\frac{Var(x)}{Var(x)+Var(u)}$$
+
+para el valor de $\tilde{\beta}_0$, tenemos:
+$$\tilde{\beta}_0 = \Bar{y} - \tilde{\beta}_1 \Bar{x}$$
+reemplazando el valor de $\tilde{\beta}_1$, tenemos:
+$$\tilde{\beta}_0 = \Bar{y} - \hat{\beta_1}\frac{Var(x)}{Var(x)+Var(u)} \Bar{x}$$
+sabemos que $Var(u)=1$ entonces:
+$$\tilde{\beta}_1 =  \hat{\beta_1}\frac{Var(x)}{Var(x)+1}$$
+$$\tilde{\beta}_0 = \Bar{y} - \hat{\beta_1}\frac{Var(x)}{Var(x)+1} \Bar{x}$$
+
+\item Usando los valores del enuncado y estos resultados tenemos que:
+$$\hat{\beta}_1 = \frac{Cov(x,y)}{Var(x)}  = \frac{3}{4} = 0.75$$
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} = 10-0.75*5 = 6.25 $$
+quedando la la ecuación del modelo original como:
+$$y_i = 6.25 + 0.75 x_i + \epsilon_i$$
+y reemplazando en los nuevos valores de los estimadores, tenemos:
+$$\tilde{\beta}_1 =  \hat{\beta_1}\frac{Var(x)}{Var(x)+1} = 0.75*\frac{4}{4+1}=0.6$$
+y como la media de $\tilde{x}$ es igual a la media de $x$, tenemos:
+$$\tilde{\beta}_0 = \Bar{y} - \tilde{\beta_1} \Bar{x} = 10-0.6*5= 7$$
+quedando la ecuación del modelo modificado como:
+$$y_i = 7 + 0.6 (u_i + x_i) + \nu_i$$
+
+\end{enumerate}
+
+
+\section{Sesgo de selección}
+Supongamos que un gobierno implementa un programa de capacitación laboral para ayudar a las personas desempleadas a encontrar trabajo. El programa ofrece cursos gratuitos de habilidades técnicas y entrevistas simuladas. Sin embargo, la participación en el programa es voluntaria, y las personas deciden inscribirse o no en función de sus propias características (por ejemplo, motivación, nivel educativo previo, etc.).
+
+Tenemos los siguientes datos para dos grupos: \textbf{tratados} (participantes del programa) y \textbf{no tratados} (no participantes).
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Individuo & Tratamiento (\( D_i \)) & Salario (\( Y_i \)) & Nivel educativo (\( X_i \)) \\
+\hline
+1 & 1 & 2500 & 12 \\
+2 & 1 & 3000 & 14 \\
+3 & 1 & 2800 & 13 \\
+4 & 0 & 2000 & 10 \\
+5 & 0 & 2200 & 11 \\
+6 & 0 & 2100 & 10 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item Comente cuales serían los posibles sesgos que existen en comparar el grupo de tratados vs los no tratados.
+
+    \item Calcule el $\beta$ que asimila el ATE y ATT. 
+
+    \item ¿Existe un sesgo dado el nivel educativo?
+
+    \item supongamos que incluimos la variable nivel educativo en una regresión lineal dandonos la siguiente ecuación: 
+    $$\hat{Y}_i = 1500+200D_i + 100X_i$$
+    ¿Cúal es el valor del sesgo de selección? ¿Cúal sería el impacto real de la participación en el programa en el salario?
+\end{enumerate}
+
+\textbf{Solución}
+\begin{enumerate}
+    \item Queremos evaluar el efecto del programa en el salario de los participantes. Sin embargo, existe un \textbf{sesgo de selección} porque las personas que eligen participar en el programa pueden ser más motivadas o tener mejores habilidades que las que no participan, lo que podría afectar los resultados incluso si el programa no tuviera ningún efecto real.
+
+    \item El efecto del tratamiento (\( \beta \)) es la diferencia en el salario promedio entre el grupo tratado y el grupo no tratado:
+\[
+\beta = \bar{Y}_{\text{tratado}} - \bar{Y}_{\text{no tratado}}.
+\]
+
+Calculamos los promedios:
+\[
+\bar{Y}_{\text{tratado}} = \frac{2500 + 3000 + 2800}{3} = \frac{8300}{3} = 2766.67,
+\]
+\[
+\bar{Y}_{\text{no tratado}} = \frac{2000 + 2200 + 2100}{3} = \frac{6300}{3} = 2100.
+\]
+
+Por lo tanto:
+\[
+\beta = 2766.67 - 2100 = 666.67.
+\]
+
+Según este cálculo, el programa parece aumentar el salario en \textbf{\$666.67} en promedio.
+
+\item Ahora, agregamos la información del nivel educativo (\( X_i \)) para ver si los grupos son comparables.
+
+Calculamos las medias de los años de educación:
+\[
+\bar{X}_{\text{tratado}} = \frac{12 + 14 + 13}{3} = 13,
+\]
+\[
+\bar{X}_{\text{no tratado}} = \frac{10 + 11 + 10}{3} = 10.33.
+\]
+
+\item Al ver la regresión
+$$\hat{Y}_i = 1500+200D_i + 100X_i$$
+Podemos ver que el $\beta_1=200$, por lo que el efecto que produce tomar o no el programa en el salario es de $200$. Usando el resultado del beta antes encontrado $\beta = 666.67$, podemos encontrar que el valor del sesgo de selección, en este caso es de $466.67$
+$$666.67 = 200 + sesgo \implies sesgo = 466.67$$
+\end{enumerate}
+
+
+
+\section{Sesgo por variables omitidas}
+Queremos estudiar el efecto de la educación (\( X_1 \)) sobre el salario (\( Y \)). Sin embargo, omitimos la variable "habilidades innatas" (\( X_2 \)), que también afecta el salario y está correlacionada con la educación. Esto introduce un \textbf{sesgo por variables omitidas}.
+
+\textbf{Datos}
+Tenemos los siguientes datos para 6 individuos:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Individuo & Educación (\( X_1 \)) & Habilidades innatas (\( X_2 \)) & Salario (\( Y \)) \\
+\hline
+1 & 12 & 5 & 2500 \\
+2 & 14 & 7 & 3000 \\
+3 & 16 & 6 & 3500 \\
+4 & 10 & 4 & 2000 \\
+5 & 13 & 5 & 2800 \\
+6 & 15 & 8 & 4000 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item Estimando el efecto de la educación (\( X_1 \)) sobre el salario (\( Y \)) omitiendo la variable "habilidades innatas" (\( X_2 \)) (regresión lineal simple), tenemos los siguientes resultados:
+    \begin{itemize}
+    \item Coeficiente de educación (\( \hat{\beta}_1 \)): 200.
+    \item Intercepto (\( \hat{\beta}_0 \)): 500.
+    \item \( R^2 \): 0.75.
+    \item \( SSR \): 150,000.
+    \end{itemize}
+    Luego, incluyendo la variable "habilidades innatas" (\( X_2 \)) en el modelo (regresión múltiple), obtenemos los siguientes resultados:
+    \begin{itemize}
+    \item Coeficiente de educación (\( \hat{\beta}_1 \)): 150.
+    \item Coeficiente de habilidades innatas (\( \hat{\beta}_2 \)): 100.
+    \item Intercepto (\( \hat{\beta}_0 \)): 300.
+    \item \( R^2 \): 0.90.
+    \item \( SSR \): 50,000.
+\end{itemize}
+Compare los resultados de ambos modelos e identifique el signo del sesgo.
+
+    \item Explica por qué ocurre el sesgo por variables omitidas.
+\end{enumerate}
+
+\textbf{Solución}
+
+\begin{enumerate}
+    \item Centralizando la información en una tabla tenemos:
+    \begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+Métrica & Regresión simple (sin \( X_2 \)) & Regresión múltiple (con \( X_2 \)) \\
+\hline
+Coeficiente de \( X_1 \) & 200 & 150 \\
+Coeficiente de \( X_2 \) & No aplica & 100 \\
+Intercepto (\( \beta_0 \)) & 500 & 300 \\
+\( R^2 \) & 0.75 & 0.90 \\
+\( SSR \) & 150,000 & 50,000 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+    \item El coeficiente de educación (\( X_1 \)) en la regresión simple (200) está \textbf{sobreestimado} en comparación con el de la regresión múltiple (150). Esto se debe a que la variable "habilidades innatas" (\( X_2 \)) no se incluyó en el primer modelo, y \( X_2 \) está correlacionada con \( X_1 \) y afecta a \( Y \).
+    \item El \( R^2 \) aumenta de 0.75 a 0.90 al incluir \( X_2 \), lo que indica que el modelo con \( X_2 \) explica mejor la variabilidad del salario.
+    \item El \( SSR \) disminuye de 150,000 a 50,000 al incluir \( X_2 \), lo que confirma un mejor ajuste del modelo.\\
+    \\
+    El signo del sesgo lo encontramos desde el $\beta_1$ de la regresión lineal simple que denotaremos $\tilde{\beta}_1$ y que se relaciona con los regreseros de la ecuación real (regresión lineal multiple) como:
+    $$\tilde{\beta}_1 = \beta_1 + \beta_2 \delta_1$$
+    Donde $\delta_1$ muestra la relación entre $X_1$ y $X_2$, entonces calculando tenemos:
+    $$200 = 150 + 100\delta_1 \implies \delta_1 = 0.5 >0$$
+    por lo que el sesgo es positivo.
+
+    \item El sesgo por variables omitidas ocurre cuando excluimos una variable relevante (\( X_2 \)) que está correlacionada con la variable de interés (\( X_1 \)) y afecta a la variable dependiente (\( Y \)). En este ejercicio:
+\begin{itemize}
+    \item El coeficiente de educación (\( X_1 \)) está sobreestimado en la regresión simple debido a la omisión de "habilidades innatas" (\( X_2 \)).
+    \item Al incluir \( X_2 \), el modelo mejora (\( R^2 \) aumenta y \( SSR \) disminuye), y el coeficiente de educación se ajusta a un valor más realista.
+\end{itemize}
+    
+\end{itemize}
+
+
+    
+\end{enumerate}
+
+
+
+\end{document}

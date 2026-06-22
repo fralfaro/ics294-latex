@@ -1,0 +1,286 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 15: Test de Chow y variables dependientes binarias }}
+
+\author{Pedro Comte Hidalgo}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}[shrink=10]{ Diferencias entre grupos}
+\begin{itemize}
+    \item Suponga el siguiente modelo:
+    \[
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u
+    \]
+    y que se puede clasificar las \(n\) observaciones en \(G\) grupos distintos.
+\end{itemize}
+
+\begin{itemize}
+    \item Se quiere testear que el modelo es el mismo para todos los grupos, es decir, los coeficientes son los mismos.
+    \item En series de tiempo esto equivale a testear un cambio de régimen o cambio “estructural”.
+\end{itemize}
+
+\begin{itemize}
+    \item Suponga \(G = 2\). Para realizar el test planteamos el modelo sin restringir:
+    \[
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \gamma_0 D + \gamma_1 x_1 D + \gamma_2 x_2 D + \gamma_3 x_3 D + u
+    \]
+    donde \(D\) es una variable dummy para observaciones de un mismo grupo (e.g: mujer).
+\end{itemize}
+
+\begin{itemize}
+    \item La hipótesis nula correspondiente es:
+    \[
+    H_0 : \gamma_0 = \gamma_1 = \gamma_2 = \gamma_3 = 0
+    \]
+    \item Y se puede hacer un test F.
+\end{itemize}
+\end{frame}
+\begin{frame}[shrink=10]{Test de Chow: diferencias entre grupos}
+\begin{itemize}
+    \item Otra forma de verificar esta hipótesis es usando el Test de Chow que plantea hacer una regresión para cada grupo.
+    \item Estimar la ecuación:
+    \[
+    y = \beta_{0}^g + \beta_{1}^g x_1 + \beta_{2}^g x_2 + \beta_{3}^g x_3 + u
+    \]
+    para cada subpoblación \(g = 1, \ldots, G\).
+\end{itemize}
+
+\begin{itemize}
+    \item Obtener la \(SSR_g\) correspondiente a la regresión para dicho subgrupo, y construir \(SSR_{ur} = \sum_{g=1}^G SSR_g\).
+    \item Estimar la ecuación restringida:
+    \[
+    y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + u
+    \]
+    usando todas las observaciones y obtener su \(SSR_r\).
+\end{itemize}
+
+\begin{itemize}
+    \item Construir el estadístico del Test de Chow:
+    \[
+    F = \frac{(SSR_r - SSR_{ur}) / ((G - 1)(k + 1))}{SSR_{ur} / (n - G(k + 1))} \sim F((G - 1)(k + 1), n - G(k + 1))
+    \]
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo test de Chow }
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.8\linewidth]{sem11//images/chow.png}
+% \end{figure}
+
+
+    \[
+\log(wage) = \beta_0 + \beta_1 educ + \beta_2 experiencia + \beta_3 ingreso\_familiar + u
+\]
+{\footnotesize
+\begin{itemize}
+    \item Queremos saber si el modelo es igual para dos grupos ($G=2$): mujeres (g=1) y hombres (g=2). La hipótesis nula del test de Chow es que los modelos son iguales.
+    
+  
+        \item Hacemos la regresión para cada subgrupo:
+        \begin{itemize}
+            \item Solo considerando las 90 mujeres de la muestra, obtenemos             $SSR_1 = 19$
+            \item Solo considerando los 276 hombres de la muestra, obtenemos 
+            $SSR_2 = 59$
+        \end{itemize}
+        
+        \item Sumamos estos dos números para obtener:         $SSR_{ur} = 78$
+        
+        \item Regresión restringida: hacemos la regresión para toda la muestra de 366 personas (asumiendo que no hay diferencias entre hombres y mujeres). Obtenemos    $SSR_r = 85$
+        
+        \item Construimos el F-estadístico de Chow:
+        \[
+        F = \frac{85 - 78}{78} \cdot \frac{366 - 2(3 + 1)}{(2 - 1)(3 + 1)} = 8,03
+        \]
+        
+        \item Comparamos al 5\% con $F(4, 358) = 2.39$. Se rechaza la hipótesis nula, es decir, hay diferencias entre los grupos.
+  
+\end{itemize}
+}
+ \end{frame}
+
+\begin{frame}{Ejercicio}
+
+{\small Una ecuación que explica el sueldo de los presidentes de consejos de administraci\'on es:
+
+
+{\tiny
+\begin{align*}
+\log(\widehat{salary}) &= 4.59 + 0.257 \log(sales) + 0.011 \, roe + 0.158 \, finance 
+ + 0.181 \, consprod - 0.283 \, service \\
+&\quad (0.30) \quad \quad \quad (0.032) \quad  \quad \quad  \quad \quad  (0.004) \quad \quad \quad \quad \quad (0.089) \quad\quad \quad \quad \quad  (0.085) \quad \quad \quad \quad  (0.099) \\
+n &= 209, \quad R^2 = 0.357
+\end{align*}
+}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.65\linewidth]{sem11//images/ejer.png}
+% \end{figure}
+
+donde finance, consprod y
+service son variables binarias que corresponden a las industrias financiera, de productos de consumo y de servicios. La industria que se ha omitido es la del transporte.}
+\begin{itemize}
+\item {\small Calcule la diferencia porcentual aproximada entre los sueldos estimados de las industrias
+de servicios y de transporte, manteniendo sales y roe constantes. Es esta diferencia estadísticamente significativa?}
+\item {\small Cu\'al es la diferencia porcentual aproximada entre los sueldos estimados de la industria
+de productos de consumo y en el sector financiero? C\'omo podría probar
+si esta diferencia es estad\'isticamente significativa?}
+
+\end{itemize}
+    
+\end{frame}
+
+
+\begin{frame}{Variables dependientes binarias}
+
+    Muchos problemas de la vida real consisten en explicar una variable dummy. 
+\begin{itemize}
+    \item ¿Qu\'e explica si un alumno va a un colegio p\'ublico o privado.
+\item ¿Qui\'enes son las personas que se jubilan anticipamente?
+\item  ¿Qu\'e tipos de personas tienen mas probabilidad de chocar el auto?
+\end{itemize}
+ 
+\end{frame}
+
+\begin{frame}{Modelo de probabilidad lineal (MPL)}
+
+    % \begin{figure}
+    %     \centering
+    %     \includegraphics[width=0.9\linewidth]{sem11/images/MPL.png}
+    % \end{figure}
+{\footnotesize
+    \begin{itemize}
+    \item Considere el caso simple cuando $y$ tiene sólo dos categorías, definidas como 0 (fracaso) y 1 (éxito).
+    
+    \begin{align*}
+    y &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k + u \\
+    \mathbb{E}[y \mid x] &= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k
+    \end{align*}
+    
+    \item En este caso se cumple además que:
+    
+    \[
+    \mathbb{E}[y \mid x] = 1 \cdot \mathbb{P}[y = 1 \mid x] + 0 \cdot \mathbb{P}[y = 0 \mid x] = \mathbb{P}[y = 1 \mid x]
+    \]
+    
+    \item Luego, la regresión es igual a:
+    
+    \[
+    \mathbb{P}[y = 1 \mid x] = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_k x_k
+    \]
+    
+    \item Los modelos con variable dependiente binaria son llamados \underline{modelos de probabilidad lineal}.
+    
+    \item $\beta_j \quad (j\neq 0)$ mide el cambio en la probabilidad de éxito debido a un cambio en una unidad de $x_j$.
+    $\beta_0$ mide la probabilidad de éxito cuando $x_1 = x_2 = \dots = x_k = 0$.
+    
+\end{itemize}}
+\end{frame}
+
+\begin{frame}{El MPL presenta dos problemas}
+
+\begin{enumerate}
+    \item  Se pueden predecir individuos que tengan probabilidades de \'exito negativas o
+mayores que uno.
+Si nos interesa el efecto en el promedio, este problema no es muy grave.
+Si nos interesa la prediccion o efecto para individuos extremos, los modelos
+no-lineales Logit y Probit son mejores para este tipo de casos (no los vamos a ver
+en el curso).
+\item No se cumple el supuesto de homocedasticidad.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Ejemplo}
+
+Considere la siguiente regresi\'on, donde la variable dependiente {\color{blue}Accidente}
+toma valor 1 si la persona tuvo al menos un accidente de tr\'ansito y 0 si no.
+$$\widehat{Accidente}_i = 0.30 -0.05educ_i -0.0001ingreso_i $$
+\begin{itemize}
+    \item C\'omo interpretar el $\hat{\beta}_0$=0,30? 
+
+La probabilidad de accidente es 30\% para
+individuos con 0 años de educaci\'on y 0 ingreso.
+    \item C\'omo interpretar el coeficiente de educ? 
+
+Un aumento de la educaci\'on de la
+persona en un año reduce la probabilidad de accidente en 0,05.
+    \item  Cu\'al es la probabilidad de accidente de una persona cuyo ingreso es 2000
+d\'olares y tiene 20 años de educaci\'on? 
+
+
+\item Notar que si ponen valores altos de educ e ingreso se obtiene una
+probabilidad negativa!
+\end{itemize}
+    
+\end{frame}
+
+
+\end{document}

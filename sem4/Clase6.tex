@@ -1,0 +1,573 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\setitemize{itemsep=2pt, topsep=2pt}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 6: Estimación del Modelo de Regresión Lineal Múltiple}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+
+\logo{}
+
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Reconocer las limitaciones del modelo de regresión simple y motivar la inclusión de varios regresores.
+    \item[\checkmark] Plantear el modelo de regresión lineal múltiple (RLM) en notación escalar y matricial $y = X\beta + u$.
+    \item[\checkmark] Derivar el estimador MCO $\hat{\beta} = (X^\top X)^{-1}X^\top y$ a partir de la minimización de la suma de residuos al cuadrado.
+    \item[\checkmark] Interpretar los coeficientes \emph{ceteris paribus} y comprender las propiedades algebraicas de MCO.
+    \item[\checkmark] Calcular y diferenciar el $R^2$ y el $R^2$ ajustado como medidas de bondad de ajuste.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\frametitle{Modelo de Regresión Múltiple: Introducción}
+	\begin{itemize}
+				\item En las clases anteriores, vimos el modelo de regresión lineal simple:
+		\[ y = \beta_0 + \beta_1x + u \]
+		\item Sin embargo, el supuesto de que $E[u|x] = 0$ en dicho modelo es muy fuerte, ya que todas las variables no incluidas van al error.
+			\item Además, si nos interesa la predicción, es muy difícil predecir la variable $y$ en base a una sola variable.
+		\item El modelo de regresión lineal múltiple (RLM) permite esto.
+	\end{itemize}
+\end{frame}
+\begin{frame}
+	\frametitle{Modelo de Regresión Lineal Múltiple}
+	\begin{itemize}
+		\item A nivel poblacional, el modelo RLM se define como:
+		\[ y = \beta_0 + \beta_1x_1 + \beta_2x_2 + \ldots + \beta_kx_k + u \]
+		\item Asumamos que $E[u|x_1, x_2, \ldots, x_k] = 0$.
+		\item Interpretación de los parámetros $\beta$:
+		\item Por ejemplo, si todas las variables excepto $x_1$ permanecen constantes:
+		\[ \Delta E[y|x_1, x_2, \ldots, x_k] = \beta_1 \Delta x_1 \]
+		$\Rightarrow$ $\beta_1 = \frac{\Delta E[y|x_1, x_2, \ldots, x_k]}{\Delta x_1}$
+		\item Interpretación: Cuando $x_1$ cambia en una unidad, el valor esperado de $y$ cambia en $\beta_1$ unidades, \textcolor{red}{manteniendo todas las demás variables incluidas constantes}. \\ Es como una derivada parcial!
+	\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Modelo de Regresión Múltiple: Estimación MCO}
+
+\begin{itemize}
+  \item Al agregar más variables al modelo para poder estudiar el efecto de $x$, ceteris paribus estas otras variables.
+  
+  \item Por ejemplo, al estudiar el efecto de educación en salario, queremos dejar la inteligencia constante (IQ).
+  
+  \item Al incluir esta variable en la regresión, podemos ver cuánto afecta un año más de educación en salario, dejando constante IQ.
+  
+  \item De hecho, si agregamos la variable IQ, el coeficiente de educación que obtenemos se hace más pequeño.
+\end{itemize}
+
+\begin{center}
+    \textit{MCO Simple:} 
+    $
+    \hat{salario} = 0.09 + 0.54 \cdot educacion
+    $ \\
+    \vspace{0.5cm} % Ajusta el espacio vertical entre los modelos
+    
+    \textit{MCO Múltiple:} 
+    $
+    \hat{salario} = 0.065 + 0.37 \cdot educacion + 0.20 \cdot IQ
+    $
+\end{center}
+
+
+\begin{itemize}
+  \item Ahora vamos a ver cómo estimar los $\hat{\beta}$ del modelo de regresión múltiple.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Modelo de Regresión Lineal Múltiple: Estimación}
+
+Dada una muestra de $n$ individuos, tenemos la siguiente ecuación:
+\[
+y_i = \hat{\beta_0} + \hat{\beta_1}x_{i1} + \hat{\beta_2}x_{i2} + \ldots + \hat{\beta_k}x_{ik} + \hat{u_i}, \quad \forall i = 1, \ldots, n
+\]
+
+ Igual que en el modelo RLS, los \textbf{residuos} vienen dados por:
+\[
+\hat{u}_i = y_i - \hat{y}_i
+\]
+\[
+ \hat{u_i}= y_i - (\hat{\beta}_0 + \hat{\beta}_1x_{i1} + \hat{\beta}_2x_{i2} + \ldots + \hat{\beta}_kx_{ik})
+\]
+ \end{frame}
+\begin{frame}[shrink=10]
+\frametitle{MCO para el Modelo Lineal Múltiple}
+
+\[
+\min_{\hat{\beta}_0, \hat{\beta}_1, \ldots, \hat{\beta}_k} \sum_i \hat{u}_i^2
+\]
+Es decir,
+\[
+\min_{\hat{\beta}_0, \hat{\beta}_1, \ldots, \hat{\beta}_k} \sum_i \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right)^2
+\]
+
+\textbf{CPO:}
+
+\[
+\hat{\beta}_0: \sum_i \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right) = 0
+\]
+
+\[
+\hat{\beta}_1: \sum_i x_{i1} \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right) = 0
+\]
+
+\ldots
+
+\[
+\hat{\beta}_k:
+\sum_i x_{ik} \left( y_i - \hat{\beta}_0 - \hat{\beta}_1x_{i1} - \hat{\beta}_2x_{i2} - \ldots - \hat{\beta}_kx_{ik} \right) = 0
+\]
+
+Existen $k + 1$ condiciones de primer orden para $k + 1$ incógnitas.
+\end{frame}
+\begin{frame}
+\frametitle{Notación matricial modelo poblacional}
+
+\begin{itemize}
+    \item El modelo de regresión lineal múltiple cada individuo $i$ es:
+    \[ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_k x_{ik} + u_i \quad \forall i = 1, \dots, n \]
+    
+    \item Matricialmente, lo podemos expresar:
+    \[ y_i = \mathbf{x}_i^\top \mathbf{\beta} + u_i \quad \forall i = 1, \dots, n \]
+    
+    con
+    \[ \mathbf{x}_i = \begin{pmatrix}
+    1 \\
+    x_{i1} \\
+    \vdots \\
+    x_{ik}
+    \end{pmatrix}, \quad
+    \mathbf{\beta} = \begin{pmatrix}
+    \beta_0 \\
+    \beta_1 \\
+    \vdots \\
+    \beta_k
+    \end{pmatrix} \]
+    
+    \item Noten que son $n$ ecuaciones (una para cada individuo).
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Notación}
+
+\begin{itemize}
+     \item 
+    %Para una muestra de $n$ observaciones, el modelo poblacional es:
+    \[ y = X\beta + u \]
+    
+    con
+    
+    \[ y = \begin{pmatrix}
+    y_1 \\
+    \vdots \\
+    y_n
+    \end{pmatrix}, \quad
+    X = \begin{pmatrix}
+    \mathbf{x}_1^\top \\
+    \vdots \\
+    \mathbf{x}_n^\top
+    \end{pmatrix} = \begin{pmatrix}
+    1 & x_{11} & \dots & x_{1k} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    1 & x_{n1} & \dots & x_{nk}
+    \end{pmatrix}, \quad
+    u = \begin{pmatrix}
+    u_1 \\
+    \vdots \\
+    u_n
+    \end{pmatrix} \]
+    
+    donde $u$ y $y$ son vectores de $n \times 1$ y $X$ es una matriz de $n \times (k + 1)$.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Ejemplo: $n=5$, dos variables: $x_1$, $x_2$}
+
+\[
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\hdots \\
+y_5
+\end{bmatrix}
+= 
+\beta_0
+\begin{bmatrix}
+1 \\
+1 \\
+\hdots \\
+1
+\end{bmatrix}
++
+\beta_1
+\begin{bmatrix}
+x_{11} \\
+x_{12}\\
+\hdots\\
+x_{15}\\
+\end{bmatrix}
++
+\beta_2
+\begin{bmatrix}
+x_{21} \\
+x_{22} \\
+\hdots \\
+x_{25}
+\end{bmatrix}
++
+\begin{bmatrix}
+u_1 \\
+u_2 \\
+\hdots \\
+u_5
+\end{bmatrix}
+\]
+
+Re-escribiendo:
+
+\[
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\hdots \\
+y_5
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 & x_{11} & x_{12} \\
+1 & x_{12} & x_{22} \\
+\hdots & \hdots & \hdots \\
+1 & x_{15} & x_{25}
+\end{bmatrix}
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2
+\end{bmatrix}
++
+\begin{bmatrix}
+u_1 \\
+u_2 \\
+\hdots \\
+u_5
+\end{bmatrix}
+\]
+
+\[ y = X\beta + u \]
+
+\end{frame}
+\begin{frame}
+\frametitle{Mínimos Cuadrados Ordinarios (MRL Múltiple)}
+
+\begin{itemize}
+    % \item Para cada observación de la muestra se tiene la ecuación:
+    % \[ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \beta_3 x_{i3} + \dots + \beta_k x_{ik} + u_i \]
+    
+    \item Como antes, podemos definir:
+    \begin{itemize}
+        \item $\hat{\beta}$: estimadores de los $\beta$ dimensión, $(k+1) \times 1$
+        \item $\hat{y} = X \hat{\beta}$: Valores predichos de $y$, dimensi\'on $n \times 1$
+        \item Por lo tanto, los residuos en forma matricial:
+        \[ \hat{u} = y - \hat{y} = y - X \hat{\beta} \]
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Recordar}
+
+\begin{itemize}
+    \item {\color{blue} Derivadas}
+    
+    Si $a$ y $\beta$ son vectores y $A$ una matriz simétrica, entonces:
+
+\begin{enumerate}
+    \item $\frac{da^\top \beta}{d\beta} = a$
+    \item $\frac{d\beta^\top A\beta}{d\beta} = 2A\beta$
+\end{enumerate}
+\item {\color{blue}Propiedades de la traspuesta}
+ 
+ Sean $D$ y $E$ matrices: $(DE)^\top = E^\top D^\top$
+ \item {\color{blue}Potencias}
+ 
+ $\sum_{i} (s_i)^2 = s^\top s$   
+\end{itemize}
+
+
+   
+   % 
+\end{frame}
+
+\begin{frame}{Estimador MCO: enunciado}
+
+\begin{alertblock}{Proposición (estimador MCO)}
+Si $X$ tiene rango columna completo $k+1$ (Supuesto de identificación), entonces el problema
+\[
+\min_{\hat{\beta}} \; \hat{u}^\top \hat{u} = \min_{\hat{\beta}} \; (y - X\hat{\beta})^\top (y - X\hat{\beta})
+\]
+tiene solución única dada por
+\[
+\boxed{\;\hat{\beta} = (X^\top X)^{-1} X^\top y\;}
+\]
+\end{alertblock}
+
+A continuación lo demostramos resolviendo las condiciones de primer orden.
+
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Demostración: Mínimos Cuadrados Ordinarios (RLM)}
+
+\[ \min \sum_{i=1}^{n} \hat{u}_i^2 \quad \Rightarrow \quad \min_{\hat{\beta}} \hat{u}^\top \hat{u} \]
+\begin{itemize}
+    \item La suma de los residuos al cuadrado es:
+    \[ \hat{u}^\top \hat{u} = (y - X \hat{\beta})^\top (y - X \hat{\beta}) \]
+    
+    \[ = y^\top y - \hat{\beta}^\top X^\top y - y^\top X \hat{\beta} + \hat{\beta}^\top X^\top X \hat{\beta} \]
+    
+    \[ = y^\top y - 2 y^\top X \hat{\beta} + \hat{\beta}^\top X^\top X \hat{\beta} \]
+    
+    % \[ = y^\top y - 2 \begin{bmatrix} 1 \times (k+1) \end{bmatrix} \hat{\beta} + \hat{\beta}^\top\begin{bmatrix} (k+1) \times (k+1) \end{bmatrix} \hat{\beta} \]
+    
+    \item Entonces, condiciones de primer orden:
+    \[ \frac{\partial \hat{u}^\top \hat{u}}{\partial \hat{\beta}} = 0 \quad \Rightarrow \quad -2X^\top y + 2X^\top X \hat{\beta} = 0 \quad \Rightarrow \quad \hat{\beta} = (X^\top X)^{-1} X^\top y \]
+    
+    \item Note que precisamos suponer que $X$ tiene rango $(k+1)$ completo $\Rightarrow X^\top X$ es invertible.
+    
+    \item Las $k + 1$ ecuaciones $X^\top y = X^\top X \hat{\beta}$ son llamadas ecuaciones normales para MCO.
+    
+    \item Condición de segundo grado: $\frac{d^2 \hat{u}^\top \hat{u}}{d \hat{\beta} d \hat{\beta}} = 2X^\top X$ positiva definida.
+
+ 
+\end{itemize}
+
+\end{frame}
+% \begin{frame}
+% \frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+% Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$
+
+% \begin{itemize}
+%     \item De los datos, podemos obtener:
+%     \[ (X^\top X)^{-1} = \begin{bmatrix} 8.80 & 0.19 & -0.11 \\ 0.19 & 0.17 & -0.02 \\ -0.11 & -0.02 & 0.00 \end{bmatrix}; \quad X^\top y = \begin{bmatrix} 3614 \\ 49304 \\ 360757 \end{bmatrix} \]
+% \end{itemize}
+
+%\end{frame}
+% \begin{frame}
+% \frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+% Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$
+
+% \begin{itemize}
+%     \item De los datos, podemos obtener:
+%     \[ (X^\top X)^{-1} = \begin{bmatrix} 8.80 & 0.19 & -0.11 \\ 0.19 & 0.17 & -0.02 \\ -0.11 & -0.02 & 0.00 \end{bmatrix}; \quad X^\top y = \begin{bmatrix} 3614 \\ 49304 \\ 360757 \end{bmatrix} \]
+%     \item Por lo que:
+%     \[ \hat{\beta} = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \hat{\beta}_2 \end{bmatrix} = \begin{bmatrix} 140.59 \\ -16.79 \\ 8.24 \end{bmatrix} \]
+% \end{itemize}
+
+% \end{frame}
+\begin{frame}[shrink=10]
+\frametitle{Propiedades algebraicas}
+
+\begin{itemize}
+    \item Al igual que el caso de regresión simple, las propiedades algebraicas se derivan de las CPO.
+    \item Propiedades 1 y 2: $X^\top \hat{u} = 0$:
+    \[ \sum_{i} \hat{u}_i = 0 \quad (\text{propiedad 1}) \]
+    \[ \sum_{i} x_{i1} \hat{u}_i = 0 \quad (\text{propiedad 2}) \]
+    \[ \sum_{i} x_{i2} \hat{u}_i = 0 \quad (\text{propiedad 2}) \]
+    \[ \dots \]
+    \[ \sum_{i} x_{ik} \hat{u}_i = 0 \quad (\text{propiedad 2}) \]
+    \item Propiedad 3: La media de la variable observada $y$ es igual a la media de la variable predicha $\hat{y}$:
+    \[ \bar{y} = \bar{\hat{y}} \]
+    \item Propiedad 4: El punto $(\bar{x}_1, \bar{x}_2, \dots, \bar{x}_k, \bar{y})$ pasa por la curva de regresión.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Bondad de Ajuste: $R^2$}
+
+% \textcolor{gray!60}{Tarea: usar la propiedad algebraica 3, la notación matricial y la definición de $\hat{\beta}$ para demostrar que $SCE = \hat{\beta}^\top X^\top y - n \times \bar{y}^2$.}
+
+El $R^2$ nos dice que la proporción de la varianza muestral de $y$ es explicada por nuestra regresión MCO. Recordando las definiciones:
+\begin{itemize}
+    \item Suma de cuadrados explicada: $SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2$
+    \item Suma de cuadrados residual: $SSR = \sum_{i=1}^{n} \hat{u}_i^2$
+    \item Suma de cuadrados total: $SST = \sum_{i=1}^{n} (y_i - \bar{y})^2$
+\end{itemize}
+
+La fórmula para el $R^2$ es igual que en el caso de la regresión simple:
+\[ R^2 = \frac{SSE}{SST} = 1 - \frac{SSR}{SST} \]
+\end{frame}
+\begin{frame}
+\frametitle{Bondad de Ajuste: $R^2$ ajustado}
+
+\begin{itemize}
+    \item $R^2$ crece (o queda igual) a medida que se agregan más variables al modelo. Esto ocurre incluso si la variable agregada no es relevante en el modelo poblacional.
+    \item Necesitamos una medida que penalice agregar variables irrelevantes.
+    \item Se define el $R^2$ ajustado como:
+    \[ \overline{R^2} = 1 - \frac{n - 1}{n - k - 1} \frac{SSR}{SST} \]
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EJERCICIOS RESUELTOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Ejercicio Resuelto 1: interpretación \emph{ceteris paribus}}
+
+\begin{block}{Ejercicio 1}
+Con datos de la encuesta CASEN se estima el retorno a la educación (salario por hora en CLP, en logaritmo) controlando por experiencia laboral:
+\[
+\widehat{\log(\text{salario})} = 7.85 + 0.094\,\text{educ} + 0.021\,\text{exper}
+\]
+\begin{enumerate}
+  \item[(a)] Interprete el coeficiente de \texttt{educ}.
+  \item[(b)] En una regresión simple sin controlar por experiencia se obtuvo $0.108$ para \texttt{educ}. ¿Por qué difiere de $0.094$?
+\end{enumerate}
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{(a)} Como la dependiente está en logaritmo, $0.094$ es una semielasticidad: un año adicional de educación se asocia, en promedio, con un salario por hora $\approx 9.4\%$ mayor, \textcolor{red}{manteniendo la experiencia constante}.
+
+\textbf{(b)} El coeficiente simple ($0.108$) recoge además el efecto indirecto de la experiencia (correlacionada con educación). Al controlar por \texttt{exper} aislamos el efecto parcial y el coeficiente \emph{cae} a $0.094$: la regresión simple estaba sesgada por variable omitida.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2: $R^2$ vs.\ $R^2$ ajustado}
+
+\begin{block}{Ejercicio 2}
+Un modelo con $k=3$ regresores y $n=200$ entrega $SSR = 120$ y $SST = 400$.
+\begin{enumerate}
+  \item[(a)] Calcule $R^2$.
+  \item[(b)] Calcule $\overline{R^2}$.
+  \item[(c)] Al agregar una cuarta variable irrelevante, $SSR$ baja a $119$. ¿Qué ocurre con $R^2$ y con $\overline{R^2}$?
+\end{enumerate}
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{(a)} $R^2 = 1 - \tfrac{SSR}{SST} = 1 - \tfrac{120}{400} = 0.70$.
+
+\textbf{(b)} $\overline{R^2} = 1 - \dfrac{n-1}{n-k-1}\dfrac{SSR}{SST} = 1 - \dfrac{199}{196}\cdot 0.30 = 1 - 0.3046 = 0.6954$.
+
+\textbf{(c)} El nuevo $R^2 = 1 - \tfrac{119}{400} = 0.7025$ \emph{sube} (siempre lo hace). Pero $\overline{R^2} = 1 - \tfrac{199}{195}\cdot\tfrac{119}{400} = 0.6964$, prácticamente igual: la penalización por el grado de libertad perdido compensa la mejora trivial. Por eso $\overline{R^2}$ es preferible para comparar modelos.
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EJERCICIOS PROPUESTOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 3 (Propuesto, rutinario)}
+Con los datos del ejemplo $n=5$ (experiencia $x_1$, educación $x_2$, salario $y$), verifique que $\bar{y} = \bar{\hat{y}}$ usando $\hat{\beta}=(140.59,\,-16.79,\,8.24)$ y comente el signo de $\hat{\beta}_1$.
+\end{block}
+
+\begin{block}{Ejercicio 4 (Propuesto, intermedio)}
+Demuestre, a partir de las ecuaciones normales $X^\top \hat{u}=0$, que el punto de medias $(\bar{x}_1,\dots,\bar{x}_k,\bar{y})$ pertenece al hiperplano de regresión.
+\end{block}
+
+\begin{block}{Ejercicio 5 (Propuesto, desafiante)}
+Modelo de precios de vivienda en Chile: $\log(\text{precio}) = \beta_0 + \beta_1 \log(\text{m}^2) + \beta_2\,\text{dorm} + u$. Si $\widehat{\beta}_1 = 0.78$, interprete y discuta por qué $\beta_1$ no necesariamente vale $1$ (rendimientos a escala en superficie).
+\end{block}
+
+{\small \textit{Indicación: use las propiedades algebraicas de MCO y la interpretación log-log.}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% RESUMEN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 6}
+\begin{enumerate}
+    \item El modelo RLM $y = X\beta + u$ permite estimar el efecto parcial de cada regresor \emph{ceteris paribus}.
+    \item El estimador MCO se obtiene minimizando $\hat{u}^\top\hat{u}$ y vale $\hat{\beta} = (X^\top X)^{-1}X^\top y$, válido si $X$ tiene rango completo.
+    \item Las ecuaciones normales $X^\top\hat{u}=0$ generan las propiedades algebraicas ($\sum\hat{u}_i=0$, $\bar{y}=\bar{\hat{y}}$, etc.).
+    \item El $R^2$ nunca decrece al agregar variables; el $R^2$ ajustado penaliza la complejidad.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Estudiaremos las \emph{propiedades estadísticas} de $\hat{\beta}$ (insesgadez, varianza) y la \textbf{inferencia}: bajo normalidad del error, ¿cómo se distribuye $\hat{\beta}$ y cómo construimos tests e intervalos de confianza?
+\end{alertblock}
+
+\end{frame}
+
+
+
+\end{document}

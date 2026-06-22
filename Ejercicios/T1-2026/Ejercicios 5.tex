@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+
+\pagestyle{fancy}
+\lhead{\small Econometría -  Ejercicios 5}
+\rhead{\small Universidad Técnica Federico Santa María}
+
+\definecolor{verdeUSM}{RGB}{0,100,50}
+
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Ejercicios 5: Econometría}}\\[0.3cm]
+    Profesor: Pedro Comte Hidalgo \\
+    Ayudante: Jociney Honorio \\
+    \textit{Tests F, test de grupos y modelos con dummies e interacciones}
+\end{center}
+
+\vspace{0.3cm}
+\hrule
+\vspace{0.5cm}
+
+\section{Ejercicios}
+%=====================================================
+\begin{enumerate}
+    \item 
+Un investigador estima con $n=120$ observaciones el modelo:
+\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + \beta_5 x_5 + u
+\]
+obteniendo $R^2 = 0.78$ y $\bar{R}^2 = 0.7706$.
+
+Sospecha que $x_4$ y $x_5$ no aportan. Al estimar el modelo restringido (sin $x_4$, $x_5$) obtiene $R^2_R = 0.74$. Conteste con significancia del 5\%: ¿son $x_4$ y $x_5$ conjuntamente relevantes? ($F_{0.95,(2,114)}=3.08$)
+
+
+\item Con $n=80$ observaciones se estima:
+\[
+\ln(y) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 x_4 + u
+\]
+Datos: $SST = 500$, $SSR_{UR} = 150$. Al imponer $H_0: \beta_2 = \beta_3 = \beta_4 = 0$ se obtiene $SSR_R = 240$.
+\begin{enumerate}
+    \item[(a)] Pruebe $H_0$ al 5\%. ($F_{0.95,(3,75)}=2.73$)
+    \item[(b)] Calcule el F de significancia global del modelo no restringido. ($F_{0.95,(4,75)}=2.49$)
+\end{enumerate}
+
+\item Se estima (interpretación aproximada):
+\[
+\ln(salario) = \beta_0 + \beta_1 exper + \beta_2 urbano + \beta_3 (urbano \times exper) + \beta_4 sindicato + u
+\]
+Con resultados:
+\[
+\hat{\beta}_0 = 2.40, \; \hat{\beta}_1 = 0.040, \; \hat{\beta}_2 = 0.12, \; \hat{\beta}_3 = 0.005, \; \hat{\beta}_4 = 0.15
+\]
+donde $urbano=1$ si reside en zona urbana y $sindicato=1$ si está sindicalizado.
+\begin{enumerate}
+    \item[(a)] Efecto aproximado de un año adicional de experiencia para un trabajador \emph{rural}.
+    \item[(b)] Efecto para un trabajador \emph{urbano}.
+    \item[(c)] Interprete $\hat{\beta}_3$.
+    \item[(d)] Interprete $\hat{\beta}_4$.
+    \item[(e)] Diferencia salarial aproximada entre urbano y rural (no sindicalizados) con $exper=10$.
+    \item[(f)] Ecuaciones de predicción para los cuatro subgrupos.
+\end{enumerate}
+
+\item Una cadena de retail estima:
+\[
+Ventas = \beta_0 + \beta_1 PRECIO + \beta_2 PUBLICIDAD + \beta_3 TAMANO + \beta_4 COMPETENCIA + u
+\]
+con $n=180$ tiendas repartidas en 4 zonas.
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Modelo & SSR \\
+\hline
+Base (pooled) & 1200 \\
+Zona 1 & 180 \\
+Zona 2 & 210 \\
+Zona 3 & 195 \\
+Zona 4 & 215 \\
+\hline
+\end{tabular}
+\end{center}
+Teste al 5\% si las ventas dependen de la zona. ($F_{0.95,(15,160)} = 1.73$)
+
+
+\item Con $n=200$ observaciones se estima inicialmente:
+\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + u
+\]
+Se sospecha que los coeficientes son distintos entre hombres ($D=0$) y mujeres ($D=1$). Para responder esto, utilice el \textbf{enfoque de dummies interactivas} estimando:
+\[
+y = \alpha_0 + \alpha_1 x_1 + \alpha_2 x_2 + \gamma_0 D + \gamma_1 (D \cdot x_1) + \gamma_2 (D \cdot x_2) + v
+\]
+Se obtienen $R^2_{UR} = 0.68$ y $R^2_R = 0.62$ (modelo sin los términos con $D$).
+\begin{enumerate}
+    \item[(a)] Plantee formalmente la hipótesis nula del test.
+    \item[(b)] Interprete qué representa cada uno de los coeficientes $\gamma_0$, $\gamma_1$ y $\gamma_2$.
+    \item[(c)] Realice el test al 5\%. ($F_{0.95,(3,194)}=2.65$)
+    \item[(d)] ¿Qué ventaja tiene el enfoque con dummies interactivas sobre estimar dos regresiones separadas?
+\end{enumerate}
+
+
+\end{enumerate}
+\end{document}

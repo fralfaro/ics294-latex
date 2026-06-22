@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{xcolor}
+\begin{document}
+
+\title{Ejercicios: }
+
+\maketitle
+
+\section{Ejercicio 1} 
+
+Considere el siguiente modelo verdadero (bien especificado, sin sesgo por variable omitida):
+
+\[
+Y^{*} = \beta_0 + \beta_1 X^{*} + u
+\]
+
+donde:
+\begin{itemize}
+    \item $u$ es el error del modelo de regresión, con $E(u \mid X^{*}) = 0$
+    \item $X^{*}$ es la variable independiente verdadera
+    \item $Y^{*}$ es la variable dependiente verdadera
+\end{itemize}
+
+Sin embargo, el investigador \textbf{no observa} $Y^{*}$ ni $X^{*}$ perfectamente, sino versiones con error de medición.
+
+
+Definimos el error de medición como la diferencia entre la variable observada y la verdadera:
+\begin{itemize}
+    \item Error en $Y$: $e_Y = Y - Y^{*}$
+    \item Error en $X$: $e_X = X - X^{*}$
+\end{itemize}
+
+En ambos casos, suponemos \textbf{error clásico}:
+\begin{itemize}
+    \item $E(e_Y) = 0$, $E(e_X) = 0$
+    \item $Cov(X^{*}, e_Y) = 0$, $Cov(Y^{*}, e_X) = 0$
+    \item $Cov(u, e_Y) = 0$, $Cov(u, e_X) = 0$
+    \item El error de medición no está correlacionado con la variable verdadera ni con el error del modelo.
+\end{itemize}
+
+{\bf Pregunta 1: Error de medición en la variable dependiente}
+
+Suponga que el investigador solo observa:
+\[
+Y = Y^{*} + e_Y
+\]
+mientras que $X^{*}$ se observa sin error.
+
+Sustituyendo $Y^{*} = Y - e_Y$ en el modelo verdadero, se obtiene:
+\[
+Y = \beta_0 + \beta_1 X^{*} + (u + e_Y)
+\]
+
+Responda:
+\begin{enumerate}
+    \item ¿Cuál es el nuevo término de error?
+    \item ¿Se cumple que $E(u + e_Y \mid X^{*}) = 0$? Justifique.
+    \item ¿El estimador MCO de $\beta_1$ será sesgado o insesgado? Explique usando el concepto de covarianza entre el regresor y el error compuesto.
+    \item ¿Qué impacto tiene este tipo de error sobre la varianza del estimador? (compare con el caso sin error de medición)
+\end{enumerate}
+
+
+{\color{blue} 
+\begin{enumerate}
+    \item Nuevo error: $v = u + e_Y$
+    \item Sí, porque $E(u \mid X^{*})=0$ y $E(e_Y \mid X^{*})=0$ por error clásico
+    \item \textbf{Insesgado}: $Cov(X^{*}, u+e_Y) = Cov(X^{*}, u) + Cov(X^{*}, e_Y) = 0 + 0 = 0$
+    \item Aumenta la varianza porque $Var(v) = Var(u) + Var(e_Y) > Var(u)$
+\end{enumerate}}
+
+
+{\bf Pregunta 2: Error de medición en la variable independiente}
+
+Suponga ahora que el investigador solo observa:
+\[
+X = X^{*} + e_X
+\]
+mientras que $Y^{*}$ se observa sin error.
+
+Sustituyendo $X^{*} = X - e_X$ en el modelo verdadero, se obtiene:
+\[
+Y^{*} = \beta_0 + \beta_1 (X - e_X) + u = \beta_0 + \beta_1 X + (u - \beta_1 e_X)
+\]
+
+Responda:
+\begin{enumerate}
+    \item ¿Cuál es el nuevo término de error?
+    \item Calcule $Cov(X, u - \beta_1 e_X)$. ¿Es igual a cero? Justifique cada término.
+    \item ¿Se cumple el supuesto de exogeneidad? ¿Por qué?
+    \item ¿El estimador MCO de $\beta_1$ será sesgado o insesgado?
+\end{enumerate}
+
+{\color{blue} 
+\begin{enumerate}
+    \item Nuevo error: $w = u - \beta_1 e_X$
+    \item $Cov(X, w) = Cov(X^{*}+e_X, u-\beta_1 e_X) = Cov(X^{*}, u) - \beta_1 Cov(X^{*}, e_X) + Cov(e_X, u) - \beta_1 Var(e_X) = 0 - 0 + 0 - \beta_1 Var(e_X) \neq 0$
+    \item No se cumple la exogeneidad porque $Cov(X, w) = -\beta_1 Var(e_X) \neq 0$
+    \item \textbf{Sesgado}
+\end{enumerate}}
+
+
+{\bf Pregunta 4: Demostración del sesgo de atenuación}
+
+Para el caso de error en $X$, demuestre \textbf{formalmente} que:
+
+\[
+E(\hat{\beta}_1) = \beta_1 \cdot \frac{Var(X^{*})}{Var(X^{*}) + Var(e_X)}
+\]
+
+
+\begin{itemize}
+    \item ¿Por qué este sesgo se llama "de atenuación"?
+    \item ¿Qué relación hay entre la magnitud del sesgo y la varianza del error de medición $Var(e_X)$?
+\end{itemize}
+{\color{blue}
+
+
+
+
+
+\begin{itemize}
+    \item  $\hat{\beta}_1 = \dfrac{Cov(X, Y^{*})}{Var(X)}$
+    \item  $X = X^{*} + e_X$
+    \item  $Y^{*} = \beta_0 + \beta_1 X^{*} + u$
+    \item condiciones de ortogonalidad del error clásico
+    \item Recuerde que $Cov(X^{*}, e_X) = 0$ y $Var(X) = Var(X^{*}) + Var(e_X)$
+\end{itemize}
+ El sesgo es de atenuación porque $\frac{Var(X^{*})}{Var(X^{*})+Var(e_X)} < 1$, por lo que el estimador se encoge hacia cero. A mayor $Var(e_X)$, mayor atenuación.}
+
+
+\section{Ejercicio 2} 
+
+\textbf{¿Es necesario el supuesto de normalidad de los errores para que los estimadores MCO sean normales?}
+
+{\color{blue}
+No es necesario. El supuesto de normalidad de los errores ($u \sim N(0, \sigma^2)$) es suficiente pero no necesario para que los estimadores MCO tengan distribución normal en muestras finitas.
+
+Sin embargo, cuando el tamaño muestral $n$ es \textbf{grande}, el \textbf{Teorema Central del Límite (TCL)} aplica a los estimadores MCO. Bajo los supuestos de esperanza condicional cero, homocedasticidad y observaciones independientes, se cumple que
+los estimadores MCO son \textbf{asintóticamente normales} sin necesidad de que los errores $u$ sean normales. Esto justifica el uso de pruebas $t$ y $F$ aproximadas en muestras grandes, incluso cuando los errores no siguen una distribución normal.
+
+\bigskip
+Conclusión: En muestras pequeñas, la normalidad de los errores es relevante para la inferencia exacta. En muestras grandes, el TCL rescata la normalidad de los estimadores, sin importar la distribución de los errores.}
+\end{document}

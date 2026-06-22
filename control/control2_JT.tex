@@ -1,0 +1,325 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\Control 2: Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+II semestre 2025\\
+Profesora: Jocelyn Tapia\\
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 60 minutos  para intentar los 100 puntos del control.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section*{Preguntas}
+\begin{enumerate}
+\item (20 puntos) Suponga el siguiente modelo poblacional:
+$$PAT = \gamma_0 + \gamma_1 \cdot \text{hombre} + \gamma_2 \cdot econ + \gamma_3 \cdot \text{hombre} \times econ +u$$
+
+Donde: $PAT$ es el patrimonio que acumula una persona; hombre es 1 si el individuo es hombre, 0 si es mujer; $econ = 1$ si estudia economía, 0 si no.
+ ¿Cuál es el efecto esperado de haber estudiado economía sobre el patrimonio acumulado?
+
+¿Difiere este efecto para
+hombres y mujeres? Explique.
+
+    {\color{blue}
+  Si calculamos el valor esperado del patrimonio de quienes estudiaron economía:
+    $$E[PAT|econ=1,hombre] =  \gamma_0 + \gamma_1 \cdot \text{hombre}+\gamma_2 + \gamma_3 \cdot \text{hombre}$$
+
+
+Entonces:
+
+\begin{itemize}
+    \item $\gamma_2:$ es el efecto de estudiar economía para las mujeres.
+    \item $\gamma_2 + \gamma_3:$ es el efecto de estudiar economía para los hombres.
+    \item $\gamma_3$ es la diferencia del premio por estudiar economía para hombres y mujeres.
+    \end{itemize}}
+
+
+    \item  (20 puntos)
+    Los primeros cuatro supuestos de Gauss-Markov son suficientes para asegurar la \textit{consistencia} del estimador MCO, incluso sin normalidad de los errores. Comente.
+
+
+{\color{blue}  Verdadero. Los primeros cuatro supuestos de Gauss--Markov son suficientes para garantizar la \textit{consistencia} del estimador de Mínimos Cuadrados Ordinarios (MCO), aunque no aseguran su eficiencia ni la validez de las inferencias basadas en la normalidad de los errores. 
+
+\bigskip
+\textbf{Supuestos 1 a 4 de Gauss--Markov:}
+\begin{enumerate}
+    \item \textbf{Linealidad en los parámetros:} el modelo está correctamente especificado como
+    \[
+    y_i = \beta_0 + \beta_1 x_{1i} + \dots + \beta_k x_{ki} + u_i,
+    \]
+    donde la relación es lineal en los parámetros \(\beta\).
+    
+    \item \textbf{Muestra aleatoria:} las observaciones \((y_i, x_{1i}, \dots, x_{ki})\) provienen de una muestra aleatoria e independiente de la población.
+    
+    \item \textbf{No multicolinealidad perfecta:} las variables explicativas no están perfectamente correlacionadas; la matriz \(X'X\) es de rango completo.
+    
+    \item \textbf{Exogeneidad:} el valor esperado del término de error, dado el conjunto de regresores, es cero:
+    \[
+    E(u_i \mid X_i) = 0.
+    \]
+\end{enumerate}
+
+Bajo estos cuatro supuestos, el estimador MCO es insesgado y consistente, ya que
+\[
+\hat{\beta} = (X'X)^{-1} X'y
+\]
+converge en probabilidad a \(\beta\) cuando el tamaño muestral \(n \to \infty\). 
+
+La homocedasticidad (supuesto 5) y la normalidad de los errores no son necesarias para la consistencia, sino para la eficiencia (teorema de Gauss--Markov) y la validez exacta de los contrastes de hipótesis.
+
+}
+    \item (20 puntos)
+    Las pruebas de hipótesis e intervalos de confianza basados en aproximaciones asintóticas son válidos para muestras grandes, aun si los errores no siguen una distribución normal y son heterocedásticos. Comente.
+
+{\color{blue} Falso. Si los errores son heterocedásticos, las pruebas de hipótesis e intervalos de confianza basados en los métodos tradicionales del modelo clásico (que suponen homocedasticidad) \textbf{no son válidos}, incluso en muestras grandes.
+
+
+Aunque la primera parte del comente es correcta y bajo homocedasticidad se cumpliría.
+
+
+}
+
+\item (20 puntos) Una empresa de ventas de neumáticos está realizando un modelo de regresión lineal múltiple para predecir las ventas del próximo año, para esto han utilizado el siguiente modelo:
+$$Ventas = \beta_0 + \beta_1ADV + \beta_2PROD+\beta_3CLI + u$$
+Donde $ADV$ son el gasto en propagandas, $PROD$ la producción del año anterior y $CLI$ la cantidad de clientes. Se sospecha que estas ventas son diferentes por Zonas geográficas, por lo que se estima un modelo para cada Zona: NORTE, CENTRO y SUR, obteniendo: 
+$$Ventas_{g} = \beta_{0g} + \beta_{1g}ADV + \beta_{2g}PROD+\beta_{3g}CLI + u$$
+para $g \in {(NORTE,CENTRO,SUR)}$. Usando como datos las 50 tiendas que tienen a nivel nacional se tienen los siguientes resultados:
+
+\begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+        Modelo & SSR \\
+        \hline
+        Base & 250 \\
+        \hline
+        Norte & 80 \\
+        \hline
+        Centro & 70 \\
+        \hline
+        Sur & 50 \\
+        \hline
+    \end{tabular}
+\end{center}
+Testee, con una significancia del 5\%, si las ventas por Zonas son diferentes. ($F_{0.95,(8,38)}=2.19$)
+
+
+{\color{blue} Para la prueba de igualdad de parámetros por Zona usamos el Test de Chow.
+
+\textbf{Modelo base (restringido):} 
+\[
+Ventas=\beta_0+\beta_1 ADV+\beta_2 PROD+\beta_3 CLI+u
+\quad\Rightarrow\quad k_R=4,\; \text{SSR}_R=250.
+\]
+
+\textbf{Modelo por zona (no restringido):}
+\[
+Ventas_g=\beta_{0g}+\beta_{1g} ADV+\beta_{2g} PROD+\beta_{3g} CLI+u,\quad g\in\{\text{NORTE,CENTRO,SUR}\}
+\]
+Cada zona tiene 4 parámetros $\Rightarrow k_{UR}=3\times 4=12$, y 
+\[
+\text{SSR}_{UR}=\text{SSR}_N+\text{SSR}_C+\text{SSR}_S=80+70+50=200.
+\]
+
+\textbf{Hipótesis:} 
+\[
+H_0:\ (\beta_0,\beta_1,\beta_2,\beta_3)\ \text{iguales entre zonas}
+\quad \text{vs}\quad 
+H_1:\ \text{al menos un coeficiente difiere por zona.}
+\]
+
+\textbf{Estadístico $F$ (Chow):}
+\[
+F=\frac{(\text{SSR}_R-\text{SSR}_{UR})/q}{\text{SSR}_{UR}/(n-k_{UR})},
+\quad 
+q=k_{UR}-k_R=12-4=8,\quad n=50.
+\]
+
+\textbf{Cálculo:}
+\[
+F=\frac{(250-200)/8}{200/(50-12)}
+=\frac{50/8}{200/38}
+=\frac{6.25}{5.2632}
+\approx 1.19.
+\]
+
+\textbf{Regla de decisión (5\%):} 
+Comparar con $F_{0.95,(8,38)}=2.19$. Como $1.19<2.19$, \textbf{no se rechaza} $H_0$.
+
+\textbf{Conclusión:} 
+No hay evidencia estadística, al 5\%, de que las ventas difieran por Zona (NORTE, CENTRO, SUR).
+}
+\item  (20 puntos) Para determinar los efectos que poseer una computadora tiene sobre el promedio general de calificaciones se estima en el modelo
+
+\[
+colGPA = \beta_0 + \delta_0 PC + \beta_1 hsGPA + \beta_2 ACT + u,
+\]
+
+donde la variable binaria $PC$ es uno si el estudiante posee una computadora personal y cero si no es así. Hay varias razones por las que poseer una computadora puede tener algún efecto sobre $colGPA$. Los trabajos de un estudiante pueden ser de mayor calidad si se realizan en una computadora y se puede ahorrar tiempo al no tener que esperar en un laboratorio de cómputo. Por supuesto, también un estudiante que posee una computadora puede que tienda más a jugar con los juegos de la computadora o a navegar por Internet, de manera que no es obvio que $\delta_0$ sea positivo. Las variables $hsGPA$ (promedio general de calificaciones en el bachillerato) y $ACT$ (resultados en el examen de admisión) se emplean como controles: puede que sea más probable que los mejores estudiantes, de acuerdo con las puntuaciones en el $GPA$ del bachillerato y en el $ACT$, tengan computadora. Estos factores se controlan porque se quiere conocer el efecto promedio sobre $colGPA$ si se toma un estudiante al azar y se le da una computadora.
+
+Realizando la estimación se obtiene:
+
+\[
+\widehat{colGPA} = 1.26 + .157\,PC + .447\,hsGPA + .0087\,ACT
+\]
+\[
+(0.33)\quad (0.057)\quad (0.094)\quad (0.0105)
+\]
+
+\[
+n = 1410, \quad R^2 = .219.
+\]
+
+\begin{enumerate}
+    \item \ 
+    Con base en la estimación del modelo
+   comente si el efecto de poseer una computadora sobre el promedio general de calificaciones ($colGPA$) es estadísticamente significativo al 5\% de nivel de significancia.  
+    Justifique su respuesta indicando el estadístico de prueba y el valor crítico correspondiente.
+
+    \item 
+    Utilizando los coeficientes estimados del modelo anterior, grafique la relación entre $ACT$ y $colGPA$, manteniendo $hsGPA$  constante en su valor promedio 3.3 y diferenciando si el estudiante tiene o no tiene computador.  
+   
+\end{enumerate}
+
+
+{\color{blue}
+
+
+
+\begin{enumerate}
+\item \textbf{Significancia de \(PC\) al 5\%}. \\
+Hipótesis:
+\[
+H_0:\beta_{PC}=0 \quad \text{vs}\quad H_1:\ \beta_{PC}=0\neq 0.
+\]
+Estadístico \(t\):
+\[
+t=\frac{\widehat{\beta_{PC}}}{se(\widehat{\beta_{PC}})}=\frac{0.157}{0.057}\approx 2.754.
+\]
+Grados de libertad: \(n-k=1410-4=1406\).
+Valor crítico bilateral (5\%): \(t_{0.975,1406}\approx 1.96\) aproximamos con la normal.
+Como \(2.754>1.96\), \textbf{se rechaza} \(H_0\). 
+
+El efecto de poseer computadora (\(PC\)) sobre \(colGPA\) es estadísticamente significativo al 5\%.
+
+\item \textbf{Relación entre \(ACT\) y \(colGPA\) con \(hsGPA=3.3\), diferenciando por \(PC\)}. \\
+Con \(hsGPA=\bar{h}=3.3\), las funciones de predicción son
+\[
+\widehat{colGPA}\,(ACT,PC=0)=1.26+0.447\cdot 3.3+0.0087\cdot ACT,
+\]
+\[
+\widehat{colGPA}\,(ACT,PC=1)=1.26+\mathbf{0.157}+0.447\cdot 3.3+0.0087\cdot ACT.
+\]
+La diferencia entre ambas curvas es constante e igual a \(0.157\) para cualquier nivel de \(ACT\).
+
+% En el preámbulo:
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=1.18}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=12cm,
+    height=7cm,
+    xlabel={ACT},
+    ylabel={colGPA (predicho)},
+    xmin=0, xmax=25,
+    ymin=2.7, ymax=3.25,
+    grid=both,
+    legend cell align={left},
+    legend pos=south east,
+    title={Relación entre ACT y colGPA con $hsGPA=3.3$}
+]
+% Parámetros del modelo con hsGPA=3.3:
+% b0 + b_hs*3.3 = 1.26 + 0.447*3.3 = 2.7351
+% b_act = 0.0087
+% delta0 = 0.157
+
+% PC = 0: y = 2.7351 + 0.0087*x
+\addplot+[domain=0:25, thick] {2.86 + 0.0087*x};
+\addlegendentry{$PC=0$ (sin computadora)}
+
+% PC = 1: y = 2.7351 + 0.157 + 0.0087*x = 2.8921 + 0.0087*x
+\addplot+[domain=0:25, thick, dashed] {3.03 + 0.0087*x};
+\addlegendentry{$PC=1$ (con computadora)}
+\end{axis}
+\end{tikzpicture}
+%\caption{Rectas de predicción de $colGPA$ frente a $ACT$ para $hsGPA=3.3$, diferenciando por $PC$. La brecha vertical es constante e igual a $0.157$.}
+\end{figure}
+
+\end{enumerate}}
+
+\end{enumerate}
+
+
+\section*{Formulario}
+
+\begin{itemize}
+\item {\color{red}Test F para regresión auxiliar.}
+\begin{center}
+ {  \color{red}     \(F=\dfrac{R^{2}/j}{(1-R^{2})/(n-k-1)}
+          \sim F(j,\;n-k-1)\).}
+          \end{center}
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{certamenes/normal.png}
+\end{figure}
+
+\end{document}

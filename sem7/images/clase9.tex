@@ -1,0 +1,137 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 5: Propiedades estadísticas del estimador MCO (cont) e inferencia sobre un parámetro}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}[shrink=10]
+\frametitle{Varianza del Estimador MCO}
+\begin{itemize}
+    \item Intuición de la varianza del $\hat{\beta}_1$ (elemento $a_{22}$ de la diagonal):
+    \[
+    \hat{Var}(\hat{\beta}_1|X) = \frac{\hat{\sigma}^2}{SST_1(1 - R^2_1)}
+    \]
+    \item Donde:
+    \begin{itemize}
+        \item $SST_1 = \sum_{i=1}^{n}(x_{i1} - \bar{x}_1)^2 = n \cdot \text{Var}(x_1)$ es la suma total de los cuadrados de $x_1$.
+        \item $R^2_1$: el coeficiente de determinación resultante de la regresión de $x_1$ (como variable dependiente) en todas las otras variables independientes. Intuitivamente, indica cuánto de la variabilidad de $x_1$ se puede explicar por $x_2, x_3, \ldots$.
+    \end{itemize}
+    \item Ejemplo:
+    \begin{itemize}
+        \item Modelo: $y_i = \beta_0 + \beta_1x_{1i} + \beta_2x_{2i} + \beta_3x_{3i} + u_i$.
+        \item $R^2_1$ es el coeficiente de determinación de la regresión MCO auxiliar:
+        \[
+        x_{1i} = \alpha_0 + \alpha_2x_{2i} + \alpha_3x_{3i} + e_i
+        \]
+        $R^2_1$ indica cuánto de la variable $x_1$ es explicado por las otras variables independientes.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Varianza del estimador MCO: Modelo múltiple}
+Intuición de la varianza del $\hat{\beta}_1$:
+\[
+\text{Var}(\hat{\beta}_1|X) = \frac{\sigma^2}{\text{SST}_1(1 - R_{1}^{2})}
+\]
+\begin{itemize}
+    \item $\text{Var}(\hat{\beta}_1|X)$ es creciente en $\sigma^2$.
+    \begin{itemize}
+        \item Mientras más ruido no explicado haya en la ecuación, más difícil es estimar el efecto parcial de $x_1$ en $y$.
+    \end{itemize}
+    \item $\text{Var}(\hat{\beta}_1|X)$ es decreciente en $\text{SST}_1$.
+    \begin{itemize}
+        \item Esto implica que se prefiere una mayor variación muestral en $x_1$.
+        \item Una alternativa para aumentar esta cantidad y reducir la varianza es aumentar el tamaño muestral.
+        \item El supuesto 3 asegura que $\text{SST}_1 \neq 0$.
+    \end{itemize}
+    \item $\text{Var}(\hat{\beta}_1|X)$ es creciente en $R_{1}^{2}$.
+    \begin{itemize}
+        \item Intuición: Meter más variables le va quitando variabilidad a $x_1$. Esto hace que su estimador sea más impreciso.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Problema de Multicolinealidad}
+\[
+\text{Var}(\hat{\beta}_1|X) = \frac{\sigma^2}{SST_1(1 - R^2_1)}
+\]
+\begin{itemize}
+    \item Si dos variables son linealmente dependientes o están muy correlacionadas, la varianza del estimador será muy alta. En el límite, $R^2_1 = 1$ y la varianza es infinita. Esto viola el supuesto 3 de no multicolinealidad perfecta. En este caso, hay multicolinealidad perfecta.
+    \item Trade-offs:
+    \begin{enumerate}
+        \item \textbf{Varianza:} Incluir más variables explicativas \textcolor{red}{reduce la SSR ($\sigma^2$)}, pero \textcolor{blue}{aumenta $R^2_1$}. Efecto ambiguo sobre la varianza $\hat{\text{Var}}(\hat{\beta}_1)$.
+        \item \textbf{Sesgo:} Incluir más variables puede evitar el sesgo del coeficiente si la variable omitida correlaciona con la $x$. A menudo sacrificamos aumentar la varianza para estar seguros de evitar el sesgo.
+    \end{enumerate}
+\end{itemize}
+\end{frame}
+\end{document}

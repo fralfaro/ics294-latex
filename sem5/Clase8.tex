@@ -1,0 +1,746 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color}
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 8: Regresión Lineal Múltiple y propiedades del estimador MCO}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Escribir el modelo de regresión lineal múltiple en forma escalar y matricial $\mathbf{y} = \mathbf{X}\beta + \mathbf{u}$.
+    \item[\checkmark] Interpretar los coeficientes $\beta_j$ bajo el principio \emph{ceteris paribus} (efecto parcial).
+    \item[\checkmark] Derivar el estimador MCO matricial $\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y$ y demostrar su insesgamiento.
+    \item[\checkmark] Enunciar los supuestos del modelo clásico (RLM.1--RLM.5) y entender la multicolinealidad.
+    \item[\checkmark] Calcular la matriz de varianzas $\hat{V}(\hat{\beta})$ y los errores estándar.
+    \item[\checkmark] Distinguir $R^2$ de $R^2$ ajustado y comprender por qué $R^2$ nunca decrece.
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{El modelo de regresión lineal múltiple}
+
+\begin{frame}{¿Por qué pasar de simple a múltiple?}
+
+En la regresión simple $y = \beta_0 + \beta_1 x + u$, todo lo demás que afecta a $y$ queda en $u$.
+
+\begin{itemize}
+    \item Si esos factores están correlacionados con $x$, el estimador $\hat{\beta}_1$ resulta \alert{sesgado} (sesgo por variable omitida).
+    \item Ejemplo: $\text{salario} = \beta_0 + \beta_1 \text{educ} + u$. La experiencia y la habilidad están en $u$ y se correlacionan con la educación.
+\end{itemize}
+
+\pause
+
+\begin{block}{Idea central de la RLM}
+Incorporar explícitamente esos factores como regresores adicionales nos permite \textbf{controlar} por ellos y estimar el efecto \emph{parcial} de cada variable, manteniendo las demás constantes.
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{El modelo poblacional}
+
+\begin{block}{Definición: Modelo de regresión lineal múltiple}
+Con $k$ variables independientes, para la observación $i$:
+\[
+y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_k x_{ik} + u_i, \quad i=1,\dots,n
+\]
+\begin{itemize}
+    \item $\beta_0$: intercepto (constante).
+    \item $\beta_j$: parámetro asociado a $x_j$ (efecto parcial o pendiente).
+    \item $u_i$: error poblacional (factores no observados).
+\end{itemize}
+\end{block}
+
+\pause
+
+\textbf{Lineal en los parámetros:} el modelo debe ser lineal en los $\beta_j$, no necesariamente en las variables. Así $y = \beta_0 + \beta_1 x + \beta_2 x^2 + u$ \emph{es} RLM (basta definir $x_2 = x^2$).
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Interpretación \emph{ceteris paribus}}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Efecto parcial]
+\[
+\beta_j = \frac{\partial \, \mathbb{E}[y \mid x_1,\dots,x_k]}{\partial x_j}
+\]
+$\beta_j$ mide el cambio esperado en $y$ ante un cambio unitario en $x_j$, \textbf{manteniendo constantes todas las demás variables} (\emph{ceteris paribus}).
+\end{tcolorbox}
+
+\pause
+
+\begin{exampleblock}{Ejemplo}
+\[
+\widehat{\log(\text{salario})} = 0.284 + 0.092\,\text{educ} + 0.0041\,\text{exper}
+\]
+\begin{itemize}
+    \item $\hat{\beta}_1 = 0.092$: a igual experiencia, un año más de educación se asocia con $\approx 9.2\%$ más de salario.
+    \item $\hat{\beta}_2 = 0.0041$: a igual educación, un año más de experiencia $\approx 0.41\%$.
+\end{itemize}
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Forma matricial del modelo}
+
+Apilando las $n$ observaciones, el modelo se escribe de forma compacta:
+\[
+\underbrace{\mathbf{y}}_{n\times 1} = \underbrace{\mathbf{X}}_{n\times (k+1)}\, \underbrace{\beta}_{(k+1)\times 1} + \underbrace{\mathbf{u}}_{n\times 1}
+\]
+\[
+\mathbf{y} =
+\begin{bmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix},\quad
+\mathbf{X} =
+\begin{bmatrix}
+1 & x_{11} & \cdots & x_{1k}\\
+1 & x_{21} & \cdots & x_{2k}\\
+\vdots & \vdots & & \vdots\\
+1 & x_{n1} & \cdots & x_{nk}
+\end{bmatrix},\quad
+\beta =
+\begin{bmatrix} \beta_0 \\ \beta_1 \\ \vdots \\ \beta_k \end{bmatrix}
+\]
+
+\begin{itemize}
+    \item La primera columna de $\mathbf{X}$ (unos) corresponde al intercepto.
+    \item $\mathbf{X}$ se denomina \textbf{matriz de diseño}.
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{El estimador MCO matricial}
+
+\begin{frame}{El problema de Mínimos Cuadrados Ordinarios}
+
+MCO elige $\hat{\beta}$ minimizando la suma de cuadrados de los residuos:
+\[
+\hat{\beta} = \arg\min_{b} \; S(b) = \sum_{i=1}^{n} \hat{u}_i^2 = (\mathbf{y}-\mathbf{X}b)^{\top}(\mathbf{y}-\mathbf{X}b)
+\]
+
+\pause
+
+\begin{block}{Resultado central}
+La solución es el estimador MCO en forma matricial:
+\[
+\boxed{\;\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y\;}
+\]
+siempre que $X^{\top}X$ sea invertible (no haya multicolinealidad perfecta).
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks]{Demostración: derivación de $\hat{\beta}=(X^{\top}X)^{-1}X^{\top}y$}
+
+\begin{alertblock}{Teorema}
+El minimizador de $S(b)=(\mathbf{y}-\mathbf{X}b)^{\top}(\mathbf{y}-\mathbf{X}b)$ es $\hat{\beta}=(X^{\top}X)^{-1}X^{\top}y$.
+\end{alertblock}
+
+\begin{exampleblock}{Demostración}
+\textbf{Paso 1: expandir la función objetivo.}
+\[
+S(b) = (\mathbf{y}-\mathbf{X}b)^{\top}(\mathbf{y}-\mathbf{X}b)
+     = y^{\top}y - y^{\top}Xb - b^{\top}X^{\top}y + b^{\top}X^{\top}Xb
+\]
+Como $b^{\top}X^{\top}y$ es un escalar, es igual a su traspuesta $y^{\top}Xb$. Por lo tanto:
+\[
+S(b) = y^{\top}y - 2\,b^{\top}X^{\top}y + b^{\top}X^{\top}Xb.
+\]
+
+\framebreak
+
+\textbf{Paso 2: condición de primer orden.} Derivamos respecto al vector $b$ usando
+$\frac{\partial (b^{\top}a)}{\partial b}=a$ y $\frac{\partial (b^{\top}Ab)}{\partial b}=2Ab$ (con $A=X^{\top}X$ simétrica):
+\[
+\frac{\partial S(b)}{\partial b} = -2X^{\top}y + 2X^{\top}Xb \overset{!}{=} 0.
+\]
+Esto entrega las \textbf{ecuaciones normales}:
+\[
+X^{\top}X\,\hat{\beta} = X^{\top}y.
+\]
+
+\textbf{Paso 3: despejar.} Si $X^{\top}X$ es invertible (rango completo de columnas, supuesto RLM.3):
+\[
+\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y.
+\]
+
+\framebreak
+
+\textbf{Paso 4: condición de segundo orden.} La matriz Hessiana es
+\[
+\frac{\partial^2 S(b)}{\partial b\, \partial b^{\top}} = 2X^{\top}X,
+\]
+que es semidefinida positiva (definida positiva si $X$ tiene rango completo). Por lo tanto el punto crítico es un \textbf{mínimo}. \hfill $\square$
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Valores ajustados, residuos y ortogonalidad}
+
+\begin{itemize}
+    \item Valores ajustados: $\hat{\mathbf{y}} = X\hat{\beta} = X(X^{\top}X)^{-1}X^{\top}y = H\mathbf{y}$.
+    \item La matriz $H = X(X^{\top}X)^{-1}X^{\top}$ se llama \textbf{matriz sombrero} (proyección).
+    \item Residuos: $\hat{\mathbf{u}} = \mathbf{y} - \hat{\mathbf{y}} = (I-H)\mathbf{y}$.
+\end{itemize}
+
+\pause
+
+\begin{block}{Propiedad clave de ortogonalidad}
+Las ecuaciones normales implican $X^{\top}\hat{\mathbf{u}} = 0$:
+\[
+X^{\top}\hat{\mathbf{u}} = X^{\top}(\mathbf{y}-X\hat{\beta}) = X^{\top}y - X^{\top}X(X^{\top}X)^{-1}X^{\top}y = 0.
+\]
+Es decir, los residuos son ortogonales a todos los regresores. Si hay intercepto, $\sum_i \hat{u}_i = 0$.
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Supuestos del modelo clásico}
+
+\begin{frame}{Supuestos del modelo lineal clásico (RLM)}
+\begin{enumerate}
+    \item[RLM.1] \textbf{Linealidad en parámetros:} $\mathbf{y} = \mathbf{X}\beta + \mathbf{u}$.
+    \pause
+    \item[RLM.2] \textbf{Muestreo aleatorio} de tamaño $n$.
+    \pause
+    \item[RLM.3] \textbf{No multicolinealidad perfecta:} ninguna $x_j$ es combinación lineal exacta de las demás; $X$ tiene rango completo de columnas $\Rightarrow X^{\top}X$ invertible.
+    \pause
+    \item[RLM.4] \textbf{Media condicional cero:} $\mathbb{E}[\mathbf{u}\mid \mathbf{X}] = 0$.
+    \pause
+    \item[RLM.5] \textbf{Homocedasticidad y no autocorrelación:} $\text{Var}(\mathbf{u}\mid \mathbf{X}) = \sigma^2 I_n$.
+\end{enumerate}
+
+\medskip
+RLM.1--RLM.4 garantizan \alert{insesgamiento}. Sumando RLM.5 obtenemos el resultado de eficiencia (Gauss-Markov).
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks]{Demostración: Insesgamiento de $\hat{\beta}$}
+
+\begin{alertblock}{Proposición}
+Bajo RLM.1--RLM.4, el estimador MCO es insesgado condicional a $X$:
+\[
+\mathbb{E}[\hat{\beta}\mid X] = \beta.
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Demostración}
+\textbf{Paso 1: sustituir el modelo verdadero.} Como $\mathbf{y} = X\beta + \mathbf{u}$:
+\[
+\hat{\beta} = (X^{\top}X)^{-1}X^{\top}\mathbf{y} = (X^{\top}X)^{-1}X^{\top}(X\beta + \mathbf{u}).
+\]
+
+\textbf{Paso 2: separar.} Distribuyendo:
+\[
+\hat{\beta} = (X^{\top}X)^{-1}(X^{\top}X)\beta + (X^{\top}X)^{-1}X^{\top}\mathbf{u}
+            = \beta + (X^{\top}X)^{-1}X^{\top}\mathbf{u}.
+\]
+El término $(X^{\top}X)^{-1}X^{\top}\mathbf{u}$ es el \textbf{error de estimación}.
+
+\framebreak
+
+\textbf{Paso 3: tomar esperanza condicional en $X$.} Tratando $X$ como dada (no aleatoria condicionalmente):
+\[
+\mathbb{E}[\hat{\beta}\mid X] = \beta + (X^{\top}X)^{-1}X^{\top}\,\mathbb{E}[\mathbf{u}\mid X].
+\]
+\textbf{Paso 4: usar RLM.4.} Como $\mathbb{E}[\mathbf{u}\mid X]=0$:
+\[
+\mathbb{E}[\hat{\beta}\mid X] = \beta + (X^{\top}X)^{-1}X^{\top}\cdot 0 = \beta.
+\]
+Por la ley de esperanzas iteradas, $\mathbb{E}[\hat{\beta}] = \mathbb{E}[\mathbb{E}[\hat{\beta}\mid X]] = \beta$. \hfill $\square$
+\end{exampleblock}
+
+\textbf{Interpretación:} en promedio, sobre muchas muestras, el estimador acierta en el valor verdadero. El insesgamiento no depende de RLM.5.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Multicolinealidad}
+
+\begin{frame}{Multicolinealidad}
+
+\begin{block}{Multicolinealidad perfecta (viola RLM.3)}
+Una variable es combinación lineal exacta de otras. Entonces $X$ no tiene rango completo, $X^{\top}X$ es singular y $\hat{\beta}$ \alert{no existe} (el modelo no está identificado).
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Ejemplo clásico (asignación de tiempo)}
+\[
+\text{GPA} = \beta_0 + \beta_1\text{estudio} + \beta_2\text{sueño} + \beta_3\text{trabajo} + \beta_4\text{ocio} + u
+\]
+Si las cuatro suman 168 horas, entonces $\text{sueño}+\text{trabajo}+\text{ocio}=168-\text{estudio}$: hay dependencia lineal exacta. \textbf{No se puede} variar el estudio dejando las otras tres fijas.
+\end{exampleblock}
+
+\pause
+
+\textbf{Multicolinealidad alta (no perfecta):} los regresores están muy correlacionados. $\hat{\beta}$ existe pero las varianzas son \alert{grandes} (estimadores imprecisos).
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Multicolinealidad y la varianza del estimador}
+
+Para el coeficiente $\hat{\beta}_j$ en el modelo múltiple:
+\[
+\text{Var}(\hat{\beta}_j\mid X) = \frac{\sigma^2}{\text{SST}_j \,(1 - R_j^2)}
+\]
+\begin{itemize}
+    \item $\text{SST}_j = \sum_i (x_{ij}-\bar{x}_j)^2$: variación muestral de $x_j$.
+    \item $R_j^2$: $R^2$ de la regresión \textbf{auxiliar} de $x_j$ contra todas las demás $x$.
+\end{itemize}
+
+\pause
+
+\begin{itemize}
+    \item Si $x_j$ está muy correlacionada con las demás $\Rightarrow R_j^2 \to 1 \Rightarrow \text{Var}(\hat{\beta}_j)\to\infty$.
+    \item El factor $\text{VIF}_j = \dfrac{1}{1-R_j^2}$ se llama \textbf{factor de inflación de la varianza}.
+    \item Soluciones: más datos (aumenta $\text{SST}_j$), eliminar variables redundantes, o aceptar la imprecisión si el coeficiente de interés no está afectado.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Frisch-Waugh-Lovell}
+
+\begin{frame}[allowframebreaks]{Sketch: Teorema de Frisch-Waugh-Lovell (FWL)}
+
+\begin{alertblock}{Teorema de Frisch-Waugh-Lovell}
+En $y = \beta_1 x_1 + X_2\beta_2 + u$, el coeficiente $\hat{\beta}_1$ de MCO es \textbf{idéntico} al que se obtiene en una regresión simple de los residuos:
+\begin{enumerate}
+    \item Regresar $y$ sobre $X_2$ y guardar residuos $\tilde{y}$.
+    \item Regresar $x_1$ sobre $X_2$ y guardar residuos $\tilde{x}_1$.
+    \item Regresar $\tilde{y}$ sobre $\tilde{x}_1$.
+\end{enumerate}
+\end{alertblock}
+
+\begin{exampleblock}{Sketch de la demostración / interpretación}
+\textbf{Paso 1: ``limpiar'' (parcializar).} Sea $M_2 = I - X_2(X_2^{\top}X_2)^{-1}X_2^{\top}$ la matriz que extrae los residuos de regresar sobre $X_2$. Entonces $\tilde{y}=M_2 y$ y $\tilde{x}_1=M_2 x_1$ son las partes de $y$ y $x_1$ \emph{no explicadas} por las demás variables.
+
+\framebreak
+
+\textbf{Paso 2: estimar con lo limpio.} La regresión de $\tilde{y}$ sobre $\tilde{x}_1$ entrega
+\[
+\hat{\beta}_1 = \frac{\tilde{x}_1^{\top}\tilde{y}}{\tilde{x}_1^{\top}\tilde{x}_1} = \frac{x_1^{\top}M_2\,y}{x_1^{\top}M_2\,x_1},
+\]
+que coincide exactamente con el coeficiente del sistema completo (porque $M_2$ es idempotente y simétrico).
+
+\medskip
+\textbf{Interpretación \emph{ceteris paribus}:} $\hat{\beta}_1$ mide la relación entre $y$ y $x_1$ \alert{una vez removido} el efecto de las demás variables, tanto de $x_1$ como de $y$. Esto formaliza la idea de ``mantener constantes las demás variables''. \hfill $\square$
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Bondad de ajuste}
+
+\begin{frame}{Descomposición de la varianza y $R^2$}
+
+\begin{block}{Sumas de cuadrados}
+\[
+\underbrace{\sum_i (y_i-\bar{y})^2}_{\text{SCT (total)}} =
+\underbrace{\sum_i (\hat{y}_i-\bar{y})^2}_{\text{SCE (explicada)}} +
+\underbrace{\sum_i \hat{u}_i^2}_{\text{SCR (residual)}}
+\]
+\[
+\text{SCT} = \text{SCE} + \text{SCR}
+\]
+(válida cuando hay intercepto, por la ortogonalidad de los residuos).
+\end{block}
+
+\pause
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Coeficiente de determinación]
+\[
+R^2 = \frac{\text{SCE}}{\text{SCT}} = 1 - \frac{\text{SCR}}{\text{SCT}}, \qquad 0 \le R^2 \le 1.
+\]
+Proporción de la variación de $y$ explicada por el modelo.
+\end{tcolorbox}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[allowframebreaks]{¿Por qué $R^2$ nunca decrece al agregar regresores?}
+
+\begin{alertblock}{Proposición}
+Agregar una variable a un modelo (manteniendo las demás) \textbf{nunca disminuye} $R^2$: a lo sumo lo deja igual.
+\end{alertblock}
+
+\begin{exampleblock}{Argumento}
+\textbf{Paso 1.} MCO minimiza la SCR. Considere el modelo restringido (sin $x_{k+1}$) y el ampliado (con $x_{k+1}$).
+
+\textbf{Paso 2.} El modelo restringido equivale al ampliado con la restricción $\beta_{k+1}=0$. Es un caso particular del conjunto de soluciones posibles del ampliado.
+
+\textbf{Paso 3.} Al minimizar sobre un conjunto \emph{más grande} de parámetros, el mínimo no puede empeorar:
+\[
+\text{SCR}_{\text{ampliado}} \le \text{SCR}_{\text{restringido}}.
+\]
+\framebreak
+
+\textbf{Paso 4.} Como la SCT no cambia (depende solo de $y$) y $R^2 = 1 - \text{SCR}/\text{SCT}$, al bajar (o igualar) la SCR el $R^2$ \alert{sube o se mantiene}. \hfill $\square$
+\end{exampleblock}
+
+\begin{block}{Consecuencia: $R^2$ no sirve para elegir modelos}
+Siempre podríamos inflar $R^2$ agregando variables irrelevantes. Necesitamos un criterio que \textbf{penalice} la complejidad: el $R^2$ ajustado.
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{$R^2$ ajustado}
+
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=$R^2$ ajustado]
+\[
+\bar{R}^2 = 1 - \frac{\text{SCR}/(n-k-1)}{\text{SCT}/(n-1)}
+          = 1 - (1-R^2)\,\frac{n-1}{n-k-1}
+\]
+\end{tcolorbox}
+
+\begin{itemize}
+    \item Penaliza por cada regresor adicional ($k$ aparece en el denominador).
+    \item $\bar{R}^2 \le R^2$ siempre, y puede ser \alert{negativo}.
+    \item Al agregar una variable, $\bar{R}^2$ sube \textbf{solo si} el estadístico $t$ de esa variable supera 1 en valor absoluto (su aporte compensa la pérdida de un grado de libertad).
+    \item Útil para comparar modelos con \textbf{distinto número de regresores}.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Varianza del estimador}
+
+\begin{frame}
+\frametitle{Estimador MCO de $\sigma^2$}
+La matriz de varianzas-covarianzas viene dada por:
+\[
+\text{Var}(\hat{\beta}|X) = \sigma^2(X^{\top}X)^{-1}
+\]
+Notar que $(X^{\top}X)^{-1}$ es una matriz que se observa en los datos.
+
+Pero, $\sigma^2$ es la varianza del error poblacional. NO es observable.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Estimador MCO de $\sigma^2$}
+
+El estimador $\hat{\sigma}^2$ de $\sigma^2$:
+
+ $$\hat{\sigma}^2 = \frac{\sum_{i=1}^{n} \hat{u}_i^2 }{n-k-1}= \frac{SCR}{n - k - 1}$$
+
+
+\begin{itemize}
+    \item  El término $n - k - 1$ son los grados de libertad (gl) para el problema general de
+MCO con $n$ observaciones y $k$ variables independientes.
+\item  Como en un modelo de regresión con $k$ variables independientes y un intercepto hay $k + 1$ parámetros.
+\item gl =  (observaciones) - (cantidad de parámetros estimados).
+\item  Bajo los supuestos del teorema de Gauss-Markov se cumple que $E[\hat{\sigma}^2|X] = \sigma^2$.
+\end{itemize}
+
+\end{frame}
+
+ \begin{frame}
+\frametitle{Varianza Estimada de Cada Estimador $\hat{\beta}_j$}
+
+\[
+\hat{\text{Var}}(\hat{\beta}|X) = \hat{\sigma}^2(X^{\top}X)^{-1}
+\]
+Matriz de $(k + 1) \times (k + 1)$ de varianzas-covarianzas, tal que:
+\begin{itemize}
+    \item El elemento de la diagonal $a_{1,1}$ es $\hat{\text{Var}}(\hat{\beta}_0)$.
+    \item El elemento de la diagonal $a_{2,2}$ es $\hat{\text{Var}}(\hat{\beta}_1)$.
+    \item Generalizando: el elemento de la diagonal $a_{j+1,j+1}$ es $\hat{\text{Var}}(\hat{\beta}_j)$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{Varianza del Estimador MCO: Ejemplo}
+\begin{itemize}
+    \item Supuestos clásicos $\Rightarrow \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1}$.
+    \item De los datos obtenemos:
+    \[
+    (X^{\top}X)^{-1} =
+    \begin{bmatrix}
+    0.05987 & -0.00177 & -0.00035 \\
+    -0.00177 & 0.00030 & -0.00002 \\
+    -0.00035 & -0.00002 & 0.00001 \\
+    \end{bmatrix}; \quad \hat{\sigma}^2 = 141925
+    \]
+    \item Entonces, podemos calcular:
+    \[
+    \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1} =
+    \begin{bmatrix}
+    8497.57 & -250.80 & -49.04 \\
+    -250.80 & 42.90 & -3.22 \\
+    -49.04 & -3.22 & 0.91 \\
+    \end{bmatrix}
+    \]
+    \item En la diagonal principal, tienen la varianza de cada uno de los estimadores.
+      \item Ejemplo: $\hat{V}(\hat{\beta}_1) = 42.9$. Es decir, $\hat{se}(\hat{\beta}_1) = \sqrt{\hat{V}(\hat{\beta}_1)} = 6.55$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{El caso particular de la regresión simple}
+En el modelo de regresión simple $y = \beta_0 + \beta_1 x + u$, sigue cumpliéndose lo anterior.
+\[
+\hat{Var}(\hat{\beta}_1) = {\frac{{\hat{\sigma}}^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2}}
+\]
+\begin{itemize}
+    \item Si $x$ tiene más variabilidad, hace que $\hat{\beta}$ sea más preciso (tengo más información).
+    \item Si la varianza del residuo es más grande, mi estimador es menos preciso. Mi modelo no explica mucho de $y$.
+\end{itemize}
+ \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ejercicios resueltos}
+
+\begin{frame}{Ejercicio Resuelto 1: estimador MCO matricial}
+
+\begin{block}{Ejercicio 1}
+Se dispone de 5 individuos con $X_1$ (educación), $X_2$ (experiencia) y $Y$ (puntaje):
+\[
+\begin{array}{c|ccccc}
+ & 1 & 2 & 3 & 4 & 5\\\hline
+X_1 & 4 & 3 & 5 & 7 & 6\\
+X_2 & 1 & 2 & 3 & 4 & 4\\
+Y   & 5 & 7 & 10 & 13 & 12
+\end{array}
+\]
+Estime $Y=\beta_0+\beta_1 X_1+\beta_2 X_2+u$ por MCO. Use
+\[
+(X^{\top}X)^{-1}=\frac{1}{95}\begin{bmatrix}281 & -72 & 35\\ -72 & 34 & -35\\ 35 & -35 & 50\end{bmatrix}.
+\]
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución (parte 1)}
+\textbf{Paso 1: armar $X^{\top}y$.} Con la columna de unos:
+\[
+X^{\top}y = \begin{bmatrix} \sum y_i\\ \sum x_{i1}y_i\\ \sum x_{i2}y_i \end{bmatrix}
+= \begin{bmatrix} 47 \\ 254 \\ 149 \end{bmatrix}.
+\]
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 1: solución (cont.)}
+
+\begin{exampleblock}{Solución (parte 2)}
+\textbf{Paso 2: aplicar la fórmula.}
+\[
+\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y = \frac{1}{95}\begin{bmatrix}134\\37\\205\end{bmatrix}
+\approx \begin{bmatrix} 1.41 \\ 0.39 \\ 2.16 \end{bmatrix}.
+\]
+\textbf{Modelo estimado:}
+\[
+\hat{Y} = 1.41 + 0.39\,X_1 + 2.16\,X_2.
+\]
+\textbf{Paso 3: interpretar (\emph{ceteris paribus}).} A igual experiencia, un año más de educación aumenta el puntaje en $\approx 0.39$; a igual educación, un año más de experiencia lo aumenta en $\approx 2.16$.
+
+\medskip
+\textbf{Nota:} en la regresión simple $Y\sim X_1$ se obtiene $\hat{\beta}_1\approx 1.90$. Al controlar por $X_2$ baja a $0.39$: evidencia de sesgo por variable omitida.
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Ejercicio Resuelto 2: $R^2$ vs $R^2$ ajustado}
+
+\begin{block}{Ejercicio 2}
+Con $n=4137$ estudiantes se estimó
+\[
+\widehat{\text{colgpa}} = 1.392 - 0.0135\,\text{hsperc} + 0.0014\,\text{sat}, \quad R^2 = 0.273.
+\]
+\begin{enumerate}
+    \item[(a)] Prediga el GPA cuando $\text{hsperc}=20$ y $\text{sat}=900$.
+    \item[(b)] Para dos alumnos con igual $\text{hsperc}$ pero $\text{sat}$ con 140 puntos de diferencia, ¿cuánto difiere el GPA predicho?
+    \item[(c)] Calcule $\bar{R}^2$.
+\end{enumerate}
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{(a)} $1.392 - 0.0135(20) + 0.0014(900) = 1.392 - 0.27 + 1.26 = \mathbf{2.382}$.
+
+\textbf{(b)} $\Delta = 0.0014 \times 140 = \mathbf{0.196}$ (efecto parcial de $\text{sat}$).
+
+\textbf{(c)} $\displaystyle \bar{R}^2 = 1-(1-0.273)\frac{n-1}{n-k-1} = 1 - 0.727\cdot\frac{4136}{4134} \approx \mathbf{0.2726}$. Apenas menor que $R^2$ porque $n$ es muy grande.
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Ejercicio Resuelto 3: comparar modelos (sesgo por omisión)}
+
+\begin{block}{Ejercicio 3}
+5 trabajadores; Educación, Experiencia y Salario (miles CLP):
+\[
+\begin{array}{c|ccccc}
+ & 1 & 2 & 3 & 4 & 5\\\hline
+\text{Educ} & 12 & 14 & 15 & 16 & 18\\
+\text{Exp}  & 14 & 15 & 17 & 15 & 16\\
+\text{Sal}  & 1000 & 1200 & 1300 & 1200 & 1500
+\end{array}
+\]
+Modelo simple: $\widehat{\text{Sal}} = \hat{\beta}_0 + 75\,\text{Educ}$, con $R^2=0.85$, $\bar{R}^2=0.80$.\\
+Modelo múltiple: $\widehat{\text{Sal}} = -430 + 60\,\text{Educ} + 50\,\text{Exp}$, con $R^2=0.92$, $\bar{R}^2=0.83$.
+Compare ambos modelos.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\begin{itemize}
+    \item El coeficiente de Educación cae de $75$ a $60$ al controlar por Experiencia: la versión simple lo \alert{sobreestimaba} (sesgo positivo, pues Educ y Exp covarían y Exp afecta al salario).
+    \item $R^2$ sube de $0.85$ a $0.92$ (siempre sube al agregar regresores).
+    \item $\bar{R}^2$ sube de $0.80$ a $0.83$: la Experiencia aporta más de lo que cuesta en grados de libertad $\Rightarrow$ vale la pena incluirla.
+\end{itemize}
+\end{exampleblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Ejemplo aplicado: estimación de RLM en R}
+
+\begin{exampleblock}{Retornos a la educación (datos tipo CASEN)}
+\begin{verbatim}
+# Cargar datos de hogares (formato CASEN)
+datos <- read.csv("casen_salarios.csv")
+
+# Regresion multiple: log-salario en educacion y exper
+modelo <- lm(log(salario) ~ educ + exper,
+             data = datos)
+summary(modelo)        # coeficientes, se, R2, R2-ajustado
+
+# Diagnostico de multicolinealidad (VIF)
+library(car)
+vif(modelo)            # VIF_j = 1/(1 - R2_j)
+\end{verbatim}
+\end{exampleblock}
+
+{\small La salida reporta $\hat{\beta}_j$, errores estándar (raíz de la diagonal de $\hat{\sigma}^2(X^{\top}X)^{-1}$), $R^2$ y $\bar{R}^2$. Un $\text{VIF}>10$ alerta multicolinealidad alta.}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Ejercicios propuestos}
+
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 4 (rutinario)}
+Con 7 estudiantes se estima $\text{Nota}=\beta_0+\beta_1\text{horas}+\beta_2\text{IQ}+\beta_3\text{motivación}+u$ y se obtiene $\hat{\beta}=(-2.55,\,0.77,\,0.045,\,0.011)$, $R^2=0.943$, $n=7$, $k=3$. Calcule $\bar{R}^2$ e interprete los tres coeficientes de pendiente.
+\end{block}
+
+\begin{block}{Ejercicio 5 (intermedio)}
+En $\log(\text{precio})=1.72+3.98\,\text{dorm}+1.62\,\text{baño}-0.89\,\text{dist\_metro}$ (n=2000), interprete cada coeficiente y construya un IC al 95\% para el coeficiente de $\text{dorm}$ si $se(\text{dorm})=0.72$.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Ejercicios Propuestos (cont.)}
+
+\begin{block}{Ejercicio 6 (intermedio)}
+En el modelo $\text{precio}=30000+900\,\text{m2}+5000\,\text{dorm}+60\,(\text{m2}\times\text{dorm})+u$, obtenga el efecto marginal de un dormitorio adicional cuando $\text{m2}=140$ y cuando $\text{m2}=220$. ¿Por qué difieren?
+\end{block}
+
+\begin{block}{Ejercicio 7 (desafiante)}
+Demuestre que, si se agrega a $\mathbf{X}$ una columna que es combinación lineal exacta de las columnas existentes, $X^{\top}X$ deja de ser invertible. Conecte este resultado con la no existencia de $\hat{\beta}$ y el supuesto RLM.3.
+\end{block}
+
+{\small \textit{Indicación (Ej.\ 7): use que el rango de columnas de $\mathbf{X}$ no aumenta y que $X^{\top}X$ es invertible si y solo si $\mathbf{X}$ tiene rango completo de columnas.}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos clave de la Clase 8}
+\begin{enumerate}
+    \item El modelo RLM $\mathbf{y}=\mathbf{X}\beta+\mathbf{u}$ permite estimar efectos \emph{parciales} (ceteris paribus) controlando por otras variables.
+    \item El estimador MCO es $\hat{\beta}=(X^{\top}X)^{-1}X^{\top}y$, solución de las ecuaciones normales $X^{\top}X\hat{\beta}=X^{\top}y$.
+    \item Bajo RLM.1--RLM.4 el estimador es insesgado: $\mathbb{E}[\hat{\beta}\mid X]=\beta$; con RLM.5, $\text{Var}(\hat{\beta}\mid X)=\sigma^2(X^{\top}X)^{-1}$.
+    \item La multicolinealidad perfecta viola RLM.3 e impide estimar; la alta infla la varianza ($\text{VIF}=1/(1-R_j^2)$).
+    \item $R^2$ nunca decrece al agregar regresores; el $\bar{R}^2$ penaliza la complejidad y sirve para comparar modelos.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: inferencia en RLM, distribución $t$ de $\hat{\beta}_j$, pruebas de hipótesis individuales y pruebas $F$ de significancia conjunta.
+\end{alertblock}
+
+\end{frame}
+
+\end{document}

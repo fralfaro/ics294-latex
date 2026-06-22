@@ -1,0 +1,260 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 16: Heterocedasticidad }}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+
+
+\begin{frame}{Homocedasticidad vs Heterocedasticidad}
+Los errores $u_i$ son heterocedásticos si la varianza condicional de $u_i$ dado $X_i$, $Var[u_i|X_i=x]$ no es constante.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{sem12/d2.png}
+\end{figure}
+   
+\end{frame}
+
+\begin{frame}{Consecuencias de la heterocedastidad}
+
+\begin{itemize}
+    \item El estimador MCO sigue siendo insesgado y consistente, $E[\hat{\beta}]$.
+    \item Pero el estimador de MCO no es MELI.
+    \item Los estimadores de las varianzas, $Var(\hat{\beta})$, serían sesgados.
+    \item También, los estadísticos t no distribuirán t, ni los estadísticos F distribuirán F. 
+    \item Estos problemas no se resuelven con tamaños de muestra grande.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Ejemplo}
+Considere el siguiente modelo lineal:
+
+\begin{equation}
+    Salario_i = \beta_0 + \beta_1 \cdot educacion_i + u_i
+\end{equation}
+
+
+En este contexto, analizamos si se cumple la \textbf{suposición de homocedasticidad} del término de error \( u_i \). Esta condición implica que la varianza del término de error, condicional a los años de educación, sea constante:
+
+\begin{itemize}
+    \item Para que haya homocedasticidad, debe cumplirse que: 
+    \[
+        \text{Var}[u_i \mid educacion_i] = \sigma^2
+    \]
+    \item Es decir, la varianza del término de error no debe depender del número de años de educación.
+    \item Bajo homocedasticidad, los errores tienen varianza constante y no sistemáticamente relacionada con los niveles de educación.
+\end{itemize}
+ 
+
+    
+\end{frame}
+
+\begin{frame}{Ejemplo}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{sem12/d5.png}
+    \end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Test para la heterocedasticidad (Breusch-Pagan)}
+
+{\footnotesize
+\begin{itemize}
+    \item Considere el modelo MRL múltiple:
+    $$y=\beta_0+\beta_1x_1+\beta_2x_2+...+\beta_kx_k+u$$
+    \item La hipótesis nula de homocedasticidad es: 
+
+    $$H_0:E(u^2|x_1,...,x_k)=E(u^2)=\sigma^2$$
+    \item Se busca probar si $u^2$ se relaciona con las variables explicativas.
+    \item Se puede suponer la siguiente relación:
+
+    $$u^2=\delta_0+\delta_1x_1++...+\delta_kx_k+v$$
+    \item Con la hipótesis nula:
+
+    $$H_0: \delta_1=\delta_2=...=\delta_3=0$$
+
+    \item No se conocen los errores de MLR original, pero se usan los residuos $\hat{u_i}$. Se estima:
+
+    $$\hat{u}^2_i= \delta_0 +\delta_1x_1+...+\delta_kx_k+v$$
+
+    \item Uitilizamos el test F de significancia global.
+\end{itemize}
+  }
+\end{frame}
+
+\begin{frame}{Test para la heterocedasticidad (Breusch-Pagan)}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{sem12/d1.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Test para la heterocedasticidad (Breusch-Pagan)}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{d8.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Test de White para la heterocedasticidad}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{sem12/d9.png}
+    \end{figure}
+
+    La
+prueba de White para heterocedasticidad es el estadístico ML y también puede utilizarse una prueba F.
+\end{frame}
+
+\begin{frame}{Test de White simplificado}
+\begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{sem12/d10.png}
+    \end{figure}   
+
+    Se
+utilizan los valores ajustados porque éstos son funciones de las variables independientes.
+\end{frame}
+
+
+
+% \begin{frame}{Test ML}
+
+%     El nombre estadístico del multiplicador de Lagrange proviene de la optimización con restricciones.
+
+%     La forma del estadístico ML que se obtiene aquí se apoya en los supuestos de Gauss-Markov,
+% los mismos supuestos que justifican el estadístico F en muestras grandes. El supuesto de normalidad
+% no es necesario.
+
+% Para obtener el estadístico ML considere el modelo de regresión múltiple usual con k variables
+% independientes:
+% $$y=\beta_0+\beta_1x_1+...+\beta_kx_k+u$$
+% Se desea probar, por ejemplo, si las q últimas variables tienen parámetros poblacionales igual a
+% cero, esto impone q restricciones de exclusión al modelo.
+
+% \end{frame}
+
+% \begin{frame}{Test ML}
+%  El estadístico ML sólo requiere la estimación del modelo restringido.
+
+
+%  Si las q variables omitidas  en realidad tienen coeficientes poblacionales iguales a
+%  cero, entonces, por lo menos de manera aproximada, los residuos de la regresión restringida no deberían estar correlacionados con ninguna
+%  de estas variables de la muestra. Para testearlo se corre una regresión auxiliar de dichos residuos sobre los k regresores. 
+
+%  \begin{eqnarray*}    y=\tilde{\beta}_0+\tilde{\beta}_1x_1+...+\tilde{\beta}_{k-q}x_{k-q}+\tilde{u}\\
+% \tilde{u}=\hat{\delta}_0+\hat{\delta}_1x_1+...+\hat{\delta}_kx_k
+%  \end{eqnarray*}
+
+%  La R-cuadrada de  debe tener un valor cercano a cero, asi $\tilde{u}$  no está correlacionada aproximadamente con ninguna de las variables independientes.
+% \end{frame}
+
+% \begin{frame}{Test ML}
+    
+
+% Como siempre en las pruebas de hipótesis, la cuestión es cómo determinar cuándo es
+% suficientemente grande el estadístico para rechazar la hipótesis nula al nivel de significancia elegido.
+% Resulta que, bajo la hipótesis nula, el tamaño de la muestra multiplicado por la R-cuadrada
+% usual de la regresión auxiliar  tiene una distribución asintótica como variable aleatoria $\chi^2_q$.
+
+%  \end{frame}
+\begin{frame}{Inferencia robusta a la heterocedasticidad}
+\begin{figure}
+       \centering
+       \includegraphics[width=0.9\linewidth]{sem12/d13.png}
+   \end{figure}   
+\end{frame}
+
+
+
+% \begin{frame}{Recomendaciones}
+
+% La forma funcional logarítmica de la variable dependiente suele reducir la heterocedasticidad.
+
+% Si los residuales cuadrados se regresan
+% sólo sobre una variable independiente, la prueba
+% para la heterocedasticidad es precisamente
+% el estadístico t usual de esa variable. Un estadístico
+% t significativo sugiere que la heterocedasticidad
+% es un problema.
+    
+% \end{frame}
+
+% \begin{frame}{}
+    
+% \end{frame}
+\end{document}

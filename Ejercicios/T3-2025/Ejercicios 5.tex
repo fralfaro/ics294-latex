@@ -1,0 +1,296 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.1]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+\begin{center}
+    {\Large  Ejercicios 5: Econometría }
+
+Profesor:    Pedro Comte Hidalgo \\
+Ayudante: Matias Balboa
+\end{center}
+
+
+
+\section{Ejercicios}
+\begin{enumerate}
+    \item Considere la siguiente regresión lineal múltiple estimada con \(n = 75\) observaciones:
+
+\[
+y \;=\; \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + \beta_{3}x_{3} + \beta_{4}x_{4} + u.
+\]
+
+El modelo arroja un coeficiente de determinación
+\[
+R^2 = 0.62.
+\]
+
+El investigador sospecha que las variables \(x_{3}\) y \(x_{4}\) no aportan capacidad explicativa.  
+Para contrastar su hipótesis estima el siguiente modelo:
+
+\[
+y \;=\; \gamma_{0} + \gamma_{1}x_{1} + \gamma_{2}x_{2} + e,
+\qquad\text{obteniendo}\quad
+R^2 = 0.55.
+\]
+Formule y realice un test de hipótesis que permita decidir, con un 5 \% de significancia, si las variables \(x_{3}\) y \(x_{4}\) son relevantes para el modelo. ($F_{0.95,(2,70)}=3.13$)
+
+\textbf{Solución}
+
+
+\textbf{Planteamiento de hipótesis:}
+\begin{align*}
+H_0 &: \beta_3 = \beta_4 = 0 \quad \text{(las variables no son relevantes)} \\
+H_1 &: \text{al menos una es distinta de cero}
+\end{align*}
+
+\textbf{Estadístico F basado en \(R^2\):}
+\[
+F = \frac{(R^2_{UR} - R^2_R)/q}{(1-R^2_{UR})/(n-k-1)}
+\]
+
+Donde \(R^2_{UR} = 0.62\), \(R^2_R = 0.55\), \(q = 2\) restricciones, y \(n - k - 1 = 75 - 4 - 1 = 70\) grados de libertad.
+
+\textbf{Cálculo:}
+\[
+F = \frac{(0.62 - 0.55)/2}{(1-0.62)/70} = \frac{0.035}{0.005429} \approx 6.45
+\]
+
+\textbf{Decisión:} Como \(F = 6.45 > F_{0.95,(2,70)} = 3.13\), \textbf{se rechaza \(H_0\)} al 5\% de significancia.
+
+\begin{conclusion}
+Las variables \(x_3\) y \(x_4\) son conjuntamente relevantes para explicar \(y\); aportan capacidad explicativa al modelo.
+\end{conclusion}
+
+
+\item Considera la base de datos \emph{wagepanel} (hipotética) con $n=50$ trabajadores. Se modela:
+\[
+y_i=\ln(wage_i).
+\]
+Se estiman dos modelos por MCO:
+\[
+\underbrace{UR:\quad y_i=\beta_0+\beta_1\,educ_i+\beta_2\,exper_i+\beta_3\,tenure_i+u_i}_{k_{UR}=4}
+\]
+\[
+\underbrace{R:\quad y_i=\beta_0+\beta_1\,educ_i+v_i}_{k_{R}=2}
+\]
+Queremos probar $H_0:\beta_2=\beta_3=0$ (es decir, que $exper$ y $tenure$ no aportan). Se dispone de:
+\[
+SST=200,\qquad R^2_{UR}=0.55,\qquad R^2_{R}=0.38.
+\]
+\begin{enumerate}
+  \item Calcule $SSR_{UR}$ y $SSR_R$.
+  \item Pruebe $H_0:\beta_2=\beta_3=0$ al 5\% con un $F$-test. Concluya en términos económicos.
+  \item Calcule el $F$ de \emph{significancia global} del modelo $UR$ y concluya.
+\end{enumerate}
+\textbf{Hint: $F_{0.95,2,46}=3.20$, $F_{0.95,3,46}=2.81$}
+
+\textbf{Solución}
+
+
+
+\subsection*{(a) Cálculo de \(SSR_{UR}\) y \(SSR_R\)}
+
+Usando la relación \(R^2 = 1 - \frac{SSR}{SST}\), despejamos \(SSR = SST(1-R^2)\):
+
+\[
+SSR_{UR} = 200 \cdot (1 - 0.55) = 200 \cdot 0.45 = 90
+\]
+\[
+SSR_R = 200 \cdot (1 - 0.38) = 200 \cdot 0.62 = 124
+\]
+
+\subsection*{(b) Test F: \(H_0: \beta_2 = \beta_3 = 0\)}
+
+\[
+F = \frac{(R^2_{UR}-R^2_R)/q}{(1-R^2_{UR})/(n-k-1)} = \frac{(0.55-0.38)/2}{(1-0.55)/46} = \frac{0.085}{0.009783} \approx 8.69
+\]
+
+\textbf{Decisión:} Como \(F = 8.69 > F_{0.95,2,46} = 3.20\), \textbf{se rechaza \(H_0\)}.
+
+\begin{conclusion}
+\textbf{Económicamente:} la experiencia laboral (\(exper\)) y la antigüedad en la empresa (\(tenure\)) son conjuntamente significativas para explicar el logaritmo del salario. La teoría del capital humano se valida: la acumulación de experiencia general y específica es relevante para determinar los salarios.
+\end{conclusion}
+
+\subsection*{(c) Test F de significancia global del modelo UR}
+
+\[
+F = \frac{R^2_{UR}/k}{(1-R^2_{UR})/(n-k-1)} = \frac{0.55/3}{0.45/46} = \frac{0.1833}{0.009783} \approx 18.74
+\]
+
+\textbf{Decisión:} Como \(F = 18.74 > F_{0.95,3,46} = 2.81\), \textbf{se rechaza \(H_0\)}.
+
+\begin{conclusion}
+El modelo en su conjunto es estadísticamente significativo; al menos uno de los regresores (educación, experiencia o antigüedad) explica significativamente el logaritmo del salario.
+\end{conclusion}
+
+
+
+\item Se estima por MCO el siguiente modelo con dependiente en logaritmo:
+\[
+\ln(wage_i)=\beta_0+\beta_1\,female_i+\beta_2\,educ_i+\beta_3\,(female_i\times educ_i)
++\beta_4\,parttime_i+\beta_5\,(female_i\times parttime_i)+u_i,
+\]
+donde $female=1$ si es mujer, $0$ si es hombre; $parttime=1$ si trabajo a tiempo parcial; $educ$ son años de educación. Suponga los siguientes coeficientes estimados (errores estándar omitidos):
+\[
+\widehat{\beta}_0=1.80,\quad \widehat{\beta}_1=-0.10,\quad \widehat{\beta}_2=0.070,\quad 
+\widehat{\beta}_3=0.010,\quad \widehat{\beta}_4=-0.050,\quad \widehat{\beta}_5=-0.040.
+\]
+Responda:
+\begin{enumerate}
+  \item (\textbf{Efectos aditivos}) Interprete $\widehat{\beta}_1$ y $\widehat{\beta}_4$ cuando las interacciones son cero (i.e., $educ$ dado, $parttime$ dado) y aclare el sentido de ``aditivo'' con dependiente en log.
+  \item (\textbf{Cambio de pendiente}) Interprete $\widehat{\beta}_3$. ¿Cómo cambia el retorno de la educación entre mujeres y hombres?
+  \item Calcule el efecto de ser mujer frente a ser hombre para un individuo \emph{full-time} ($parttime=0$) con $educ=12$. Dé la interpretación exacta en \%.
+  \item Calcule el efecto de ser \emph{part-time} para hombres y para mujeres (a un $educ$ dado). Dé las interpretaciones exactas en \%.
+  \item Escriba las ecuaciones de predicción por subgrupo (hombre/mujer; full-time/part-time) y señale explícitamente el \emph{cambio de pendiente} en educación y el \emph{cambio de nivel} por part-time.
+\end{enumerate}
+
+\textbf{Solución:}
+
+\textbf{Modelo estimado:}
+\begin{align*}
+\ln(wage_i) &= 1.80 - 0.10 \cdot female + 0.070 \cdot educ + 0.010 \cdot (female \times educ) \\
+&\quad - 0.050 \cdot parttime - 0.040 \cdot (female \times parttime) + u_i
+\end{align*}
+
+\begin{nota}
+\textbf{Interpretación aproximada:} como la variable dependiente está en logaritmo, los coeficientes multiplicados por 100 se interpretan \emph{aproximadamente} como cambios porcentuales en el salario. Es decir, si \(\hat{\beta} = 0.07\), entonces un incremento unitario en la variable explicativa se asocia con un aumento aproximado del \(7\%\) en el salario. Esta aproximación es válida para coeficientes pequeños (\(|\hat{\beta}| < 0.15\)).
+\end{nota}
+
+\subsection*{(a) Interpretación de \(\hat{\beta}_1\) y \(\hat{\beta}_4\)}
+
+\textbf{\(\hat{\beta}_1 = -0.10\):} Cuando la interacción \(female \times educ\) es cero (para \(educ=0\)), ser mujer se asocia con un salario aproximadamente \textbf{10\% menor} que el de un hombre, manteniendo \(parttime\) constante (cuando \(female \times parttime = 0\)).
+
+\textbf{\(\hat{\beta}_4 = -0.050\):} Cuando la interacción \(female \times parttime\) es cero (para hombres), trabajar a tiempo parcial se asocia con un salario aproximadamente \textbf{5\% menor} que trabajar full-time, manteniendo la educación constante.
+
+\textbf{Sobre la aditividad con dependiente en log:} con \(\ln(wage)\) como dependiente, los efectos se suman \emph{en la escala logarítmica}. Esto significa que, en la escala original del salario, los efectos son \emph{multiplicativos}, no aditivos. Sin embargo, bajo la interpretación aproximada, podemos sumar los efectos porcentuales directamente.
+
+\subsection*{(b) Interpretación de \(\hat{\beta}_3 = 0.010\)}
+
+\(\hat{\beta}_3\) mide la \textbf{diferencia en el retorno de la educación entre mujeres y hombres}.
+
+\begin{itemize}[leftmargin=2em]
+    \item Retorno de un año adicional de educación para \textbf{hombres}: \(\hat{\beta}_2 = 0.070 \Rightarrow 7\%\)
+    \item Retorno de un año adicional de educación para \textbf{mujeres}: \(\hat{\beta}_2 + \hat{\beta}_3 = 0.080 \Rightarrow 8\%\)
+\end{itemize}
+
+Es decir, cada año adicional de educación incrementa el salario aproximadamente \textbf{1 punto porcentual más} para mujeres que para hombres. Las mujeres tienen un retorno marginal a la educación ligeramente mayor.
+
+\subsection*{(c) Efecto de ser mujer para un full-time con \(educ=12\)}
+
+El efecto diferencial total al ser mujer (vs hombre) con \(parttime=0\) y \(educ=12\) es:
+
+\[
+\Delta \ln(wage) = \hat{\beta}_1 + \hat{\beta}_3 \cdot educ = -0.10 + 0.010 \cdot 12 = 0.02
+\]
+
+\begin{conclusion}
+\textbf{Interpretación aproximada:} una mujer full-time con 12 años de educación gana aproximadamente \textbf{2\% más} que un hombre comparable. Aunque la brecha inicial es negativa (\(-10\%\)), el mayor retorno a la educación de las mujeres (\(+1\%\) por año) la compensa a partir de cierto nivel educativo.
+\end{conclusion}
+
+\subsection*{(d) Efecto de ser part-time para hombres y mujeres}
+
+\textbf{Para hombres} (con \(female=0\)):
+\[
+\Delta \ln(wage) = \hat{\beta}_4 = -0.050 \Rightarrow \text{aproximadamente } -5\%
+\]
+Un hombre part-time gana aproximadamente \textbf{5\% menos} que un hombre full-time.
+
+\textbf{Para mujeres} (con \(female=1\)):
+\[
+\Delta \ln(wage) = \hat{\beta}_4 + \hat{\beta}_5 = -0.050 - 0.040 = -0.090 \Rightarrow \text{aproximadamente } -9\%
+\]
+Una mujer part-time gana aproximadamente \textbf{9\% menos} que una mujer full-time.
+
+\begin{conclusion}
+La penalización salarial por trabajar part-time es mayor para mujeres (\(-9\%\)) que para hombres (\(-5\%\)).
+\end{conclusion}
+
+\subsection*{(e) Ecuaciones de predicción por subgrupo}
+
+\textbf{Hombre full-time} (\(female=0\), \(parttime=0\)):
+\[
+\widehat{\ln(wage)} = 1.80 + 0.070 \cdot educ
+\]
+
+\textbf{Hombre part-time} (\(female=0\), \(parttime=1\)):
+\[
+\widehat{\ln(wage)} = 1.75 + 0.070 \cdot educ
+\]
+
+\textbf{Mujer full-time} (\(female=1\), \(parttime=0\)):
+\[
+\widehat{\ln(wage)} = 1.70 + 0.080 \cdot educ
+\]
+
+\textbf{Mujer part-time} (\(female=1\), \(parttime=1\)):
+\[
+\widehat{\ln(wage)} = 1.61 + 0.080 \cdot educ
+\]
+
+\vspace{0.3cm}
+
+\textbf{Resumen de cambios:}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Subgrupo} & \textbf{Intercepto} & \textbf{Pendiente en educ} \\
+\midrule
+Hombre full-time & 1.80 & 0.070 (\(7\%\)) \\
+Hombre part-time & 1.75 & 0.070 (\(7\%\)) \\
+Mujer full-time  & 1.70 & 0.080 (\(8\%\)) \\
+Mujer part-time  & 1.61 & 0.080 (\(8\%\)) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Observaciones clave:}
+\begin{itemize}[leftmargin=2em]
+    \item \textbf{Cambio de pendiente en educación:} solo depende del género. Las mujeres tienen pendiente \(0.080\) y los hombres \(0.070\) (diferencia de 1 pp).
+    \item \textbf{Cambio de nivel por part-time:} \(-0.050\) para hombres y \(-0.090\) para mujeres (es decir, \(-0.050 + (-0.040)\) por la interacción).
+\end{itemize}
+
+
+\end{enumerate}
+
+    
+\end{document}

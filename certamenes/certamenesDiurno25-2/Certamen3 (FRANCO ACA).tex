@@ -1,0 +1,331 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+\usepackage{listings}
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.08]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 3:}\textbf{ ECONOMETRÍA ICS-013}
+\end{large}\\
+\vspace{0.2cm}
+II Semestre 2025\\
+Profesores: Franco Antonucci Fernández\\
+%Ayudante: 
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 90 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{RdeA9.1 Comentes y preguntas cortas (40 puntos)}
+{\bf Elija y responda solo 4 de las siguientes preguntas.}
+\begin{enumerate}
+    \item Considere la base de datos \texttt{bwght} de Wooldridge, que contiene información sobre recién nacidos
+y características de sus madres durante el embarazo. Se define la variable dependiente
+$lowbirth_i$ como una variable dicotómica que toma valor 1 si el bebé $i$ nace con bajo peso
+(por ejemplo, menos de 2500 gramos), y 0 en caso contrario.
+
+A partir de la base, se ha estimado el siguiente modelo de probabilidad lineal (MPL):
+
+\[
+\widehat{lowbirth}_i
+= 0.20 + 0.02\, cigs_i - 0.004\, faminc_i,
+\]
+
+donde:
+\begin{itemize}
+    \item $cigs_i$: número de cigarrillos que la madre fuma por día durante el embarazo,
+    \item $faminc_i$: ingreso familiar medido en miles de dólares anuales.
+\end{itemize}
+
+Responda:
+
+\begin{enumerate}
+    \item (2 puntos) Interprete el coeficiente $\hat\beta_0 = 0.20$.  
+    \item (2 puntos) Interprete el coeficiente asociado a la variable $cigs_i$.
+    \item (2 puntos) Interprete el coeficiente asociado a la variable $faminc_i$.
+    \item (2 puntos)  Calcule la probabilidad de bajo peso para un bebé cuya madre fuma 10 cigarrillos al día y tiene ingreso familiar de 20 (miles de dólares).
+    \item (2 puntos)  ¿Qué problema del modelo de probabilidad lineal se evidencia al considerar valores extremos de las variables?
+
+
+\end{enumerate}
+    \item Luego de estimar un modelo de regresión, se aplica el test de Breusch--Pagan para evaluar la presencia de heterocedasticidad en los residuos. El test arroja un \textit{p-valor} de 0.004.
+
+\begin{enumerate}
+  \item[a)] ¿Qué implica este resultado respecto al cumplimiento del supuesto de homocedasticidad en el modelo estimado?
+  \item[b)] ¿Qué efectos tiene la heterocedasticidad sobre los errores estándar y sobre la validez de la inferencia estadística basada en el modelo?
+  \item[c)] ¿Qué métodos pueden utilizarse para corregir o mitigar este problema?
+\end{enumerate}
+
+    \item En un estudio que relaciona el promedio de calificaciones en la universidad con el tiempo dedicado a diversas actividades, usted reparte un cuestionario a varios estudiantes en el que les pregunta cuántas horas destinan semanalmente a estas cuatro categorías: estudiar, dormir, trabajar y tiempo libre. Cualquier actividad se sitúa en una de las categorías, de modo que la suma de horas de cada estudiante en las cuatro debe ser 168.
+
+\begin{enumerate}
+    \item[(i)] (5 puntos) En el modelo, explique por qué el modelo infringe la suposición de no Colinealidad Perfecta.
+
+    \[
+        GPA = \beta_0 + \beta_1 \, estud + \beta_2 \, dorm + \beta_3 \, trab + \beta_4 \, tlib + u,
+    \]
+
+    \item[(ii)] (5 puntos) ¿Cómo reformularía el modelo para que sus parámetros tuvieran una interpretación  útil y satisficieran la suposición de Colinealidad Imperfecta?
+
+\end{enumerate}
+
+    
+    \item Si en un modelo existen problemas por variable omitida y este se puede solucionar con una variable instrumental, no necesito saber cuál es la variable omitida, sólo que existe una. Comente.\\
+
+    
+    \item Un investigador ha simulado tres series temporales de 200 observaciones. 
+Cada una corresponde a uno de los siguientes procesos:
+
+\begin{itemize}
+    \item Un proceso de \textbf{ruido blanco} (white noise).
+    \item Un proceso \textbf{MA(1)} con parámetro $\theta = 0.8$:
+    \[
+        X_t = \varepsilon_t + 0.8\,\varepsilon_{t-1},
+    \]
+    \item Un proceso \textbf{AR(1)} con parámetro $\phi = 0.8$:
+    \[
+        X_t = 0.8\,X_{t-1} + \varepsilon_t,
+    \]
+\end{itemize}
+
+donde en todos los casos $\varepsilon_t \sim \text{i.i.d. } N(0,1)$.
+
+Para cada caso se presentan dos gráficos:
+\begin{itemize}
+    \item A la izquierda: la serie temporal simulada $\{X_t\}$.
+    \item A la derecha: su función de autocorrelación (ACF) hasta el rezago 30, con bandas de confianza aproximadas.
+\end{itemize}
+
+Los gráficos han sido rotulados como \textbf{Caso A}, \textbf{Caso B} y \textbf{Caso C} (sin indicar el tipo de proceso que representan).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{certamenes//certamenesDiurno25-2/seriesACF.png}
+\end{figure}
+
+
+
+\begin{enumerate}
+    \item[(a)] (4 puntos) Identifique cuál de los tres casos corresponde al proceso de \textbf{ruido blanco}. Justifique su respuesta con base en el comportamiento de la serie y en la forma de su ACF.
+
+    \item[(b)] (6 puntos) Para los otros dos casos, indique cuál corresponde al proceso \textbf{MA(1)} con $\theta = 0.8$ y cuál corresponde al proceso \textbf{AR(1)} con $\phi = 0.8$. Justifique su elección explicando cómo se refleja en la ACF el hecho de que:
+    \begin{itemize}
+        \item En el MA(1) la autocorrelación se “corta” después de un número finito de rezagos.
+        \item En el AR(1) la autocorrelación decae gradualmente de forma geométrica.
+    \end{itemize}
+\end{enumerate}
+
+    \item En la presentación de Ph.D. Cristóbal Otero de su investigación \textit{Physicians’ Occupational Licensing and the Quantity-Quality trade-off} se distinguen dos efectos causales, en acceso a la salud y en mortalidad. ¿Qué estrategia empírica utilizan los autores para determinar la causalidad? ¿Cómo son esos efectos en términos de significancia y dirección?\\
+
+\end{enumerate}
+
+\section{RdeA9.1 Ejercicios (60 puntos)}
+
+\begin{enumerate}
+    \item (20 puntos) Considere el siguiente modelo que busca explicar el impacto innovador de un proyecto tecnológico,
+medido mediante el índice \textit{ImpactScore}:
+
+\[
+ImpactScore_i
+= \beta_0 
++ \beta_1\, Invest_i
++ \beta_2\, TeamExp_i
++ \beta_3\, Collab_i
++ u_i,
+\]
+
+donde:
+\begin{itemize}
+    \item $Invest_i$: inversión inicial destinada al proyecto (en miles de dólares),
+    \item $TeamExp_i$: años totales de experiencia acumulada por el equipo fundador,
+    \item $Collab_i$: número de alianzas con universidades, laboratorios u otras empresas.
+\end{itemize}
+
+La organización desea investigar si la relación entre estas variables es igual para dos tipos de startups:
+\textit{startups verdes} (grupo 1) y \textit{startups de inteligencia artificial} (grupo 2). Para ello realiza un Test de Chow.
+
+Los resultados obtenidos son:
+\[
+SSR_1 = 210, \qquad SSR_2 = 250, \qquad SSR_r = 500,
+\]
+con $n = 120$ observaciones totales.
+
+Responda:
+
+\begin{enumerate}
+    \item[(a)] (5 puntos) Formule las hipótesis nula y alternativa del Test de Chow.
+
+    \item[(b)] (10 puntos) Indique si debe rechazarse la hipótesis nula. (considere el valor crítico al 5\%,
+    $F_{0.05}(4,112)=2.45$.
+    
+    \item[(c)] (5 puntos) Interprete el resultado en el contexto de la innovación tecnológica.
+\end{enumerate}
+
+    \item (20 puntos) Se dispone de la siguiente serie del PIB real de Chile, medida en millones de pesos a precios constantes, para el período 1999--2024:
+
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{certamenes/Certamenes T2/imagen pib.png}
+        \caption{PIB real de Chile (1999--2024)}
+        \label{fig:pib_chile}
+    \end{figure}
+\end{center}
+
+Un investigador está interesado en analizar las propiedades dinámicas del PIB real. 
+\begin{enumerate}
+    \item[(a)]  (8 puntos) Suponiendo que el investigador plantea que el PIB real podría ser una serie integrada de orden 1, escriba el modelo de regresión auxiliar del test Dickey--Fuller  correspondiente. Indique claramente la forma funcional, la variable dependiente y el término cuyo coeficiente es relevante para el contraste de raíz unitaria.
+
+    \item[(c)] (4 puntos) Formule la hipótesis nula y la hipótesis alternativa del test Dickey--Fuller, utilizado para evaluar la presencia de una raíz unitaria en el PIB real.
+
+    \item[(d)] (8 puntos) A continuación se presentan los resultados de la estimación del modelo ADF descrito en el inciso (b):
+
+    \begin{center}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\linewidth]{certamenes/Certamenes T2/rlst.png}
+            \caption{Resultados del test ADF para el PIB real}
+            \label{fig:adf_pib}
+        \end{figure}
+    \end{center}
+
+   donde L(pib,1) representa el rezago de orden 1 del PIB. Utilizando estos resultados y los valores críticos apropiados del test Dickey--Fuller al 5\% de significancia, determine si existe raíz unitaria en el PIB real de Chile. 
+\end{enumerate}
+\newpage
+    \item (20 puntos) Usando datos sobre gasto en transporte se estimó la siguiente ecuación para trabajadores de la región metropolitana
+
+
+{\scriptsize
+\begin{equation*}
+\begin{array}{ll}
+\widehat{GT} = & 1,2 \quad + \quad0,1 \cdot dist\quad + \quad 0,04 \cdot auto \quad - \quad 0,03 \cdot tele
+ \\
+& (0,5)  \hspace{0,8cm} (0,05) \hspace{1,3cm} (0,019) \hspace{1,3cm} (0,006)\\ 
+& [0,5]  \hspace{0,9cm} [0,0511] \hspace{1,2cm} [0,02] \hspace{1,4cm}  [0,004] \\
+& n = \text{450} \quad R^2 = \text{0,73}
+\end{array}
+\end{equation*}}
+
+
+
+Aquí $GT$ es el gasto promedio en transporte en un mes que realiza un individuo; $dist$ es la distancia al trabajo; $auto$ cantidad de días que el individuo utiliza automóvil para ir al trabajo en el mes; $tele$ cuántos días de teletrabajo tiene el individuo en un mes. Entre paréntesis y entre corchetes se dan, respectivamente,
+los errores estándar usuales y los errores estándar robustos a la heterocedasticidad.
+
+
+\begin{enumerate}
+    \item \textbf{(6 puntos)} ¿Tienen las variables  $dist$, $auto$ y $tele$ los efectos estimados esperados? ¿Cuáles de estas variables son estadísticamente significativas al nivel de 5\% suponiendo que se cumple el supuesto de homocedasticidad?
+
+\item \textbf{(8 puntos)} Suponga que se sospecha heterocedasticidad, ¿se sigue manteniendo la significancia estadística al 5\%? Concluya respecto a lo obtenido.
+
+\item \textbf{(4 puntos)} Plantee el test de Breusch-Pagan para heterocedasticidad. Sabiendo que el $R_{aux}^2$ de la regresión auxiliar alcanza el valor de 0.1, ¿es posible afirmar que hay heterocedasticidad?
+
+\item \textbf{(4 puntos)} Se sospecha que puede haber multicolinealidad entre las variables, por lo que se corre la siguiente regresión:
+
+$$auto = \delta_0 + \delta_1 \cdot dist - \delta_2 \cdot tele$$
+
+Obteniendo un $R_j^2 = 0.89$. Con dicha información, ¿se puede afirmar que hay multicolinealidad?
+
+\end{enumerate}
+\end{enumerate}
+
+\textbf{Pregunta extra}
+
+Enuncie la condición de orden en contexto de ecuaciones simultáneas y dé una interpretación a cada término. (5 puntos extra)
+
+\newpage
+\section*{Formulario}
+\begin{itemize}
+
+\item Tabla $\chi^2$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.99 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10645 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\item Multiplicador de Lagrange
+
+$$\color{red}{LM = nR^2 \sim \chi^2}$$
+
+\item Test F para regresión auxiliar.
+\begin{center}
+ {  \color{red}     \(F=\dfrac{R_{\text{aux}}^{2}/q}{(1-R_{\text{aux}}^{2})/(n-k-1)}
+          \sim F_{q,\;n-k-1}\).}
+\end{center}
+
+
+
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+\end{document}

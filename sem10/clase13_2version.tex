@@ -1,0 +1,580 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color}
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+% Operador plim (no incluido por defecto)
+\DeclareMathOperator*{\plim}{plim}
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 13: Propiedades asintóticas de MCO}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+
+
+% Diapositiva 1: Portada
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+
+% Objetivos
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Distinguir entre las propiedades de \textbf{muestra finita} (insesgamiento, eficiencia) y las propiedades \textbf{asintóticas} (consistencia, normalidad asintótica) de MCO.
+    \item[\checkmark] Manejar la notación de convergencia en probabilidad ($\overset{p}{\to}$, $\plim$) y en distribución ($\overset{d}{\to}$).
+    \item[\checkmark] Enunciar y aplicar la \textbf{Ley de los Grandes Números (LLN)} y el \textbf{Teorema Central del Límite (CLT)}.
+    \item[\checkmark] Demostrar la \textbf{consistencia} de MCO: $\plim\hat{\beta} = \beta$.
+    \item[\checkmark] Derivar la \textbf{normalidad asintótica}: $\sqrt{n}(\hat{\beta}-\beta) \overset{d}{\to} \mathcal{N}(0,\sigma^2 Q^{-1})$.
+    \item[\checkmark] Justificar por qué la inferencia $t$ y $F$ es válida \textbf{aunque el error no sea normal}, si $n$ es grande.
+\end{itemize}
+
+\end{frame}
+
+\section{Motivación}
+
+\begin{frame}{¿Por qué necesitamos propiedades asintóticas?}
+    \textbf{Hasta ahora}, la inferencia exacta (tests $t$, $F$; intervalos de confianza) descansaba sobre el supuesto fuerte de \textbf{normalidad del error}:
+    \[
+    u_i \mid \mathbf{X} \sim \mathcal{N}(0,\sigma^2).
+    \]
+    \pause
+    \begin{alertblock}{El problema}
+    En muchas aplicaciones (salarios, precios, gasto, retornos) el error \textbf{no} es normal: hay asimetría, colas pesadas, conteos. ¿Tiramos toda la inferencia a la basura?
+    \end{alertblock}
+    \pause
+    \begin{tcolorbox}[colback=green!5!white, colframe=green!55!black, title=La salida: muestras grandes]
+    Si $n$ es grande, podemos \textbf{relajar el supuesto de normalidad}. Las propiedades asintóticas garantizan que MCO sigue siendo confiable y que la inferencia usual es válida \textbf{de forma aproximada}.
+    \end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Dos mundos: muestra finita vs. asintótica}
+\begin{columns}
+  \column{0.48\textwidth}
+  \begin{block}{Muestra finita (exacta)}
+  Vale para \textbf{cualquier} $n$, pero requiere supuestos fuertes:
+  \begin{itemize}
+    \item Insesgamiento: $\mathbb{E}[\hat{\beta}]=\beta$.
+    \item Eficiencia (BLUE): Gauss--Markov.
+    \item $t$, $F$ exactos: requiere $u\sim\mathcal{N}$.
+  \end{itemize}
+  \end{block}
+
+  \column{0.48\textwidth}
+  \begin{alertblock}{Asintótica ($n\to\infty$)}
+  Vale \textbf{aproximadamente} para $n$ grande, con supuestos más débiles:
+  \begin{itemize}
+    \item Consistencia: $\plim\hat{\beta}=\beta$.
+    \item Normalidad asintótica.
+    \item $t$, $F$ válidos \emph{sin} normalidad de $u$.
+  \end{itemize}
+  \end{alertblock}
+\end{columns}
+\vspace{0.3cm}
+{\small La teoría asintótica es la que sostiene la práctica empírica moderna: rara vez asumimos normalidad exacta del error.}
+\end{frame}
+
+\section{Herramientas de probabilidad}
+
+\begin{frame}{Convergencia en probabilidad y plim}
+    \begin{block}{Definición: convergencia en probabilidad}
+    Una sucesión $\{Z_n\}$ converge en probabilidad a una constante $c$ si para todo $\varepsilon>0$:
+    \[
+    \lim_{n\to\infty}\Pr\big(|Z_n - c| > \varepsilon\big) = 0,
+    \qquad\text{se escribe}\qquad Z_n \overset{p}{\to} c \;\;\text{o}\;\; \plim Z_n = c.
+    \]
+    \end{block}
+    \pause
+    \begin{block}{Definición: convergencia en distribución}
+    $\{Z_n\}$ converge en distribución a una variable $Z$ con función de distribución $F$ si
+    \[
+    \lim_{n\to\infty} F_n(z) = F(z) \quad\text{en todo punto de continuidad de }F,
+    \qquad Z_n \overset{d}{\to} Z.
+    \]
+    \end{block}
+    \pause
+    {\small \textbf{Intuición:} $\overset{p}{\to}$ dice que $Z_n$ se ``pega'' a un \emph{número}; $\overset{d}{\to}$ dice que la \emph{forma} de su distribución se estabiliza (típicamente, una normal).}
+\end{frame}
+
+\begin{frame}{Reglas útiles del plim (Slutsky)}
+    El $\plim$ es mucho más manejable que la esperanza. Si $\plim Z_n = a$ y $\plim W_n = b$:
+    \begin{itemize}
+        \item $\plim(Z_n + W_n) = a + b$.
+        \pause
+        \item $\plim(Z_n \cdot W_n) = a \cdot b$.
+        \pause
+        \item $\plim(Z_n / W_n) = a / b$, \; si $b\neq 0$.
+        \pause
+        \item Para $g(\cdot)$ continua: $\plim\, g(Z_n) = g(\plim Z_n) = g(a)$ \;(\textbf{principio de mapeo continuo}).
+    \end{itemize}
+    \pause
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=¿Por qué importa?]
+    A diferencia de $\mathbb{E}[\cdot]$, el $\plim$ ``entra'' a cocientes y funciones no lineales. Por eso podemos analizar la consistencia de $\hat{\beta}=(X'X)^{-1}X'y$ aunque sea un cociente complicado de variables aleatorias.
+    \end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Ley de los Grandes Números (LLN)}
+    \begin{alertblock}{Ley (débil) de los Grandes Números}
+    Si $\{W_i\}$ es una muestra iid con $\mathbb{E}[W_i]=\mu$ y varianza finita, entonces el promedio muestral converge en probabilidad a la media poblacional:
+    \[
+    \bar{W}_n = \frac{1}{n}\sum_{i=1}^n W_i \;\overset{p}{\to}\; \mu.
+    \]
+    \end{alertblock}
+    \pause
+    \begin{itemize}
+        \item \textbf{Lectura econométrica:} los \emph{promedios muestrales} (como $\tfrac{1}{n}\sum x_i^2$ o $\tfrac{1}{n}\sum x_i u_i$) se aproximan a sus \emph{esperanzas} cuando $n$ crece.
+        \item Es la herramienta clave de la \textbf{consistencia}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Teorema Central del Límite (CLT)}
+    \begin{alertblock}{Teorema Central del Límite}
+    Si $\{W_i\}$ es iid con $\mathbb{E}[W_i]=\mu$ y $\text{Var}(W_i)=\sigma^2<\infty$, entonces
+    \[
+    \sqrt{n}\,(\bar{W}_n - \mu) \;\overset{d}{\to}\; \mathcal{N}(0,\sigma^2).
+    \]
+    \end{alertblock}
+    \pause
+    \begin{itemize}
+        \item \textbf{No importa} cómo se distribuya $W_i$ (puede ser asimétrica, discreta, etc.): el promedio reescalado tiende a una \textbf{normal}.
+        \item El factor $\sqrt{n}$ ``estabiliza'' la escala: sin él, $\bar{W}_n-\mu \overset{p}{\to} 0$ (colapsa a un punto, LLN).
+        \item Es la herramienta clave de la \textbf{normalidad asintótica} y de que los $t$/$F$ funcionen sin normalidad de $u$.
+    \end{itemize}
+\end{frame}
+
+\section{Consistencia de MCO}
+
+\begin{frame}{El estimador como promedios}
+    Partimos del modelo $\mathbf{y}=\mathbf{X}\beta+\mathbf{u}$ con $\mathbb{E}[u_i\mid x_i]=0$. El estimador MCO:
+    \[
+    \hat{\beta} = (X'X)^{-1}X'\mathbf{y} = \beta + (X'X)^{-1}X'\mathbf{u}.
+    \]
+    \pause
+    Dividiendo numerador y denominador por $n$ (truco clave: convertir todo en \textbf{promedios}):
+    \[
+    \hat{\beta} = \beta + \left(\frac{X'X}{n}\right)^{-1}\left(\frac{X'\mathbf{u}}{n}\right).
+    \]
+    \pause
+    En el caso escalar (regresión simple sin constante) esto es exactamente
+    \[
+    \hat{\beta} = \beta + \frac{\frac{1}{n}\sum_{i=1}^n x_i u_i}{\frac{1}{n}\sum_{i=1}^n x_i^2}.
+    \]
+    Ahora aplicamos LLN a cada promedio.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Demostración: consistencia de MCO}
+
+\begin{alertblock}{Teorema (Consistencia)}
+Bajo (i) $\mathbb{E}[u_i\mid x_i]=0$ (exogeneidad), (ii) muestreo aleatorio iid y (iii) $Q=\mathbb{E}[x_i x_i']$ finita e invertible, el estimador MCO es \textbf{consistente}:
+\[
+\plim_{n\to\infty}\hat{\beta} = \beta.
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Demostración}
+\textbf{Paso 1 (descomposición en promedios).} Como vimos,
+\[
+\hat{\beta} - \beta = \left(\frac{X'X}{n}\right)^{-1}\left(\frac{X'\mathbf{u}}{n}\right)
+= \left(\frac{1}{n}\sum_{i=1}^n x_i x_i'\right)^{-1}\left(\frac{1}{n}\sum_{i=1}^n x_i u_i\right).
+\]
+
+\textbf{Paso 2 (LLN sobre el ``denominador'').} Por ser $x_i x_i'$ iid con esperanza finita, la LLN da
+\[
+\frac{1}{n}\sum_{i=1}^n x_i x_i' \;\overset{p}{\to}\; \mathbb{E}[x_i x_i'] = Q,
+\qquad Q \text{ invertible.}
+\]
+
+\textbf{Paso 3 (LLN sobre el ``numerador'').} Igualmente, $x_i u_i$ es iid, y por la LLN
+\[
+\frac{1}{n}\sum_{i=1}^n x_i u_i \;\overset{p}{\to}\; \mathbb{E}[x_i u_i].
+\]
+
+\framebreak
+
+\textbf{Paso 4 (el término clave es CERO).} Usamos la \textbf{ley de esperanzas iteradas} y la exogeneidad $\mathbb{E}[u_i\mid x_i]=0$:
+\[
+\mathbb{E}[x_i u_i] = \mathbb{E}\big[\,\mathbb{E}[x_i u_i \mid x_i]\,\big] = \mathbb{E}\big[\,x_i\,\underbrace{\mathbb{E}[u_i\mid x_i]}_{=\,0}\,\big] = 0.
+\]
+Este es el corazón del argumento: la exogeneidad asegura que la covarianza entre regresor y error es nula.
+
+\textbf{Paso 5 (mapeo continuo / Slutsky).} Combinando los plim (la inversión de matriz y el producto son funciones continuas):
+\[
+\plim(\hat{\beta} - \beta) = \big(\plim\tfrac{1}{n}\textstyle\sum x_i x_i'\big)^{-1}\big(\plim\tfrac{1}{n}\textstyle\sum x_i u_i\big) = Q^{-1}\cdot 0 = 0.
+\]
+
+\textbf{Paso 6 (conclusión).} Por lo tanto
+\[
+\boxed{\;\plim\hat{\beta} = \beta.\;}
+\]
+A diferencia del insesgamiento, la consistencia \textbf{no requiere normalidad ni homocedasticidad}: basta exogeneidad y momentos finitos. \hfill $\square$
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Insesgamiento vs. consistencia: ¡no son lo mismo!}
+\begin{columns}
+  \column{0.48\textwidth}
+  \begin{block}{Insesgamiento}
+  \[ \mathbb{E}[\hat{\beta}] = \beta \]
+  \begin{itemize}
+    \item Propiedad de muestra finita.
+    \item Requiere $\mathbb{E}[u\mid\mathbf{X}]=0$ (exogeneidad estricta).
+  \end{itemize}
+  \end{block}
+
+  \column{0.48\textwidth}
+  \begin{block}{Consistencia}
+  \[ \plim\hat{\beta} = \beta \]
+  \begin{itemize}
+    \item Propiedad asintótica.
+    \item Requiere sólo $\mathbb{E}[x_i u_i]=0$ (exogeneidad débil).
+  \end{itemize}
+  \end{block}
+\end{columns}
+\vspace{0.3cm}
+\pause
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Ilustración: distribución muestral de $\hat{\beta}$ al crecer $n$]
+\centering
+\includegraphics[width=0.72\linewidth]{sem10/Graficos Betas.png}
+\end{tcolorbox}
+{\small A medida que $n$ aumenta, la distribución de $\hat{\beta}$ se \textbf{concentra} alrededor de $\beta$ (consistencia) y adopta forma de \textbf{campana} (normalidad asintótica).}
+\end{frame}
+
+\section{Normalidad asintótica}
+
+\begin{frame}[allowframebreaks]{Demostración (sketch): normalidad asintótica de MCO}
+
+\begin{alertblock}{Teorema (Normalidad asintótica)}
+Bajo exogeneidad, muestreo iid, $\text{Var}(u_i\mid x_i)=\sigma^2$ y momentos finitos, con $Q=\plim(X'X/n)$:
+\[
+\sqrt{n}\,(\hat{\beta}-\beta) \;\overset{d}{\to}\; \mathcal{N}\!\big(0,\;\sigma^2 Q^{-1}\big).
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Sketch de la demostración}
+\textbf{Paso 1 (reescalar por $\sqrt{n}$).} Partiendo de la descomposición y multiplicando por $\sqrt{n}$:
+\[
+\sqrt{n}\,(\hat{\beta}-\beta) = \left(\frac{1}{n}\sum_{i=1}^n x_i x_i'\right)^{-1}\;\underbrace{\sqrt{n}\left(\frac{1}{n}\sum_{i=1}^n x_i u_i\right)}_{=\;\frac{1}{\sqrt{n}}\sum x_i u_i}.
+\]
+
+\textbf{Paso 2 (LLN al primer factor).} Como antes,
+\[
+\left(\frac{1}{n}\sum x_i x_i'\right)^{-1} \;\overset{p}{\to}\; Q^{-1}.
+\]
+
+\framebreak
+
+\textbf{Paso 3 (CLT al segundo factor).} Sea $w_i = x_i u_i$, iid con media $\mathbb{E}[x_i u_i]=0$ y varianza
+\[
+\text{Var}(x_i u_i) = \mathbb{E}[u_i^2 x_i x_i'] = \sigma^2\,\mathbb{E}[x_i x_i'] = \sigma^2 Q
+\]
+(usando homocedasticidad $\mathbb{E}[u_i^2\mid x_i]=\sigma^2$). Por el CLT:
+\[
+\frac{1}{\sqrt{n}}\sum_{i=1}^n x_i u_i \;\overset{d}{\to}\; \mathcal{N}\big(0,\;\sigma^2 Q\big).
+\]
+
+\textbf{Paso 4 (combinar — teorema de Slutsky).} Un término que $\overset{p}{\to}$ a la constante $Q^{-1}$ multiplicado por uno que $\overset{d}{\to}\mathcal{N}(0,\sigma^2 Q)$:
+\[
+\sqrt{n}(\hat{\beta}-\beta) \;\overset{d}{\to}\; Q^{-1}\,\mathcal{N}(0,\sigma^2 Q).
+\]
+
+\textbf{Paso 5 (varianza de la transformación lineal).} Si $Z\sim\mathcal{N}(0,\sigma^2 Q)$, entonces $Q^{-1}Z\sim\mathcal{N}(0,\,Q^{-1}(\sigma^2 Q)Q^{-1})$ y
+\[
+Q^{-1}(\sigma^2 Q)Q^{-1} = \sigma^2 Q^{-1}.
+\]
+Por lo tanto
+\[
+\boxed{\;\sqrt{n}(\hat{\beta}-\beta) \overset{d}{\to} \mathcal{N}(0,\sigma^2 Q^{-1}).\;}
+\]
+\hfill $\square$
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Lectura práctica de la distribución asintótica}
+    De $\sqrt{n}(\hat{\beta}-\beta)\overset{d}{\to}\mathcal{N}(0,\sigma^2 Q^{-1})$ obtenemos la aproximación de muestra finita:
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black, title=Distribución aproximada de $\hat{\beta}$]
+    \[
+    \hat{\beta} \;\overset{a}{\sim}\; \mathcal{N}\!\left(\beta,\; \frac{\sigma^2 Q^{-1}}{n}\right)
+    \;\approx\; \mathcal{N}\!\big(\beta,\; \sigma^2 (X'X)^{-1}\big),
+    \]
+    ya que $\dfrac{Q^{-1}}{n}\approx \left(\dfrac{X'X}{n}\right)^{-1}\dfrac{1}{n} = (X'X)^{-1}$.
+    \end{tcolorbox}
+    \pause
+    \begin{itemize}
+        \item ¡Es la \textbf{misma fórmula} de varianza que conocíamos! La novedad es que ahora \textbf{no necesitamos} que $u$ sea normal para usarla.
+        \item La normalidad de $\hat{\beta}$ es ``heredada'' del CLT, no del error.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Consistencia de $\hat{\sigma}^2$ y de los errores estándar}
+    Para hacer inferencia necesitamos también estimar $\sigma^2$ de forma confiable.
+    \begin{block}{Proposición}
+    El estimador $\hat{\sigma}^2 = \dfrac{1}{n-k-1}\sum_{i=1}^n \hat{u}_i^2$ es \textbf{consistente}: $\;\plim\hat{\sigma}^2 = \sigma^2$.
+    \end{block}
+    \pause
+    \begin{itemize}
+        \item \textbf{Sketch:} $\hat{u}_i \to u_i$ a medida que $\hat{\beta}\to\beta$; por LLN, $\tfrac{1}{n}\sum\hat{u}_i^2 \overset{p}{\to}\mathbb{E}[u_i^2]=\sigma^2$, y el factor $\tfrac{n}{n-k-1}\to 1$.
+        \pause
+        \item En consecuencia, el error estándar estimado es consistente:
+        \[
+        \widehat{\text{ee}}(\hat{\beta}_j) = \sqrt{\hat{\sigma}^2\,[(X'X)^{-1}]_{jj}} \;\overset{p}{\to}\; \text{ee verdadero}.
+        \]
+        \item Esto es lo que cierra el círculo: numerador y denominador del estadístico $t$ tienen comportamiento asintótico controlado.
+    \end{itemize}
+\end{frame}
+
+\section{Inferencia asintótica}
+
+\begin{frame}{Validez asintótica de los tests $t$ y $F$}
+    Reuniendo las piezas: $\hat{\beta}_j$ es asintóticamente normal y $\widehat{\text{ee}}(\hat{\beta}_j)$ es consistente. Entonces:
+    \begin{tcolorbox}[colback=green!5!white, colframe=green!55!black, title=Resultado central]
+    \[
+    t = \frac{\hat{\beta}_j - \beta_j}{\widehat{\text{ee}}(\hat{\beta}_j)} \;\overset{d}{\to}\; \mathcal{N}(0,1).
+    \]
+    \end{tcolorbox}
+    \pause
+    \begin{itemize}
+        \item Por tanto, los \textbf{tests $t$, los intervalos de confianza y el test $F$} son válidos \textbf{aproximadamente}, \emph{aunque $u$ no sea normal}, siempre que $n$ sea grande.
+        \pause
+        \item Para $n$ grande, $t_{n-k-1}\approx\mathcal{N}(0,1)$ y $F$ se relaciona con $\chi^2$: por eso seguimos usando las mismas tablas.
+        \pause
+        \item El test $F$ conjunto se justifica vía el \textbf{estadístico de Wald}: $W\overset{d}{\to}\chi^2_q$.
+    \end{itemize}
+\end{frame}
+
+\section{Ejemplo aplicado}
+
+\begin{frame}[fragile]{Ejemplo aplicado: simulación Monte Carlo de la consistencia}
+\begin{exampleblock}{R — error \emph{no} normal (exponencial), $\hat{\beta}$ sigue siendo consistente}
+\begin{verbatim}
+set.seed(294)
+beta <- 2
+ns  <- c(20, 100, 1000, 10000)   # tamanos muestrales
+for (n in ns) {
+  est <- replicate(5000, {
+    x <- runif(n, 0, 10)
+    u <- rexp(n) - 1            # error asimetrico, media 0
+    y <- beta * x + u
+    coef(lm(y ~ x - 1))         # MCO sin intercepto
+  })
+  cat("n =", n, " media(beta_hat) =", round(mean(est),3),
+      " sd =", round(sd(est),4), "\n")
+}
+# La media se mantiene ~2 y la sd cae ~1/sqrt(n): consistencia.
+\end{verbatim}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Lectura del experimento y figura}
+    \begin{columns}
+      \column{0.50\textwidth}
+      \includegraphics[width=\linewidth]{sem10/codigoRconsistencia.png}
+
+      \column{0.50\textwidth}
+      \begin{block}{¿Qué muestra?}
+      \begin{itemize}
+        \item Aunque $u_i$ es \textbf{exponencial} (muy no normal), $\hat{\beta}$ se concentra en $\beta=2$.
+        \item La dispersión cae a la tasa $1/\sqrt{n}$, como predice la teoría.
+        \item Para $n$ grande el histograma de $\hat{\beta}$ es \textbf{acampanado}: normalidad asintótica en acción.
+      \end{itemize}
+      \end{block}
+    \end{columns}
+    {\small \textit{Moraleja:} la consistencia y la normalidad asintótica NO dependen de la distribución del error, sino de la LLN y el CLT.}
+\end{frame}
+
+\section{Ejercicios resueltos}
+
+\begin{frame}[allowframebreaks]{Ejercicio Resuelto 1}
+
+\begin{block}{Ejercicio 1 (consistencia del estimador MCO simple)}
+Considere $y_i = x_i\beta + u_i$ con $\mathbb{E}[u_i\mid x_i]=0$ y muestreo aleatorio iid. El estimador MCO (sin constante) puede escribirse
+\[
+\hat{\beta} = \beta + \frac{\frac{1}{n}\sum_{i=1}^n x_i u_i}{\frac{1}{n}\sum_{i=1}^n x_i^2}.
+\]
+Demuestre que $\hat{\beta}\overset{p}{\to}\beta$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{Paso 1 (LLN al denominador).} Como $x_i^2$ es iid con esperanza finita,
+\[
+\frac{1}{n}\sum_{i=1}^n x_i^2 \;\overset{p}{\to}\; \mathbb{E}[x_i^2] > 0.
+\]
+\textbf{Paso 2 (LLN al numerador).}
+\[
+\frac{1}{n}\sum_{i=1}^n x_i u_i \;\overset{p}{\to}\; \mathbb{E}[x_i u_i].
+\]
+\textbf{Paso 3 (esperanzas iteradas + exogeneidad).}
+\[
+\mathbb{E}[x_i u_i] = \mathbb{E}\big[x_i\,\mathbb{E}[u_i\mid x_i]\big] = \mathbb{E}[x_i\cdot 0] = 0.
+\]
+\framebreak
+\textbf{Paso 4 (mapeo continuo).} El cociente de plim, con denominador no nulo:
+\[
+\plim\hat{\beta} = \beta + \frac{0}{\mathbb{E}[x_i^2]} = \beta.
+\]
+Luego $\hat{\beta}$ es \textbf{consistente}. \hfill $\square$
+
+\vspace{2pt}
+{\small \textit{Fuente:} adaptado de \texttt{Ejercicios/ejercicios\_inferencia/Asintótica}.}
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Ejercicio Resuelto 2}
+
+\begin{block}{Ejercicio 2 (distribución asintótica de $\sqrt{n}(\hat{\beta}-\beta)$)}
+En el mismo modelo $y_i=x_i\beta+u_i$ con $\text{Var}(u_i\mid x_i)=\sigma^2$, encuentre la distribución asintótica de $\sqrt{n}(\hat{\beta}-\beta)$ cuando $n\to\infty$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{Paso 1 (reescalar).} Partiendo de $\hat{\beta}-\beta = \dfrac{\frac{1}{n}\sum x_i u_i}{\frac{1}{n}\sum x_i^2}$, multiplicamos por $\sqrt{n}$:
+\[
+\sqrt{n}(\hat{\beta}-\beta) = \left(\frac{1}{n}\sum_{i=1}^n x_i^2\right)^{-1}\cdot \frac{1}{\sqrt{n}}\sum_{i=1}^n x_i u_i.
+\]
+\textbf{Paso 2 (LLN al primer factor).} $\;\dfrac{1}{n}\sum x_i^2 \overset{p}{\to}\mathbb{E}[x_i^2]$.
+
+\framebreak
+
+\textbf{Paso 3 (CLT al segundo factor).} Como $x_i u_i$ es iid con media $0$ y varianza $\mathbb{E}[u_i^2 x_i^2]=\sigma^2\,\mathbb{E}[x_i^2]$:
+\[
+\frac{1}{\sqrt{n}}\sum_{i=1}^n x_i u_i \;\overset{d}{\to}\; \mathcal{N}\big(0,\;\sigma^2\,\mathbb{E}[x_i^2]\big).
+\]
+\textbf{Paso 4 (Slutsky).} Combinando con el factor $\to (\mathbb{E}[x_i^2])^{-1}$:
+\[
+\sqrt{n}(\hat{\beta}-\beta) \overset{d}{\to} \mathcal{N}\!\left(0,\; \frac{\sigma^2\,\mathbb{E}[x_i^2]}{(\mathbb{E}[x_i^2])^2}\right) = \mathcal{N}\!\left(0,\; \frac{\sigma^2}{\mathbb{E}[x_i^2]}\right).
+\]
+Este es el caso escalar de $\mathcal{N}(0,\sigma^2 Q^{-1})$ con $Q=\mathbb{E}[x_i^2]$. \hfill $\square$
+
+\vspace{2pt}
+{\small \textit{Fuente:} adaptado de \texttt{Ejercicios/ejercicios\_inferencia/Asintótica}.}
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 3}
+
+\begin{block}{Ejercicio 3 (inferencia sin normalidad — datos CASEN ficticios)}
+Con $n=4\,000$ hogares (CASEN), se estima $\widehat{\log(\text{ingreso})} = \cdots + 0{,}091\,educ$, con $\widehat{\text{ee}}(\hat{\beta}_{educ})=0{,}010$. Se sabe que los ingresos son \textbf{muy asimétricos} (el error no es normal). ¿Es válido el test $t$ al 5\%?
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{Paso 1.} Con $n=4000$ \textbf{grande}, por normalidad asintótica $\hat{\beta}_{educ}\overset{a}{\sim}\mathcal{N}$ y $\widehat{\text{ee}}$ es consistente: el $t$ es válido \emph{aunque} $u$ no sea normal. \\[2pt]
+\textbf{Paso 2.} $t = \dfrac{0{,}091}{0{,}010} = 9{,}1$. \\[2pt]
+\textbf{Paso 3.} Como $|t|=9{,}1 > 1{,}96$ (valor crítico $\mathcal{N}(0,1)$ al 5\%), \textbf{rechazamos} $H_0:\beta_{educ}=0$. \\[2pt]
+\textbf{Conclusión:} la educación tiene un efecto estadísticamente significativo; un año adicional se asocia a $\approx 9{,}1\%$ más ingreso. La no normalidad \textbf{no invalida} la inferencia gracias a las propiedades asintóticas.
+\end{exampleblock}
+
+\end{frame}
+
+\section{Ejercicios propuestos}
+
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 4 (Propuesto — rutinario)}
+Defina con sus palabras la diferencia entre $\overset{p}{\to}$ y $\overset{d}{\to}$. Luego, indique cuál de las dos se usa para \textbf{consistencia} y cuál para \textbf{normalidad asintótica}, y qué teorema (LLN o CLT) corresponde a cada una.
+\end{block}
+{\small \textit{Indicación: piense en ``se pega a un número'' vs. ``se estabiliza la forma''.}}
+
+\pause
+
+\begin{block}{Ejercicio 5 (Propuesto — intermedio)}
+Sea el estimador $\hat{\beta}=\bar{y}/\bar{x}=\dfrac{\sum y_i}{\sum x_i}$ en el modelo $y_i=x_i\beta+u_i$ con $\mathbb{E}[u_i\mid x_i]=0$. (a) Muestre que es consistente usando LLN y el principio de mapeo continuo. (b) Compare con el estimador MCO simple.
+\end{block}
+
+\pause
+
+\begin{block}{Ejercicio 6 (Propuesto — desafiante)}
+Suponga endogeneidad: $\mathbb{E}[x_i u_i]=c\neq 0$. (a) Repita el argumento de consistencia y demuestre que $\plim\hat{\beta}=\beta + Q^{-1}c \neq \beta$. (b) Interprete: ¿en qué dirección se ``contamina'' el estimador? (c) ¿Sigue siendo válido el CLT para hacer inferencia sobre $\beta$?
+\end{block}
+
+\end{frame}
+
+\section{Cierre}
+
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 13}
+\begin{enumerate}
+    \item Las propiedades \textbf{asintóticas} ($n\to\infty$) nos permiten \textbf{relajar la normalidad} del error y aun así hacer inferencia válida.
+    \item Herramientas: \textbf{LLN} (promedios $\overset{p}{\to}$ esperanzas) y \textbf{CLT} (promedios reescalados $\overset{d}{\to}$ normal); reglas del $\plim$ (Slutsky, mapeo continuo).
+    \item \textbf{Consistencia:} $\plim\hat{\beta}=\beta$, vía $\frac{1}{n}\sum x_i x_i'\overset{p}{\to}Q$ y $\frac{1}{n}\sum x_i u_i\overset{p}{\to}\mathbb{E}[x_i u_i]=0$ (exogeneidad + esperanzas iteradas).
+    \item \textbf{Normalidad asintótica:} $\sqrt{n}(\hat{\beta}-\beta)\overset{d}{\to}\mathcal{N}(0,\sigma^2 Q^{-1})$, con $Q=\plim(X'X/n)$.
+    \item Con $\hat{\sigma}^2$ consistente, los tests $t$ y $F$ son \textbf{válidos asintóticamente} aunque $u$ no sea normal.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: heterocedasticidad — detección y corrección (errores robustos, MCG/MCP/FGLS).
+\end{alertblock}
+
+\end{frame}
+
+\end{document}

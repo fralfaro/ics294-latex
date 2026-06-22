@@ -1,0 +1,199 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{fillbetween}
+\usepackage{float}
+\geometry{margin=2cm}
+\usepackage{hyperref}
+
+\usepackage{subcaption}
+
+\begin{document}
+
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\Guía 5: Econometría ICS-294}
+\end{large}\\
+\end{center}
+
+\href{https://colab.research.google.com/drive/1PAX_qvkKfoZjpzktfvsFLToTcGMyIl69?usp=sharing}{LINK PAUTA en R}
+
+\begin{enumerate}
+    \item En una regresión lineal simple, el coeficiente asociado a la variable
+        \(X_1\) fue estimado en:
+        \[
+          \hat\beta_1 = 2.7,
+          \qquad s.e.(\hat\beta_1) = 0.9,
+          \qquad n = 250.
+        \]
+        Considere un nivel de significancia del 5\%.
+
+        \begin{enumerate}
+        \item Plantee las hipótesis nula y alternativa para evaluar si
+                \( \beta_1 \) es significativamente distinto de cero.
+          \item Calcule el estadístico \( t \) de prueba, compare su valor
+                con el valor crítico correspondiente y determine si se
+                rechaza la hipótesis nula.
+          \item Construya un intervalo de confianza al 95\% para
+                \( \beta_1 \) e interprete su significado.
+        \end{enumerate}
+
+ {\color{red}       \textbf{Solución.}
+        \begin{enumerate}
+          \item Hipótesis a testear:
+                \[
+                  H_0: \beta_1 = 0
+                  \qquad\text{versus}\qquad
+                  H_1: \beta_1 \neq 0.
+                \]
+          \item El estadístico \( t \) es:
+                \[
+                  t
+                  = \frac{\hat\beta_1 - 0}{s.e.(\hat\beta_1)}
+                  = \frac{2.7}{0.9}
+                  = 3.0.
+                \]
+                Con 248 grados de libertad (suponiendo pocos regresores)
+                y \(n = 250\), podemos aproximar el valor crítico bilateral
+                usando la normal estándar:
+                \[
+                  t_{2.5\%} \approx 1.97.
+                \]
+                Dado que \(|3.0| > 1.97\), \textbf{rechazamos} \( H_0 \).
+                Existe evidencia suficiente para afirmar que \( \beta_1 \) es
+                significativamente distinto de cero al 5\% de significancia.
+
+          \item El intervalo de confianza al 95\% es:
+                \[
+                  \left[
+                    \hat\beta_1 - t_{2.5\%} \times s.e.(\hat\beta_1),
+                    \hat\beta_1 + t_{2.5\%} \times s.e.(\hat\beta_1)
+                  \right]
+                  =
+                  \left[
+                    2.7 - 1.97 \times 0.9;
+                    2.7 + 1.97 \times 0.9
+                  \right]
+                  \\=            
+                  \left[
+                    0.927, 4.473
+                  \right].
+                \]
+                
+                Con 95\% de confianza, se espera que
+                el verdadero efecto de \( X_1 \) sobre la variable dependiente
+                esté entre 0.927 y 4.473 unidades. Es decir, un aumento en
+                \( X_1 \) está asociado, en promedio, a un aumento {\bf positivo} y
+                significativo en la variable dependiente.
+        \end{enumerate}}
+
+\item Se tiene un modelo de regresión lineal de la forma:
+$$y=\beta_0 + \beta_1 x_1+\beta_2x_2+\beta_3 x_3 + u$$
+los resultados de la regresión con 250 datos son los siguientes:
+        \[
+          \hat{\beta} = \begin{bmatrix} 3 \\ 9 \\ 5 \\2 \end{bmatrix},
+        \]
+y 
+        \[
+          (X'X)^{-1} =
+          \begin{bmatrix}
+1 & 0  & 0  &  0\\
+0 & 1  & 0  & -1\\
+0 & 0  & 2  & -1\\
+0 & -1 & -1 &  1
+\end{bmatrix},
+          \quad \hat{\sigma}^2 = 2
+        \]
+\begin{enumerate}
+    \item Plantee la hipótesis que testea que $\beta_1=4\beta_3$.
+
+    \item ¿Se puede rechazar la hipótesis nula con la información que disponemos con una significancia del 5\%?
+
+\end{enumerate}
+
+{\color{red}
+\textbf{Solución}
+\begin{enumerate}
+    \item $$H_0 : \beta_1-4\beta_3 = 0$$
+$$H_1 : \beta_1-4\beta_3 \neq 0$$
+\item el estadistico t esta dado por:
+$$t = \frac{\hat{\beta}_1-4\hat{\beta}_3}{s.e.(\hat{\beta}_1-4\hat{\beta}_3)}$$
+
+$$s.e.(\hat{\beta}_1-4\hat{\beta}_3)=\sqrt{\hat{Var}(\hat{\beta}_1-4\hat{\beta}_3)}=\sqrt{\hat{Var}(\hat{\beta}_1)+16\hat{Var}(\hat{\beta}_3)-8\hat{Cov}(\hat{\beta}_1,\hat{\beta}_3)}$$
+$$s.e.(\hat{\beta}_1-4\hat{\beta}_3)=\sqrt{2+16\cdot 2-8 \cdot (-2)}=\sqrt{50}$$
+por tanto 
+$$t = \frac{9-4\cdot2}{7,071}=0.141$$
+y con el valor $t_{1-\alpha/2,246}=1.97$. No se rechaza $H_0$.
+\end{enumerate}}
+
+\item Considere la siguiente regresión lineal múltiple estimada con \(n = 75\) observaciones:
+
+\[
+y \;=\; \beta_{0} + \beta_{1}x_{1} + \beta_{2}x_{2} + \beta_{3}x_{3} + \beta_{4}x_{4} + u.
+\]
+
+El modelo arroja un coeficiente de determinación
+\[
+R^2 = 0.62.
+\]
+
+El investigador sospecha que las variables \(x_{3}\) y \(x_{4}\) no aportan capacidad explicativa.  
+Para contrastar su hipótesis estima el siguiente modelo:
+
+\[
+y \;=\; \gamma_{0} + \gamma_{1}x_{1} + \gamma_{2}x_{2} + e,
+\qquad\text{obteniendo}\quad
+R^2 = 0.55.
+\]
+Formule y realice un test de hipótesis que permita decidir, con un 5 \% de significancia, si las variables \(x_{3}\) y \(x_{4}\) son relevantes para el modelo. ($F_{0.95,(2,70)}=3.13$)
+
+
+{\color{red} \textbf{Solución}
+
+\textbf{Hipótesis:}
+\[
+H_0:\ \beta_3=\beta_4=0
+\quad\text{vs}\quad
+H_1:\ \text{al menos una de } \beta_3,\beta_4 \neq 0.
+\]
+Número de restricciones: $q=2$. En el modelo no restringido hay $k=4$ regresores (sin contar la constante), por lo que
+\[
+\text{gl}_1=q=2, \qquad \text{gl}_2=n-k-1=75-4-1=70.
+\]
+
+
+\textbf{Estadístico de prueba (basado en $R^2$):}
+\[
+F=\frac{(R_u^2-R_r^2)/q}{(1-R_u^2)/(n-k-1)}
+=\frac{(0.62-0.55)/2}{(1-0.62)/(75-4-1)}
+=\frac{0.07/2}{0.38/70}
+=6.447.
+\]
+
+\medskip
+\textbf{Regla de decisión:} Rechazar $H_0$ si $F>F_{0.95,(2,70)}=3.13$.
+
+\medskip
+\textbf{Decisión:} Como $6.447>3.13$, se \emph{rechaza} $H_0$ al 5\%.
+
+\medskip
+\textbf{p\hbox{-}valor:}
+\[
+p\text{-valor}=P\!\left(F_{2,70}\ge 6.447\right)\approx 0.0027<0.05.
+\]
+
+\medskip
+\textbf{Conclusión:} Con evidencia al 5\% (incluso al 1\%), $x_3$ y $x_4$ son conjuntamente \emph{relevantes} para explicar $y$; deben permanecer en el modelo.}
+\end{enumerate}
+
+\end{document}

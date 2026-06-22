@@ -1,0 +1,231 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{float}
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 3}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+I trimestre 2025\\
+Profesora: Pedro Comte Hidalgo\\
+Ayudante: Barbara Buffo
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Preguntas Cortas (30 Puntos)}
+
+\begin{enumerate}
+
+\item (10 Puntos) ¿En qué casos, y por qué motivos, conviene transformar las variables a primeras diferencias cuando se trabaja con series de tiempo?
+\\
+\textbf{Solución}
+\\
+Se debe aplicar primeras diferencias cuando nos encontramos con que los valores en niveles siguen una caminata aleatoria, esto por que el valor no tiene media constante y su varianza crece en el tiempo. Estimar el modelo por MCO en niveles generará correlaciones espurias y no tendrá estacionaridad, por lo que se debe transformar a primeras diferencias para obtener una serie estacionaria y así encontrar estimadores MCO insesgados.
+
+\item (10 Puntos) Defina claramente las dos condiciones que debe cumplir una variable instrumental para ser considerada válida e indique qué problema aparece si se viola cada una de ellas.  \\
+\textbf{Solución} 
+\\
+\begin{itemize}
+  \item {Relevancia}: el instrumento $Z$ debe estar correlacionado con la variable endógena $X$, 
+        es decir, $\operatorname{Cov}(Z,X)\neq 0$.
+  \item {Exogeneidad}: $Z$ no debe correlacionarse con el error 
+        estructural $u$, esto es, $\operatorname{Cov}(Z,u)=0$.
+\end{itemize}
+
+\textbf{Consecuencias de las violaciones}
+\begin{itemize}
+  \item \emph{Instrumento débil} (falla de relevancia): el estimador IV se sesga hacia MCO y sus 
+        varianzas se inflan, debilitando la inferencia.
+  \item \emph{Instrumento inválido} (falla de exogeneidad): el estimador IV se vuelve inconsistente; 
+        el sesgo puede superar al de MCO.
+\end{itemize}
+
+\item (10 Puntos) Compare el test de White (versión completa) con el test de Breusch-Pagan y mencione una ventaja y una desventaja clave de emplear el test de White.\\
+\textbf{Solución}
+\\
+\textbf{Ventaja principal del test de White:}
+Detecta heterocedasticidad de prácticamente cualquier forma porque incluye términos cuadráticos e interacciones de los regresores; no necesita suponer un patrón particular para la varianza condicional.
+\\
+\textbf{Desventaja principal del test de White:}
+Al agregar muchos términos en la regresión auxiliar consume grados de libertad y, en muestras pequeñas, puede perder potencia estadística frente al test de Breusch-Pagan, que es más parsimonioso.
+
+\end{enumerate}
+
+\section{Ejercicios (70 Puntos)}
+
+\begin{enumerate}
+
+\item (25 Puntos) Se dispone de una muestra de 350 observaciones con la cual se estimó el siguiente modelo de regresión lineal múltiple:
+$$Salario_i = \beta_0 + \beta_1\,\textit{Educ}_i + \beta_2\,\textit{Exper}_i + u_i$$
+Se desea contrastar el supuesto de heterocedasticidad y, para ello, se aplicará el método de White simplificado.
+\begin{enumerate}
+    \item (10 Puntos) Plantee la regresión auxiliar para el método de White simplificado.\\
+    \textbf{Solución}\\
+    $$\hat{u}_i^{\,2} = \alpha_0 + \alpha_1 \hat{Salario}_i + \alpha_2 \hat{Salario}_i^{\,2} + v_i$$
+    
+    \item (5 puntos) Formule la hipótesis nula y la hipótesis alternativa para contrastar la presencia de heterocedasticidad.\\
+    \textbf{Solución}\\
+    $$H_0:\ \alpha_1 = \alpha_2 = 0$$
+    $$H_1:\ \alpha_1 \neq 0 \ \text{o}\ \alpha_2 \neq 0$$
+    
+    \item (10 Puntos) Si el $R^2$ de la regresión auxiliar es $0.14$, contraste, al 5\% de significación, la existencia de heterocedasticidad mediante el estadístico del multiplicador de Lagrange.\\
+    \textbf{Solución}\\
+    $$LM \;=\; n R^2_{\text{aux}} \;=\; 350 \times 0.14 \;=\; 49 \;\sim\; \chi^2_{(2)}$$
+    El valor crítico de $\chi^2_{(2)}$ al 5\% es $5.991$. Como
+    $$LM \;>\; \chi^2_{0.95,\,2} \;\; \Longrightarrow \;\; 49 \;>\; 5.991,$$
+    se rechaza la hipótesis nula y se concluye que existe heterocedasticidad.
+\end{enumerate}
+
+\item (20 Puntos) Considere el siguiente modelo de regresión lineal  de los puntajes de una prueba para la selección universitaria.
+$$Puntaje_i = \beta_0 + \beta_1 IQ_i + \beta_2 Edad_i + \beta_3 HE$$
+Siendo $IQ$ el coeficiente intelectual, la $Edad$ es la edad del estudiante y $HE$ las horas de estudio. Se sospecha que la regresión presenta multicolinealidad en la variable $Edad$. 
+
+\begin{enumerate}
+    \item  (10 Puntos) Plantee la regresión auxiliar que nos permite encontrar multicolinealidad en la variable $Edad$ usando VIF. \\
+\textbf{Solución}
+$$Edad_i = \alpha_0+ \alpha_1 IQ_i + \alpha_2 HE_i + v_i$$
+
+    \item (10 Puntos) Si $R^2_{Edad} = 0.91$, calcule VIF y concluya si existe multicolinealidad sobre esta variable.
+
+$$VIF = \frac{1}{1-R^2_{Edad}} = \frac{1}{1-0.91}=11.11$$
+Como $VIF >10$ se puede decir que existe multicolinealidad sobre la variable $Edad$
+\end{enumerate}
+
+\item (25 Puntos) Se sospecha que la función de producción del periodo t ($y_t$) sigue una serie de tiempo de tendencia estocástica; por lo tanto, se plantea la siguiente regresión:
+$$\Delta y_t = \beta_0 + \phi y_{t-1} + v_t$$
+Y se encuentran los siguientes resultados para una muestra de 200 datos:
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{certamenes/Resultado Serie de tiempo.jpg}
+        \caption{Resultados Regresión}
+        \label{fig:enter-label}
+    \end{figure}
+\end{center}
+\begin{enumerate}
+    \item (10 Puntos) Plantee la hipotesis nula y la hipotesis alternativa que permite testear si la regresión en diferencias tiene raiz unitaria.
+    \\
+    \textbf{Solución}
+    \\
+    $$H_0 : \phi=0 \implies \rho=1$$
+    $$H_1 : \phi < 0 \implies \rho < 1 $$
+
+    \item (15 Puntos) Testee con un 5\% de significancia si la regresión en primeras diferencias tiene raiz unitaria y concluya. \\
+    \textbf{Solución}
+    \\
+    Según la tabla D-F se tiene que el valor crítico es de $DF_{5\%,250}=-2.88$, y el valor estadístico de $\phi$ es:
+$$DF_{\phi} = \frac{-0.04766}{0.02126}=-2.254$$
+como $|-2.254| < |-2.88|$, no se rechaza $H_0$, por lo que podria decirse que la regresión tiene raiz unitaria.
+\end{enumerate}
+
+
+
+
+\end{enumerate}
+
+
+\section*{Formulario}
+\begin{itemize}
+
+\item Tabla $\chi^2$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.90 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10645 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\item Multiplicado de Lagrange
+
+$$\color{red}{LM = nR^2 \sim \chi^2}$$
+
+\item Test F para regresión auxiliar.
+\begin{center}
+ {  \color{red}     \(F=\dfrac{R_{\text{aux}}^{2}/q}{(1-R_{\text{aux}}^{2})/(n-k-1)}
+          \sim F_{q,\;n-k-1}\).}
+\end{center}
+
+
+
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+
+\end{document}

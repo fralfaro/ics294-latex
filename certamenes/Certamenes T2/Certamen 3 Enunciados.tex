@@ -1,0 +1,216 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{float}
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 3}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+II trimestre 2025\\
+Profesor: Pedro Comte Hidalgo
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Preguntas Cortas (40 Puntos)}
+
+\begin{enumerate}
+
+\item (8 Puntos) ¿Que es la heterocedasticidad y por qué en presencia de ella la inferencia estadística deja de ser consistente?
+
+
+\item (8 Puntos) Suponga un modelo que mide la probabilidad de cometer un asesinato dado que la persona realizó el servicio militar. Sabiendo que existe endogeneidad, ¿cuál podría ser una variable instrumental válida para este problema y por qué? 
+
+
+\item (8 Puntos) ¿Cuál es la diferencia entre multicolinealidad perfecta y alta multicolinealidad, y como afectan al calculo de los regresores mediante MCO?
+
+\item (8 puntos) Explique brevemente por qué una variable que sigue una caminata aleatoria (\textit{random walk}) no es estacionaria.
+
+\item (8 puntos) ¿Qué efecto tiene aplicar primeras diferencias a una serie con raíz unitaria?
+
+
+\end{enumerate}
+
+\section{Ejercicios (60 Puntos)}
+
+\begin{enumerate}
+
+\item (20 Puntos) Se dispone de una muestra de 500 observaciones con la cual se estimó el siguiente modelo de regresión lineal múltiple:
+$$Salario_i = \beta_0 + \beta_1\,\textit{Educ}_i + \beta_2\,\textit{Exper}_i + u_i$$
+Se desea contrastar el supuesto de heterocedasticidad y, para ello, se aplicará el método de White (no simplificado).
+\begin{enumerate}
+    \item (6 Puntos) Plantee la regresión auxiliar para el método de White (no simplificado).
+    
+    \item (4 puntos) Formule la hipótesis nula y la hipótesis alternativa para contrastar la presencia de heterocedasticidad.
+    
+    \item (10 Puntos) Si el $R^2$ de la regresión auxiliar es $0.03$, contraste, al 1\% de significación, la existencia de heterocedasticidad.
+
+\end{enumerate}
+
+\item (20 Puntos) Un investigador desea analizar los determinantes del rendimiento académico universitario mediante la siguiente regresión múltiple:
+\[
+\text{PROM} = \beta_0 + \beta_1 \,\text{HES} + \beta_2 \,\text{ASIST} + \beta_3 \,\text{TE} + u,
+\]
+donde:
+\begin{itemize}
+  \item \textbf{PROM}: promedio final del estudiante,
+  \item \textbf{HES}: horas de estudio semanal,
+  \item \textbf{ASIST}: asistencia a clases (en \%),
+  \item \textbf{TE}: número de trabajos entregados.
+\end{itemize}
+
+Se dispone de la siguiente \textbf{matriz de correlación} entre las variables explicativas \(\{\text{HES}, \text{ASIST}, \text{TE}\}\), respectivamente:
+\[
+\begin{bmatrix}
+1 & 0.90 & 0.85 \\
+0.90 & 1 & 0.70 \\
+0.85 & 0.70 & 1
+\end{bmatrix}
+\]
+
+Para evaluar la posible presencia de multicolinealidad, se estimaron las regresiones auxiliares de cada regresor sobre los otros dos, obteniéndose los siguientes coeficientes de determinación:
+\[
+R^2_{\text{HES}\mid \text{ASIST},\text{TE}} = 0.91,\quad
+R^2_{\text{ASIST}\mid \text{HES},\text{TE}} = 0.75,\quad
+R^2_{\text{TE}\mid \text{HES},\text{ASIST}} = 0.80.
+\]
+\begin{enumerate}
+  \item (6 puntos) Examine la matriz de correlación e indique si existen indicios de multicolinealidad entre las variables explicativas. Señale qué pares presentan correlaciones particularmente altas y por qué esto puede ser problemático.\\
+
+  
+  \item (14 puntos) Calcule el \textit{Factor de Inflación de la Varianza} (VIF) e interprete los VIF obtenidos. ¿Existe evidencia de multicolinealidad severa y sobre que variable? Proponga al menos una estrategia para mitigar el problema.\\
+
+ \end{enumerate}
+
+\item (20 Puntos) Se tiene la siguiente grafica del PIB de chile en Millones de Euros, desde 1999 a 2024:
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{certamenes/Certamenes T2/imagen pib.png}
+        \caption{PIB anual Chile}
+        \label{fig:enter-label}
+    \end{figure}
+\end{center}
+\begin{enumerate}
+    \item (6 Puntos) Que puede opinar de la grafica observada. ¿Existe tendencia? ¿Que modelo de regresión lineal en series de tiempo plantearía usted para el PIB anual de Chile? 
+    
+    \item (4 Puntos) Plantee la hipotesis nula y alternativa del modelo antes planteado para testear si existe raiz unitaria. 
+    
+    \item (10 puntos) Según los siguientes resultados del modelo de regresión lineal en series de tiempo, ¿existe raíz unitaria al 5\% de significancia? Compruebe usando test de Dickey-Fuller.
+    \begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{certamenes/Certamenes T2/rlst.png}
+        \caption{Resultados Regresión}
+        \label{fig:enter-label}
+    \end{figure}
+\end{center}
+\end{enumerate}
+
+\end{enumerate}
+
+
+\section*{Formulario}
+\begin{itemize}
+
+\item Tabla $\chi^2$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.99 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10645 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\item Multiplicado de Lagrange
+
+$$\color{red}{LM = nR^2 \sim \chi^2}$$
+
+\item Test F para regresión auxiliar.
+\begin{center}
+ {  \color{red}     \(F=\dfrac{R_{\text{aux}}^{2}/q}{(1-R_{\text{aux}}^{2})/(n-k-1)}
+          \sim F_{q,\;n-k-1}\).}
+\end{center}
+
+
+
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+
+\end{document}

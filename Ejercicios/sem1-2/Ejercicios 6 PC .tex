@@ -1,0 +1,253 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.1]{figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+\begin{center}
+    {\Large  Ejercicios 6: Econometría }
+
+Profesor:    Pedro Comte Hidalgo
+\end{center}
+
+
+
+\section{Ejercicios}
+\begin{enumerate}
+
+\item Para explicar el precio de una vivienda (\emph{precio}) se estima el modelo
+        \[
+          \text{precio}
+          = 30000
+          + 900\,\text{msq}
+          + 5000\,\text{dorm}
+          + 60\,(\text{msq}\times\text{dorm})
+          + u ,
+        \]
+        donde \texttt{msq} denota los metros cuadrados de la vivienda y
+        \texttt{dorm} el número de dormitorios.
+
+        \begin{enumerate}[label=\alph*)]
+          \item Escriba la expresión del \emph{efecto marginal} sobre el precio de
+                \emph{agregar un dormitorio}, manteniendo constante \texttt{msq}.
+          \item Explique cómo cambia ese efecto si se evalúa en (i) una vivienda de
+                tamaño medio $\overline{\text{msq}}=140m^2$ y (ii) una vivienda situada
+                en el percentil 90 de metros cuadrados, $\text{msq}_{90}=220m^2$.
+        \end{enumerate}
+
+        \textbf{Solución.}
+        \begin{enumerate}[label=\alph*)]
+          \item El efecto marginal de un dormitorio adicional es
+                \[
+                  \frac{\partial\,\text{precio}}{\partial\,\text{dorm}}
+                  = 5000 + 60\,\text{msq}.
+                \]
+          \item \begin{itemize}
+                  \item Para una casa de tamaño medio:
+                        \[
+                          \Delta\text{precio}_{\,\text{medio}}
+                          = 5000 + 60\,\overline{\text{msq}}=5000+60\cdot 140 = 13400
+                        \]
+                  \item Para una casa en el percentil 90 de tamaño:
+                        \[
+                          \Delta\text{precio}_{\,p90}
+                          = 5000 + 60\,\text{msq}_{90}=5000+60\cdot 220=18200
+                        \]
+                \end{itemize}
+        \end{enumerate}
+
+
+ \item Para una muestra de egresados universitarios se estima la regresión
+        \[
+          \log(\text{salario}_i)
+          = 0.55 \;+\; 0.075\,\text{educ}_i \;+\; u_i ,
+        \]
+        donde \texttt{educ} representa los años de educación formal.
+
+        \begin{enumerate}[label=\alph*)]
+          \item Interprete el coeficiente $\beta_{educ}$.
+          \item Mencione una interpretación errónea que se debe evitar al
+                comunicar este resultado a un público no técnico.
+        \end{enumerate}
+
+        \textbf{Solución.}
+        \begin{enumerate}[label=\alph*)]
+          \item En un modelo log‐nivel, el coeficiente aproxima la variación
+                porcentual en la variable dependiente ante un cambio de una
+                unidad en el regresor.  Así,
+                \[
+                  0.075
+                  \;\Longrightarrow\;
+                  \Delta\%\text{salario} \approx 7.5\%
+                  \text{ por cada año adicional de educación.}
+                \]
+                Manteniendo todo lo demás constante, un individuo con un año
+                más de estudios gana, en promedio, \(\sim7.5\%\) más salario.
+          \item No debe afirmarse que “el salario aumenta en
+                0.075 dólares” ni en “7.5 dólares”.  El coeficiente expresa un
+                \emph{cambio porcentual}, no un cambio absoluto en la moneda.
+        \end{enumerate}
+
+\item (2 decimas) Sea el modelo de regresión lineal
+$$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + u$$ y se tiene la siguiente matriz y valor de la varianza del error:
+        \[
+          (X'X)^{-1} =
+          \begin{bmatrix}
+          0.05 & -0.015 & 0.002 \\
+          -0.015 & 0.03 & 0.004 \\
+          0.002 & 0.004 & 0.02
+          \end{bmatrix},
+          \quad \hat{\sigma}^2 = 80,
+        \]
+Se sabe que los coeficientes estimados son:
+        \[
+          \hat{\beta} = \begin{bmatrix} 5 \\ 4 \\ 1 \end{bmatrix},
+        \]
+        testee la hipótesis:
+        \[
+          H_0: \beta_1 = 2\beta_2
+          \quad \text{versus} \quad
+          H_1: \beta_1 \neq 2\beta_2
+        \]
+        al 5\% de significancia.
+
+        \textbf{Solución.}
+        \begin{itemize}
+          \item Hipótesis equivalente: \( H_0: \beta_1 - 2\beta_2 = 0 \).
+          \item Calculamos:
+                \[
+                  \widehat{\beta}_1 - 2\widehat{\beta}_2 = 4 - 2(1) = 2.
+                \]
+          \item Calculamos la varianza:
+                \[
+                  \text{Var}(\widehat{\beta}_1 - 2\widehat{\beta}_2)
+                  = \hat{\sigma}^2 \times \left(0.03 + 4(0.02) - 4(0.004)\right)
+                  = 80 \times (0.03 + 0.08 - 0.016)
+                  = 80 \times 0.094 = 7.52
+                \]
+          \item Desviación estándar:
+                \[
+                  s.e.(\widehat{\beta}_1 - 2\widehat{\beta}_2) = \sqrt{7.52} \approx 2.74
+                \]
+          \item Estadístico \(t\):
+                \[
+                  t = \frac{2}{2.74} \approx 0.73
+                \]
+          \item Valor crítico a 5\%: \( t_{2.5\%} \approx 1.96 \).
+          \item Como \( |0.73| < 1.96 \), \textbf{no rechazamos \(H_0\)}.
+                No existe evidencia suficiente para concluir que
+                \(\beta_1\) es diferente de \(2\beta_2\).
+        \end{itemize}
+
+\item Se tiene un modelo del tipo:
+$$y = \beta_0 + \beta_1x_1 + \beta_2x_2+\beta_3x_3 + u$$
+pero se ha identificado dos grupos, por lo que se plantea un modelo separado para cada grupo:
+$$y_g = \beta_{0g} + \beta_{1g}x_1 + \beta_{2g}x_2+\beta_{3g}x_3 + u_g$$
+con $g\in {1,2}$, obteniendo los siguentes resultados desde una muestra de 150 datos:
+\begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+        Modelo & SSR \\
+        \hline
+        Base & 300 \\
+        \hline
+        1 & 155 \\
+        \hline
+        2 & 130 \\
+        \hline
+    \end{tabular}
+\end{center}
+¿Existen diferencias en y para cada grupo? Use una significancia del 5\%. ($F_{0.95,(4,142)}=2.44$)
+
+\textbf{Solución}
+
+Eso se resulve con el test de chow, siendo el estadistico igual a 
+$$F = \frac{SSR_r-SSR_{ur}}{SSR_{ur}}\frac{n-G(k+1)}{(G-1)(k+1)}=\frac{300-285}{285}\frac{142}{4}=1.86$$
+Como $1.86<2.44$ no se rechaza $H_0$ y podriamos decir que no hay diferencia entre los grupos.
+
+
+
+\item Considere el modelo de regresión lineal
+\[
+y_i \;=\; \beta_0 \;+\; \beta_1 x_i \;+\; \beta_2 D_i \;+\; \beta_3 (D_i x_i) \;+\; u_i,
+\]
+donde
+\begin{itemize}
+  \item $x_i$ es una variable continua,
+  \item $D_i$ es una \emph{dummy} que vale $1$ si la observación pertenece al grupo $A$ y $0$ si pertenece al grupo $B$,
+  \item $u_i$ es el término de error con $E[u_i \mid x_i,D_i]=0$.
+\end{itemize}
+
+\begin{enumerate}
+  \item[(a)] Determine la pendiente $\partial y / \partial x$ para cada grupo ($D=0$ y $D=1$).
+  \item[(b)] Interprete el coeficiente $\beta_3$ en términos de la diferencia entre grupos.
+  \item[(c)] Suponga que al estimar el modelo se obtiene $\widehat{\beta}_3=-1.2$ y que es estadísticamente significativo al $5\%$.  
+        ¿Cómo cambia la relación entre $x$ e $y$ al pasar de $D=0$ a $D=1$?
+\end{enumerate}
+
+
+% --- (Opcional) Solución resumida ------------------------------------------
+\textbf{solución}
+\begin{enumerate}
+  \item[(a)] 
+    \[
+      \left.\frac{\partial y}{\partial x}\right|_{D=0} = \beta_1, 
+      \qquad
+      \left.\frac{\partial y}{\partial x}\right|_{D=1} = \beta_1 + \beta_3.
+    \]
+  \item[(b)] El parámetro $\beta_3$ mide \emph{cuánto varía} la pendiente de $x$ entre los grupos.  
+        Si $\beta_3 \neq 0$, el impacto de $x$ sobre $y$ depende de pertenecer al grupo $A$ ($D=1$) o al grupo $B$ ($D=0$).
+  \item[(c)] Un valor estimado $\widehat{\beta}_3=-1.2$ (significativo) implica que la pendiente en el grupo $A$ es $1.2$ unidades \textbf{menor} que en el grupo $B$.  
+        Por ejemplo, si $\widehat{\beta}_1 = 0.8$:
+        \[
+          \widehat{\partial y/\partial x}\big|_{B} = 0.8, 
+          \qquad
+          \widehat{\partial y/\partial x}\big|_{A} = 0.8 - 1.2 = -0.4.
+        \]
+        Así, \(x\) incrementa \(y\) en el grupo \(B\) pero lo reduce en el grupo \(A\).
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+
+    
+\end{document}

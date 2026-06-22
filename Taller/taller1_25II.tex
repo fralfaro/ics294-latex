@@ -1,0 +1,135 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage{graphicx}
+\usepackage{geometry}
+\linespread{1.2}                        
+\setlength{\oddsidemargin}{0.0in}            
+\setlength{\textwidth}{6.5in}    
+\usepackage[utf8]{inputenc} % Asegúrate de usar utf8
+\usepackage[T1]{fontenc} % Asegúrate de usar T1 font encoding      
+\setlength{\topmargin}{-.6in}            
+\setlength{\textheight}{9in}
+\usepackage{latexsym} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsxtra}
+\usepackage[mathcal]{eucal} 
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{rotating}
+\usepackage{caption}
+\usepackage{lscape}
+\usepackage{paralist} 
+\usepackage{indentfirst}
+\usepackage[dvipsnames,svgnames]{xcolor} 
+\usepackage{setspace}
+\usepackage{multicol} 
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{cmyk}{0.65, 1, 0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=R, % lenguaje de programación
+    basicstyle=\small\ttfamily, % estilo básico
+    commentstyle=\color{gray}, % estilo para los comentarios
+    keywordstyle=\color{blue}, % estilo para las palabras clave
+    stringstyle=\color{black}, % estilo para las cadenas de texto
+    showstringspaces=false, % no mostrar espacios en cadenas de texto
+    tabsize=4, % tamaño de la tabulación
+    breaklines=true, % permitir el salto de línea automático
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, % símbolo al final de una línea partida
+    numbers=left, % mostrar números de línea
+    numberstyle=\tiny\color{gray}, % estilo para los números de línea
+    frame=single, % mostrar un borde alrededor del código
+    backgroundcolor=\color{gray!10}, % color de fondo
+}
+
+
+\lhead{\includegraphics[scale=0.095]{Figuras/logoUSM.png}} 
+\begin{document}
+
+
+\begin{center}
+    {\Large  Taller 1: Econometría }
+
+Profesora:    Jocelyn Tapia Stefanoni\\
+Ayudantes:   Matías Balboa y   Fabián Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+    \item Usted dispone de 60 minutos  para intentar los 100 puntos del taller.
+    \item Cuide la presentación y redacción de sus respuestas.
+    \item Puede utilizar su computador y los apuntes tanto de clase como de ayudantía.
+\item Descargue sus respuestas en un archivo con la extensión .ipynb. Debe enviar el enlace al notebook en Google Colab junto con el archivo .ipynb adjunto por correo electrónico a los ayudantes (matias.balboa@usm.cl y fabian.cisternas@usm.cl). 
+    \end{itemize}
+\section*{Ejercicio 1}
+
+Considere la base de datos \texttt{lawsch85} del paquete \texttt{wooldridge}, la cual contiene información sobre escuelas de derecho en Estados Unidos. En particular, incluye variables como: 
+\texttt{salary} (sueldo inicial promedio de los graduados), 
+\texttt{LSAT} (puntaje promedio en el test de admisión), 
+\texttt{GPA} (promedio general), 
+\texttt{libvol} (número de volúmenes en la biblioteca de la facultad), 
+\texttt{cost} (costo anual de estudiar en la facultad) y 
+\texttt{rank} (ranking de la facultad, donde $rank=1$ es la mejor). 
+
+\begin{enumerate}
+    \item (10 puntos) Describa la base de datos, identificando su origen y las variables que contiene. 
+    
+    \item (10 puntos) Calcule y presente estadísticos descriptivos relevantes (media, desviación estándar, mínimo y máximo) para todas las variables contenidas en la base de datos.
+    
+    \item (10 puntos) Obtenga e interprete la matriz de correlaciones entre las variables incluidas en la base de datos.
+    
+    \item (10 puntos) Estime una regresión lineal simple donde la variable dependiente sea el logaritmo del salario (\texttt{log(salary)}) y la variable explicativa sea el puntaje promedio en el LSAT (\texttt{LSAT}). Interprete el coeficiente de la pendiente en términos económicos.
+    
+    \item (10 puntos) Ahora estime el siguiente modelo de regresión lineal múltiple mediante Mínimos Cuadrados Ordinarios (MCO):
+    \[
+        \log(salary) = \beta_0 + \beta_1 LSAT + \beta_2 GPA + \beta_3 \log(libvol) + \beta_4 \log(cost) + \beta_5 rank + u.
+    \]
+    Reporte los coeficientes estimados e interprete especialmente los signos y magnitudes de cada estimador.
+    
+    \item (10 puntos) Discuta los resultados de ambas estimaciones (simple y múltiple): cómo cambian los coeficientes al incluir más variables explicativas? Qué variable parece ser más relevante para explicar el salario inicial? Compare la bondad de ajuste de ambos modelos.
+\end{enumerate}
+
+
+
+
+
+\section*{Ejercicio 2}
+ 
+El objetivo de este ejercicio es ilustrar el \textbf{Teorema Central del Límite (TCL)}, mostrando cómo la distribución de la media muestral tiende a ser aproximadamente normal al aumentar el tamaño de muestra, aun cuando los datos originales no provengan de una distribución normal.
+
+
+\begin{enumerate}
+    \item (5 puntos)   
+    Cree una población artificial de tamaño $N=100{,}000$ proveniente de una distribución uniforme $U(2,10)$.   
+    Fije una semilla con \texttt{set.seed()} para que los resultados sean reproducibles.
+
+    \item (5 puntos)
+    Grafique el histograma de los datos poblacionales. Verifique que su forma es aproximadamente plana, característica de la distribución uniforme.
+
+     \item (10 puntos) Extraiga muestras desde la población:  
+
+
+ \begin{itemize}
+        \item $R = 500$: número de muestras a extraer de la población.
+        \item $m = 500$: tamaño de cada muestra.
+    \end{itemize}
+
+
+    \item  (10 puntos)
+    Calcule la media de cada muestra empleando  y guarde el resultado en un vector.
+
+    \item (10 puntos)
+    Grafique el histograma de las medias muestrales, superponga al histograma la curva de la distribución normal teórica para la media muestral.
+
+
+\end{enumerate}
+
+\end{document}

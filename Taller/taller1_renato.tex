@@ -1,0 +1,75 @@
+\documentclass{article} % Clase base sin tamaño
+
+% Página horizontal
+\usepackage[a4paper,landscape,margin=2cm]{geometry}
+
+% Arial y tamaño exacto
+\usepackage{fontspec}
+\setmainfont{Arial}
+\usepackage{xcolor}
+% Para tamaño grande explícito
+\usepackage{setspace}
+\usepackage{graphicx}
+
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{polyglossia}       % Paquete multilingüe moderno
+\setmainlanguage{spanish}   
+
+\newcommand{\bigtable}[1]{{\fontsize{30pt}{36pt}\selectfont\renewcommand{\arraystretch}{2}#1}}
+
+
+\begin{document}
+
+% TODO lo que esté entre estas llaves tendrá tamaño 30pt real
+{\fontsize{30pt}{36pt}\selectfont
+
+\begin{center}
+    Taller 1: Econometría 
+
+Profesora:    Jocelyn Tapia Stefanoni\\
+Ayudantes:   Matías Balboa y   Barbara Buffo
+\end{center}
+
+
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+    \item Usted dispone de 60 minutos  para intentar los 100 puntos del taller.
+    \item Cuide la presentación y redacción de sus respuestas.
+    \item Puede utilizar su computador y los apuntes tanto de clase como de ayudantía.
+    \item Descargue sus respuestas en un archivo con la extensión .ipynb. Debe enviar el enlace al notebook en Google Colab junto con el archivo .ipynb adjunto por correo electrónico a la profesora (jocelyn.tapias@usm.cl), con copia a la ayudante (econometriausm482@gmail.com). 
+    \end{itemize}
+
+    Para este taller, utilice los datos del archivo \texttt{wage2} del paquete wooldridge. 
+
+
+\begin{enumerate}
+\item (10 puntos) Describa la base de datos, identificando su origen y las variables que contienen. 
+    \item (10 puntos) Calcule y presente estadísticos descriptivos relevantes para todas las variables contenidas en la base de datos.
+
+\item (10 puntos) Obtenga e interprete la matriz de correlaciones entre las variables incluidas en la base de datos.
+
+\item (10 puntos) Estime una regresión lineal simple del \texttt{IQ} sobre \texttt{educ}, obteniendo el coeficiente de la pendiente, que denotará como $\tilde{\delta}_1$.
+
+\item (10 puntos) Estime una regresión lineal simple del logaritmo del salario $\log(\texttt{wage})$ sobre \texttt{educ}, obteniendo el coeficiente de la pendiente, que denotará como $\tilde{\beta}_1$.
+
+\item (10 puntos) Estime una regresión lineal múltiple del logaritmo del salario $\log(\texttt{wage})$ sobre \texttt{educ} y \texttt{IQ}, obteniendo los coeficientes de las pendientes, que denotará como $\hat{\beta}_1$ y $\hat{\beta}_2$, respectivamente.
+
+\item (14 puntos) Verifique empíricamente la siguiente relación:
+\[
+\tilde{\beta}_1 \approx \hat{\beta}_1 + \hat{\beta}_2 \cdot \tilde{\delta}_1
+\]
+donde $\tilde{\delta}_1$ es obtenido del punto (4), $\tilde{\beta}_1$ del punto (5), y $\hat{\beta}_1$ y $\hat{\beta}_2$ del punto (6).
+
+\item (16 puntos) Determine e interprete la variabilidad explicada y la variabilidad no explicada 
+ por el modelo múltiple estimado en el punto (6).
+
+ \item (10 puntos) Determine el error estándar de los estimadores de MCO del modelo del punto (6). 
+%\item (22 puntos) Sugiera y justifique claramente qué variables adicionales podría agregar al modelo para mejorar su especificación. Incorpórelas, estime nuevamente el modelo, y compare e interprete sus resultados en relación al modelo original estimado en el punto (6).
+\end{enumerate}
+
+\end{document}

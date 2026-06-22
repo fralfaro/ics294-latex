@@ -1,0 +1,758 @@
+\documentclass[10pt]{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+%\usepackage{smartdiagram}
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color}
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{15pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+\title[ICS-294]{Econometr\'ia ICS-294\\ \small{Clase 17: Endogenidad y Variables Instrumentales}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad T\'ecnica Federico Santa Mar\'ia\\ % Your institution for the title page
+    \medskip
+    \textit{francisco.alfaro@usm.cl} % Your email address
+    }
+\logo{\includegraphics[width=3cm]{Figuras/logoUSM.png}}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage % Print the title page as the first slide
+\end{frame}
+\logo{}
+
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante ser\'a capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Definir endogeneidad ($\operatorname{Cov}(x,u)\neq 0$) e identificar sus tres causas: variables omitidas, simultaneidad y error de medida.
+    \item[\checkmark] Demostrar por qu\'e la endogeneidad sesga e inconsistencia a MCO ($\operatorname{plim}\hat\beta=\beta+\operatorname{Cov}(x,u)/\operatorname{Var}(x)$).
+    \item[\checkmark] Reconocer un instrumento v\'alido por sus dos condiciones: relevancia y exogeneidad.
+    \item[\checkmark] Derivar el estimador IV $\hat\beta_{IV}=\operatorname{Cov}(z,y)/\operatorname{Cov}(z,x)$ y probar su consistencia.
+    \item[\checkmark] Implementar la estimaci\'on por M\'inimos Cuadrados en Dos Etapas (MC2E / 2SLS).
+\end{itemize}
+
+\end{frame}
+
+\section{Introducci\'on}
+
+\begin{frame}{Introducci\'on}
+    \begin{itemize}
+        \item En las clases pasadas vimos que cuando omitimos una variable $x_{2}$ que se correlaciona con $x_{1}$, se viola el supuesto $E\left[u \mid x_{1}\right]=0$ y nuestro estimador MCO estar\'a sesgado.
+        \item Cuando esto sucede, decimos que $x_{1}$ es {\color{blue}end\'ogena (est\'a correlacionada con el error)}.
+        \item {\color{blue}Una variable explicativa es endógena cuando su valor está parcialmente determinado dentro del sistema por relaciones que también afectan a la variable dependiente, lo que se manifiesta estadísticamente como correlación con el término de error. }
+        \item \textbf{\textquestiondown Qu\'e podemos hacer}?
+        \item M\'etodo 1: variables instrumentales (IV).
+        \item  M\'etodo 2: mínimos cuadrados en 2 etapas (MC2E).
+    \end{itemize}
+\end{frame}
+
+\section{Endogeneidad y IV}
+
+\begin{frame}{Causas de la endogeneidad}
+    Generalmente observamos problemas de endogeneidad en una de estas tres situaciones:
+    \begin{enumerate}
+        \item Variables omitidas:
+        \begin{itemize}
+            \item Son variables que est\'an correlacionadas con las $x$ (los regresores) pero no las podemos incluir por ser inobservables.
+        \end{itemize}
+        \item Simultaneidad: $x \rightarrow y$ y $y \rightarrow x$.
+        \item Error de medida en las $x$.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Endogeneidad}
+    El problema de la endogeneidad:
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.3\linewidth]{complemetario/Imagenes/Grafico4_1.jpeg}
+    \end{figure}
+    $$
+    E\left[\hat{\beta}_{1}^{M C O}\right]=\beta_{1}+\delta_{1} \beta_{2}
+    $$
+
+    Con  variable omitida.
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Demostraci\'on: la endogeneidad hace inconsistente a MCO}
+
+\begin{alertblock}{Proposici\'on}
+En el modelo simple $y_i=\beta_0+\beta_1 x_i+u_i$, si $\operatorname{Cov}(x_i,u_i)\neq 0$, el estimador MCO es \textbf{inconsistente}:
+\[
+  \operatorname{plim}\hat\beta_1^{MCO}=\beta_1+\frac{\operatorname{Cov}(x,u)}{\operatorname{Var}(x)}\neq\beta_1 .
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Demostraci\'on}
+\textbf{Paso 1.} El estimador MCO de la pendiente es
+\[
+  \hat\beta_1^{MCO}=\frac{\sum_i (x_i-\bar x)(y_i-\bar y)}{\sum_i (x_i-\bar x)^2}
+  =\frac{\widehat{\operatorname{Cov}}(x,y)}{\widehat{\operatorname{Var}}(x)}.
+\]
+
+\textbf{Paso 2.} Sustituimos $y_i=\beta_0+\beta_1 x_i+u_i$ en la covarianza muestral:
+\[
+  \widehat{\operatorname{Cov}}(x,y)=\widehat{\operatorname{Cov}}(x,\beta_0+\beta_1 x+u)
+  =\beta_1\,\widehat{\operatorname{Var}}(x)+\widehat{\operatorname{Cov}}(x,u).
+\]
+
+\framebreak
+
+\textbf{Paso 3.} Dividiendo por $\widehat{\operatorname{Var}}(x)$:
+\[
+  \hat\beta_1^{MCO}=\beta_1+\frac{\widehat{\operatorname{Cov}}(x,u)}{\widehat{\operatorname{Var}}(x)}.
+\]
+
+\textbf{Paso 4.} Tomando l\'imite en probabilidad (ley de los grandes n\'umeros), $\widehat{\operatorname{Cov}}(x,u)\overset{p}{\to}\operatorname{Cov}(x,u)$ y $\widehat{\operatorname{Var}}(x)\overset{p}{\to}\operatorname{Var}(x)$:
+\[
+  \operatorname{plim}\hat\beta_1^{MCO}=\beta_1+\frac{\operatorname{Cov}(x,u)}{\operatorname{Var}(x)}.
+\]
+
+\textbf{Conclusi\'on.} Si $\operatorname{Cov}(x,u)=0$ (exogeneidad), el sesgo asint\'otico desaparece y MCO es consistente. Si $\operatorname{Cov}(x,u)\neq0$ (endogeneidad), el sesgo \emph{no} se anula ni siquiera con $n\to\infty$: el signo del sesgo es el signo de $\operatorname{Cov}(x,u)$. \hfill $\square$
+\end{exampleblock}
+\end{frame}
+
+
+\begin{frame}{Soluci\'on 1: Variables instrumentales}
+    Una variable instrumental v\'alida es una variable $\mathbf{Z}$ que se correlaciona con $X$, pero no con el error.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{complemetario/Imagenes/Grafico4_2.jpeg}
+    \end{figure}
+    Formalmente, un instrumento es v\'alido si cumple con \textbf{dos} supuestos clave:
+    \begin{enumerate}
+        \item {\color{blue}\textbf{Relevancia:} }$\operatorname{Cov}(X, Z) \neq 0$. La variable $Z$ afecta a $X$. Como observamos $Z$ y $X$, este supuesto es testeable.
+        \item  {\color{blue}\textbf{Exogeneidad o restricci\'on de exclusi\'on:}} $\operatorname{Cov}(Z, U)=0$. 
+        \begin{itemize}
+            \item El instrumento no se correlaciona con el error.
+            \item $E[Y \mid X]=E[Y \mid X, Z]$: el instrumento $Z$ no afecta directamente a $Y$, s\'olo lo hace a trav\'es de su efecto en $X$.
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Intuici\'on}
+    \begin{itemize}
+        \item La intuici\'on es que $X$ tiene dos componentes: una parte ex\'ogena y una parte end\'ogena (que est\'a correlacionada con $u$).
+        \item El instrumento $Z$, al no estar correlacionado con $u$, nos permitir\'a utilizar solamente la parte ex\'ogena de $X$ para identificar su efecto en $Y$.
+    \end{itemize}
+\end{frame}
+
+% \begin{frame}{Ejemplo: efecto del servicio militar sobre el crimen}
+%     $$
+%     \textit{crimen}=\alpha+\beta_{1} X+U
+%     $$
+%     $X$ toma valor $1$ si la persona realiz\'o el servicio militar en el pasado.
+%     \begin{itemize}
+%         \item $X$ es end\'ogena, $E[U \mid X] \neq 0$. \textbf{\textquestiondown Por qu\'e}?
+%         \item Por lo tanto, el estimador MCO est\'a sesgado.
+%         \item Instrumento $Z$: indicador igual a $1$ si la persona sali\'o sorteada aleatoriamente para hacer el servicio militar. \textbf{\textquestiondown Cumple los supuestos}?
+%             \begin{enumerate}
+%                 \item \textbf{Relevancia:} \underline{S\'\i}. $\operatorname{Cov}(Z, X) \neq 0$ porque, si eras sorteado, el Estado te obligaba a ir.
+%                 \item \textbf{Exogeneidad:} \underline{S\'\i}. $\operatorname{Cov}(Z, U)=0$ porque $Z$ depende de un sorteo. No se correlaciona con nada m\'as que con la probabilidad de realizar el servicio militar.
+%             \end{enumerate}
+%         \item Entonces, podemos usar $Z$ para identificar el efecto. El m\'etodo utilizar\'a la variabilidad de las personas que realizaron el servicio militar \emph{solo} porque fueron sorteadas, y no la de quienes lo eligieron voluntariamente (end\'ogena).
+%     \end{itemize}
+% \end{frame}
+
+\begin{frame}{Buenos y malos instrumentos}
+    \begin{itemize}
+        \item \textbf{\textquestiondown Cu\'al de los siguientes $Z$ es un buen instrumento}?
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.8\linewidth]{complemetario/Imagenes/Grafico4_3.jpeg}
+        \end{figure}
+        \item S\'olo el gr\'afico A muestra un instrumento v\'alido, ya que cumple con: \\
+        1) \textbf{Relevancia:} $\operatorname{Cov}(z,x) \neq 0$ y 2) \textbf{Exogeneidad:} $\operatorname{Cov}(z,u)=0$.
+        \item El caso B viola la exogeneidad porque el instrumento se correlaciona con el error ($\operatorname{Cov}(z,u) \neq 0$). 
+        \item El caso C viola la relevancia. Si bien el instrumento no se correlaciona con el error, tampoco lo hace con $X$ ($\operatorname{Cov}(x,z)=0$). 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplos de variables end\'ogenas e instrumentos en la literatura}
+    \begin{itemize}
+        \item \textbf{Retornos de la educaci\'on:}
+        $$
+        \log \bigl(\text{salario}\bigr)_{i}=\beta_{0}+\beta_{1} \,\text{educ}_{i}+u_{i}.
+        $$
+        \begin{itemize}
+            \item $Z$: trimestre de nacimiento (Angrist y Krueger, 1991).
+            \item $Z$: proximidad geogr\'afica a una universidad (Card, 1995).
+        \end{itemize}
+
+        \item \textbf{Efecto de las instituciones en el PIB per c\'apita:}
+        $$
+        \text{GDP}_{2015,i}=\beta_{0}+\beta_{1}\, \text{instituciones}_{2015,i}+u_{i}.
+        $$
+        \begin{itemize}
+            \item $Z$: mortalidad por enfermedades en el pa\'\i s cuando llegaron los europeos siglos atr\'as (Acemoglu \emph{et al.}, 2001).
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Variables instrumentales}
+
+\begin{frame}{Implementaci\'on del m\'etodo IV}
+    \begin{itemize}
+        \item M\'etodos para estimar $\hat{\beta}^{IV}$:
+        \begin{enumerate}
+            \item Estimaci\'on por Variables Instrumentales (VI) \textit{per se}.
+            \item M\'inimos Cuadrados en Dos Etapas (MC2E).
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estimaci\'on por Variables Instrumentales (VI)}
+    \begin{itemize}
+        \item Consideremos el modelo de regresi\'on simple:
+        $$
+        y_{i}=\beta_{0}+\beta_{1} x_{i}+u_{i}, \quad i=1,\ldots,N.
+        $$
+        \item Problema: $\operatorname{Cov}\left(u_{i},x_{i}\right) \neq 0$.
+        \item Contamos con un instrumento $z$ que cumple:
+        \begin{enumerate}
+            \item $\operatorname{Cov}\left(u_{i},z_{i}\right)=0$.
+            \item $\operatorname{Cov}\left(x_{i},z_{i}\right)\neq 0$.
+        \end{enumerate}
+        \item Entonces:
+        $$
+        \begin{aligned}
+        \operatorname{Cov}\left(y_{i},z_{i}\right) &= \operatorname{Cov}\bigl(\underbrace{\beta_{0}+\beta_{1}x_{i}+u_{i}}_{y_{i}}, z_{i}\bigr) \\
+        &= \underbrace{\operatorname{Cov}\left(\beta_{0},z_{i}\right)}_{0} + \beta_{1}\, \operatorname{Cov}\left(x_{i},z_{i}\right) + \underbrace{\operatorname{Cov}\left(u_{i},z_{i}\right)}_{0} \\
+        &= \beta_{1}\, \operatorname{Cov}\left(x_{i},z_{i}\right).
+        \end{aligned}
+        $$
+        \item Despejando:
+$\beta_{1}=\frac{\operatorname{Cov}\left(y_{i},z_{i}\right)}{\operatorname{Cov}\left(x_{i},z_{i}\right)}.
+        $
+       
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Relaci\'on poblacional y an\'alogo muestral}
+    \begin{itemize}
+     \item La {\color{blue}identificación} del
+ parámetro en este contexto significa que se puede escribir $\beta_1$ en términos de los momentos
+poblacionales que se pueden estimar mediante una muestra de datos.
+      %  \item Con la relaci\'on a nivel \textbf{poblacional} podemos aplicar un criterio de analog\'\i a en la muestra y obtener un \textbf{estimador} de $\beta$:
+        $$
+        \hat{\beta}_{VI}=\frac{S_{y_{i},z_{i}}}{S_{x_{i},z_{i}}}=\frac{\sum_{i=1}^{N}(y_{i}-\bar{y})(z_{i}-\bar{z})}{\sum_{i=1}^{N}(x_{i}-\bar{x})(z_{i}-\bar{z})}.
+        $$
+        \item Todo esto es observable, por lo que podemos estimarlo (\texttt{R} lo hace por ustedes).
+        \item Adem\'as, si se cumplen los supuestos sobre el instrumento $Z$, el estimador es consistente:
+        $$
+            \hat{\beta}_{VI} \xrightarrow{p} \beta.
+        $$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Demostraci\'on: consistencia del estimador IV}
+
+\begin{alertblock}{Proposici\'on}
+Si el instrumento $z$ cumple \textbf{relevancia} ($\operatorname{Cov}(x,z)\neq0$) y \textbf{exogeneidad} ($\operatorname{Cov}(z,u)=0$), entonces
+\[
+  \hat\beta_{VI}=\frac{\widehat{\operatorname{Cov}}(z,y)}{\widehat{\operatorname{Cov}}(z,x)} \;\overset{p}{\to}\; \beta_1 .
+\]
+\end{alertblock}
+
+\begin{exampleblock}{Demostraci\'on}
+\textbf{Paso 1.} Partimos de la identidad poblacional ya derivada,
+\[
+  \operatorname{Cov}(z,y)=\beta_1\operatorname{Cov}(z,x)+\underbrace{\operatorname{Cov}(z,u)}_{=0}
+  \;\Rightarrow\;
+  \beta_1=\frac{\operatorname{Cov}(z,y)}{\operatorname{Cov}(z,x)}.
+\]
+Esto requiere $\operatorname{Cov}(z,x)\neq 0$ (relevancia) para que el cociente est\'e definido.
+
+\textbf{Paso 2.} El estimador reemplaza las covarianzas poblacionales por las muestrales:
+\[
+  \hat\beta_{VI}=\frac{\widehat{\operatorname{Cov}}(z,y)}{\widehat{\operatorname{Cov}}(z,x)}.
+\]
+
+\framebreak
+
+\textbf{Paso 3.} Por la ley de los grandes n\'umeros, las covarianzas muestrales convergen a las poblacionales:
+\[
+  \widehat{\operatorname{Cov}}(z,y)\overset{p}{\to}\operatorname{Cov}(z,y),
+  \qquad
+  \widehat{\operatorname{Cov}}(z,x)\overset{p}{\to}\operatorname{Cov}(z,x)\neq 0 .
+\]
+
+\textbf{Paso 4.} Por el teorema de Slutsky (el cociente de l\'imites con denominador no nulo):
+\[
+  \hat\beta_{VI}\overset{p}{\to}\frac{\operatorname{Cov}(z,y)}{\operatorname{Cov}(z,x)}
+  =\beta_1 .
+\]
+
+\textbf{Observaci\'on.} A diferencia de MCO, IV \emph{no} es insesgado en muestras finitas, pero s\'i \textbf{consistente}. Si la relevancia es d\'ebil ($\operatorname{Cov}(z,x)\approx0$), el denominador es peque\~no y la varianza de $\hat\beta_{VI}$ explota (\emph{instrumento d\'ebil}). \hfill $\square$
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Estimaci\'on con VI en modelos de regresi\'on m\'ultiple}
+    \begin{itemize}
+        \item La estimaci\'on por IV se extiende f\'acilmente a modelos con m\'ultiples regresores.
+        \item Nos centraremos en el caso con un \textbf{\'unico} regresor end\'ogeno y varios controles ex\'ogenos, aunque es posible tener m\'as de una variable end\'ogena.
+    \end{itemize}
+
+    \underline{\textbf{Estimaci\'on por VI con una end\'ogena y varias ex\'ogenas}}\\[4pt]
+    $$
+    \ln \bigl(\text{salario}_{i}\bigr)=\beta_{0}+\beta_{1}\, \text{educ}_{i}+\beta_{2}\, \text{mujer}_{i}+u_{i}.
+    $$
+    \begin{itemize}
+        \item Idea: usar las ex\'ogenas como sus propios instrumentos; la matriz $Z$ incluir\'a (i) la constante; (ii) el instrumento para \textit{educ}; y (iii) \textit{mujer}.
+        \item Aplicamos la f\'ormula anterior:
+        $$
+        \hat{\beta}_{VI}=(Z^{T}X)^{-1}Z^{T}Y,
+        $$
+        donde $Z$ es de $N\times k+1$, $X$ es de $N\times k+1$, $Y$ es de $N\times 1$ y $\hat{\beta}^{IV}$ de $k+1\times 1$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Comparaci\'on entre $\hat{\beta}^{IV}$ y $\hat{\beta}^{MCO}$}
+    $$
+    \ln \bigl(\text{salario}_{i}\bigr)=\beta_{0}+\beta_{1}\, \text{educ}_{i}+u_{i}.
+    $$
+    \begin{itemize}
+        \item Supongamos que la \'unica variable omitida es la inteligencia.
+        \item Como la inteligencia se correlaciona positivamente con la educaci\'on y con el salario, esperar\'\i amos:
+        $$
+        E\left[\hat{\beta}^{MCO}\right]>\beta.
+        $$
+        \item Si disponemos de un instrumento v\'alido, entonces:
+        $$
+        E\left[\hat{\beta}^{IV}\right]=\beta.
+        $$
+        \item De este modo, al realizar ambas estimaciones esperar\'\i amos observar:
+        $$
+        \hat{\beta}^{MCO}>\hat{\beta}^{IV},
+        $$
+        porque corregimos el sesgo de MCO que, en este caso, sobreestimaba el efecto.
+        \item \textbf{\textquestiondown Qu\'e ocurre si no hay variable omitida, pero \textit{educ} est\'a mal medida}? En ese caso $\hat{\beta}^{MCO}<\hat{\beta}^{IV}$, porque eliminamos el sesgo de atenuaci\'on propio de MCO.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Resumen}
+    \begin{itemize}
+        \item Decimos que una variable es end\'ogena cuando $\operatorname{Cov}(u,x) \neq 0$.
+        \item En presencia de endogeneidad se viola uno de los supuestos de Gauss--Markov, y $\hat{\beta}_{\text{MCO}}$ ser\'a:
+        \begin{itemize}
+            \item Sesgado.
+            \item Inconsistente.
+            \item No eficiente.
+        \end{itemize}
+        \item Existen tres fuentes habituales de endogeneidad en econom\'\i a:
+        \begin{enumerate}
+            \item Omisi\'on de variables relevantes.
+            \item Simultaneidad.
+            \item Errores de medida.
+        \end{enumerate}
+        \item Para estimar de manera consistente necesitaremos un \textbf{instrumento}.
+        \item Un instrumento v\'alido es una tercera variable $z$ que cumple:
+        \begin{itemize}
+            \item \textbf{Exogeneidad:} $\operatorname{Cov}(u,z)=0$.
+            \item \textbf{Relevancia:} $\operatorname{Cov}(x,z) \neq 0$.
+        \end{itemize}
+        \item El m\'etodo de IV permite estimar $\beta$ de forma consistente.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Inferencia y estimación por Variables Instrumentales}
+\begin{itemize}
+    \item Al igual que MCO, VI es un método de estimación.
+    \begin{itemize}
+        \item[$\rightarrow$] Un método para obtener un estimador de nuestro parámetro de interés $\beta$.
+    \end{itemize}
+    \item Tal como con MCO, una vez obtenidas las estimaciones \(\hat{\beta}_{VI}\) queremos hacer inferencia estadística sobre las mismas. Necesitamos errores estándar.
+    \begin{itemize}
+        \item[$\rightarrow$] Ej.\ pruebas t de significación de los parámetros.
+    \end{itemize}
+    \item Tal como en MCO, vamos a asumir homoscedasticidad, ahora condicional en el instrumento \(z\): \( \text{Var}(u \mid z) = \sigma^2 \)
+    % \item Se puede demostrar que se puede estimar la varianza de \(\hat{\beta}_{VI}\) como:
+    % \[
+    % \text{Var}(\hat{\beta}_{VI}) = \frac{\hat{\sigma}^2}{\text{SST}_x R^2_{x,z}}
+    % \]
+\end{itemize}
+\end{frame}
+\begin{frame}{Inferencia y estimación por Variables Instrumentales}
+\begin{itemize}
+    \item Se puede demostrar que se puede estimar la varianza de \(\hat{\beta}_{VI}\) como:
+    \[
+    \text{Var}(\hat{\beta}_{VI}) = \frac{\hat{\sigma}^2}{\text{SST}_x R^2_{x,z}}
+    \]
+    donde
+    \begin{enumerate}
+        \item \(\hat{\sigma}^2 = \frac{1}{n-2} \sum_{i=1}^{n} \hat{u}_i^2\)
+        \item \(R^2_{x,z}\) es el \(R^2\) de la regresión: \(X_i = \alpha_0 + \alpha_1 Z_i + v\)
+        \item \(\text{SST}_x = \sum_{i=1}^{n} (x_i - \bar{x})^2\) es la suma de cuadrados total de \(X\).
+    \end{enumerate}
+\end{itemize}
+\end{frame}
+\begin{frame}{Estimador para la varianza de las estimaciones por VI}
+\begin{itemize}
+    \item Noten que:
+    \[
+    \text{Var}(\hat{\beta}_{VI}) = \frac{\hat{\sigma}^2}{\text{SST}_x R^2_{x,z}}
+    \]
+    \item Noto: Mientras más débil la relación entre \(x\) y su instrumento \(z\), menor \(R^2_{x,z}\)→ mayor \(\text{Var}(\hat{\beta}_{VI})\).
+    \item l Modelo de Regresión Simple:
+    \[
+    \text{Var}(\hat{\beta}_{MCO}) = \frac{\hat{\sigma}^2}{\text{SST}_x}
+    \]
+    \item Dado que \(R^2_{x,z} \leq 1\), la varianza de las estimaciones por VI será mayor o igual a la varianza de los estimadores MCO.
+    \begin{itemize}
+        \item Mientras más fuerte la relación entre \(x\) y \(z\), más se acercarán las varianzas.
+        \item Caso extremo: \(x\) es exógena, \(x\) es el instrumento de \(x\) → \(R^2_{x,z} = 1\) → \(\text{Var}(\hat{\beta}_{VI}) = \text{Var}(\hat{\beta}_{MCO})\).
+    \end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}{Estimación por mínimos cuadrados en dos etapas}
+\begin{itemize}
+    \item Otro método para estimar consistentemente los parámetros con instrumentos es el Mínimos Cuadrados en 2 etapas (MC2E). El coeficiente que obtenemos será el mismo.
+    \item Comenzamos con el siguiente modelo donde estamos interesados en el efecto de \( x_1 \) en \( y_1 \):
+    \[
+    y_i = \beta_0 + \beta_1 x_{1i} \text{(endo)} + \beta_2 x_{2i} \text{(exog)} + u_i \quad \forall i = 1, \ldots, N
+    \]
+    Con: 
+\begin{enumerate}[(i)]
+    \item \( \text{Cov}(x_{1i}, u_i) \neq 0 \),
+    \item \( \text{Cov}(x_{2i}, u_i) = 0 \),
+    \item \( \text{Cov}(z_i, u_i) = 0 \)
+\end{enumerate}
+    \item Por ejemplo:
+    \[
+    \ln(\text{salario}_i) = \beta_0 + \beta_1 \text{educ}_i + \beta_2 \text{mujer} + u_i
+    \]
+    \item Y podemos usar como instrumento de \textit{educ} la distancia al establecimiento educativo más cercano.
+\end{itemize}
+\end{frame}
+\begin{frame}{MC2E - Etapa 1}
+
+Primera etapa: $Z \rightarrow X$ Regresamos la variable endógena sobre todas las exógenas incluido el instrumento
+
+\begin{itemize}
+    \item \textbf{Paso 1:} Estimamos la siguiente ecuación por MCO.
+    \begin{equation}
+    x_{1i} = \beta_0 + \beta_1 z_i + \beta_2 x_{2i} + v_i
+    \end{equation}
+
+    \item \textbf{Paso 2:} Obtenemos los $\hat{\beta}$ y construimos el valor predicho de $x_1$:
+    \begin{equation}
+    \hat{x}_{1i} = \hat{\beta}_0 + \hat{\beta}_1 z_i + \hat{\beta}_2 x_{2i}
+    \end{equation}
+
+    \item Noten que $\hat{x}_1$ es una función de $z$ y $x_2$ que son variables exógenas. Por lo tanto, no correlaciona con el error $(u)$. El instrumento permite quedarnos con la parte exógena de $x$.
+
+    \item \textbf{Intuición:} $x_i = \hat{x}_i + \hat{v}_i$. Solo usamos la parte exógena: $\hat{x}_i$ y nos deshacemos de la endógena.
+
+    \item \textbf{Paso 3:} Noten que durante este paso, se aprovecha para testear la relevancia del instrumento. Haciendo un test de $\hat{\beta}_1 \neq 0$. 
+\end{itemize}
+
+\end{frame}
+\begin{frame}{MC2E - Etapa 2}
+
+Segunda etapa: $\hat{x} \rightarrow y$
+
+\begin{itemize}
+    \item En la ecuación original, reemplazamos la variable endógena $x_1$ por la predicción de esta variable que obtuvimos en la primera etapa $\hat{x}_1$ (Ec.2).
+    
+    \item Nuestra ecuación original (Ec.1) la podemos escribir entonces:
+    \begin{equation}
+    y_i = \beta_0 + \beta_1 \hat{x}_{1i} + \beta_2 x_{2i} + u_i
+    \end{equation}
+    
+    \item $\hat{x}_{1i}$ es exógena, ya que es una combinación lineal de variables exógenas (Ec.2).
+    
+    \item Ahora, ¡podemos estimar Ec.3 por MCO!
+    \begin{equation}
+    \hat{\beta}_{MC2E} = (\hat{X}^T \hat{X})^{-1} \hat{X}^T Y
+    \end{equation}
+    
+    \item Con $\hat{X} =    \begin{bmatrix}
+    1 & \hat{x}_{1,1} & x_{2,1} \\
+    1 & \hat{x}_{1,2} & x_{2,2} \\
+    \vdots & \vdots & \vdots \\
+    1 & \hat{x}_{1,n} & x_{2,n} \\
+    \end{bmatrix}$ 
+    
+    \item El $\hat{\beta}_1$ hallado de esta manera se conoce como $\hat{\beta}_{1,MC2E}$.
+\end{itemize}
+
+\end{frame}
+% \begin{frame}{MC2E - Varianza e Inferencia}
+
+% \begin{itemize}
+%     \item Si bien $\hat{\beta}_{MC2E}$ son la estimación por MCO de la segunda etapa, su varianza no es igual a la varianza de un estimador MCO ya que debe recoger las correlaciones entre la primera y la segunda etapa.
+
+%     \item La varianza de los estimadores MC2E se puede aproximar asintóticamente a:
+%     \begin{equation}
+%     \text{Var}(\hat{\beta}_{1,MC2E}) \approx \frac{\sigma^2}{SST_{\hat{x}}(1 - R^2_1)} 
+%     \end{equation}
+% %\quad \text{Var}(\hat{\beta}_{1,MCO}) = \frac{\sigma^2}{SCT_{x}(1 - R^2_1)}
+%     \item Donde:
+%     \begin{itemize}
+%         \item $SST_{\hat{x}} = \sum_{i=1}^{n} (\hat{x}_i - \bar{\hat{x}})^2$ es la variación total de $\hat{x}$.
+%         \item $R^2_1$ es el $R^2$ de regresar $\hat{x}_1$ sobre los demás regresores $(x_2)$.% e.g., obtener el $R^2$ de $\hat{x}_1 = \beta + \beta_1 x_2 + c$.
+%     \end{itemize}
+
+%     \item Siempre $SST_{x} \geq SST_{\hat{x}}$. ¿Intuición? Recuerden que de toda la variabilidad de $X$, agarramos solo una parte (la parte exógena). %Además, generalmente, $R^2_1 \geq R^2$.
+    
+%     \item Entonces: $\text{Var}(\hat{\beta}_{1,MC2E}) \geq \text{Var}(\hat{\beta}_{1,MCO})$.
+
+%     \item Al igual que con VI, una relación débil entre la variable endógena y su instrumento incrementa la varianza de la estimación \textcolor{red}
+% {(porque achica el $SST_{\hat{x}}$).}
+% \end{itemize}
+
+% \end{frame}
+
+% \begin{frame}{MC2E - Ejemplo 1 Etapa}
+
+% \begin{itemize}
+%     \item Queremos saber los efectos del turismo en México en los ingresos de la ciudad.
+%     \begin{equation}
+%     \ln(\text{income}_i) = \beta_0 + \beta_1 \text{HotelSales}_i + \beta_2 \log(\text{temp}_i) + u_i
+%     \end{equation}
+
+%     \item Ciudades más ricas pueden atraer más turismo, entonces hay endogeneidad.
+
+%     \newline Usamos: distancia de la ciudad a USA como instrumento y estimamos por MC2E.
+% \end{itemize}
+
+% \end{frame}
+% \begin{frame}{Primera Etapa}
+
+% \begin{itemize}
+%     \item Estimamos la primera etapa por MCO (instrumentos en $X$)
+%     \begin{equation}
+%     \log(\text{HotelSales}_i) = \beta_0 + \beta_1 \text{distUS}_i + \beta_2 \log(\text{temp}_i) + v_i
+%     \end{equation}
+
+%                      \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase18/images/1.png}
+%     \end{figure}
+    
+% \end{itemize}
+
+% \end{frame}
+% \begin{frame}{MC2E - Ejemplo 2 Etapa: Predicción de $X$ en $Y$}
+
+% \begin{itemize}
+%     \item Usamos los valores predichos $\widehat{\text{HotelSales}}$ con la primera etapa y estimamos la segunda etapa:
+%     \begin{equation}
+%     \ln(\text{Income}_i) = \beta_0 + \beta_1 \log(\widehat{\text{HotelSales}}_i) + \beta_2 \log(\text{temp}_i) + u_i
+%     \end{equation}
+
+%                      \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase18/images/2.png}
+%     \end{figure}
+    
+% \end{itemize}
+
+% \end{frame}
+% \begin{frame}{MC2E - Comparamos con MCO}
+
+% \begin{itemize}
+%     \item 0.45 con una estimamos por MCO:
+
+%                  \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase18/images/3.png}
+%     \end{figure}
+    
+%     \item Estimación por MC2E: un incremento de 1\% en las ventas de hoteles aumenta 0.45\% el ingreso de la ciudad.
+%     \item Estimación por MCO: un incremento de 1\% de las ventas en hoteles aumenta 0.05\% el ingreso en la ciudad. MCO estaba sesgado, subestimando el verdadero valor.
+% \end{itemize}
+
+%\end{frame}
+
+%==================== EJERCICIOS RESUELTOS ====================
+\section{Ejercicios}
+
+\begin{frame}{Ejercicio Resuelto 1: c\'alculo de $\hat\beta^{IV}$}
+
+\begin{block}{Ejercicio 1 (fuente: Certamen T3 -- C3, Card 1995)}
+Se usa la distancia a la universidad ($z=Dist_U$) como instrumento de la educaci\'on ($x=Educ$) para explicar el salario ($y$). Muestra ($n=8$):
+\begin{center}\scriptsize
+\begin{tabular}{ccccccccc}
+\hline
+$i$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ \hline
+$y$ (Salario) & 6.0 & 6.4 & 7.1 & 5.7 & 7.6 & 5.4 & 7.1 & 6.7 \\
+$x$ (Educ)    & 10 & 11 & 12 & 10 & 13 & 9 & 12 & 11 \\
+$z$ (Dist)    & 2.0 & 3.5 & 1.5 & 4.5 & 1.5 & 5.0 & 2.5 & 3.5 \\ \hline
+\end{tabular}
+\end{center}
+Calcule $\hat\beta^{IV}$ e interpr\'etelo.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Soluci\'on -- Paso 1 (medias)}
+\[
+  \bar y=\tfrac{52{,}0}{8}=6{,}5,\qquad
+  \bar x=\tfrac{88}{8}=11{,}0,\qquad
+  \bar z=\tfrac{24{,}0}{8}=3{,}0 .
+\]
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 1: c\'alculo de $\hat\beta^{IV}$ (cont.)}
+
+\begin{exampleblock}{Soluci\'on -- Paso 2 (covarianzas no normalizadas)}
+{\scriptsize
+\[
+  S_{yz}=\sum_i (y_i-\bar y)(z_i-\bar z)=-5{,}7,
+  \qquad
+  S_{xz}=\sum_i (x_i-\bar x)(z_i-\bar z)=-9{,}5 .
+\]}
+\textbf{Paso 3.} Como el factor $1/n$ se cancela en el cociente,
+\[
+  \boxed{\;\hat\beta^{IV}=\frac{S_{yz}}{S_{xz}}=\frac{-5{,}7}{-9{,}5}=0{,}6\;}
+\]
+\textbf{Interpretaci\'on:} un a\~no adicional de educaci\'on aumenta el salario por hora en $0{,}6$ unidades. Notar que $z$ y $x$ correlacionan \emph{negativamente} (m\'as distancia $\Rightarrow$ menos educaci\'on), pero el cociente entrega el efecto causal $x\to y$ correcto.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2: validez del instrumento}
+
+\begin{block}{Ejercicio 2 (fuente: Certamen T3 -- C3, Angrist--Krueger 1991)}
+En $\log(\text{salario})_i=\beta_0+\beta_1\text{educ}_i+u_i$ se propone como instrumento el \textbf{trimestre de nacimiento}. (a) ¿Por qu\'e ser\'ia v\'alido? (b) ¿Qu\'e relaci\'on esperar\'ia entre $\hat\beta^{MCO}$ y $\hat\beta^{IV}$ si la variable omitida es la habilidad?
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Soluci\'on}
+\textbf{(a)} Un instrumento v\'alido cumple dos condiciones:
+\begin{itemize}
+  \item \emph{Relevancia} ($\operatorname{Cov}(z,x)\neq0$): por las leyes de escolaridad obligatoria y las fechas de corte de matr\'icula, el trimestre de nacimiento afecta los a\~nos de escolaridad acumulados.
+  \item \emph{Exogeneidad} ($\operatorname{Cov}(z,u)=0$): el trimestre de nacimiento no afecta el salario por otro canal que no sea la educaci\'on.
+\end{itemize}
+\textbf{(b)} Si se omite la habilidad (correlacionada $+$ con educ y salario), MCO \emph{sobreestima} el retorno: $\hat\beta^{MCO}>\hat\beta^{IV}$. IV corrige ese sesgo al alza.
+\end{exampleblock}
+
+\end{frame}
+
+%==================== EJEMPLO APLICADO ====================
+\begin{frame}[fragile]{Ejemplo aplicado en R: estimaci\'on IV / 2SLS}
+\begin{exampleblock}{Retornos a la educaci\'on con instrumento (paquete AER)}
+\begin{verbatim}
+library(AER)
+datos <- read.csv("salarios_chile.csv")
+
+# MCO (probablemente sesgado por endogeneidad de educ)
+mco <- lm(log(salario) ~ educ + exper, data = datos)
+
+# 2SLS: educ instrumentada por distancia a universidad
+iv <- ivreg(log(salario) ~ educ + exper |
+            distancia + exper, data = datos)
+
+summary(iv, diagnostics = TRUE)  # test de instrumento debil
+\end{verbatim}
+\end{exampleblock}
+{\scriptsize En la sintaxis \texttt{ivreg}, tras \texttt{|} van \emph{todos} los instrumentos: la(s) variable(s) ex\'ogena(s) que act\'uan como sus propios instrumentos m\'as el instrumento externo (\texttt{distancia}).}
+\end{frame}
+
+%==================== EJERCICIOS PROPUESTOS ====================
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 3 (Propuesto -- rutinario)}
+Indique, para cada caso, qu\'e condici\'on de validez se viola: (i) un instrumento correlacionado con el error; (ii) un instrumento no correlacionado con el regresor end\'ogeno.
+\end{block}
+
+\begin{block}{Ejercicio 4 (Propuesto -- intermedio)}
+Con $S_{yz}=12{,}0$ y $S_{xz}=4{,}0$, calcule $\hat\beta^{IV}$. Si adem\'as $S_{xx}=20{,}0$ y $\hat\beta^{MCO}=0{,}9$, comente la posible direcci\'on del sesgo de endogeneidad.
+\end{block}
+
+\begin{block}{Ejercicio 5 (Propuesto -- desafiante)}
+En MC2E con una end\'ogena $x_1$ y un control ex\'ogeno $x_2$, explique por qu\'e $\hat x_1$ de la primera etapa no est\'a correlacionado con $u$, y por qu\'e un instrumento d\'ebil incrementa $\operatorname{Var}(\hat\beta_{1,MC2E})$.
+\end{block}
+
+{\scriptsize \textit{Indicaci\'on (Ej.\ 4): $\hat\beta^{IV}=S_{yz}/S_{xz}$; compare con $\hat\beta^{MCO}=S_{xy}/S_{xx}$.}}
+
+\end{frame}
+
+\begin{frame}{Conclusiones}
+
+\begin{itemize}
+    \item Vimos dos métodos para estimar consistentemente los parámetros cuando el regresor es endógeno y contamos con un instrumento válido:
+    \begin{itemize}
+        \item VI
+        \item MC2E
+    \end{itemize}
+    
+    \item En el Modelo de Regresión Simple (MRS), con un solo instrumento, ambos métodos nos darán las mismas estimaciones puntuales y los mismos errores estándar.
+    
+    \item Los resultados serán distintos cuando tengamos más de un instrumento para la variable endógena.
+    
+    \item Estimar por estos métodos nos asegura la consistencia (insesgadez) de las estimaciones siempre que los instrumentos sean válidos.
+    
+    \item Pero pagaremos el precio de menos precisión en esas estimaciones (errores estándar más grandes que en MCO).
+
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 17}
+\begin{enumerate}
+    \item Una variable es \textbf{end\'ogena} si $\operatorname{Cov}(x,u)\neq0$; sus causas son variables omitidas, simultaneidad y error de medida.
+    \item Bajo endogeneidad MCO es \textbf{inconsistente}: $\operatorname{plim}\hat\beta=\beta+\operatorname{Cov}(x,u)/\operatorname{Var}(x)$.
+    \item Un \textbf{instrumento v\'alido} $z$ cumple relevancia ($\operatorname{Cov}(z,x)\neq0$) y exogeneidad ($\operatorname{Cov}(z,u)=0$).
+    \item El \textbf{estimador IV} $\hat\beta_{IV}=\operatorname{Cov}(z,y)/\operatorname{Cov}(z,x)$ es consistente (no insesgado).
+    \item \textbf{MC2E (2SLS)} implementa IV en dos etapas: (1) regresar $x$ end\'ogena sobre instrumentos para obtener $\hat x$; (2) regresar $y$ sobre $\hat x$. Un instrumento d\'ebil infla la varianza.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: estimaci\'on con m\'as de un instrumento (sobreidentificaci\'on) y tests de instrumento d\'ebil; introducci\'on a series de tiempo.
+\end{alertblock}
+
+\end{frame}
+\end{document}

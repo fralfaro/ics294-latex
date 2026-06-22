@@ -1,0 +1,328 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\Gu\'ia Certamen 2}
+\textbf{Econometría (ICS-294)}
+\end{large}\\
+\end{center}
+
+
+\section{Preguntas Cortas}
+
+\begin{enumerate}
+    \item Se estima el siguiente modelo para explicar las ventas (\emph{SALES})
+        en función del gasto en publicidad (\emph{ADV}):
+        \[
+          \widehat{\log(\text{SALES})}
+          = 1.2 + 0.45\,\log(\text{ADV}) ,
+        \]
+        donde \texttt{SALES} se mide en millones de dólares y \texttt{ADV}
+        en miles de dólares. Interprete el coeficiente \(\hat{\beta}_1 = 0.45\). ¿Qué concepto económico representa este coeficiente?\\
+
+      {\color{blue}  \textbf{Solución.}
+        \begin{itemize}
+          \item En un modelo \emph{log-log}, el coeficiente \(0.45\)
+                representa una \textbf{elasticidad}.
+                Específicamente, indica que un aumento de \(1\%\) en el gasto
+                en publicidad se asocia, en promedio, con un aumento de
+                aproximadamente \(0.45\%\) en las ventas, manteniendo todo
+                lo demás constante.
+        \end{itemize}
+        }
+        
+\item El salario promedio (\emph{salario}) en función de la experiencia laboral
+        (\emph{exper}) está dado por:
+        \[
+          \widehat{\text{salario}}
+          = 2.5 + 0.25\,exper - 0.005\,exper^2 .
+        \]
+        Determine el nivel de experiencia (\texttt{exper}) en el cual los
+                retornos salariales a una unidad adicional de experiencia
+                se anulan.
+ \\
+  {\color{blue} \textbf{Solución.}
+        \begin{itemize}
+          \item El efecto marginal de la experiencia es:
+                \[
+                  \frac{\partial\,\widehat{\text{salario}}}{\partial\,exper}
+                  = 0.25 - 0.01\,exper.
+                \]
+          \item El retorno marginal se anula cuando:
+                \[
+                  0.25 - 0.01\,exper = 0
+                  \quad\Rightarrow\quad
+                  exper^\star = \frac{0.25}{0.01} = 25.
+                \]
+          \item Por tanto, a los \(25\) años de experiencia,
+                el salario alcanza su máximo.
+                A partir de ese punto, años adicionales de experiencia
+                comienzan a disminuir el salario esperado.
+        \end{itemize}}
+
+\item ¿Por qué se asume la normalidad de las perturbaciones \(u\)
+        en el modelo lineal clásico? Explique una razón   que justifiquen su importancia para realizar inferencia
+        sobre los coeficientes estimados.
+        \\
+\\
+{\color{blue} \textbf{Solución:} La normalidad garantiza que los estimadores de mínimos
+                cuadrados ordinarios (MCO) tengan una distribución exacta
+                normal en muestras finitas, permitiendo realizar inferencias
+                precisas (tests de hipótesis, intervalos de confianza).}
+
+
+\end{enumerate}
+
+\section{Ejercicios}
+
+\begin{enumerate}
+    \item En una regresión lineal simple, el coeficiente asociado a la variable
+        \(X_1\) fue estimado en:
+        \[
+          \hat\beta_1 = 2.7,
+          \qquad s.e.(\hat\beta_1) = 0.9,
+          \qquad n = 250.
+        \]
+        Considere un nivel de significancia del 5\%.
+
+        \begin{enumerate}[label=\alph*)]
+          \item Plantee las hipótesis nula y alternativa para evaluar si
+                el coeficiente de la pendiete es significativamente distinto de cero.
+      Calcule el estadístico \( t \) de prueba, compare su valor
+                con el valor crítico correspondiente y determine si se
+                rechaza la hipótesis nula.
+          \item Construya un intervalo de confianza al 95\% para
+                \( \beta_1 \) e interprete su significado.
+                \item Suponga que desea contrastar si la variable dependiente presenta una relación creciente con respecto a la variable explicativa $X_1$.
+Formule claramente las hipótesis nula y alternativa correspondientes, y evalúe si la evidencia empírica permite rechazar la hipótesis nula.
+        \end{enumerate}
+
+  {\color{blue}       \textbf{Solución.}
+        \begin{enumerate}
+          \item Hipótesis a testear:
+                \[
+                  H_0: \beta_1 = 0
+                  \qquad\text{versus}\qquad
+                  H_1: \beta_1 \neq 0.
+                \]
+       El estadístico \( t \) es:
+                \[
+                  t
+                  = \frac{\hat\beta_1 - 0}{s.e.(\hat\beta_1)}
+                  = \frac{2.7}{0.9}
+                  = 3.0.
+                \]
+                
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.15\linewidth]{Figuras/t_248.png}
+\end{figure}
+
+           
+                Dado que \(|3.0| > 1.97\), \textbf{rechazamos} \( H_0 \).
+                Existe evidencia suficiente para afirmar que \( \beta_1 \) es
+                significativamente distinto de cero al 5\% de significancia.
+          \item El intervalo de confianza al 95\% es:
+                \[  \hat\beta_1 \pm t_{2.5\%} \times s.e.(\hat\beta_1)
+                  
+                  \left[
+                    2.7 - 1.97 \times 0.9;
+                    2.7 + 1.97 \times 0.9
+                  \right]
+                  =
+                  \left[
+                    0.927; 4.473
+                  \right].\]
+            
+                \textbf{Interpretación:} Con 95\% de confianza, se espera que
+                el efecto parcial de \( X_1 \) sobre la variable dependiente
+                esté entre 0.927 y 4.473 unidades. Es decir, un aumento en
+                \( X_1 \) está asociado, en promedio, a un aumento positivo y
+                significativo en la variable dependiente.
+
+
+                \item \textbf{Hipótesis:}
+\begin{itemize}
+    \item Hipótesis nula (\( H_0 \)): \( \beta_1 =0  \)
+    \item Hipótesis alternativa (\( H_1 \)): \( \beta_1 > 0 \)
+\end{itemize}
+
+Esto corresponde a una prueba unilateral a la derecha para el parámetro \( \beta_1 \).
+
+Supongamos que al estimar el modelo se obtiene:
+\[
+\hat{\beta}_1 = 2{,}7 \quad \text{y} \quad \text{error estándar} = 0{,}8
+\]
+
+El estadístico de prueba es:
+\[
+ t = \frac{2{,}7}{0{,}9} = 3
+\]
+
+Con un nivel de significancia del 5\% y usando una prueba unilateral, se compara este valor con   $t_{5\%}=1.65$.
+
+Como el estadístico t> 1.65, existe evidencia estadística suficiente para concluir que la variable dependiente es creciente respecto de \( x_1 \).
+        \end{enumerate}}
+
+\item Se tiene un modelo de regresión lineal de la forma:
+$$y=\beta_0 + \beta_1 x_1+\beta_2x_2+\beta_3 x3 + u$$
+los resultados de la regresión con 250 datos son los siguientes:
+        \[
+          \hat{\beta} = \begin{bmatrix} 3 \\ 9 \\ 5 \\2 \end{bmatrix},
+        \]
+y 
+        \[
+          (X'X)^{-1} =
+          \begin{bmatrix}
+1 & 0  & 0  &  0\\
+0 & 1  & 0  & -1\\
+0 & 0  & 2  & -1\\
+0 & -1 & -1 &  1
+\end{bmatrix},
+          \quad \hat{\sigma}^2 = 2
+        \]
+\begin{enumerate}
+    \item Plantee la hipótesis que testea que $\beta_1=4\beta_3$.
+
+    \item ¿Se puede rechazar la hipótesis nula con la información que disponemos con una significancia del 5\%?
+
+\end{enumerate}
+
+{\color{blue}
+
+\textbf{Solución}
+\begin{enumerate}
+    \item $$H_0 : \beta_1-4\beta_3 = 0$$
+$$H_1 : \beta_1-4\beta_3 \neq 0$$
+\item el estad\'istico t esta dado por:
+$$t = \frac{\beta_1-4\beta_3}{s.e.(\beta_1-4\beta_3)}$$
+
+\[
+\text{Var}(\hat{\beta}) = 2 \cdot
+\begin{bmatrix}
+1 & 0  & 0  &  0\\
+0 & 1  & 0  & -1\\
+0 & 0  & 2  & -1\\
+0 & -1 & -1 &  1
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 & 0  & 0  &  0\\
+0 & 2  & 0  & -2\\
+0 & 0  & 4  & -2\\
+0 & -2 & -2 &  2
+\end{bmatrix}
+\]
+
+
+
+ $s.e.(\beta_1-4\beta_3)$ esta dado por:
+$$s.e.(\beta_1-4\beta_3)=\sqrt{Var(\beta_1-4\beta_3)}=\sqrt{Var(\beta_1)+16Var(\beta_3)-8Cov(\beta_1,\beta_3)}$$
+$$\sqrt{Var(\beta_1)+16Var(\beta_3)-8Cov(\beta_1,\beta_3)}=\sqrt{2+16\cdot 2-8 \cdot (-2)}=\sqrt{50}$$
+por tanto 
+$$t = \frac{9-4\cdot2}{7.07}=0,14$$
+ No se rechaza $H_0$,  $\beta_1$ puede  ser $4\beta_3$. 
+
+
+\end{enumerate}}
+
+\item Considere la siguiente regresión lineal múltiple estimada con \(n = 75\) observaciones:
+
+\[
+\hat{y} \;=\; \hat{\beta}_{0} + \hat{\beta}_{1}x_{1} + \hat{\beta}_{2}x_{2} +\hat{\beta}_{3}x_{3} +\hat{\beta}_{4}x_{4} 
+\]
+
+El modelo arroja un coeficiente de determinación
+\[
+R^2 = 0.62.
+\]
+
+El investigador sospecha que las variables \(x_{3}\) y \(x_{4}\) no aportan capacidad explicativa.  
+Para contrastar su hipótesis estima el siguiente modelo:
+
+\[
+\hat{y} \;=\;\hat{\gamma}_{0} + \hat{\gamma}_{1}x_{1} + \hat{\gamma}_{2}x_{2} ,
+\qquad\text{obteniendo}\quad
+R^2 = 0.55.
+\]
+Formule y realice un test de hipótesis que permita decidir, con un 5\% de significancia, si las variables \(x_{3}\) y \(x_{4}\) son relevantes para el modelo. ($F_{0.95,(2,70)}=3.13$)
+
+{\color{blue}{\bf Solución:}
+
+Queremos contrastar si las variables \( x_3 \) y \( x_4 \) son relevantes para explicar la variable dependiente. Para ello, se utiliza un test \( F \) para comparar el modelo completo con el modelo restringido.
+
+\textbf{Hipótesis:}
+\begin{itemize}
+    \item \( H_0: \beta_3 = \beta_4 = 0 \) \quad (las variables \( x_3 \) y \( x_4 \) no son relevantes)
+    \item \( H_1: \) Al menos uno de los coeficientes es distinto de cero.
+\end{itemize}
+
+\bigskip
+
+\textbf{Estadístico \( F \):}
+
+Dado:
+\[
+R^2_{\text{ur}} = 0.62, \quad R^2_{\text{r}} = 0.55
+\]
+\[
+n = 75, \quad k_{\text{ur}} = 4, \quad k_{\text{r}} = 2
+\]
+
+El estadístico \( F \) se calcula como:
+\[
+F = \frac{(R^2_{\text{ur}} - R^2_{\text{r}})/j}{(1 - R^2_{\text{ur}})/(n - k_{\text{ur}}-1)}} = 
+\frac{(0.62 - 0.55)/2}{(1 - 0.62)/(75 - 5)} = \frac{0.07/2}{0.38/70} = \frac{0.035}{0.00543} \approx 6.45
+\]
+
+
+Como el valor calculado \( F \approx 6.45 \) es mayor que el valor crítico \( F_{0.95,(2,70)} = 3.13 \), se \textbf{rechaza la hipótesis nula} al 5\% de significancia.
+ Existe evidencia estadística suficiente para afirmar que las variables \( x_3 \) y \( x_4 \) son relevantes para el modelo.}
+
+\end{enumerate}
+
+\end{document}

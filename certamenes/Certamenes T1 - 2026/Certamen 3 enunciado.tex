@@ -1,0 +1,245 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+%\usepack\input{certamenes/Certamen 1 Pauta}age{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+\usepackage{tikz}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.09]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 3}
+\end{large}\\
+\end{center}
+
+\begin{center}
+\begin{large}
+\textbf{Econometría ICS-294}
+\end{large}\\
+\vspace{0.2cm}
+I trimestre 2026\\
+Profesor: Pedro Comte Hidalgo\\
+Ayudantes: Jociney Honorio y Fabian Cisternas
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 100 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Preguntas conceptuales (40 puntos)}
+
+\begin{enumerate}
+
+\item (10 puntos) ¿Cuál es la principal diferencia entre detectar multicolinealidad 
+mediante la matriz de correlación y mediante el factor de inflación 
+de la varianza (VIF)?
+
+\item (10 puntos) ¿Qué es un proceso estacionario y por qué es necesaria la estacionariedad para ajustar modelos de regresión lineal en series de tiempo?
+
+\item (10 puntos) Tomando como referencia a Card (1995), quien utiliza la distancia a una universidad como variable instrumental para la educación: ¿por qué dicha variable es válida como instrumento? ¿Qué efecto tiene incluir una variable instrumental en la estimación del efecto de la educación sobre el salario?
+
+\item (10 puntos) ¿Cuáles son las principales diferencias entre el test de Breusch-Pagan y el test de White no simplificado?
+
+
+\end{enumerate}
+
+\section{Ejercicios (60 puntos)}
+
+\begin{enumerate}
+    
+% =========================
+% ENUNCIADO (versión corregida)
+% =========================
+
+\item (20 puntos) Una empresa quiere estimar el efecto de las horas de capacitación sobre la productividad de sus trabajadores. Dado que la decisión de capacitarse puede estar correlacionada con la motivación o habilidad del trabajador (factores no observables que también afectan la productividad), se propone utilizar la \textbf{distancia al centro de capacitación más cercano} como variable instrumental para las horas de capacitación. Considere la siguiente muestra:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$i$ & Productividad & Capacitación ($x$)& $\text{Dist}_C$ ($z$) \\
+\hline
+1 & 12 & 7 & 8 \\
+2 & 13 & 9 & 5 \\
+3 & 15 & 11 & 3 \\
+4 & 11 & 5 & 8 \\
+5 & 16 & 12 & 2 \\
+6 & 11 & 4 & 10 \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent Donde \textbf{Productividad} corresponde al output promedio por hora (en unidades), \textbf{Capacitación} corresponde a los días de capacitación recibidas en el último año y $\mathbf{Dist}_C$ es la distancia al centro de capacitación más cercano (en kilómetros).
+
+\begin{enumerate}
+    \item (5 puntos) Indique por qué la distancia al centro de capacitación es un buen instrumento para los días de capacitación al explicar la productividad.
+    \item (10 puntos) Calcule el modelo predicho  mediante el procedimiento de {mínimos cuadrados en dos etapas (MC2E)}, sabiendo que la regresión de la primera etapa es $$\hat{x} = 14 - z$$.
+    \item (5 puntos) Interprete el resultado de $\hat\beta^{IV}$ y que diferencia tiene con el calculado por MCO directamente.
+\end{enumerate}
+
+\item (15 puntos) Considere el modelo del rendimiento académico de estudiantes universitarios:
+\[
+\text{nota}_i \equiv y_i \;=\; \beta_0 \;+\; \beta_1\,\text{horas}_i \;+\; \beta_2\,\text{asistencia}_i \;+\; \beta_3\,\text{ingreso}_i \;+\; u_i,
+\]
+donde $y_i$ es la nota final del curso (escala 1--7), $\text{horas}_i$ es el número de horas semanales de estudio, $\text{asistencia}_i$ es el porcentaje de asistencia a clases (0--100) e $\text{ingreso}_i$ es el ingreso mensual del hogar del estudiante (en miles de pesos).
+ 
+\begin{enumerate}
+\item (5 puntos) Utilizando el test de Breusch--Pagan, formule la \emph{regresión auxiliar} y las \emph{hipótesis} a contrastar para testear heterocedasticidad.
+ 
+\item (5 puntos) Con una muestra de $n = 150$, la regresión auxiliar entrega $R^2 = 0{,}08$. Calcule la estadística LM y decida al 5\% de significancia.
+ 
+\item (5 puntos) Discuta las ventajas y desventajas del test de Breusch--Pagan.
+\end{enumerate}
+ 
+
+% =============== ENUNCIADO (corregido) ===============
+\item (25 puntos) Se desea estimar un modelo de regresión en series de tiempo para explicar el PIB de Argentina mediante la deuda del país. Con datos entre 1999 y 2024, se muestran las siguientes gráficas:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{certamenes/Certamenes T1 - 2026/PIB argentina.png}
+    \caption{PIB por año Argentina}
+    \label{fig:pib}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{certamenes/Certamenes T1 - 2026/deuda argentina.png}
+    \caption{Deuda total por año}
+    \label{fig:inv}
+\end{figure}
+
+Se desea evaluar la manera correcta de plantear un modelo de regresión lineal con series de tiempo mediante MCO.
+\begin{enumerate}
+    \item (5 puntos) Para ver si las series siguen un \textit{Random Walk}, plantee las ecuaciones e hipotesis a testear.
+    \item (12 puntos) Considerando los siguientes resultados de regresión lineal para ambas variables:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{certamenes/Certamenes T1 - 2026/modeloPIB.png}
+        \caption{Regresión para el test sobre PIB.}
+        \label{fig:reg_pib}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\linewidth]{certamenes/Certamenes T1 - 2026/modeloDEUDA.png}
+        \caption{Regresión para el test sobre deuda total.}
+        \label{fig:reg_inv}
+    \end{figure}
+
+¿Se puede concluir que existe raíz unitaria en cada variable al 5\% de signifancia?
+
+\item (8 puntos) Según el resultado anterior, ¿cómo debiese especificarse la regresión para evitar sesgos?
+\end{enumerate}
+
+\end{enumerate}
+
+\newpage
+\section*{Formulario}
+\begin{itemize}
+
+\item Beta mediante MC2E:
+\[
+\hat\beta_1^{MC2E} \;=\; \frac{\operatorname{Cov}(\hat{X},Y)}{\operatorname{Var}(\hat{X})} \;=\; \frac{\sum_i (\hat{X}_i - \bar {\hat{X}})(Y_i - \bar Y)}{\sum_i (\hat{X}_i - \bar {\hat{X}})(\hat{X}_i - \bar {\hat{X}})}.
+\]
+
+\item Beta mediante IV:
+$$\beta^{IV}=\frac{Cov(y,z)}{Cov(z,x)}=\frac{\sum (y_i - \bar{y})(z_i - \bar{z})}{\sum (x_i - \bar{x})(z_i - \bar{z})}$$
+
+\item intercepto:
+\[
+\hat\beta_0 \;=\; \bar y \;-\; \hat\beta_1\,\bar{\hat{x}}
+\]
+
+\item Tabla $\chi^2$
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+        df & 0.99 & 0.95 & 0.90 \\ 
+        \hline
+        1 &  6.635 & 3.841 & 2.706\\
+        \hline
+        2 &  9.210 & 5.991 & 4.605 \\
+        \hline
+        3 & 11.345 & 7.815 & 6.251  \\
+        \hline
+        4 &  13.277 & 9.488 & 7.779 \\
+        \hline
+        5 &  15.086 & 11.070 & 9.236 \\
+        \hline
+        6 &  16.812 & 12.592 & 10,645 \\
+        \hline
+        7 &  18.475 & 14.067 & 12,017 \\
+        \hline
+        8 &  20.090 & 15.507 & 13,362 \\
+        \hline
+        9 &  21.666 & 16.919 & 14,683 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\item Multiplicado de Lagrange
+
+$$\color{red}{LM = nR^2 \sim \chi^2}$$
+
+\item Estadistico D-F para $\phi = 0$
+
+$$\color{red}{DF_{\phi}=\frac{\hat{\phi}}{s.e.(\hat{\phi})}}$$
+
+
+\item Tabla de test D-F
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem14/tabla.png}
+    \end{figure}
+\end{center}
+
+\end{itemize}
+
+
+
+ 
+\end{document}

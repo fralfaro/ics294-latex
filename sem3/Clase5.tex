@@ -1,0 +1,547 @@
+\documentclass[10pt]{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color}
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{15pt}
+\hypersetup{hyperfootnotes=false}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-294]{Econometría ICS-294\\ \small{Clase 5: Propiedades de MCO y error de medición}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{francisco.alfaro@usm.cl} % Your email address
+
+}
+\logo{
+\includegraphics[width=3cm]{Figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+\end{frame}
+
+\begin{frame}{Objetivos de la Clase}
+
+Al finalizar esta clase, el estudiante será capaz de:
+
+\begin{itemize}
+    \item[\checkmark] Enunciar los \textbf{supuestos de Gauss-Markov} y entender su rol.
+    \item[\checkmark] Derivar la \textbf{varianza} del estimador MCO $\text{Var}(\hat\beta_j)$ y sus errores estándar.
+    \item[\checkmark] Demostrar que $s^2$ es un \textbf{estimador insesgado} de $\sigma^2$.
+    \item[\checkmark] Probar el \textbf{Teorema de Gauss-Markov}: MCO es BLUE.
+    \item[\checkmark] Analizar el efecto del \textbf{error de medición} en variables dependiente e independiente (sesgo de atenuación).
+\end{itemize}
+
+\end{frame}
+
+% ===================== SECCION TEORICA: PROPIEDADES DE MCO =====================
+
+\section{Propiedades de MCO: varianza y eficiencia}
+
+\begin{frame}{Los supuestos de Gauss-Markov}
+
+Para el modelo lineal $y_i=\beta_0+\beta_1 x_{i1}+\cdots+\beta_k x_{ik}+u_i$:
+
+\begin{enumerate}
+    \item[(SLM.1)] Linealidad en los parámetros: $y=\mathbf{X}\beta+u$.
+    \pause
+    \item[(SLM.2)] Muestreo aleatorio de $\{(x_i,y_i)\}$.
+    \pause
+    \item[(SLM.3)] No multicolinealidad perfecta en $\mathbf{X}$ (rango completo).
+    \pause
+    \item[(SLM.4)] Media condicional cero: $E[u_i \mid \mathbf{X}]=0$ (exogeneidad).
+    \pause
+    \item[(SLM.5)] Homocedasticidad: $\text{Var}(u_i \mid \mathbf{X})=\sigma^2$.
+    \pause
+    \item[(SLM.6)] Sin autocorrelación: $\text{Cov}(u_i,u_j\mid \mathbf{X})=0$, $i\neq j$.
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{block}{Roles}
+SLM.1--SLM.4 garantizan \textbf{insesgamiento}; añadir SLM.5--SLM.6 garantiza \textbf{mínima varianza} (eficiencia).
+\end{block}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Derivación: $\text{Var}(\hat\beta_j)$ y errores estándar}
+
+\begin{alertblock}{Resultado: varianza de los estimadores MCO}
+Bajo SLM.1--SLM.5, la varianza condicional del estimador de pendiente $j$ en el modelo múltiple es
+\[
+\text{Var}(\hat\beta_j\mid \mathbf{X})=\frac{\sigma^2}{\text{SCT}_j\,(1-R_j^2)},
+\]
+donde $\text{SCT}_j=\sum_i(x_{ij}-\bar x_j)^2$ y $R_j^2$ es el $R^2$ de regresar $x_j$ sobre las demás explicativas.
+\end{alertblock}
+
+\begin{exampleblock}{Derivación (caso simple, $k=1$)}
+\textbf{Paso 1.} El estimador de pendiente puede escribirse como combinación lineal de los $y_i$:
+\[
+\hat\beta_1=\sum_i w_i\, y_i, \qquad w_i=\frac{x_i-\bar x}{\sum_j (x_j-\bar x)^2}=\frac{x_i-\bar x}{\text{SCT}_x}.
+\]
+Estos pesos cumplen $\sum_i w_i=0$ y $\sum_i w_i x_i=1$.
+
+\textbf{Paso 2.} Sustituyendo $y_i=\beta_0+\beta_1 x_i+u_i$ y usando las propiedades de los pesos:
+\[
+\hat\beta_1=\beta_1+\sum_i w_i\, u_i.
+\]
+
+\framebreak
+
+\textbf{Paso 3.} Tomando varianza condicional en $\mathbf{X}$ (los $w_i$ son fijos dado $\mathbf{X}$):
+\[
+\text{Var}(\hat\beta_1\mid \mathbf{X})=\text{Var}\!\Big(\sum_i w_i u_i \;\Big|\;\mathbf{X}\Big)
+=\sum_i w_i^2\,\text{Var}(u_i\mid\mathbf{X})+\sum_{i\neq j} w_i w_j\,\text{Cov}(u_i,u_j\mid\mathbf{X}).
+\]
+
+\textbf{Paso 4.} Por SLM.6 las covarianzas son $0$, y por SLM.5 $\text{Var}(u_i\mid\mathbf{X})=\sigma^2$:
+\[
+\text{Var}(\hat\beta_1\mid\mathbf{X})=\sigma^2\sum_i w_i^2
+=\sigma^2\,\frac{\sum_i (x_i-\bar x)^2}{\big(\text{SCT}_x\big)^2}
+=\frac{\sigma^2}{\text{SCT}_x}.
+\]
+En el modelo simple $R_1^2=0$, recuperando el caso general. \hfill $\square$
+\end{exampleblock}
+
+\begin{block}{Error estándar}
+Como $\sigma^2$ es desconocido, lo reemplazamos por su estimador $s^2$:
+\[
+\text{ee}(\hat\beta_j)=\sqrt{\widehat{\text{Var}}(\hat\beta_j)}=\frac{s}{\sqrt{\text{SCT}_j\,(1-R_j^2)}}.
+\]
+Mayor $\sigma^2$, menor variación en $x_j$, o mayor colinealidad ($R_j^2\to1$) $\Rightarrow$ estimador menos preciso.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Insesgamiento de $s^2$ como estimador de $\sigma^2$}
+
+\begin{alertblock}{Proposición}
+Bajo SLM.1--SLM.5, el estimador
+\[
+s^2=\frac{1}{n-k-1}\sum_{i=1}^{n}\hat u_i^2=\frac{\text{SCR}}{n-k-1}
+\]
+es insesgado: $E[s^2\mid\mathbf{X}]=\sigma^2$.
+\end{alertblock}
+
+\begin{exampleblock}{Demostración (sketch, caso regresión simple $k=1$)}
+\textbf{Paso 1.} Los residuos cumplen $\hat u_i=u_i-(\hat\beta_0-\beta_0)-(\hat\beta_1-\beta_1)x_i$. Se demuestra que
+\[
+E\!\Big[\sum_i \hat u_i^2 \;\Big|\;\mathbf{X}\Big]=(n-2)\,\sigma^2.
+\]
+
+\framebreak
+
+\textbf{Paso 2 (intuición de los grados de libertad).} Los residuos satisfacen \emph{dos} restricciones lineales derivadas de las ecuaciones normales:
+\[
+\sum_i \hat u_i=0, \qquad \sum_i x_i\,\hat u_i=0.
+\]
+Por estas dos restricciones, los $n$ residuos solo tienen $n-2$ ``piezas'' de información libres: estimamos $\sigma^2$ con $n-2$ grados de libertad (en general $n-k-1$).
+
+\textbf{Paso 3.} Dividiendo por los grados de libertad:
+\[
+E[s^2\mid\mathbf{X}]=\frac{1}{n-2}\,E\!\Big[\sum_i\hat u_i^2\Big|\mathbf{X}\Big]=\frac{(n-2)\sigma^2}{n-2}=\sigma^2.
+\]
+\hfill $\square$
+\end{exampleblock}
+
+\begin{block}{¿Por qué dividir por $n-k-1$ y no por $n$?}
+Si dividiéramos por $n$ obtendríamos un estimador \emph{sesgado a la baja} de $\sigma^2$: los residuos MCO son ``más pequeños'' que los errores reales porque MCO minimiza $\sum\hat u_i^2$ por construcción.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Teorema de Gauss-Markov: MCO es BLUE}
+
+\begin{alertblock}{Teorema de Gauss-Markov}
+Bajo los supuestos SLM.1--SLM.5, el estimador MCO $\hat\beta_j$ es el de \textbf{mínima varianza} dentro de la clase de estimadores \emph{lineales} (en $y$) e \emph{insesgados}. Es decir, MCO es \textbf{BLUE} (Best Linear Unbiased Estimator).
+\end{alertblock}
+
+\begin{exampleblock}{Demostración (caso pendiente, regresión simple)}
+\textbf{Paso 1 (clase de estimadores).} Consideramos cualquier estimador lineal en $y$:
+\[
+\tilde\beta_1=\sum_i c_i\, y_i,
+\]
+con pesos $c_i$ que pueden depender de $\mathbf{X}$ pero no de $y$. Escribimos $c_i=w_i+d_i$, donde $w_i=(x_i-\bar x)/\text{SCT}_x$ son los pesos de MCO y $d_i$ es una desviación arbitraria.
+
+\framebreak
+
+\textbf{Paso 2 (condición de insesgamiento).} Sustituyendo $y_i=\beta_0+\beta_1 x_i+u_i$ y tomando esperanza (con $E[u_i\mid\mathbf{X}]=0$):
+\[
+E[\tilde\beta_1\mid\mathbf{X}]=\beta_0\sum_i c_i+\beta_1\sum_i c_i x_i.
+\]
+Para que $\tilde\beta_1$ sea \emph{insesgado para todo} $\beta_0,\beta_1$ se requiere
+\[
+\sum_i c_i=0 \qquad\text{y}\qquad \sum_i c_i x_i=1.
+\]
+Como los $w_i$ ya cumplen esto, las desviaciones deben satisfacer
+\[
+\sum_i d_i=0, \qquad \sum_i d_i x_i=0.
+\]
+
+\framebreak
+
+\textbf{Paso 3 (varianza del estimador alternativo).} Bajo homocedasticidad y no autocorrelación (SLM.5--SLM.6):
+\[
+\text{Var}(\tilde\beta_1\mid\mathbf{X})=\sigma^2\sum_i c_i^2=\sigma^2\sum_i (w_i+d_i)^2
+=\sigma^2\Big(\sum_i w_i^2+2\sum_i w_i d_i+\sum_i d_i^2\Big).
+\]
+
+\textbf{Paso 4 (el término cruzado se anula).} Usando $w_i=(x_i-\bar x)/\text{SCT}_x$ y las restricciones del Paso 2:
+\[
+\sum_i w_i d_i=\frac{1}{\text{SCT}_x}\sum_i (x_i-\bar x)\,d_i
+=\frac{1}{\text{SCT}_x}\Big(\underbrace{\sum_i x_i d_i}_{=0}-\bar x\underbrace{\sum_i d_i}_{=0}\Big)=0.
+\]
+
+\framebreak
+
+\textbf{Paso 5 (conclusión).} Por lo tanto
+\[
+\text{Var}(\tilde\beta_1\mid\mathbf{X})=\underbrace{\sigma^2\sum_i w_i^2}_{=\,\text{Var}(\hat\beta_1\mid\mathbf{X})}+\;\sigma^2\sum_i d_i^2
+\;\ge\; \text{Var}(\hat\beta_1\mid\mathbf{X}),
+\]
+ya que $\sigma^2\sum_i d_i^2\ge 0$. La igualdad se alcanza solo si $d_i=0$ para todo $i$, es decir, cuando $\tilde\beta_1=\hat\beta_1$.
+\\[4pt]
+Así, \textbf{ningún} estimador lineal e insesgado tiene menor varianza que MCO. \hfill $\square$
+\end{exampleblock}
+
+\begin{block}{Advertencia}
+Gauss-Markov \emph{no} requiere normalidad de los errores. Pero si falla SLM.5 (heterocedasticidad) o SLM.6 (autocorrelación), MCO sigue insesgado pero \textbf{ya no es BLUE}: existen estimadores (p.ej.\ MCG) con menor varianza.
+\end{block}
+
+\end{frame}
+
+% ===================== ERROR DE MEDICION (CONTENIDO ORIGINAL) =====================
+
+\section{Error de Medición}
+
+\begin{frame}{El mundo real}
+    \begin{itemize}
+        \item Hasta ahora, hemos hablado de las variables $y$ e $x$ cómo dadas en nuestro modelo.
+        \item Pero una vez que tratamos de estimar la relación entre estas variables, hay que usar lo que está disponible en los datos reales.
+        \item A menudo, no se cuenta con datos sobre la variable económica que realmente nos interesa.
+        \item Ejemplo
+        \begin{itemize}
+            \item Ingreso verdadero vs. ingreso declarado
+            \item Calor\'ias consumidas vs. calor\'ias compradas
+        \end{itemize}
+
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Error de Medición}
+    \begin{itemize}
+        \item La variable que nos interesa es $W^{*}$, pero solo tenemos una versión imprecisa de esta variable donde:
+$$
+W=W^{*}+u
+$$
+\item Se define como ``error de medida" $u=W-W^{*}$. Es decir, la diferencia entre la variable que observamos y la verdadera variable.
+\item Supongamos el error menos grave posible. Lo llamamos error cl\'asico cuando $E(u)=0$ y $\operatorname{Cov}(u, W^{*})=0$.
+\item ¿Qué pasa si tenemos errores de medición cl\'asico en la variable dependiente? ¿E independiente?
+    \end{itemize}
+\end{frame}
+
+\section{Error de medición en la variable dependiente}
+
+\begin{frame}{Error de medición en la variable dependiente}
+    \begin{itemize}
+        \item Considere el siguiente modelo verdadero,  no hay sesgo por variable omitida:
+
+        \begin{eqnarray}
+                                   Y^{*}=\beta_{0}+\beta_{1} X+\varepsilon\\
+                                   E[\varepsilon \mid X]=0  \nonumber
+       \end{eqnarray}
+        \item Pero en lugar de $Y^{*}$ solamente tenemos $Y=Y^{*}+u$. Donde el error de medici\'on lo asumimos cl\'asico: $\operatorname{Cov}\left(Y^{*}, u\right)=0$ y $V(u)=\sigma_{u}^{2}$.
+        \item Si sustituimos $Y-u=Y^{*}$ en (1) y despejamos, podemos estimar:
+
+        \begin{equation}
+             Y=\beta_{0}+\beta_{1} X+v        \end{equation}
+
+
+        \item Donde $v=(\varepsilon+u)$
+        \item ¿Ser\'a $\hat{\beta}_{1}$ insesgado?
+        \item Como suponemos que el error de medici\'on de la variable $Y$ {\color{blue} no} esta correlacionado con X, entonces no causar\'a sesgo.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Error de medición en la variable dependiente}
+    \begin{itemize}
+              \item Para que los estimadores $\hat{\beta}_{0}$ y $\hat{\beta}_{1}$ sean insesgados, necesitamos que
+        $$
+        E\left(\hat{\beta}_{1}\right)=\beta_{1}
+        $$
+        \item Sabemos que
+        $$
+        \begin{gathered}
+        E\left(\hat{\beta}_{1}\right)=\frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)}=\frac{\operatorname{Cov}\left(X, Y^{*}+u\right)}{\operatorname{Var}(X)} \\
+        E\left(\hat{\beta}_{1}\right)=\frac{\operatorname{Cov}\left(X, Y^{*}\right)}{\operatorname{Var}(X)}+\frac{\operatorname{Cov}(X, u)}{\operatorname{Var}(X)} \\
+        E\left(\hat{\beta}_{1}\right)=\beta_{1}
+        \end{gathered}
+        $$
+        \item {\color{blue}Dado que $\operatorname{Cov}(X, u)=0$ por la definición del error clásico.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Intuición}
+    Si el error de medida en la variable dependiente no está sistemáticamente relacionado con las variables explicativas, entonces el estimador MCO sigue siendo insesgado.
+\end{frame}
+\begin{frame}{Impacto sobre precisión}
+    \begin{itemize}
+        \item  Sin embargo, los estimadores de MCO van a tener mayores varianza
+
+
+        \item Con errores de medición en la variable dependiente, el t\'ermino del error es $\varepsilon+u$. Y entonces, su varianza es $\operatorname{Var}(\varepsilon)+\operatorname{Var}(u)>\operatorname{Var}(\varepsilon)$.
+    \end{itemize}
+\end{frame}
+
+\section{Errores de medición en variables independientes}
+
+\begin{frame}{Ejemplo: Relación entre salario e IQ}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{complemetario/Imagenes/RelacionSalarioIQ.jpeg}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Errores de medición en variables independientes}
+    \begin{itemize}
+        \item Cuando la variable mal medida es la independiente, el problema es m\'as grave.
+        \item La variable que nos interesa es $X^{*}$, pero solo tenemos una versión imprecisa de esta variable donde
+        $$
+        X=X^{*}+u
+        $$
+        \item Vamos a seguir suponiendo errores clásicos, es decir que $\operatorname{Cov}\left(X^{*}, u\right)=0$ y $V(u)=\sigma_{u}^{2}$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Impacto sobre MCO}
+    \begin{itemize}
+        \item El modelo verdadero es:
+        \begin{equation*}
+        Y=\beta_{0}+\beta_{1} X^{*}+\epsilon \tag{1}
+        \end{equation*}
+        \item Donde asumimos que $E\left[\epsilon \mid X^{*}\right]=0$
+        \item Pero podemos estimar:
+        \begin{equation*}
+            Y=b_{0}+b_{1} X+v \tag{2}
+        \end{equation*}
+
+        \item $v=\epsilon-\beta_1u$
+        \item Vamos a ver que ahora el estimador $\hat{b}_1$ va a ser sesgado.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Sesgo de atenuaci\'on - sesgo por error de medici\'on en X}
+    \begin{itemize}
+        \item Estimamos:
+        $$
+        \begin{gathered}
+        Y=b_{0}+b_{1} X+v \\
+        E\left[\hat{b}_{1}\right]=\frac{\operatorname{Cov}(X, Y)}{\operatorname{Var}(X)}=\frac{\operatorname{Cov}\left(X^{*}+u, Y\right)}{\operatorname{Var}\left(X^{*}+u\right)}
+        \end{gathered}
+        $$
+        \item Dado que el error es clásico: $\operatorname{Cov}(u, Y)=0$ por lo que:
+        $$
+        E\left[\hat{b}_{1}\right]=\frac{\operatorname{Cov}\left(X^{*}, Y\right)}{\operatorname{Var}\left(X^{*}+u\right)}
+        $$
+        \item Además, el denominador lo podemos escribir como la suma de varianzas:
+        $$
+        \operatorname{Var}\left(X^{*}+u\right)=\operatorname{Var}\left(X^{*}\right)+\operatorname{Var}(u)
+        $$
+        \item Reemplazando $Y$ por el modelo original (1):
+        $$
+        E\left[\hat{b}_{1}\right]=\frac{\operatorname{Cov}\left(X^{*}, \beta_{0}+\beta_{1} X^{*}+\epsilon\right)}{\operatorname{Var}\left(X^{*}\right)+\operatorname{Var}(u)}
+        $$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \begin{itemize}
+        \item separando las covarianzas:
+        $$
+        E\left[\hat{b}_{1}\right]=\frac{\beta_{1} \operatorname{Cov}\left(X^{*}, X^{*}\right)+\operatorname{Cov}\left(X^{*}, \epsilon\right)}{\operatorname{Var}\left(X^{*}\right)+\operatorname{Var}(u)}
+        $$
+        \item Sabemos que el modelo real esta bien especificado por lo que $\operatorname{Cov}\left(X^{*}, \epsilon\right)=0$. Ademas, por definici\'on, $\operatorname{Cov}\left(X^{*}, X^{*}\right)=\operatorname{Var}\left(X^{*}\right)$.
+        \item Entonces:
+        $$
+        E\left(\hat{b}_{1}\right)=\beta_{1} \frac{\operatorname{Var}\left(X^{*}\right)}{\operatorname{Var}\left(X^{*}\right)+\operatorname{Var}(u)}=a \cdot \beta_{1}
+        $$
+        \item Noten que $a<1$.
+        \item Por eso se llama sesgo de atenuaci\'on. El coeficiente de MCO ser\'a m\'as pequeño en valor absoluto, subestimaremos el efecto.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Sesgo de atenuación}
+    $$
+    E\left(\hat{b}_{1}\right)=\beta_{1} \frac{\operatorname{Var}\left(X^{*}\right)}{\operatorname{Var}\left(X^{*}\right)+\operatorname{Var}(u)}=a \cdot\beta_{1}
+    $$
+    \begin{itemize}
+        \item Si $\beta_{1}>0$, el estimador será menor al par\'ametro.
+        \item Si $\beta_{1}<0$, el estimador será mayor al par\'ametro, menor en valor absoluto.
+        \item Entonces, tenderemos a subestimar (en valor absoluto) la magnitud de la pendiente.
+        \item La magnitud del sesgo depende de cuan grande es $\operatorname{Var}(u)$ comparado a $\operatorname{Var}(X)$. Esto se llama: "signal-to-noise ratio".
+    \end{itemize}
+\end{frame}
+
+% ===================== EJERCICIOS RESUELTOS =====================
+
+\begin{frame}{Ejercicio Resuelto 1}
+
+\begin{block}{Ejercicio 1 (varianza y error estándar)}
+En una regresión simple del gasto en consumo sobre el ingreso (datos CASEN, $n=200$ hogares) se obtuvo:
+\[
+\text{SCT}_x=\sum_i(x_i-\bar x)^2=5000, \qquad s^2=\frac{\text{SCR}}{n-2}=8.
+\]
+Calcule (a) $\widehat{\text{Var}}(\hat\beta_1)$ y (b) el error estándar $\text{ee}(\hat\beta_1)$.
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+\textbf{(a)} En el modelo simple $\widehat{\text{Var}}(\hat\beta_1)=s^2/\text{SCT}_x$:
+\[
+\widehat{\text{Var}}(\hat\beta_1)=\frac{8}{5000}=0.0016.
+\]
+\textbf{(b)} El error estándar es la raíz:
+\[
+\text{ee}(\hat\beta_1)=\sqrt{0.0016}=0.04.
+\]
+Si $\hat\beta_1=0.6$, el estadístico $t=0.6/0.04=15$, altamente significativo. Mayor $\text{SCT}_x$ (más variación en el ingreso) habría dado un estimador aún más preciso.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}{Ejercicio Resuelto 2}
+
+\begin{block}{Ejercicio 2 (sesgo de atenuación)}
+El retorno verdadero de la habilidad cognitiva sobre el salario es $\beta_1=0.10$. La habilidad se mide con un test ruidoso: $\text{Var}(X^*)=9$ (señal) y $\text{Var}(u)=3$ (ruido del test). Asumiendo error de medición clásico, ¿qué valor esperaríamos de $E[\hat b_1]$ al usar el test medido?
+\end{block}
+
+\pause
+
+\begin{exampleblock}{Solución}
+El factor de atenuación es
+\[
+a=\frac{\text{Var}(X^*)}{\text{Var}(X^*)+\text{Var}(u)}=\frac{9}{9+3}=\frac{9}{12}=0.75.
+\]
+Por lo tanto
+\[
+E[\hat b_1]=a\cdot\beta_1=0.75\times 0.10=0.075<0.10.
+\]
+El error de medición \textbf{atenúa} el coeficiente hacia cero: subestimamos el retorno en un $25\%$. Cuanto mayor el ruido relativo, mayor la atenuación.
+\end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo aplicado en Python: simulación de atenuación}
+
+\begin{exampleblock}{Comprobando el sesgo de atenuación con statsmodels}
+\begin{verbatim}
+import numpy as np
+import statsmodels.api as sm
+
+np.random.seed(294)
+n = 5000
+xstar = np.random.normal(0, 3, n)     # Var(X*)=9
+y = 2 + 0.10*xstar + np.random.normal(0,1,n)
+u = np.random.normal(0, np.sqrt(3), n) # ruido del test
+x = xstar + u                          # X medido con error
+
+m = sm.OLS(y, sm.add_constant(x)).fit()
+print(m.params[1])   # ~0.075, atenuado desde 0.10
+\end{verbatim}
+\end{exampleblock}
+
+El coeficiente estimado se acerca a $a\cdot\beta_1=0.075$, confirmando la teoría.
+
+\end{frame}
+
+% ===================== EJERCICIOS PROPUESTOS =====================
+
+\begin{frame}{Ejercicios Propuestos}
+
+\begin{block}{Ejercicio 3 (Propuesto -- rutinario)}
+En una regresión simple, $s^2=12$ y $\text{SCT}_x=300$. Calcule $\text{ee}(\hat\beta_1)$. Si además el $R^2_j$ en un modelo múltiple fuese $0.64$, ¿en qué factor aumentaría la varianza respecto al caso $R^2_j=0$?
+\end{block}
+
+\begin{block}{Ejercicio 4 (Propuesto -- intermedio)}
+Demuestre, usando los pesos $w_i$ del estimador MCO, que $E[\hat\beta_1\mid\mathbf{X}]=\beta_1$ (insesgamiento). Indique en qué paso se usa el supuesto SLM.4.
+\end{block}
+
+\begin{block}{Ejercicio 5 (Propuesto -- desafiante)}
+Un investigador mide el ingreso con error clásico ($\text{Var}(u)=4$) y la señal verdadera tiene $\text{Var}(X^*)=16$. (a) Calcule el factor de atenuación $a$. (b) Si quisiera reducir el sesgo a la mitad, ¿cuánto debería bajar $\text{Var}(u)$? Discuta por qué el problema es más grave que el error de medición en $Y$.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Conclusiones}
+    \begin{itemize}
+        \item Cuando trabajamos con datos reales, no siempre medimos exactamente lo que queremos en nuestro modelo.
+        \item Errores de medición de la variable dependiente no generan sesgo pero si aumentan varianza, dificultando el reconocimiento de relaciones entre variables.
+        \item El error de medición en variables independientes genera sesgo de atenuación: siempre vamos a subestimar la magnitud de la relación entre variables.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Resumen}
+
+\begin{block}{Puntos Clave de la Clase 5}
+\begin{enumerate}
+    \item Los supuestos SLM.1--SLM.4 dan insesgamiento; SLM.5--SLM.6 añaden eficiencia.
+    \item $\text{Var}(\hat\beta_j)=\sigma^2/[\text{SCT}_j(1-R_j^2)]$; el error estándar usa $s$ en vez de $\sigma$.
+    \item $s^2=\text{SCR}/(n-k-1)$ es insesgado para $\sigma^2$ (corrección por grados de libertad).
+    \item \textbf{Gauss-Markov}: bajo SLM.1--SLM.5 MCO es BLUE (mínima varianza entre lineales insesgados).
+    \item Error de medición: en $Y$ no sesga (sube varianza); en $X$ genera \textbf{atenuación} hacia cero.
+\end{enumerate}
+\end{block}
+
+\begin{alertblock}{Para la próxima clase}
+Revisar: estimación e inferencia en el modelo de regresión múltiple y pruebas de hipótesis sobre los coeficientes.
+\end{alertblock}
+
+\end{frame}
+
+\end{document}

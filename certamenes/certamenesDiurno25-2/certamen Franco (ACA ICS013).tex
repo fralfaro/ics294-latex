@@ -1,0 +1,544 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.08]{Figuras/logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\CERTAMEN 1:}\textbf{ ECONOMETRÍA ICS-013}
+\end{large}\\
+\vspace{0.2cm}
+II Semestre 2025\\
+Profesores: Franco Antonucci Fernández\\
+%Ayudante: 
+\end{center}
+
+\textbf{Instrucciones:} 
+
+\begin{itemize}
+
+    \item Usted dispone de 90 minutos  para intentar los 100 puntos del certamen.
+    \item Cuide la presentación y redacción de sus preguntas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora TI.
+     
+\end{itemize}
+
+\section{Comentes y preguntas cortas (40 puntos)}
+
+Responda solo 4 de las siguientes preguntas.
+\begin{enumerate}
+    \item \textbf{RdeA9.1} (10 puntos) 
+¿Cuál es la diferencia entre un muestreo aleatorio simple y un muestreo estratificado? ¿En qué situaciones conviene usar cada uno en una investigación econométrica?
+
+
+
+    \item \textbf{RdeA3.2 y 9.1}  (10 puntos) 
+En una importante empresa exportadora, el gerente de logística sostiene que el tiempo promedio de entrega de los pedidos es de 15 días.  
+Para verificarlo, una analista toma una muestra aleatoria de 400 envíos y encuentra que el tiempo promedio de entrega es de 14,26 días, con una desviación estándar de 2 días.  
+Con un 95\% de confianza, ¿se puede concluir que la afirmación del gerente es correcta?
+
+
+    \item \textbf{RdeA3.2} (10 puntos) 
+    Un reciente estudio propone que el {\bf uso de redes} sociales influyen en el rendimiento de los estudiantes. Se estima el siguiente  modelo:
+    
+    $$y_i = \hat{\beta}_0 + \hat{\beta}_1 \cdot x_i + \hat{u}_i$$
+    Donde $y_i$ es el promedio de notas del alumno $i$; $x_i$ es la cantidad de aplicaciones instaladas en el celular del alumno $i$. $\hat{\beta}_0$; $\hat{\beta}_1$; $u$ son los coeficientes estimados.\\
+    
+    En ausencia de variable omitida, este modelo entregará un coeficiente insesgado. Comente.\\
+
+
+
+
+    \item \textbf{RdeA9.1} (10 puntos) 
+Considere el modelo de regresión lineal simple:
+
+\[
+y_i = \beta_0 + \beta_1 x_i + u_i, \qquad i=1,\dots,n
+\]
+
+donde $E[u_i|x_i]=0$ y $Var(u_i|x_i)=\sigma^2$.
+
+Muestre que el estimador de Mínimos Cuadrados Ordinarios para la pendiente:
+    \[
+    \hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}.
+    \]
+
+Es insesgado y su varianza es:
+    \[
+    Var(\hat{\beta}_1) = \frac{\sigma^2}{\sum_{i=1}^n (x_i - \bar{x})^2}.
+    \]
+
+
+
+
+    \item \textbf{RdeA9.1} (10 puntos) 
+Considere un modelo de regresión lineal en el que se cumple la descomposición:
+
+\[
+Y_i = \hat{Y}_i + \bar{u}_i, \qquad i = 1,\dots,n,
+\]
+
+donde $Y_i$ es el valor observado de la variable dependiente, $\hat{Y}_i$ es el valor ajustado por el modelo y $\hat{u}_i$ es el residuo. 
+
+Se propone la siguiente igualdad:
+\[
+\sum_{i=1}^n (Y_i - \bar{Y})^2 
+= \sum_{i=1}^n (\hat{Y}_i - \bar{Y})^2 
++ \sum_{i=1}^n \hat{u}_i^2.
+\]
+
+
+
+    \text{(4 puntos) Demuestre o refute esta igualdad mostrando los pasos necesarios.}  
+
+
+
+    \text{(3 puntos) ¿Qué propiedad o condición debe cumplirse para que esta igualdad sea válida?} 
+
+
+
+    \text{(3 puntos) Explique el significado de cada término en esta expresión.} 
+
+
+
+     \item \textbf{RdeA3.2 y 9.1} (10 puntos) Suponga que se consideran los siguientes modelos lineales:
+
+\[
+\text{salario}_i = \beta_0 + \beta_1 \cdot \text{educación}_i + u_i,
+\]
+
+\[
+\text{educación}_i = \gamma_0 + \gamma_1 \cdot \text{salario}_i + v_i.
+\]
+
+Dado que la relación entre salario y educación es positiva, un analista afirma que necesariamente 
+$\beta_1 = \gamma_1$. 
+
+Comente esta afirmación. Justifique su respuesta.
+
+    
+    %Suponga que se tiene el siguiente modelo 
+    % $$\text{salario} = \beta_0 + \beta_1 \cdot \text{educación}  + u$$
+    % y, al mismo tiempo se tiene que 
+    % $$\text{educación} = \gamma_0 + \gamma_1 \cdot \text{salario} + v$$
+    
+    % Como la relación entre salario y educación es positiva, entonces se tendrá que $\beta_1 = \gamma_1$. Comente.\\
+
+
+\item \textbf{RdeA3.2 y 9.1} (10 puntos) Describa el esquema de muestreo utilizado por Miguel y Kremer (2004) en su estudio {\it Worms: Identifying Impacts on Education and Health in the Presence of Treatment Externalities}. ¿Qué ventajas tiene este diseño para la identificación causal de los efectos del tratamiento?\\
+%\fbox{\parbox[c][3cm][c]{16cm}{\strut}}
+    %\textbf{Respuesta:} Miguel y Kremer (2004) utilizaron un diseño de muestreo por conglomerados (cluster sampling), donde la unidad de aleatorización fue la escuela para capturar externalidades (4 puntos). Trabajaron con 75 escuelas primarias rurales en Kenia, divididas aleatoriamente en tres grupos: dos grupos recibieron tratamiento en distintos años (1998 y 1999), y un tercer grupo actuó como control durante el estudio. La aleatorización por escuelas reduce el riesgo de sesgo de selección y permite atribuir diferencias causales en resultados al tratamiento.
+
+\end{enumerate}
+
+\section{Ejercicios (60 puntos)}
+
+Responda solo 2 de las siguientes preguntas.
+\begin{enumerate}
+      \item \textbf{RdeA3.2} (30 puntos) 
+      Suponga que usted quiere estudiar el impacto que tiene la escolaridad de los padres en la escolaridad de los hijos, y estima el siguiente modelo:
+
+\begin{equation}
+    S_i = \alpha + \beta S^P_i + \mu_i
+\end{equation}
+
+
+      Donde $S_i$ es la escolaridad del hijo $i$; $S^P_i$ representan los años de escolaridad promedio de los padres del individuo $i$; mientras que $\mu_i$ es un término de error. Lamentablemente usted no incluye la habilidad de los hijos como determinante clave de su escolaridad. En realidad, la verdadera relación existente entre escolaridad de los hijos y la de sus padres debería ser estimada a través de la siguiente ecuación:
+\begin{equation}
+    S_i = \alpha + \beta S^P_i + \gamma H_i + u_i
+\end{equation}
+
+        \begin{itemize}
+            \item [a)] (10 puntos) Demuestre que al estimar $\beta$ a partir del modelo univariado se incurre en sesgo.
+
+            
+
+            \item [b)] (5 puntos) ¿De qué depende el sesgo de la estimación?
+            \item [c)] (5 puntos) ¿Es posible especular respecto de la dirección del sesgo?
+
+
+            \item [d)] (10 puntos) Si usted cuenta con una muestra de 5 individuos:
+
+            \begin{table}[H]
+                \centering
+                \begin{tabular}{c|c|c}
+                 Escolaridad ($S$) & Escolaridad de los padres ($S^P$)& Habilidad ($H$) \\ \hline
+                 8&4&6\\  
+                 10&13&5\\ 
+                 12&13&8\\ 
+                 17&15&10\\ 
+                 22&21&11\\ 
+                \end{tabular}
+                %\caption{Caption}
+                \label{tab:placeholder}
+            \end{table}
+
+            Sin considerar habilidad, ¿cuál sería el coeficiente estimado para $\beta$? Y si se incluye habilidad, ¿cómo debería ser el coeficiente estimado para $\beta$?\\
+
+            \end{itemize}
+          
+        \item \textbf{RdeA3.2 y 9.1} (30 puntos) La dirección de un banco está interesada en conocer el impacto de un programa de mentorías internas sobre el desempeño salarial de sus empleados. 
+Se ofreció la posibilidad de participar de manera voluntaria a todos los trabajadores con al menos 3 años de experiencia. 
+De un total de 200 empleados, 80 participaron en el programa. 
+Un año después, el salario promedio de los empleados que recibieron la mentoría es de US\$2.400, mientras que el de aquellos que no participaron es de US\$2.100.
+
+\begin{enumerate}
+    \item (8 puntos) ¿Podemos concluir que existe una relación \textit{causal} entre participar en el programa de mentorías y el aumento del salario? 
+  
+
+    \item (8 puntos) Calcule un intervalo de confianza al 95\% para la diferencia de medias salariales entre empleados que participaron en la mentoría y los que no participaron, 
+suponiendo que la varianza poblacional de los salarios es conocida e igual a $\sigma^2 = 10000$ en ambos grupos. 
+El número de empleados en el grupo de mentoría es $n_1 = 80$ y en el grupo de control es $n_0 = 120$.
+
+
+ \item (6 puntos) Halle el valor del coeficiente $\hat{\beta}_1$ en un modelo de regresión lineal simple que explique el salario en función de la variable dicotómica 
+    ``mentoria'' (1 = participó, 0 = no participó). 
+  
+  
+\item (8 puntos) El coeficiente $\hat{\beta}_1$ estimado, ¿representa el ATT o el ATE? Justifique.
+ 
+\end{enumerate}
+%     \item (30 puntos) regresion calculo estimadores residuos grafico modelo de regresion  
+
+% Considere el siguiente modelo de regresión lineal con los supuestos estándares:
+
+%     \[
+%     Y_i = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + u_i
+%     \]
+    
+% Se dispone de la siguiente información:
+
+% \begin{table}[H]
+% \centering
+% \begin{tabular}{|c|c|c|c|}
+% \hline
+% \textbf{Lote} & \textbf{Tiempo de producción (\(Y\))} & \textbf{Nº de operarios (\(X_1\))} & \textbf{Tiempo preparación (hrs) (\(X_2\))} \\
+% \hline
+% 1 & 10 & 1 & 8 \\
+% 2 & 13 & 2 & 7 \\
+% 3 & 17 & 3 & 3 \\
+% 4 & 20 & 4 & 1 \\
+% \hline
+% \end{tabular}
+% \caption{Datos sobre producción y uso de recursos}
+% \end{table}
+
+
+% Una empresa desea estimar el tiempo de producción de un lote en función del número de operarios asignados al proceso y del tiempo que toma preparar la maquinaria. Se propone el siguiente modelo:
+
+% \[
+% Y_i = \beta_0 + \beta_1 \cdot \text{Operarios}_i + \beta_2 \cdot \text{Preparación}_i + \varepsilon_i
+% \]
+
+
+%     \text{(5 puntos) Escriba el modelo en forma matricial.} 
+
+% El modelo en forma matricial se escribe como:
+% \[
+% Y = X\beta + u,
+% \]
+
+% donde
+
+% \[
+% Y=
+% \begin{bmatrix}
+% 10\\
+% 13\\
+% 17\\
+% 20
+% \end{bmatrix},
+% \quad
+% X=
+% \begin{bmatrix}
+% 1 & 1 & 8\\
+% 1 & 2 & 7\\
+% 1 & 3 & 3\\
+% 1 & 4 & 1
+% \end{bmatrix},
+% \quad
+% \beta=
+% \begin{bmatrix}
+% \beta_0\\
+% \beta_1\\
+% \beta_2
+% \end{bmatrix},
+% \quad
+% u=
+% \begin{bmatrix}
+% u_1\\
+% u_2\\
+% u_3\\
+% u_4
+% \end{bmatrix}.
+% \]
+
+% Estructura matricial:
+% \[
+% \begin{bmatrix}
+% 10\\
+% 13\\
+% 17\\
+% 20
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% 1 & 1 & 8\\
+% 1 & 2 & 7\\
+% 1 & 3 & 3\\
+% 1 & 4 & 1
+% \end{bmatrix}
+% \begin{bmatrix}
+% \beta_0\\
+% \beta_1\\
+% \beta_2
+% \end{bmatrix}
+% +
+% \begin{bmatrix}
+% u_1\\
+% u_2\\
+% u_3\\
+% u_4
+% \end{bmatrix}.
+% \]
+
+
+%     \text{(10 puntos) Calcule los estimadores \(\hat{\beta} = (X'X)^{-1}X'Y\)}.
+    
+%     \text{(Realice el desarrollo completo del procedimiento utilizado para obtener los resultados) }
+
+% \[
+% X'X \;=\;
+% \begin{bmatrix}
+% 4 & 10 & 19\\
+% 10 & 30 & 35\\
+% 19 & 35 & 123
+% \end{bmatrix}.
+% \]
+
+% \[
+% (X'X)^{-1} \;=\;
+% \begin{bmatrix}
+% \frac{493}{6} & -\frac{113}{6} & -\frac{22}{3}\\[6pt]
+% -\frac{113}{6} & \frac{131}{30} & \frac{5}{3}\\[6pt]
+% -\frac{22}{3} & \frac{5}{3} & \frac{2}{3}
+% \end{bmatrix}.
+% \]
+
+% \[
+% X'Y \;=\;
+% \begin{bmatrix}
+% 60\\
+% 167\\
+% 242
+% \end{bmatrix}.
+% \]
+
+% \[
+% \hat\beta \;=\; (X'X)^{-1}X'Y \;=\;
+% \begin{bmatrix}
+% \frac{61}{6}\\[6pt]
+% \frac{77}{30}\\[6pt]
+% -\frac{1}{3}
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% 10.1667\\[2pt]
+% 2.5667\\[2pt]
+% -0.3333
+% \end{bmatrix}.
+% \]
+
+
+    
+%     \text{(7 puntos) Interprete los coeficientes estimados en el contexto operativo.} 
+
+% \[\hat\beta_0 \approx 10.17
+% \]
+% (intercepto) Representa el tiempo base de producción de un lote cuando el número de operarios y el tiempo de preparación son cero. 
+
+% \[\hat\beta_1 \approx 2.57
+% \]
+% (efecto de los operarios) Indica que, manteniendo fijo el tiempo de preparación, cada operario adicional aumenta en promedio unas 2.6 horas el tiempo de producción. 
+
+% \[\hat\beta_2 \approx -0.33
+% \]
+% (efecto de la preparación) Significa que, en promedio, por cada hora extra de preparación, el tiempo de producción disminuye en alrededor de 0.33 horas.
+
+
+%     \text{(8 puntos) Obtenga el vector de predicción Y.} 
+% \
+
+% \[
+% X=
+% \begin{bmatrix}
+% 1 & 1 & 8\\
+% 1 & 2 & 7\\
+% 1 & 3 & 3\\
+% 1 & 4 & 1
+% \end{bmatrix},
+% \qquad
+% \hat\beta=
+% \begin{bmatrix}
+% \frac{61}{6}\\[4pt]
+% \frac{77}{30}\\[4pt]
+% -\frac{1}{3}
+% \end{bmatrix}.
+% \]
+
+% \[
+% \hat Y \;=\; X\hat\beta \;=\;
+% \begin{bmatrix}
+% 1 & 1 & 8\\
+% 1 & 2 & 7\\
+% 1 & 3 & 3\\
+% 1 & 4 & 1
+% \end{bmatrix}
+% \begin{bmatrix}
+% \frac{61}{6}\\[4pt]
+% \frac{77}{30}\\[4pt]
+% -\frac{1}{3}
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% \frac{61}{6} + \frac{77}{30} - \frac{8}{3}\\[6pt]
+% \frac{61}{6} + 2\!\left(\frac{77}{30}\right) - \frac{7}{3}\\[6pt]
+% \frac{61}{6} + 3\!\left(\frac{77}{30}\right) - 1\\[6pt]
+% \frac{61}{6} + 4\!\left(\frac{77}{30}\right) - \frac{1}{3}
+% \end{bmatrix}.
+% \]
+
+% \text{Simplificando cada componente:}
+% \[
+% \hat Y =
+% \begin{bmatrix}
+% \frac{151}{15}\\[6pt]
+% \frac{389}{30}\\[6pt]
+% \frac{253}{15}\\[6pt]
+% \frac{201}{10}
+% \end{bmatrix}
+% \approx
+% \begin{bmatrix}
+% 10.0667\\[2pt]
+% 12.9667\\[2pt]
+% 16.8667\\[2pt]
+% 20.1000
+% \end{bmatrix}.
+% \]
+
+
+\item \textbf{RdeA4.1 y 9.1} (30 puntos) Un grupo de investigadores estudia la relación entre el coeficiente intelectual (CI) y el puntaje en una prueba estandarizada. Se cuenta con 7 observaciones de individuos, para los cuales se registró la siguiente información:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Individuo} & \textbf{CI} ($X$) & \textbf{Puntaje} ($Y$)\\
+\hline
+1 & 100  & 43 \\
+2 & 100 & 42 \\
+3 & 105 & 45 \\
+4 & 103 & 44 \\
+5 & 106 & 47 \\
+6 & 115 & 45 \\
+7 & 120 & 50 \\
+\hline
+\end{tabular}
+\end{center}
+
+el modelo de regresión planteado por los investigadores está dado por:
+$$Puntaje = \beta_0 + \beta_1 CI + u$$
+
+\begin{enumerate}
+      \item (10 puntos) Determine los estimadores de Mínimos Cuadrados Ordinarios (MCO) 
+$\hat{\beta}_0$ y $\hat{\beta}_1$ en el modelo que relaciona el 
+\textit{Puntaje} en función del \textit{Coeficiente Intelectual (CI)}. 
+Interprete el significado económico/estadístico de cada uno de estos estimadores.
+
+
+
+
+
+    \item (6 puntos) Calcule los valores predichos del \textit{Puntaje} a partir del modelo estimado.
+
+\item (6 puntos) Represente gráficamente la {recta de regresión muestral} obtenida. 
+En el mismo gráfico, marque los valores observados del {Puntaje} 
+y señale los {residuos} correspondientes a cada observación.
+
+
+    \item (8 puntos) Calcule el coeficiente de determinación $R^2$ del modelo e interprete su valor.
+  
+   
+\end{enumerate}
+\end{enumerate}
+
+\section{Formulario}
+\begin{itemize}
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la media poblacional $\mu$ cuando $\sigma$ es \emph{\textbf{conocido}}:
+$\color{red}{\bar{x} \pm z_{\frac{\alpha}{2}}\frac{\sigma}{\sqrt{n}}}$
+
+\item El intervalo de confianza de $100(1-\alpha)\%$ para la diferencia de medias
+$\mu_x-\mu_y$ es:
+${\color{red}(\bar{X}-\bar{Y}) \pm z_{\frac{\alpha}{2}}\sqrt{\frac{\sigma_x^2}{n_x}+\frac{\sigma_y^2}{n_y}}}$
+
+\item  Estimadores MCO.
+{\color{red}
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x} \quad \quad   \hat{\beta}_1 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$}
+    
+\item 
+	{\color{red}	\[ SST = \sum_{i=1}^{n} (y_i - \bar{y})^2 \quad \quad  SSE = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2 \quad \quad SSR = \sum_{i=1}^{n} \hat{u}_i^2  \]}
+		
+		
+   
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Figuras/normal.png}
+\end{figure}
+
+
+
+
+\end{document}

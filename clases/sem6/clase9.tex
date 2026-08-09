@@ -1,0 +1,319 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 9: Interpretaci\'on}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}[shrink=10]
+\frametitle{Incorporación de no-linealidades}
+    \begin{enumerate}
+        \item {\color{blue}Variable dependiente e independiente en niveles:}
+        \begin{itemize}
+            \begin{center}$y_i = \beta_0 + \beta_1 x_{1,i} + \ldots + u_i$\end{center}
+            \item → \textbf{Ejemplo:} $salario_i = \beta_0 + \beta_1 educ_i + u_i$
+            \item $\beta_1 = \frac{\Delta y}{\Delta x_1}$
+            \item Por cada año más de educación se obtiene, en promedio, $\beta_1$ dólares más de salario.
+        \end{itemize}
+        \item {\color{blue}Variable dependiente en log e independiente en niveles:}
+        \begin{itemize}
+            \begin{center} $\log(y_i) = \beta_0 + \beta_1 x_{1,i} + \ldots + u_i$\end{center}
+            \item → \textbf{Ejemplo:} $\log(salario)_i = \beta_0 + \beta_1 educ_i + u_i$
+            \item $\beta_1 = \frac{\Delta \log y}{\Delta x_1}\approx \frac{\Delta \% y}{100\Delta x_1}$
+            \item Por cada año más de educación se obtiene, en promedio, un aumento de $100 \cdot \beta_1 \%$ del salario, manteniendo todas las demás variables constantes.
+        \end{itemize}
+        \item {\color{blue}Variable dependiente e independiente en logs:}
+        \begin{itemize}
+            \begin{center}$\log(y_i) = \beta_0 + \beta_1 \log(x_{1,i}) + \ldots + u_i$\end{center}
+            \item → \textbf{Ejemplo:} $\log(salario)_i = \beta_0 + \beta_1 \log(educ)_i + u_i$
+            \item $\beta_1 = \frac{\Delta \log y}{\Delta \log x_1}\approx \frac{\Delta\% y}{ \Delta\% x_1}$
+            \item Un aumento de 1\% de los años de educación implica, en promedio, un aumento de $\beta_1 \%$ del salario manteniendo todas las demás variables constantes. Es decir, representa una {\bf elasticidad}.
+        \end{itemize}
+    \end{enumerate}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Variables en logaritmo}
+
+\begin{itemize}
+    \item Diferencias logarítmicas:
+    \[
+    \Delta \log(X)= \log(X_1)-\log(X_0)= \log\left (\frac{ X_1}{X_0}\right )=\log\left(1+{\Delta X\over X_0} \right)
+    \]
+    \item Recuerde que en nuestro curso y en el libro $log(X)=ln(X)$.
+    \item Sabemos que\footnote{Serie de Taylor centrada en 0, es decir, es una buena aproximación para x cercanos a 0.}:
+
+    \[
+    \log(1+x) \approx x
+    \]
+    
+\end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Variables en logaritmo: Caso 1}
+
+
+    \[\log(salario) = 0.584 + 0.083 \cdot educ\]
+    \begin{itemize}
+        \item Cada año adicional de educación se asocia con un incremento de 8,3\% del salario.
+        \item Como el cambio porcentual es el mismo por cada año adicional de educación, el cambio en el salario en dólares ($e^{\log(salario)}$) por un año más de educación aumenta a medida que la educación lo hace.
+    \end{itemize}
+
+             \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem6/images/salario.png}
+    \end{figure}
+
+\end{frame}
+\begin{frame}
+\frametitle{Variables en logaritmo: Caso 2 - Elasticidad}
+
+\begin{itemize}
+    \item Cuando $x_j$ e $y$ se encuentran en logaritmo: un cambio de un 1\% en $x_j$ se asocia a un cambio de $\beta_j$\% en $y$.
+    \item Por ejemplo, se estima la elasticidad de la demanda de vino en Chile.
+    \[
+    \log(\text{cantidad vino}) = 6 - 0,2 \log(\text{precio vino})
+    \]
+    \item Un aumento de un 1\% en el precio del vino corresponde a una caída del 0,2\% en la cantidad consumida de vino.
+    \item Se interpreta como una elasticidad. Por ejemplo, la elasticidad de la demanda de vino con respecto al precio es 0,2.
+\end{itemize}
+
+\end{frame}
+\begin{frame}[shrink=10]
+\frametitle{Formas cuadráticas}
+
+\begin{itemize}
+    \item El Modelo de Regresión Lineal se refiere a una relación lineal entre los coeficientes que acompañan a los regresores $X$. Pero las $X$ pueden tomar cualquier forma.
+    \item Considere el modelo:
+    \[
+    y = \beta_0 + \beta_1 x + \beta_2 x^2 + u
+    \]
+    \item ¿Cuál es la interpretación de $\beta_1$ y $\beta_2$?
+    \textcolor{blue}{\item  Siempre piensen en términos de derivadas parciales con respecto a la variable explicativa.}
+    \item En este caso, la predicción de $y$ es:
+    \[
+    \hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x + \hat{\beta}_2 x^2
+    \]
+    Lo que implica que:
+    \[
+    \Delta \hat{y} \approx (\hat{\beta}_1 + 2 \hat{\beta}_2 x) \Delta x \Rightarrow \frac{\Delta \hat{y}}{\Delta x} \approx \hat{\beta}_1 + 2 \hat{\beta}_2 x
+    \]
+    \item Noten que ahora un cambio en $x$ genera un cambio esperado en $y$ que depende del nivel de $x$: el efecto parcial de $x$ en $y$ es variable.
+    \item $\hat{\beta}_1$ es aproximadamente la pendiente de la relación entre $x$ y $y$ cuando $x = 0$.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Ejemplo: efecto de experiencia en salario}
+
+\begin{itemize}
+    \item Considere la siguiente ecuación:
+    \[
+    \hat{salario} = 3.73 + 0.298\text{exper} - 0.0061\text{exper}^2
+    \]
+    \item La experiencia tiene un efecto positivo en el salario pero este efecto va cayendo para niveles altos de experiencia (\(\hat{\beta}_2\) negativo).
+    \item ¿Tiene sentido económico esto?
+    \item Específicamente, el efecto parcial de la experiencia en el salario es:
+\[
+\triangle \hat{salario} / \triangle \text{exper} = 0.298 - 2 \cdot 0.0061 \text{exper}
+\]
+    \item Cuando \(\beta_1\) y \(\beta_2\) tienen distinto signo, hay un valor de \(x\) a partir del cual el efecto \textit{ceteris paribus} de \(x\) en \(y\) cambia de dirección.
+    \item En el ejemplo, este valor es \(x = \left|\frac{\beta_1}{2\beta_2}\right| = 24.4\) años.
+    \item Otros polinomios de mayor grado también pueden ser incluidos en un MRL.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Ejemplo: experiencia y salario}
+
+
+Si bien los coeficientes son lineales, la relación entre experiencia y salario deja de ser lineal.
+
+
+             \begin{figure}
+                 \centering
+                 \includegraphics[width=0.65\linewidth]{sem6//images/sal_exp.png}
+             \end{figure}
+  
+
+
+\end{frame}
+\begin{frame}[shrink=10, t]
+\frametitle{Términos de interacción}
+
+\begin{itemize}
+    \item En ciertas ocasiones el efecto parcial de un regresor \(x\) en la variable dependiente \(y\) puede depender del valor de otro regresor \(z\).
+    \item En este caso, se incluye en la regresión un término de interacción \(x \times z\).
+    \item Ejemplo: suponga el siguiente modelo para el precio de una vivienda
+    \[
+    \text{precio} = \beta_0 + \beta_1\text{msq} + \beta_2\text{dorm} + \beta_3\text{msq} \cdot \text{dorm} + u
+    \]
+    donde \text{msq} son los metros cuadrados de la vivienda y \text{dorm} el número de dormitorios.
+    \item En este caso se cumple que
+    \[
+    \frac{\triangle \text{precio}}{\triangle \text{dorm}} = \beta_2 + \beta_3\text{msq}
+    \]
+    \item Si \(\beta_2 > 0\) y \(\beta_3 > 0\), la ecuación implica que un dormitorio adicional se relaciona con un incremento en el valor de la vivienda, y estos incrementos son mayores en viviendas de más metros cuadrados \text{msq}.
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Términos de interacción}
+
+\begin{itemize}
+    \item Para resumir el efecto de \text{dorm} en \text{precio} se puede evaluar \(\frac{\triangle \text{precio}}{\triangle \text{dorm}}\) en valores interesantes de \text{msq}, como su media, mediana o algún percentil extremo.
+    \item Por ejemplo, sea el tamaño de la casa promedio \(\bar{\text{msq}}\), el efecto de un \text{dorm} más:
+    \[
+    \frac{\triangle \text{precio}}{\triangle \text{dorm}} = \beta_2 + \beta_3\bar{\text{msq}}. \quad 
+    \]
+    
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Reescalando variables}
+¿Qué pasa si re-escalamos \(X\) o \(Y\)? Por ejemplo, para cambiar su unidad de medida?
+\begin{itemize}
+
+    \item Los coeficientes estimados, sus varianzas, estadísticos \(t\) y \(F\), cambian de manera tal que se preservan los efectos medidos y los resultados de los tests.
+    \item En general, se reescalan variables por motivos estéticos, como reducir el número de ceros en los decimales de una estimación de un coeficiente.
+    \item Este procedimiento es usual con variables económicas cuando los montos medidos son grandes o para transformar entre monedas de diferentes países.
+\end{itemize}
+
+\end{frame}
+\begin{frame}
+\frametitle{Ejemplo: reescalando \(Y\)}
+
+\begin{itemize}
+    \item Considere el siguiente modelo:
+    \[
+    {salario_{us\$}} = \beta_0 + \beta_1\text{educacion} + u
+    \]
+    donde ${salario_{us\$}}$ es medido en dólares.
+    \item Quiero estimarlo en pesos a TC=1000 (i.e. \({salario_{chile}} = 1000 \cdot {salario_{us\$}}\)).
+    \item Al multiplicar el modelo de los dos lados se obtiene
+    \[
+    1000 \cdot {salario_{us\$}} = 1000 \beta_0 + 1000 \beta_1 \text{educ} + 1000 \cdot u \quad 
+    \]
+    \[
+    {salario_{chile}} = \tilde{\beta}_0 + \tilde{\beta}_1 \text{educ} + \tilde{u} \quad 
+    \]
+    donde \textcolor{red}{\(\tilde{\beta}_j = 1000 \beta_j\).}
+    \item Interpretación. Asuma \(\beta_j = 20\)
+    \begin{enumerate}
+        \item Modelo original: un aumento de un año de educación implica un aumento de 20 dólares en el salario promedio.
+        \item Modelo nuevo: un aumento de un año de educación implica un aumento de 20000 pesos en el salario promedio.
+    \end{enumerate}
+\end{itemize}
+\text{}
+\end{frame}
+
+
+\begin{frame}{Reescalando un regresor X }
+            \[ y = \beta_0 + \beta_1 x + u\]
+Si re-escala la variable $x$ por $\tilde{x} = \alpha x$ se estima:
+            \[ y = \beta_0 + \tilde{\beta}_1 \tilde{x} + u\]
+        $\Rightarrow$
+        \begin{itemize}
+            \item $\hat{\tilde{\beta}}_1 = \frac{\hat{\beta}_1}{\alpha}$
+            \item $\text{Var}(\hat{\tilde{\beta}}_1) = ?$%\frac{\text{Var}(\hat{\beta}_1)}{\alpha^2}$
+            %\item El t-estadístico cambia? 
+            \item $\hat{\sigma}^2$, SSR, SST, $R^2$ 
+        \end{itemize}
+\end{frame}
+
+\begin{frame}{En resumen}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{l|c|c|c}
+       Modelo  & Var. dependiente & Var. independiente & Interpretación $\beta$ \\ \hline 
+       Nivel-nivel  & $y$ & $x$ & $\Delta y = \beta_i \Delta x$\\
+       Nivel-log  & $y$ & $log(x)$ & $\Delta y = \frac{\beta_i}{100} \Delta \% x$ \\
+       Log-nivel  & $log(y)$ & $x$ & $ \Delta\% y = (100 \beta_i) \Delta x$\\
+       Log-log  & $log(y)$ & $log(x)$ & $ \Delta \% y = \beta_i \Delta \%x$\\
+    \end{tabular}
+    \caption{Interpretación}
+    \label{tab:my_label}
+\end{table}
+
+\end{frame}
+
+\end{document}

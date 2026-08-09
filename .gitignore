@@ -218,11 +218,13 @@ __marimo__/
 .streamlit/secrets.toml
 
 # ---- LaTeX build artifacts (ICS294) ----
+.DS_Store
 .build/
 *.aux
 *.lof
 *.lot
 *.toc
+*.thm
 *.nav
 *.snm
 *.vrb
@@ -230,3 +232,16 @@ __marimo__/
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+
+# Guías por semana
+clases/sem4/guias/
+clases/sem5/guias/
+clases/sem6/guias/
+clases/sem7/guias/
+clases/sem8/guias/
+clases/sem9/guias/
+clases/sem10/guias/
+clases/sem11/guias/
+clases/sem12/guias/
+clases/sem13/guias/
+clases/sem14/guias/

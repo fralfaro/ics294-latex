@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Ejercicios: Modelo de Probabilidad Lineal}
+%\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+{\bf Ejercicio 1:} 
+
+En un Modelo de Probabilidad Lineal (MPL) con variable dependiente binaria $Y_i \in \{0,1\}$:
+
+\[
+Y_i = X_i\beta + u_i
+\]
+donde $E[Y_i|X_i] = P(Y_i=1|X_i) = X_i\beta$.
+
+El error es:
+\[
+u_i = Y_i - X_i\beta
+\]
+
+La varianza condicional del error:
+\[
+\operatorname{Var}(u_i|X_i) = E[u_i^2|X_i] - (E[u_i|X_i])^2
+\]
+Pero $E[u_i|X_i]=0$ por construcción, luego:
+\[
+\operatorname{Var}(u_i|X_i) = E[u_i^2|X_i]
+\]
+
+Desarrollando $E[u_i^2|X_i]$:
+\[
+\begin{aligned}
+E[u_i^2|X_i] &= P(Y_i=1|X_i)\cdot(1 - X_i\beta)^2 + P(Y_i=0|X_i)\cdot(0 - X_i\beta)^2 \\
+&= (X_i\beta)(1 - X_i\beta)^2 + (1 - X_i\beta)(X_i\beta)^2
+\end{aligned}
+\]
+
+Factorizando $(X_i\beta)(1 - X_i\beta)$:
+\[
+\begin{aligned}
+E[u_i^2|X_i] &= (X_i\beta)(1 - X_i\beta)\big[(1 - X_i\beta) + X_i\beta\big] \\
+&= (X_i\beta)(1 - X_i\beta) \cdot 1 \\
+&= (X_i\beta)(1 - X_i\beta)
+\end{aligned}
+\]
+
+Por tanto:
+\[
+\operatorname{Var}(u_i|X_i) = (X_i\beta)(1 - X_i\beta)
+\]
+
+La varianza depende de $X_i\beta$ (la probabilidad predicha). Como $X_i\beta$ varía con $i$, la varianza no es constante. No se cumple homocedasticidad a menos que $X_i\beta$ sea el mismo para todo $i$ (caso trivial).
+
+\vspace{0.5cm}
+{\bf Ejercicio 2:} 
+
+ 
+
+Suponga que usted cuenta con información sobre la \textit{felicidad} de las personas (\(B_i\)), la cual es una variable dummy que puede tomar sólo dos valores: \(0\) si el individuo se clasifica como “no feliz” y \(1\) si el individuo dice “ser feliz”. Por otro lado, asuma que tiene información, para estos mismos individuos, sobre un conjunto de variables que afectan la felicidad. En concreto, se conoce la edad (\(E_i\)), género (\(M_i\): mujer=1), años de escolaridad (\(S_i\)), ingreso familiar (\(I_i\), en miles de pesos al año) y estado de salud (\(H_i\): buena salud=1). Con base en esto se plantea el siguiente modelo econométrico:
+\[
+B_i \;=\; \beta_1 + \beta_2 E_i + \beta_3 M_i + \beta_4 S_i + \beta_5 I_i + \beta_6 H_i + u_i
+\tag{1}
+\]
+donde \(u_i\) es un shock estocástico que captura factores no observables que afectan la felicidad, cumpliendo \(\mathbb{E}[u_i|X_i]=0\).
+
+\begin{enumerate}
+\item[1.] ¿Es posible estimar el modelo (1) por Mínimos Cuadrados Ordinarios (MCO)? Justifique.
+\item[2.] Suponiendo que se ha estimado (1) por MCO y se ha obtenido el vector de coeficientes estimados \(\hat{\beta} = (\hat{\beta}_1, \ldots, \hat{\beta}_6)'\), escriba la expresión del estimador de la probabilidad de que un individuo con características \(X_i\) sea feliz. ¿Qué propiedades estadísticas tiene este estimador bajo los supuestos clásicos?
+\item[3.] Con base en \(\hat{\beta}_5\) (coeficiente estimado para el ingreso), ¿cuál es el efecto marginal estimado del ingreso familiar sobre la probabilidad de ser feliz? ¿Es este efecto marginal constante o variable? Interprete \(\hat{\beta}_5 = 0.012\) suponiendo que \(I_i\) se mide en miles de pesos anuales.
+\item[4.] Mencione y explique dos críticas a la estimación por MCO del modelo (1). 
+\end{enumerate}
+
+\bigskip
+%\hrule
+\bigskip
+
+\paragraph{1)} 
+Sí, es \textit{posible} estimar (1) por MCO; esto se conoce como \textbf{Modelo de Probabilidad Lineal (MPL)}. El estimador MCO es consistente e insesgado bajo los supuestos de exogeneidad estricta (\(\mathbb{E}[u_i|X_i]=0\)) y rango completo de la matriz de regresores. Sin embargo, el supuesto de homocedasticidad se viola inherentemente debido a la naturaleza binaria de \(B_i\). Demostración:
+
+Dado que \(B_i\in\{0,1\}\), la esperanza condicional es:
+\[
+\mathbb{E}[B_i|X_i] = \Pr(B_i=1|X_i) \equiv p_i = X_i'\beta.
+\]
+El error es \(u_i = B_i - p_i\). Calculando su varianza condicional:
+\[
+\begin{aligned}
+\operatorname{Var}(u_i|X_i) &= \mathbb{E}[u_i^2|X_i] - (\mathbb{E}[u_i|X_i])^2 = \mathbb{E}[u_i^2|X_i] \\
+&= \Pr(B_i=1|X_i)\cdot(1-p_i)^2 + \Pr(B_i=0|X_i)\cdot(0-p_i)^2 \\
+&= p_i(1-p_i)^2 + (1-p_i)p_i^2 \\
+&= p_i(1-p_i)\big[(1-p_i)+p_i\big] = p_i(1-p_i).
+\end{aligned}
+\]
+Por tanto,
+\[
+\operatorname{Var}(u_i|X_i) = (X_i'\beta)(1 - X_i'\beta).
+\]
+Dado que esta expresión depende de \(X_i\) (a través de \(p_i\)), la varianza no es constante: hay heterocedasticidad pura. En consecuencia, los errores estándar habituales de MCO son inconsistentes, aunque los coeficientes siguen siendo insesgados y consistentes.
+
+\paragraph{2)} 
+Una vez estimado (1) por MCO, el estimador de la probabilidad condicional de felicidad para un individuo con características \(X_i\) viene dado por el valor predicho:
+\[
+\widehat{\Pr}(B_i=1 \mid X_i) = \mathbb{E}[B_i \mid X_i] = X_i'\hat{\beta} = \hat{\beta}_1 + \hat{\beta}_2 E_i + \hat{\beta}_3 M_i + \hat{\beta}_4 S_i + \hat{\beta}_5 I_i + \hat{\beta}_6 H_i.
+\]
+\noindent \textbf{Propiedades estadísticas:} Bajo los supuestos de MCO (exogeneidad, rango completo y homocedasticidad —esta última no se cumple en la práctica—), \(\widehat{\Pr}(B_i=1|X_i)\) es un estimador insesgado de \(\Pr(B_i=1|X_i)\) en el sentido de que \(\mathbb{E}[X_i'\hat{\beta}|X_i] = X_i'\beta\). Además, es consistente: plim\(_{n\to\infty} X_i'\hat{\beta} = X_i'\beta\). No obstante, debido a la heterocedasticidad, su varianza estimada por el método clásico es incorrecta, afectando la construcción de intervalos de confianza. Una limitación adicional es que \(X_i'\hat{\beta}\) puede tomar valores fuera del intervalo \([0,1]\), en cuyo caso la estimación carece de sentido probabilístico.
+
+\paragraph{3)} 
+En el MPL, el efecto marginal estimado del ingreso sobre la probabilidad de ser feliz es constante e igual al coeficiente estimado:
+\[
+\widehat{\frac{\partial \Pr(B_i=1 \mid X_i)}{\partial I_i}} = \hat{\beta}_5.
+\]
+\noindent \textbf{Constancia:} Este efecto marginal \textbf{no varía} con el nivel de ingreso ni con las demás covariables, debido a la linealidad del modelo. Es una propiedad restrictiva del MPL.
+
+\noindent \textbf{Interpretación de \(\hat{\beta}_5 = 0.012\):} Dado que \(I_i\) se mide en miles de pesos anuales, un aumento de mil pesos en el ingreso familiar anual está asociado con un incremento esperado de \(0.012\) en la probabilidad de ser feliz, es decir, \textbf{1.2 puntos porcentuales}, manteniendo constantes las demás variables (\(E_i, M_i, S_i, H_i\)). Este efecto es marginal y constante: el cambio en probabilidad es el mismo si el ingreso pasa de 10 a 11 mil pesos que de 100 a 101 mil pesos.
+
+\paragraph{4) Dos críticas a la estimación por MCO del modelo (1).}
+
+\begin{enumerate}
+\item \textbf{Heterocedasticidad y validez de la inferencia.} Como se demostró en (1), \(\operatorname{Var}(u_i|X_i)=p_i(1-p_i)\) no es constante. Los errores estándar convencionales de MCO serán incorrectos, invalidando los contrastes de hipótesis (\(t\), \(F\)) si no se aplica una corrección. La solución más simple es emplear errores estándar robustos a heterocedasticidad (Huber-White), aunque la solución óptima es usar modelos de elección discreta como Logit o Probit, que modelan explícitamente esta heterocedasticidad inherente.
+
+\item \textbf{Restricción funcional lineal y predicciones fuera de rango.} El MPL impone una relación lineal entre las covariables y la probabilidad, lo que produce dos problemas relacionados: (i) es frecuente obtener \(\hat p_i = X_i'\hat\beta < 0\) o \(\hat p_i > 1\), valores sin sentido probabilístico; (ii) los efectos marginales constantes son poco realistas —como se vio en (3), \(\hat\beta_5\) no captura posibles rendimientos marginales decrecientes del ingreso sobre la felicidad. Los modelos Logit/Probit garantizan \(\hat p_i \in (0,1)\) y generan efectos marginales que varían con las covariables, capturando la curvatura natural de las funciones de distribución acumulada.
+\end{enumerate}
+
+\end{document}
+
+
+
+
+
+\end{document}

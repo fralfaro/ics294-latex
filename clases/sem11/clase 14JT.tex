@@ -1,0 +1,355 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 14: Variables independientes binarias }}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}{Introducción}
+    \begin{itemize}
+        
+        \item Usando variables binarias podemos incorporar información cualitativa como:
+        \begin{itemize}
+            \item región
+            \item género
+            \item raza
+            \item religión
+            \item situación marital
+            \item rama de actividad económica
+            \item participación en sindicatos
+            \item carrera universitaria
+        \end{itemize}
+        
+    \end{itemize}
+\end{frame}
+\begin{frame}{Variables Dummy (binarias o dicotómicas)}
+    \begin{itemize}
+        \item En todos estos casos se puede definir una o más variables que toman dos valores, 0 ó 1, en que 1 representa la posesión de una cualidad y 0 la ausencia.
+        \item Estas variables son llamadas variables dummy.
+        \item Podemos distinguir dos tipos de efectos:
+        \begin{itemize}
+            \item Efecto aditivo (diferencias de intercepto)
+            \item Efecto interacción (diferencias de pendiente)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}{Efecto aditivo}
+    \begin{itemize}
+        \item Suponga el caso de una variable regresora dummy para la variable género (asumiendo que solo hay hombres o mujeres en la base de datos),
+        \[
+        \text{salario} = \beta_0 + \delta_0 \text{mujer} + \beta_1 \text{educ} + u
+        \]
+        \item Podemos generar una variable "mujer" que toma valor 1 si es mujer y cero si es hombre.
+        \item Noten que dado supuesto de \( E[u | \text{mujer}, \text{educ}] = 0 \):
+        \[
+        E[\text{salario} | \text{mujer} = 0, \text{educ}] = \beta_0 + \beta_1 \text{educ} \quad \textcolor{gray}{\text{reemplazando mujer=0}}
+        \]
+        \[
+        E[\text{salario} | \text{mujer} = 1, \text{educ}] = \beta_0 + \delta_0 + \beta_1 \text{educ} \quad \textcolor{gray}{\text{reemplazando mujer=1}}
+        \]
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Gráfico: \(\delta_0 < 0\) (Discriminacion salarial a mujeres)}
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.2]
+
+% Ejes
+\draw[->] (0,0) -- (0,4.5) node[left] {\textit{salario}};
+\draw[->] (0,0) -- (5,0) node[below right] {\textit{educ}};
+
+% Recta hombres: intercepto beta_0
+\draw[thick, blue!50] (0,1.5) -- (4.5,3.9) node[above] {mujer=0};
+
+% Recta mujeres: intercepto menor (beta_0 + delta_0)
+\draw[thick] (0,0.7) -- (4.5,3.1) node[below right] {mujer=1};
+
+% Etiquetas en el eje Y
+\draw[dashed] (0,1.5) -- (-0.2,1.5);
+\node[left] at (0,1.5) {$\beta_0$};
+
+\draw[dashed] (0,0.7) -- (-0.2,0.7);
+\node[left] at (0,0.7) {$\beta_0 + \delta_0$};
+
+\end{tikzpicture}
+\caption{$E(salario| mujer, educ) = \beta_0 + \delta_0 \, mujer + \beta_1 \, educ$ en la que $\delta_0 < 0$.}
+\label{fig:wage_genero}
+\end{figure}
+    %          \begin{figure}
+    %     \centering
+    %     \includegraphics[width=0.7\linewidth]{sem11/images/1.png}
+    % \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Efecto aditivo}
+
+\begin{itemize}
+    \item ¿Cómo se testea la hipótesis nula de no discriminación salarial contra las mujeres?
+    
+        \[\(H_0: \delta_0 = 0\)\] 
+        \[\(H_1: \delta_0 < 0\)\]
+    
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Regla de oro de las variables de categoría}
+\begin{itemize}
+    
+    \item Si hay $q$ categorías, se pueden incluir hasta $q - 1$ categorías. En nuestro ejemplo, $q = 2$.
+    \item La constante toma el promedio de la categoría que no incluyeron. Esta se llama categoría base. 
+\end{itemize}
+\end{frame}
+\begin{frame}{Variables Dummy con más de 2 categorías}
+\begin{itemize}
+    \item ¿Qué hacer cuando se usa una variable cualitativa como Carrera Universitaria, que tiene \(q > 2\) categorías? 
+    Supongamos que existen SOLO 4 opciones: Economía, Medicina, Ingeniería, No hizo universidad.
+    \item Se crean \(q - 1\) variables binarias. Cada una correspondiente a una dummy que vale 1 para una cierta categoría y 0 en otro caso. Variables: Economía, Medicina, Ingeniería.
+    \item La categoría cuya variable dummy no fue incluida se considera la categoría base y la interpretación de los coeficientes de las categorías restantes se hace en relación a esta categoría base.
+\end{itemize}
+\end{frame}
+\begin{frame}[shrink=10, t]{Ejemplo: salario por carrera universitaria}
+    \begin{itemize}
+        \item Considere una variable con cuatro categorías: economía, medicina, ingeniería, no terminó universidad.
+        \item \textit{salario} = \(\beta_0\) + \(\beta_1\)economía + \(\beta_2\)medicina + \(\beta_3\)Ingeniería + \(u\)
+        \item \(\hat{salario} = 100 + 500\)economía + 300medicina + 600Ingeniería
+    \end{itemize}
+\end{frame}
+\begin{frame}[shrink=10, t]{Ejemplo: salario por carrera universitaria}
+    \begin{itemize}
+        \item Considere una variable con cuatro categorías: economía, medicina, ingeniería, no terminó universidad.
+        \item \textit{salario} = \(\beta_0\) + \(\beta_1\)economía + \(\beta_2\)medicina + \(\beta_3\)Ingeniería + \(u\)
+        \item \(\hat{salario} = 100 + 500\)economía + 300medicina + 600Ingeniería
+        \item ¿Cómo se interpreta \(\hat{\beta_0} = 100\)?
+        \begin{itemize}
+            \item \(\beta_0\): \(E[salario|econ = 0, med = 0, ing = 0]\). Es decir, el promedio de salario para los individuos en la categoría base (en este caso, no universidad).
+            \item Entonces, los individuos que no fueron a la universidad ganan en promedio 100 dólares mensuales.
+        \end{itemize}
+        \item Noten que el promedio para los que estudiaron economía es:
+        \begin{itemize}
+            \item \(E[salario|econ = 1, med = 0, ing = 0] = \beta_0 + \beta_1\).
+            \item Entonces, \(\beta_1\) es la diferencia promedio de salario entre estudiar economía y los que no fueron a la universidad.
+            \item En promedio se estima, los que estudian economía ganan 500 dólares más que los que no estudian.
+        \end{itemize}
+        \item \(\beta_2\): la diferencia promedio entre estudiar medicina y no estudiar.
+        \item \(\beta_3\): la diferencia promedio entre estudiar ingeniería y no estudiar.
+        \item ¿Cómo comparo economía versus medicina?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=20, t]{Interacción entre variables dummy}
+    \begin{itemize}
+        \item Considere el siguiente modelo:
+        \begin{equation*}
+            \text{wage} = \beta_0 + \beta_1 \text{mujer} + \beta_2 \text{casad} + \beta_3 \text{mujer} \times \text{casad} + u
+        \end{equation*}
+        \item Esto nos permite testear, por ejemplo, si la discriminación salarial depende del estado civil de las mujeres o si el premio por matrimonio afecta diferente a hombres o mujeres.
+        \item Noten que los coeficientes nos ayudan a entender los promedios para los 4 subgrupos de la población.
+        \begin{enumerate}
+            \item \(E[\text{wage}|\text{mujer} = 0, \text{casad} = 0] = \beta_0\): promedio para hombres solteros.
+            \item \(E[\text{wage}|\text{mujer} = 1, \text{casad} = 0] = \beta_0 + \beta_1\): promedio para mujeres solteras.
+            \item \(E[\text{wage}|\text{mujer} = 0, \text{casad} = 1] = \beta_0 + \beta_2\): promedio para hombres casados.
+            \item \(E[\text{wage}|\text{mujer} = 1, \text{casad} = 1] = \beta_0 + \beta_1 + \beta_2 + \beta_3\): promedio para mujeres casadas.
+        \end{enumerate}
+        \item \((2) - (1) = \beta_1\): La diferencia salarial entre las mujeres y los hombres cuando ambos son solteros.
+        \item \((3) - (1) = \beta_2\): La diferencia salarial entre casados y solteros, para el grupo de hombres.
+        \item \((4) - (3) = \beta_1 + \beta_3\): La diferencia salarial entre mujeres y hombres, cuando ambos están casados.
+                \item \(\beta_3\): La diferencia extra que hay en la discriminacion salarial a las
+mujeres por estar casadas.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Interacción entre variables dummy}
+    \begin{itemize}
+        \item Considere el siguiente modelo:
+        \begin{equation*}
+            \text{wage} = \beta_0 + \beta_1 \text{mujer} + \beta_2 \text{casad} + \beta_3 \text{mujer} \times \text{casad} + u
+        \end{equation*}
+        \item Otra forma de verlo es pensar en cómo cambia \textit{wage} cuando cambia el estado civil:
+        \begin{equation*}
+            \beta_2 + \beta_3 \times \text{mujer}
+        \end{equation*}
+        \begin{itemize}
+            \item \(\beta_2\): el efecto de estar casado para los hombres.
+            \item \(\beta_2 + \beta_3\): el efecto de estar casado para las mujeres.
+            \textcolor{red}{\item \(\beta_3\): la diferencia del premio por matrimonio para hombres y para mujeres.}
+        \end{itemize}
+        \item {\color{red}Entonces, testear la hipótesis nula de que el premio por matrimonio no depende del género corresponde a testear que el coeficiente \(\beta_3\) no es significativo.}
+        
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[shrink=10]{Interacción con variables cuantitativas}
+\begin{itemize}
+    \item Considere el siguiente modelo:
+    \[
+    salario = \beta_0 + \delta_0 \cdot mujer + \beta_1 \cdot educ + \delta_1 \cdot mujer \cdot educ + u
+    \]
+\end{itemize}
+\textbf{ Diferencia de interceptos}
+    \begin{itemize}
+        \item Para los hombres, el intercepto es \(\beta_0\) (\(educ = 0\); \(mujer = 0\))
+        \item Para las mujeres, el intercepto es \(\beta_0 + \delta_0\) (\(educ = 0\); \(mujer = 1\))
+        \item \(\delta_0\): mide la diferencia en los interceptos entre mujeres y hombres. Es decir, la diferencia salarial entre hombres y mujeres con cero años de educación.
+    \end{itemize}
+
+\textbf{Diferencia de pendiente}
+    \begin{itemize}
+        \item Noten que la interacción nos permite tener también pendientes diferentes del efecto de educación para cada grupo:
+        \[
+        \frac{\triangle salario}{\triangle educ} = \beta_1 + \delta_1 \cdot mujer
+        \]
+        \item \(\beta_1\): el efecto de un año más de educación en salarios para los hombres.
+        \item \(\beta_1 + \delta_1\): el efecto de un año más de educación para las mujeres.
+        \item \(\delta_1\): la diferencia en los retornos a la educación de las mujeres con respecto a los hombres.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo: diferentes pendientes e interceptos para mujer y hombres}
+    %          \begin{figure}
+    %     \centering
+    %     \includegraphics[width=0.7\linewidth]{sem11/images/3.png}
+    % % \end{figure}
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.1]
+
+% Panel (a)
+\begin{scope}[shift={(0,0)}]
+    % Ejes
+    \draw[->] (0,0) -- (3,0) node[below right] {educ};
+    \draw[->] (0,0) -- (0,3) node[left] {salario};
+
+    % Hombre: mayor pendiente y mayor intercepto
+    \draw[thick] (0,0.7) -- (2.5,2.7) node[above] {hombre};
+
+    % Mujer: menor pendiente e intercepto
+    \draw[thick] (0,0.2) -- (2.5,1.5) node[below] {mujer};
+
+    % Letra del panel
+    \node at (1.5,-0.5) {(a)};
+\end{scope}
+
+% Panel (b)
+\begin{scope}[shift={(5,0)}]
+    % Ejes
+    \draw[->] (0,0) -- (3,0) node[below right] {educ};
+    \draw[->] (0,0) -- (0,3) node[left] {salario};
+
+    % Hombre: menor pendiente, mayor intercepto
+    \draw[thick] (0,0.6) -- (2.5,2.0) node[below right] {hombre};
+
+    % Mujer: menor intercepto pero mayor pendiente
+    \draw[thick] (0,0.2) -- (2.5,2.5) node[above] {mujer};
+
+    % Letra del panel
+    \node at (1.5,-0.5) {(b)};
+\end{scope}
+
+\end{tikzpicture}
+\caption{ (a) $\delta_0 < 0$, $\delta_1 < 0$ \hspace{1cm} (b) $\delta_0 < 0$, $\delta_1 > 0$.}
+\label{fig:salario_educ_genero}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Test de hipótesis}
+\begin{itemize}
+
+    \[
+    salario = \beta_0 + \delta_0 \cdot mujer + \beta_1 \cdot educ + \delta_1 \cdot mujer \cdot educ + u
+    \]
+\end{itemize}
+
+\begin{itemize}
+    \item ¿Cómo testearía que los retornos a un año más de educación son diferentes para hombres y mujeres? \vskip
+    \(H_0: \delta_1 = 0\)\\
+    \(H_1: \delta_1 \neq 0\) Si rechazo la hipótesis nula, entonces los retornos son diferentes.
+\end{itemize}
+
+\begin{itemize}
+    \item ¿Cómo testearía que las mujeres ganan diferente a los hombres dada sus características? Noten que esto puede ser por diferencias en el intercepto o por diferencias en la pendiente. \vskip
+→ \(H_0: \delta_0 = \delta_1 = 0\)
+Si rechazo la hipótesis nula, entonces hay diferencias en las remuneraciones de las mujeres con respecto a los hombres.
+
+\end{itemize}
+
+\begin{itemize}
+    \item Pueden hacer un test F como los que vimos en clases pasadas.
+\end{itemize}
+\end{frame}
+
+
+\end{document}

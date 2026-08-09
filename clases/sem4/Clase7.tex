@@ -1,0 +1,629 @@
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+%\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+\usepackage[utf8]{inputenc}
+  \usepackage{listings}
+
+
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+
+%\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+%\usepackage[hyperfootnotes=false]{hyperref}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+\usepackage{lscape}
+\usepackage{paralist} 
+\usepackage{indentfirst}
+\usepackage[dvipsnames,svgnames]{xcolor} 
+\usepackage{setspace}
+\usepackage{multicol} 
+\usepackage{float}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{cmyk}{0.65, 1, 0, 0.35}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\usepackage{listings}
+
+\lstset{
+    language=R,
+    basicstyle=\small\ttfamily,
+    commentstyle=\color{gray},
+    keywordstyle=\color{blue},
+    stringstyle=\color{black},
+    showstringspaces=false,
+    tabsize=4,
+    breaklines=true,
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    backgroundcolor=\color{gray!10}
+}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 7: Propiedades estadísticas del estimador MCO}}
+
+\author{Jocelyn Tapia Stefanoni}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=3cm]{figuras/logoUSM.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\logo{}
+
+\begin{frame}[shrink=10]
+
+\frametitle{Resumen clase anterior}
+
+\begin{itemize}
+    \item Vimos la forma matricial del modelo de regresión lineal múltiple: $y = X\beta + u$
+    \item Demostramos que por MCO se puede obtener: $\hat{\beta} = \begin{bmatrix} \hat{\beta}_0 \\ \hat{\beta}_1 \\ \hat{\beta}_2 \\ \vdots \\ \hat{\beta}_k \end{bmatrix} = (X^\top X)^{-1}X^\top y$
+\end{itemize}
+
+Interpretación $\hat{\beta}_1$: Cuando cambia $x_1$ en una unidad, en promedio $y$ cambia $\hat{\beta}_1$ unidades, manteniendo todas las demás $x$ constantes.
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink=10]
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$, $n=5$.
+
+Base de datos: \begin{center}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+
+Individuos & unos & $x_1$ (experiencia) & $x_2$ (educación) & $y$ (salario) \\
+\hline
+Juan & 1 & 12 & 93 & 769 \\
+Pedro & 1 & 18 & 119 & 808 \\
+Sofia & 1 & 14 & 108 & 825 \\
+Caro & 1 & 12 & 96 & 650 \\
+Alex & 1 & 11 & 74 & 562 \\
+
+\end{tabular}%
+}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$, $n=5$.
+
+Base de datos: \begin{center}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+
+Individuos & unos & $x_1$ (experiencia) & $x_2$ (educación) & $y$ (salario) \\
+\hline
+Juan & 1 & 12 & 93 & 769 \\
+Pedro & 1 & 18 & 119 & 808 \\
+Sofia & 1 & 14 & 108 & 825 \\
+Caro & 1 & 12 & 96 & 650 \\
+Alex & 1 & 11 & 74 & 562 \\
+
+\end{tabular}%
+}
+\end{center}
+
+\[
+X = \begin{bmatrix}
+1 & 12 & 93 \\
+1 & 18 & 119 \\
+1 & 14 & 108 \\
+1 & 12 & 96 \\
+1 & 11 & 74 \\
+\end{bmatrix} \quad 
+X^\top = \begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\]
+\[
+X^\top X = \begin{bmatrix}
+5 & 67 & 490 \\
+67 & 929 & 6736 \\
+490 & 6736 & 49166 \\
+\end{bmatrix}
+\]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[shrink=10]
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Modelo: $y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + u_i$, $n=5$.
+
+Base de datos: \begin{center}
+\resizebox{0.8\textwidth}{!}{%
+\begin{tabular}{c|cccc}
+
+Individuos & unos & $x_1$ (experiencia) & $x_2$ (educación) & $y$ (salario) \\
+\hline
+Juan & 1 & 12 & 93 & 769 \\
+Pedro & 1 & 18 & 119 & 808 \\
+Sofia & 1 & 14 & 108 & 825 \\
+Caro & 1 & 12 & 96 & 650 \\
+Alex & 1 & 11 & 74 & 562 \\
+
+\end{tabular}%
+}
+\end{center}
+
+\[
+X = \begin{bmatrix}
+1 & 12 & 93 \\
+1 & 18 & 119 \\
+1 & 14 & 108 \\
+1 & 12 & 96 \\
+1 & 11 & 74 \\
+\end{bmatrix} \quad 
+X^\top = \begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\]
+\[
+X^\top X = \begin{bmatrix}
+5 & 67 & 490 \\
+67 & 929 & 6736 \\
+490 & 6736 & 49166 \\
+\end{bmatrix}
+\quad  (X^\top X)^{-1} =
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}
+\]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+
+\[
+X^\top y =
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+769 \\
+808 \\
+825 \\
+650 \\
+562 \\
+\end{bmatrix}
+= \begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix} 
+\]
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+
+\[
+X^\top y =
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \\
+12 & 18 & 14 & 12 & 11 \\
+93 & 119 & 108 & 96 & 74 \\
+\end{bmatrix}
+\times
+\begin{bmatrix}
+769 \\
+808 \\
+825 \\
+650 \\
+562 \\
+\end{bmatrix}
+= \begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix} = \]
+% 
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Entonces tenemos: $(X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}$
+
+$X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}$
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Entonces tenemos: $(X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}$
+
+$X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}$
+
+\medskip % Salto de línea pequeño
+
+Multiplicando obtenemos los estimadores:
+\medskip
+$\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y=
+\begin{bmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1 \\
+\hat{\beta}_2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+140.59 \\
+-16.79 \\
+8.24 \\
+\end{bmatrix}$\\
+\medskip
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ejemplo: obtener $\hat{\beta} = (X^\top X)^{-1}X^\top y$}
+
+Entonces tenemos: $(X^{\top}X)^{-1} = 
+\begin{bmatrix}
+8.80 & 0.19 & -0.11 \\
+0.19 & 0.17 & -0.02 \\
+-0.11 & -0.02 & 0.00 \\
+\end{bmatrix}$
+
+$X^{\top}y = 
+\begin{bmatrix}
+3614 \\
+49304 \\
+360757 \\
+\end{bmatrix}$
+
+\medskip % Salto de línea pequeño
+
+Multiplicando obtenemos los estimadores:
+\medskip
+$\hat{\beta} = (X^{\top}X)^{-1}X^{\top}y=
+\begin{bmatrix}
+\hat{\beta}_0 \\
+\hat{\beta}_1 \\
+\hat{\beta}_2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+140.59 \\
+-16.79 \\
+8.24 \\
+\end{bmatrix}$\\
+\medskip
+Si quisieramos la matrix de prediccion de y, simplemente calculamos:
+\[\hat{y}=X\hat{\beta}\]
+\end{frame}
+
+\begin{frame}{En general}
+
+\[
+X^T X =
+\begin{pmatrix}
+n & \sum_{i=1}^{n} x_{i1} & \sum_{i=1}^{n} x_{i2} & \cdots & \sum_{i=1}^{n} x_{ik} \\
+\sum_{i=1}^{n} x_{i1} & \sum_{i=1}^{n} x_{i1}^2 & \sum_{i=1}^{n} x_{i1}x_{i2} & \cdots & \sum_{i=1}^{n} x_{i1}x_{ik} \\
+\sum_{i=1}^{n} x_{i2} & \sum_{i=1}^{n} x_{i1}x_{i2} & \sum_{i=1}^{n} x_{i2}^2 & \cdots & \sum_{i=1}^{n} x_{i2}x_{ik} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+\sum_{i=1}^{n} x_{ik} & \sum_{i=1}^{n} x_{i1}x_{ik} & \sum_{i=1}^{n} x_{i2}x_{ik} & \cdots & \sum_{i=1}^{n} x_{ik}^2
+\end{pmatrix}
+\]
+    \[
+ X^Ty=\begin{pmatrix}
+ \sum_{i=1}^n y_i \\
+ \sum_{i=1}^n x_{i1}y_i \\
+ \vdots\\
+ \sum_{i=1}^n x_{ik}y_i \\
+ \end{pmatrix}
+ \]
+\end{frame}
+
+\begin{frame}{En R}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{sem5/images/datos_R.png}
+       
+    \end{figure}
+
+  \end{frame}
+
+
+
+
+
+\begin{frame}{Regresi\'on }
+
+  
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{sem5/images/tabla_reg.png}
+    \end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Supuestos Clásicos}
+¿$\hat{\beta}$ es un buen estimador para $\beta$? ¿Qué significa que sea bueno?\\
+\medskip
+{\color{blue}
+\textbf{\textit{Supuestos clásicos:}}
+
+\begin{enumerate}
+    \item Linealidad en parámetros
+    \item Muestra aleatoria
+    \item Condición de identificación
+    \item Ortogonalidad
+    \item Homocedasticidad
+\end{enumerate}}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 1: Linealidad en Parámetros}
+\begin{itemize}
+    \item La relación poblacional entre las variables sigue un modelo lineal:
+    \[
+    y = X \beta + u \quad (1)
+    \]
+        \[ = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_k x_k + u \quad (2)
+    \]
+    
+    donde $\beta_0, \beta_1, \ldots, \beta_k$ son parámetros desconocidos y $u$ es una variable no observable llamada término de error o perturbación.
+    \item Si el modelo analítico no es lineal en los parámetros, hay que linealizarlo, en la medida de lo posible.
+    \item Por ejemplo:
+    \[
+    Y = A K^{\alpha_1} Q^{\alpha_2} L^{\alpha_3}
+    \]
+    se lineariza como
+    \[
+    \log Y = \log A + \alpha_1 \log K + \alpha_2 \log Q + \alpha_3 \log L
+    \]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 2: Muestra Aleatoria}
+\begin{itemize}
+    \item Las $n$ observaciones provienen de una muestra aleatoria de la población,
+    \[
+    \{(x_{i1}, x_{i2}, \ldots, x_{ik}, y_i) : i = 1, 2, \ldots, n\}
+    \]
+    \item Esto significa que las observaciones son independientes unas de otras, lo que implica que
+    \[
+    \text{cov}(u_i, u_j|X) = 0 \quad \forall i \neq j
+    \]
+    \item En series de tiempo lo anterior implica que los errores no tienen autocorrelación.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 3: Condición de Identificación (No multicolinealidad perfecta)}
+\begin{itemize}
+    \item $X$ tiene rango columna completo $k + 1$.
+    \item No hay relaciones lineales exactas entre las variables independientes.
+    \item Esto implica:
+    \begin{itemize}
+        \item Las columnas de $X$ son linealmente independientes.
+        \item Existe la inversa de $X^{\top}X$.
+        \item $n \geq k + 1$.
+    \end{itemize}
+\end{itemize}
+\textbf{Ejemplo de violación a este supuesto}: $x_2 = 2x_1$. La fila 2 es linealmente dependiente de la 1.
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 4: Ortogonalidad (Exogeneidad)}
+\begin{itemize}
+    \item $E[u|X] = E(u|x_1, x_2, \ldots, x_k) = 0$.
+    \item Esto implica que:
+    \begin{itemize}
+        \item $E[X^{\top}u] = 0$: la covarianza entre las $x$ y el error es cero.
+        \item $E(y|X) = E(X\beta + u|X) = X\beta$.
+    \end{itemize}
+\end{itemize}
+Vamos a ver que este supuesto va a ser el supuesto clave para interpretar causalmente los coeficientes.
+\end{frame}
+
+\begin{frame}
+\frametitle{Supuesto 4: Ortogonalidad (Exogeneidad)}
+\begin{itemize}
+    \item $E[u|X] = E(u|x_1, x_2, \ldots , x_k) = 0$.
+    \item Esto implica que:
+    \begin{itemize}
+        \item $E[X^{\top}u] = 0$: la covarianza entre las $x$ y el error es cero.
+        \item $E(y|X) = E(X\beta + u|X) = X\beta$.
+    \end{itemize}
+    \item Vamos a ver que este supuesto va a ser el supuesto clave para interpretar causalmente los coeficientes.
+    \item Este supuesto puede no cumplirse por varias razones:
+    \begin{itemize}
+        \item Omisión de una variable que está correlacionada con alguna $x$.
+        \item Errores de medición en los regresores.
+    \end{itemize}
+    \item Por desgracia, muy pocas veces se sabe con seguridad si el valor promedio de los factores no observables de hecho no está relacionado con las variables explicativas. \textcolor{red}{Pero este es el supuesto crítico.}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 5: Homocedasticidad y no autocorrelación}
+\begin{itemize}
+    \item La varianza del error no depende de $X$:
+    \[
+    \text{Var}(u_i|x_1, \ldots , x_k) = E[u_i^2|x] = \sigma^2
+    \]
+    \item En caso de que el supuesto no se cumpla, se dice que el modelo presenta heterocedasticidad.
+    \item Ejemplo donde no se cumpliría esta condición: si tenemos salario en función de años de escolaridad, la varianza de $u$ es probablemente menor para escolaridades pequeñas.
+
+    \item Con esto, la varianza condicional del vector $u$ queda: $\text{Var}(u|X) = \sigma^2I$.
+     \item La covarianza de los errores es cero:
+    \[
+    \text{Covar}(u_i,u_j|x_1, \ldots , x_k) = 0
+    \]
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Supuesto 5: Homocedasticidad}
+\begin{itemize}
+    \item Homocedasticidad en un modelo simple (mismo $\sigma$).
+    
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{sem5/images/het.png}
+\end{figure}
+    
+    \item Heterocedasticidad en un modelo simple.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{sem5/images/het2.png}
+\end{figure}
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Resumen Supuestos}
+\begin{enumerate}
+    \item Linealidad en parámetros ($y = X\beta + u$).
+    \item Muestra aleatoria.
+    \item $X$ tiene rango completo ($k+1$), es decir, todas las variables son linealmente independientes.
+    \item Ortogonalidad: $E[u|X] = 0$.
+    \item Homocedasticidad y no-autocorrelación: $V(u|X) = \sigma^2I$ 
+\end{enumerate}
+\end{frame}
+\begin{frame}
+\frametitle{Propiedades Estadísticas de los Estimadores $\hat{\beta}$}
+Bajo los supuestos clásicos, los estimadores MCO cumplen lo siguiente:
+\begin{enumerate}
+    \item $\hat{\beta}$ es insesgado: $E(\hat{\beta}) = \beta$.
+    \item $V(\hat{\beta}|X) = (X^{\top}X)^{-1}\sigma^2$.
+    \item Teorema de Gauss-Markov: $\hat{\beta}$ es el estimador lineal insesgado de menor varianza (MELI-BLUE).
+\end{enumerate}
+\end{frame}
+%\begin{frame}
+% \frametitle{El Estimador MCO es Insesgado}
+% \begin{itemize}
+%     \item Teorema: Bajo los supuestos 1 a 4, el estimador MCO de $\beta$ es insesgado.
+%     \item Demostración:
+%     \begin{align*}
+%         \hat{\beta} &= (X^{\top}X)^{-1}X^{\top}y \quad \text{(3)} \\
+%         &= (X^{\top}X)^{-1}X^{\top}(X\beta + u) \quad \text{(4)} \\
+%         &= \beta + (X^{\top}X)^{-1}X^{\top}u \quad \text{(5)}
+%     \end{align*}
+% \end{itemize}
+% \end{frame}
+\begin{frame}
+\frametitle{El Estimador MCO es Insesgado}
+\begin{itemize}
+    \item Teorema: Bajo los supuestos 1 a 4, el estimador MCO de $\beta$ es insesgado.
+    \item Demostración:
+    \begin{align*}
+        \hat{\beta} &= (X^{\top}X)^{-1}X^{\top}y \quad \text{(3)} \\
+        &= (X^{\top}X)^{-1}X^{\top}(X\beta + u) \quad \text{(4)} \\
+        &= \beta + (X^{\top}X)^{-1}X^{\top}u \quad \text{(5)} \\
+        E(\hat{\beta}|X) &= \beta + (X^{\top}X)^{-1}X^{\top}E(u|X) \quad \text{(6)} \\
+        &= \beta \quad \text{(7)}
+    \end{align*}
+    \item Esto implica que el promedio de los estimadores $\hat{\beta}$ obtenidos con todas las muestras aleatorias posibles es igual a $\beta$.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Varianza del Estimador MCO}
+\begin{itemize}
+    \item Teorema: Bajo los supuestos 1 a 5, la varianza del estimador MCO de $\beta$ es $\text{Var}(\hat{\beta}|X) = \sigma^2(X^{\top}X)^{-1}$.
+    \item Demostración:
+    \begin{align*}
+        \text{Var}(\hat{\beta}|X) &= E[(\hat{\beta} - E(\hat{\beta}))(\hat{\beta} - E(\hat{\beta}))^{\top}|X] \quad \text{(8)} \\
+        &= E[(\hat{\beta} - \beta)(\hat{\beta} - \beta)^{\top}|X] \quad \text{(9)} \\
+        &= E[(X^{\top}X)^{-1}X^{\top}u \, u^{\top}X(X^{\top}X)^{-1}|X] \quad \text{(10)} \\
+        &= (X^{\top}X)^{-1}X^{\top}E[u \, u^{\top}|X]X(X^{\top}X)^{-1} \quad \text{(11)} \\
+        &= (X^{\top}X)^{-1}X^{\top}\sigma^2IX(X^{\top}X)^{-1} \quad \text{(12)} \\
+        &= \sigma^2(X^{\top}X)^{-1}(X^{\top}X)(X^{\top}X)^{-1} \quad \text{(13)} \\
+        &= \sigma^2(X^{\top}X)^{-1} \quad \text{(14)}
+    \end{align*}
+    \item nota:  $\hat{\beta}=\beta+(X^{T}X)^{-1}X^{T}u$
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\end{document}

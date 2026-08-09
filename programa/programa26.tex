@@ -1,0 +1,251 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm,headheight=40pt]{geometry}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{blindtext} % Opcional, para texto de relleno
+\usepackage{booktabs}
+\usepackage{multirow}
+% Configuración de ntheorem
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+% Configuración de columnas personalizadas
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Configuración de fancyhdr para todas las páginas
+\pagestyle{fancy}
+\fancyhf{} % Limpiar todos los campos
+
+% Configurar encabezado
+\lhead{\includegraphics[scale=0.09]{logoUSM.png}}
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial}
+\cfoot{\thepage}
+
+% Línea debajo del encabezado
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Redefinir estilo 'plain' para que también tenga el logo
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \lhead{\includegraphics[scale=0.09]{logoUSM.png}}%
+    \rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial}%
+    \cfoot{\thepage}%
+    \renewcommand{\headrulewidth}{0.4pt}%
+}
+
+% Título
+\title{PROGRAMA DE ASIGNATURA}
+\author{} % Vacío si no quieres autor
+\date{} % Vacío para que no aparezca fecha
+
+\begin{document}
+
+% Forzar estilo fancy en la primera página
+\thispagestyle{fancy}
+
+\maketitle
+
+% Tu contenido aquí...
+
+
+
+
+
+\section*{I. Identificación de la asignatura}
+% Tabla principal de identificación
+\noindent
+\begin{tabular}{|L{4cm}|L{4cm}|L{6cm}|}
+    \hline
+    \textbf{Asignatura: Econometría} & \textbf{Sigla: ICS-294} & \textbf{Fecha de aprobación:} 23/12/2021 (CC.DD. Acuerdo 023/2021) \\
+    \hline
+    Créditos UTFSM: 4 & Prerrequisitos: MAT-033 & Examen: No tiene. \\
+    \hline
+    Créditos SCT: 6 & Ayudantía: Sí tiene. & Laboratorio: Sí tiene. \\
+    \hline
+    Horas Cátedra Semanal: 2,3 & \multicolumn{2}{p{10cm}|}{Unidad Académica que la imparte: {\bf Departamento de Ingeniería Comercial}} \\
+    \hline
+    \multicolumn{3}{|l|}{Ejemplo formativo: Ingeniería Aplicada.} \\
+    \hline
+    \multicolumn{3}{|l|}{Tiempo total de dedicación a la asignatura: \textbf{155 horas cronológicas.}} \\
+    \hline
+\end{tabular}
+
+%\vspace{1cm}
+
+\noindent
+
+
+\subsection*{Descripción de la Asignatura.}
+El estudiante aplica conceptos y técnicas estadísticas para la recolección de datos, el análisis, el modelamiento y la evaluación de fenómenos de las ciencias sociales, en particular, en las áreas de administración, economía y negocios. Es capaz de interpretar los resultados de los análisis realizados en cualquier software y en el idioma inglés.
+
+\subsection*{Requisitos de entrada.}
+\begin{itemize}[label={}]
+    \item Conocimiento de probabilidades y estadística básica.
+    \item Conocimientos básicos de economía.
+    \item Capacidad para confeccionar informes técnicos.
+    \item Capacidad para comprender textos técnicos en inglés.
+\end{itemize}
+
+\section*{Contribución al Perfil de Egreso}
+
+\subsection*{Competencias de Egreso ICOM:}
+\begin{itemize}
+    \item Proponer procesos de gestión innovadora para la toma de decisiones, ajustados a los objetivos de la organización {\bf (I.3)}. 
+    \item Evaluar los principales modelos económicos de funcionamiento de los mercados, nacional e internacional, para mejorar la eficiencia y la equidad del funcionamiento de las empresas y del sistema económico actual.  {\bf (II.4)}
+    \item Utilizar las tecnologías de información y comunicaciones, para optimizar el desarrollo de las áreas funcionales de una empresa  {\bf (III.9)}.
+\end{itemize}
+
+\subsection*{Competencias Transversales USM:}
+\begin{itemize}
+    \item \textbf{Resolución de Problemas:} resuelve problemas complejos, analizando y evaluando soluciones efectivas y eficientes, en función de su impacto en la organización, las personas y el medio ambiente  {\bf (CT.2)}.
+    \item \textbf{Manejo de las Tecnologías de Información y Comunicaciones:} utiliza las tecnologías de información y comunicaciones en la gestión de proyectos, la resolución de problemas y en la forma de colaborar con otras personas  {\bf (CT.5)}.
+    \item \textbf{Comunicación efectiva:} comunica efectivamente sus ideas, tanto en forma escrita como oral, en español e inglés  {\bf (CT.6)}.
+\end{itemize}
+
+\subsection*{Resultados de Aprendizaje que se espera lograr en esta Asignatura}
+
+\begin{itemize}
+    \item  {\bf (RdeA 3.2)} Modela problemas de la organización resolviéndolos con herramientas de planificación y gestión. \textbf{Contenidos 1, 2, 4, 5, 6 y 8.}
+    \item {\bf (RdeA 4.1)} Analiza los principales modelos microeconómicos, justificando su validez en diferentes contextos competitivos. \textbf{Contenidos 4, 5, 6 y 8.}
+    \item {\bf (RdeA 4.2)} Evalúa el comportamiento de variables microeconómicas, estructuras de mercado, proponiendo incentivos y regulaciones. \textbf{Contenidos 1, 2, 4, 5, 6 y 8.}
+
+\item {\bf (RdeA 4.3)}   Evalúa el comportamiento de variables y modelos macroeconómicos,
+estableciendo comparaciones entre ellos. Contenidos 2, 4, 5, 6 y 8.
+\item {\bf (RdeA 9.1)} Utiliza sistemas de información actualizados, aplicándolos en cada una de sus
+propuestas y presentaciones. Contenidos 1, 2, 3, 4, 5, 6, 7, 8, 9 y 10.
+\item {\bf (RdeA 9.2)} Utiliza tecnologías vigentes y/o de vanguardia, aplicándolas en sus propuestas y
+presentaciones. Contenidos 1, 2, 3, 4, 5, 6, 7, 8, 9 y 10.
+\item {\bf (RdeA 9.3)} Aplica un idioma alternativo (inglés), dominándolo en sus presentaciones.
+Contenidos 1, 2, 3, 4, 5, 6, 7, 8, 9 y 10
+\end{itemize}
+
+\section{Contenidos temáticos}
+
+\begin{enumerate}
+    \item Muestreo.
+    \item Análisis univariado, comparación de promedios y varianzas.
+    \item La naturaleza de la econometría y datos económicos.
+    \item El modelo de regresión simple.
+    \item Análisis de regresión múltiple.
+    \item Análisis de regresión múltiple con información cualitativa: variables binarias (o Dummy).
+    \item Heteroscedasticidad y multicolinealidad.
+    \item Análisis de regresión con datos de series de tiempo.
+   
+\end{enumerate}
+
+\section{Metodología de enseñanza y aprendizaje}
+
+\begin{itemize}
+    \item Clases expositivas teóricas, con análisis de ejemplos, empleando herramientas computacionales y medios audiovisuales.
+    \item Talleres de aplicación desarrollados grupalmente en clases.
+    \item Desarrollo de un proyecto en equipo en el que deberán aplicar y exponer los conocimientos obtenidos durante la asignatura a la resolución de un tema con datos reales.
+    \item Aplicación de materia teórica a resolución de problemas específicos a cargo de un ayudante.
+\end{itemize}
+
+
+\section{Recursos para el aprendizaje}
+
+\subsection{Bibliografía:}
+
+\textbf{Texto Guía:}
+\begin{itemize}
+    \item Wooldridge, Jeffrey M. (2015). Introductory Econometrics: A modern Approach. 6th Edition. CENGAGE Learning, Boston, MA.
+\end{itemize}
+
+\textbf{Complementaria u Opcional:}
+\begin{itemize}
+    \item Gujarati, D. N.; Porter, D. C. (2010). Econometría (5a. ed.). México: McGraw Hill
+    \item Stock J.; Watson M. (2015). Introduction to Econometrics. Updated third edition. Pearson Education.   
+\end{itemize}
+
+\subsection{Lecturas de evaluación por certamen:}
+
+\begin{itemize}
+    \item \textbf{Certamen 1:} Miguel, E.; Kremer, M. (2004). Worms: Identifying Impacts on Education and Health in the Presence of Treatment Externalities. \textit{Econometrica}, Vol. 72, No. 1, pp. 159–217.
+    \item \textbf{Certamen 2:} Rau, T.; Albagli, P. (2019). The Effects of a Maternity Leave Reform on Children's Abilities and Maternal Outcomes in Chile. \textit{The Economic Journal}, Vol. 129, Issue 619, pp. 917–1332.
+    \item \textbf{Certamen 3:} Angrist, J. D.; Pischke, J.-S. \textit{Dominar la Econometría: El camino entre el efecto y la causa}. Antoni Bosch Editor. Capítulo 6: ``El valor de la enseñanza''.
+\end{itemize}
+
+
+\section{Evaluaciones} 
+
+\begin{table}[h!]
+\centering
+%\caption{Cronograma de Evaluaciones y Ponderaciones}
+\label{tab:evaluaciones}
+\begin{tabular}{@{} l c p{6cm} @{}}
+\toprule
+\textbf{Evaluación} & \textbf{Ponderación (\%)} & \textbf{Fecha} \\
+\midrule
+Certamen 1           & 20 & 5 de septiembre \\
+Certamen 2           & 20 & 10 de octubre \\
+Certamen 3           & 20 & 28 de noviembre \\
+\midrule
+Controles de avance  & \multirow{2}{*}{15} & 25 de agosto y 29 de septiembre \\
+Talleres             &                     & 9 de septiembre, 19 de octubre y 9 de noviembre \\
+\midrule
+\multirow{3}{4em}{Trabajo Práctico} & 5  & 1ra entrega: 28 de octubre \\
+                                    & 10 & Informe final: 30 de noviembre \\
+                                    & 10 & Presentaciones:  1 y 2 de diciembre \\
+\midrule
+\textbf{Total}       & \textbf{100} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+{\bf Requisitos de aprobación:}
+
+Promedio final igual o superior a 55, con promedio de certámenes sobre 50 y al menos un certamen con nota igual o superior a 55.  En caso de no cumplirse la condición señalada sobre los certámenes, el promedio semestral corresponderá al promedio simple de los tres certámenes.
+\newpage
+
+\section*{ II. Cálculo de cantidad de horas de dedicación - (SCT-Chile) - Cuadro resumen de la asignatura.}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{5cm}|c|c|c|}
+        \hline
+        \textbf{ACTIVIDAD} & \textbf{horas por semana} & \textbf{semanas} & \textbf{total de horas} \\
+        \hline
+        \multicolumn{4}{|c|}{\textbf{PRESENCIAL}} \\
+        \hline
+        Cátedra o Clases teóricas & 2,3 & 14 & 32,2 \\
+        \hline
+        Ayudantía/Ejercicios & 1,15 & 14 & 16,1 \\
+        \hline
+        Visitas industriales (de Campo) & & & \\
+        \hline
+        Laboratorios / Taller & 1,15 & 16 & 18,4 \\
+        \hline
+        Evaluaciones (certámenes, otros) & 2,3 & 2 & 4,6 \\
+        \hline
+        Otras (Trabajo práctico) & 1,15 & 2 & 2,3 \\
+        \hline
+        \multicolumn{4}{|c|}{\textbf{NO PRESENCIAL}} \\
+        \hline
+        Tareas obligatorias (individuales) & 2 & 4 & 8 \\
+        \hline
+        Tareas obligatorias (grupales) & 4 & 4 & 16 \\
+        \hline
+        Estudio Personal (Individual o grupal) & 3 & 15 & 45 \\
+        \hline
+        Otras (Recolección de datos) & 3 & 2 & 6 \\
+        \hline
+        Otras (reuniones con profesor) & 1 & 6 & 6 \\
+        \hline
+        \multicolumn{3}{|c|}{\textbf{TOTAL (HORAS RELOJ)}} & 155\\
+        \hline
+        \multicolumn{3}{|c|}{Número total en CRÉDITOS TRANSFERIBLES\textsuperscript{2}} &  6 \\
+        \hline
+    \end{tabular}
+\end{table}
+\end{document}

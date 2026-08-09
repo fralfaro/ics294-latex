@@ -1,91 +1,67 @@
 # ICS294 — Econometría · UTFSM
 
 Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Federico Santa María
-(Casa Central). Slides de clase, certámenes, controles, talleres y guías de ejercicios.
+(Casa Central). Slides de clase, programa, instrucciones de trabajo y guías de ejercicios.
 
 - **Instructor:** Francisco Alfaro Medina · `francisco.alfaro@usm.cl`
 - **Semestre objetivo:** 2026-2
-- **Tema Beamer:** `Szeged` + `dolphin` + `infolines`
+
+---
+
+## Documentos principales
+
+- [Programa del curso](programa/programa26.pdf)
+- [Instrucciones del trabajo práctico](trabajo/instrucciones_trabajoJTapia.pdf)
 
 ---
 
 ## Contenido del curso (clases)
 
-El curso se organiza en 14 semanas (`sem1/`–`sem14/`), que cubren las clases `clase1`–`clase21`.
-Cada carpeta `semN/` contiene el/los deck(s) Beamer de esa semana.
+Por ahora se presenta el material hasta la semana 3.
 
-| Semana | Tema | Deck(s) canónico(s) |
-|---|---|---|
-| sem1  | Introducción, tipos de datos, muestreo | `clase1.tex` |
-| sem2  | Regresión lineal simple y MCO | `clase2.tex` |
-| sem3  | Causalidad, variables omitidas, error de medición, Gauss-Markov | `Clase3.tex`, `Clase4.tex`, `Clase5.tex` |
-| sem4  | Estimación RLM e inferencia (t, IC) | `Clase6.tex`, `Clase7.tex` |
-| sem5  | Regresión lineal múltiple | `Clase8.tex` |
-| sem6  | Forma funcional e interpretación | `clase9.tex` |
-| sem7  | Inferencia sobre un parámetro (t) + prueba F | `Clase10.tex` |
-| sem8  | Inferencia: una restricción lineal (β₁=β₂) | `Clase11.tex` |
-| sem9  | Inferencia conjunta: prueba F | `Clase12.tex` |
-| sem10 | Propiedades asintóticas de MCO | `clase13_2version.tex` |
-| sem11 | Variables dummy (independientes y dependientes / MPL) | `Clase14.tex`, `Clase15.tex` |
-| sem12 | Heterocedasticidad + Variables Instrumentales | `Clase 16 v2.tex`, `Clase 17 v2.tex` |
-| sem13 | Multicolinealidad | `clase18.tex` |
-| sem14 | Series de tiempo: causalidad, raíces unitarias, autocorrelación | `clase19.tex`, `clase20_v2.tex`, `clase21.tex` |
-
-> Cada deck incluye: frame de **Objetivos**, **demostraciones/sketch** de los teoremas centrales,
-> **≥2 ejercicios resueltos** paso a paso, **≥2 ejercicios propuestos**, **ejemplo aplicado en R/Python**
-> y frame de **Resumen**. Ver el detalle por semana en [`CHANGELOG.md`](CHANGELOG.md).
+| Semana | Clase | Tema | Contenido | Ejercicio |
+|---|---:|---|---|---|
+| Semana 1 | Repaso | Estadística descriptiva e inferencia básica | [PDF](clases/sem1/repaso_estadistica.pdf) | [PDF](clases/sem1/ejercicios_repaso_estadistica.pdf) |
+| Semana 1 | Ayudantía | Repaso aplicado de estadística | [PDF](clases/sem1/repaso_ayudantia.pdf) | - |
+| Semana 1 | Clase 1 | Introducción, tipos de datos y muestreo | [PDF](clases/sem1/clase1.pdf) | - |
+| Semana 2 | Clase 2 | Regresión lineal simple y MCO | [PDF](clases/sem2/clase2.pdf) | [PDF](clases/sem2/guia_ejercicios_clase2.pdf) |
+| Semana 3 | Clase 3 | Causalidad, contrafactuales, ATE y ATT | [PDF](clases/sem3/Clase3.pdf) | [PDF](clases/sem3/guia_ejercicios_clase3.pdf) |
+| Semana 3 | Clase 4 | Variables omitidas y sesgo de selección | [PDF](clases/sem3/Clase4.pdf) | [PDF](clases/sem3/guia_ejercicios_clase4.pdf) |
+| Semana 3 | Clase 5 | Error de medición y sesgo de atenuación | [PDF](clases/sem3/Clase5.pdf) | [PDF](clases/sem3/guia_ejercicios_clase5.pdf) |
 
 ---
 
-## Estructura del repositorio
+## Evaluaciones
 
-```
-ics294-latex/
-├── sem1/ … sem14/     # Slides de clase (Beamer)
-├── certamenes/        # Certámenes con pauta
-├── control/           # Controles con pauta
-├── Ejercicios/        # Guías y ejercicios por tópico
-├── Taller/            # Talleres aplicados
-├── Figuras/           # Imágenes compartidas (incluye logoUSM.png)
-├── complemetario/     # Material complementario
-├── trabajo/           # Instrucciones del trabajo del curso
-├── CLAUDE.md          # Directrices del proyecto (para Claude Code)
-├── SKILLS.md          # Convenciones LaTeX/Beamer del proyecto
-└── CHANGELOG.md       # Registro de mejoras por semana
-```
+| Evaluación | Ponderación (%) | Fecha |
+|---|---:|---|
+| Certamen 1 | 20 | 5 de septiembre |
+| Certamen 2 | 20 | 10 de octubre |
+| Certamen 3 | 20 | 28 de noviembre |
+| Controles de avance y talleres | 15 | Controles: 25 de agosto y 29 de septiembre. Talleres: 9 de septiembre, 19 de octubre y 9 de noviembre |
+| Trabajo Práctico: 1ra entrega | 5 | 28 de octubre |
+| Trabajo Práctico: informe final | 10 | 30 de noviembre |
+| Trabajo Práctico: presentaciones | 10 | 1 y 2 de diciembre |
+| **Total** | **100** | |
 
----
+La nota final se calcula como:
 
-## Compilación
+$$
+NF = 0.60C + 0.15CT + 0.25P
+$$
 
-> **Importante:** las rutas de imagen de los slides son **relativas a la raíz del repositorio**
-> (p.ej. `sem2/images/reg.png`, `Figuras/logoUSM.png`). Por lo tanto, **compila desde la raíz**,
-> no desde dentro de la carpeta `semN/`.
+donde:
 
-```bash
-# Compilar un deck (dos pasadas para referencias/índices)
-pdflatex -interaction=nonstopmode -output-directory=.build/sem2 sem2/clase2.tex
-pdflatex -interaction=nonstopmode -output-directory=.build/sem2 sem2/clase2.tex
-```
+$$
+C = \frac{C_1 + C_2 + C_3}{3}
+$$
 
-El PDF queda en `.build/sem2/clase2.pdf`. La carpeta `.build/` está ignorada por git.
+$$
+P = 0.20TP_1 + 0.40TP_2 + 0.40TP_3
+$$
 
-**Requisitos:** una distribución TeX completa (TeX Live / MacTeX) con `beamer`, `tcolorbox`,
-`tikz`, `amsmath`, `babel` (spanish) y `hyperref`.
+$$
+CT = \text{Controles de avance y talleres}
+$$
 
-> Nota técnica: Beamer ya carga `hyperref` internamente. Para opciones usar `\hypersetup{...}`,
-> **no** un segundo `\usepackage[...]{hyperref}` (provoca *Option clash*). Ver [`SKILLS.md`](SKILLS.md).
-
----
-
-## Convenciones
-
-Las convenciones de notación, entornos (`block`/`alertblock`/`exampleblock`), formato de ejercicios,
-gráficos TikZ y metadatos están documentadas en [`SKILLS.md`](SKILLS.md). El flujo de trabajo de
-mejora de clases está en [`CLAUDE.md`](CLAUDE.md).
-
----
-
-## Licencia
-
-Ver [`LICENSE`](LICENSE).
+**Requisitos de aprobación:** promedio final igual o superior a 55, con promedio de certámenes sobre 50 y al menos un certamen con nota igual o superior a 55. En caso de no cumplirse la condición señalada sobre los certámenes, el promedio semestral corresponderá al promedio simple de los tres certámenes.

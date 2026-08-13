@@ -30,6 +30,13 @@ Por ahora se presenta el material hasta la semana 3.
 | Semana 3 | Clase 4 | Variables omitidas y sesgo de selección | [PDF](clases/sem3/Clase4.pdf) | [PDF](clases/sem3/guia_ejercicios_clase4.pdf) |
 | Semana 3 | Clase 5 | Error de medición y sesgo de atenuación | [PDF](clases/sem3/Clase5.pdf) | [PDF](clases/sem3/guia_ejercicios_clase5.pdf) |
 
+### Recursos complementarios
+
+- **Repaso de R:** [Notebook](colab/repaso_r.ipynb) · [Colab](https://colab.research.google.com/github/fralfaro/ics294-latex/blob/main/colab/repaso_r.ipynb)
+- **Ejemplo de proyecto:** [Informe](colab/pf_informe.pdf) · [Presentación](colab/pf_presentacion.pdf) · [Colab](https://colab.research.google.com/github/fralfaro/ics294-latex/blob/main/colab/pf_proyecto.ipynb)
+
+> **Nota:** En este [Excel](https://docs.google.com/spreadsheets/d/1t9CYktwSVgf_1ATnYKZCQ8y_PSSL4Eglcnxza08alvo/edit?usp=sharing) deben poner los nombres de los integrantes en el tema que escogieron, según su año/paralelo.
+
 ---
 
 ## Evaluaciones

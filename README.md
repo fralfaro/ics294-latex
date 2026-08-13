@@ -11,7 +11,8 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 ## Documentos principales
 
 - [Programa del curso](programa/programa26.pdf)
-- [Instrucciones del trabajo práctico](trabajo/instrucciones_trabajoJTapia.pdf)
+- [Proyecto: instrucciones](trabajo/instrucciones.pdf)
+- [Proyecto: rúbrica](trabajo/rubrica.pdf)
 - [Material complementario](material/)
 
 ---

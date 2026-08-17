@@ -289,6 +289,51 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Ejercicio final}
+    \begin{itemize}
+        \item Queremos estimar el efecto causal de asistir a preuniversitario sobre el puntaje PSU:
+        $$
+        puntaje_i=\alpha+\beta_1 preu_i+u_i
+        $$
+        donde $preu_i=1$ si el estudiante asistió a preuniversitario.
+        \item La variable omitida es el apoyo familiar, $apoyo_i$, que afecta el puntaje y también la probabilidad de asistir a preuniversitario.
+        \item Suponga que el modelo verdadero es:
+        $$
+        puntaje_i=\alpha+\beta_1 preu_i+\beta_2 apoyo_i+u_i
+        $$
+        y que:
+        $$
+        apoyo_i=\delta_0+\delta_1 preu_i+v_i
+        $$
+        \item Si $\beta_1=25$, $\beta_2=40$ y $\delta_1=0{,}5$, responda:
+        \begin{enumerate}
+            \item ¿Cuál es el sesgo por variable omitida?
+            \item ¿Cuál será el coeficiente estimado al omitir $apoyo_i$?
+            \item ¿Se sobreestima o subestima el efecto causal del preuniversitario?
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Solución ejercicio final}
+    \begin{itemize}
+        \item La fórmula del coeficiente estimado cuando omitimos $apoyo_i$ es:
+        $$
+        \tilde{\beta}_{1}=\beta_1+\beta_2\delta_1
+        $$
+        \item Entonces, el sesgo es:
+        $$
+        \beta_2\delta_1=40\cdot 0{,}5=20
+        $$
+        \item Por lo tanto:
+        $$
+        \tilde{\beta}_{1}=25+20=45
+        $$
+        \item La regresión simple estimaría que asistir a preuniversitario aumenta el puntaje en 45 puntos.
+        \item Pero el efecto causal verdadero era 25 puntos. Entonces, el efecto está \textbf{sobreestimado}.
+        \item Intuición: estudiantes con más apoyo familiar tienden a asistir más al preuniversitario y, además, ese apoyo aumenta su puntaje. Al omitirlo, parte del efecto del apoyo familiar se atribuye erróneamente al preuniversitario.
+    \end{itemize}
+\end{frame}
+
 
 
 \end{document}

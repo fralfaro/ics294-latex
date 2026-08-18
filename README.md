@@ -34,6 +34,7 @@ Por ahora se presenta el material hasta la semana 3.
 ### Recursos complementarios
 
 - **Repaso de R:** [Notebook](colab/repaso_r.ipynb) · [Colab](https://colab.research.google.com/github/fralfaro/ics294-latex/blob/main/colab/repaso_r.ipynb)
+- **Certamen 1: ejemplos en R:** [Notebook](colab/certamen1_ejemplos.ipynb) · [Colab](https://colab.research.google.com/github/fralfaro/ics294-latex/blob/main/colab/certamen1_ejemplos.ipynb)
 - **Ejemplo de proyecto:** [Informe](colab/pf_informe.pdf) · [Presentación](colab/pf_presentacion.pdf) · [Colab](https://colab.research.google.com/github/fralfaro/ics294-latex/blob/main/colab/pf_proyecto.ipynb)
 
 > **Nota:** En este [Excel](https://docs.google.com/spreadsheets/d/1t9CYktwSVgf_1ATnYKZCQ8y_PSSL4Eglcnxza08alvo/edit?usp=sharing) deben poner los nombres de los integrantes en el tema que escogieron, según su año/paralelo.

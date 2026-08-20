@@ -237,6 +237,41 @@ $$
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Ejemplo simple: horas de estudio y nota}
+    \begin{itemize}
+        \item Supongamos que el modelo verdadero es:
+        $$
+        Nota=\beta_{0}+2\cdot Horas^{*}+\epsilon
+        $$
+        \item Es decir, una hora adicional de estudio real aumenta la nota esperada en 2 puntos.
+        \item Pero no observamos las horas reales $Horas^{*}$, sino un reporte con error:
+        $$
+        Horas=Horas^{*}+u
+        $$
+        \item Supongamos que:
+        $$
+        \operatorname{Var}(Horas^{*})=8 \quad \text{y} \quad \operatorname{Var}(u)=2
+        $$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplo simple: sesgo de atenuaci\'on}
+    \begin{itemize}
+        \item Si estimamos usando $Horas$ en lugar de $Horas^{*}$:
+        $$
+        E\left(\hat{b}_{1}\right)
+        =
+        2\cdot
+        \frac{8}{8+2}
+        =
+        1.6
+        $$
+        \item Aunque el efecto verdadero es $\beta_{1}=2$, MCO estima en promedio una pendiente menor.
+        \item Intuici\'on: el ruido en $Horas$ aumenta la variabilidad de la variable explicativa, pero no agrega informaci\'on sobre $Nota$.
+        \item Por eso el coeficiente se ``achica'' hacia cero.
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Conclusiones}
     \begin{itemize}
         \item Cuando trabajamos con datos reales, no siempre medimos exactamente lo que queremos en nuestro modelo.

@@ -8,7 +8,8 @@
 \usepackage{graphicx}
 % \usepackage[english]{babel}
 \usepackage[dvipsnames]{xcolor} % opcional, para más colores
-\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+%\usepackage{hyperref}
+\hypersetup{colorlinks=true, allcolors=blue}
 %\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
 \usepackage{amsmath} 
 
@@ -16,12 +17,13 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes.callouts}
 \usepackage{multirow}
+\usepackage{booktabs}
 
 \usepackage[utf8]{inputenc}
 
 \usepackage{enumerate}
-\usepackage[shortlabels]{enumitem}
-\setitemize{itemsep=2pt, topsep=2pt}
+%\usepackage[shortlabels]{enumitem}
+%\setitemize{itemsep=2pt, topsep=2pt}
 \usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
 \usepackage{tcolorbox}
 
@@ -36,7 +38,7 @@
 
 \usepackage{caption}
 \setlength{\parindent}{0pt}
-\usepackage[hyperfootnotes=false]{hyperref}
+%\usepackage[hyperfootnotes=false]{hyperref}
 
 \usepackage{url}
 \usepackage{float}
@@ -48,7 +50,7 @@
 
 \title[ICS-162]{Econometría ICS-294\\ \small{Clase 10: Inferencia sobre un parámetro}}
 
-\author{Jocelyn Tapia Stefanoni}
+\author{Francisco Alfaro Medina}
 \institute[USM]
 {Universidad Técnica Federico Santa María\\ % Your institution for the title page
 	\medskip
@@ -56,7 +58,7 @@
 	
 }
 \logo{
-\includegraphics[width=3cm]{figuras/logoUSM.png}
+\includegraphics[width=3cm]{sem7/images/Logo_UTFSM.png}
 }
 \date{}
 \newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
@@ -489,7 +491,7 @@ donde queremos evaluar la hipótesis de que, después de tener en cuenta el IQ, 
         \item Esto significa que con 95\% de confianza, $\beta_1$ está entre esos valores.
     \end{itemize}
 
- \href{https://colab.research.google.com/drive/1ofQHrMDZSBYgfbw7JEjXtWvevykkMNX_?usp=sharing#scrollTo=9Fdx9GNkxGIF}{LINK ejercicio}.   
+ \href{https://colab.research.google.com/drive/1ofQHrMDZSBYgfbw7JEjXtWvevykkMNX_?usp=sharing\#scrollTo=9Fdx9GNkxGIF}{LINK ejercicio}.   
 \end{frame}
 
 
@@ -569,10 +571,36 @@ Se busca testear si hay retornos positivos a la experiencia.
 \end{frame}
 
 \begin{frame}
+\frametitle{Ejercicio de cierre}
+
+En el modelo de salarios se obtiene:
+\[
+\hat{\beta}_{educ}=0.075, \qquad se(\hat{\beta}_{educ})=0.025.
+\]
+Queremos testear \(H_0:\beta_{educ}=0\) contra \(H_1:\beta_{educ}\neq 0\), con \(\alpha=5\%\).
+
+\begin{enumerate}
+    \item Calcule el estadístico \(t\).
+    \item Use el valor crítico aproximado \(1.96\). ¿Rechaza \(H_0\)?
+    \item Interprete el resultado.
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Respuesta:}
+\[
+t=\frac{0.075-0}{0.025}=3.
+\]
+Como \(|3|>1.96\), rechazamos \(H_0\). La educación tiene un efecto estadísticamente distinto de cero al 5\%.
+
+\end{frame}
+
+\begin{frame}
 \frametitle{Conclusiones}
 \begin{itemize}
     \item Hemos visto cómo se puede hacer tests de hipótesis simples sobre estimadores del MCO.
     \item El test más importante es determinar si el parámetro es significativamente diferente de cero.
+    \item El estadístico \(t\) compara la distancia entre el estimador y el valor nulo en unidades de error estándar.
+    \item Los intervalos de confianza y los valores-p entregan formas complementarias de reportar evidencia estadística.
    
 \end{itemize}
 \end{frame}

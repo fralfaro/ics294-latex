@@ -27,7 +27,7 @@
 \usepackage{multirow}
 
 \usepackage{enumerate}
-\usepackage[shortlabels]{enumitem}
+%\usepackage[shortlabels]{enumitem}
 \usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
 
 %\usepackage{amssymb, amsmath, amsbsy}
@@ -81,7 +81,7 @@
 
 \title[ICS-162]{Econometría ICS-294\\ \small{Clase 7: Propiedades estadísticas del estimador MCO}}
 
-\author{Jocelyn Tapia Stefanoni}
+\author{Francisco Alfaro Medina}
 \institute[USM]
 {Universidad Técnica Federico Santa María\\ % Your institution for the title page
 	\medskip
@@ -89,7 +89,7 @@
 	
 }
 \logo{
-\includegraphics[width=3cm]{figuras/logoUSM.png}
+\includegraphics[width=3cm]{sem4/images/Logo_UTFSM.png}
 }
 \date{}
 \newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
@@ -618,6 +618,38 @@ Bajo los supuestos clásicos, los estimadores MCO cumplen lo siguiente:
         &= \sigma^2(X^{\top}X)^{-1} \quad \text{(14)}
     \end{align*}
     \item nota:  $\hat{\beta}=\beta+(X^{T}X)^{-1}X^{T}u$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Ejercicio de cierre}
+
+Suponga que se estima el modelo:
+\[
+salario_i=\beta_0+\beta_1 educ_i+\beta_2 exper_i+u_i
+\]
+
+\begin{enumerate}
+    \item Si habilidad no observada afecta el salario y está correlacionada con \(educ\), ¿qué supuesto clásico se viola?
+    \item Si \(E[u|X]=0\), ¿qué podemos decir sobre \(E(\hat{\beta}|X)\)?
+    \item Si además hay homocedasticidad, ¿cuál es la varianza de \(\hat{\beta}\)?
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Respuesta:} se viola exogeneidad. Si \(E[u|X]=0\), entonces \(E(\hat{\beta}|X)=\beta\). Con homocedasticidad,
+\[
+Var(\hat{\beta}|X)=\sigma^2(X^\top X)^{-1}.
+\]
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusiones}
+\begin{itemize}
+    \item Los supuestos clásicos conectan el modelo poblacional con las propiedades estadísticas del estimador MCO.
+    \item La exogeneidad es el supuesto central para interpretar los coeficientes como efectos causales.
+    \item Bajo los supuestos 1 a 4, MCO es insesgado.
+    \item Bajo los supuestos 1 a 5, la varianza condicional es \(\sigma^2(X^\top X)^{-1}\).
 \end{itemize}
 \end{frame}
 

@@ -7,7 +7,7 @@
 \usecolortheme{dolphin}
 \usepackage{graphicx}
 % \usepackage[english]{babel}
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{xcolor}
@@ -25,8 +25,8 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{enumerate}
-\usepackage[shortlabels]{enumitem}
-\setitemize{itemsep=2pt, topsep=2pt}
+%\usepackage[shortlabels]{enumitem}
+%\setitemize{itemsep=2pt, topsep=2pt}
 \usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
 \usepackage{tcolorbox}
 
@@ -41,7 +41,7 @@
 
 \usepackage{caption}
 \setlength{\parindent}{0pt}
-\usepackage[hyperfootnotes=false]{hyperref}
+%\usepackage[hyperfootnotes=false]{hyperref}
 
 \usepackage{url}
 \usepackage{float}
@@ -51,7 +51,7 @@
 
 \title[ICS-162]{Econometría ICS-294\\ \small{Clase 6: Estimación del Modelo de Regresión Lineal Múltiple}}
 
-\author{Jocelyn Tapia Stefanoni}
+\author{Francisco Alfaro Medina}
 \institute[USM]
 {Universidad Técnica Federico Santa María\\ % Your institution for the title page
 	\medskip
@@ -59,7 +59,7 @@
 	
 }
 \logo{
-\includegraphics[width=3cm]{figuras/logoUSM.png}
+\includegraphics[width=3cm]{sem4/images/Logo_UTFSM.png}
 }
 \date{}
 \newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
@@ -448,6 +448,38 @@ La fórmula para el $R^2$ es igual que en el caso de la regresión simple:
     \[ \overline{R^2} = 1 - \frac{n - 1}{n - k - 1} \frac{SSR}{SST} \]
 \end{itemize}
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Ejercicio de cierre}
+
+Considere el modelo estimado:
+\[
+\widehat{salario}=120+35\,educ+8\,exper
+\]
+
+\begin{enumerate}
+    \item Interprete el coeficiente de \(educ\).
+    \item Calcule el salario predicho para una persona con 12 años de educación y 5 años de experiencia.
+    \item Si \(SSR=1800\), \(SST=6000\), \(n=40\) y \(k=2\), calcule \(R^2\) y \(\overline{R^2}\).
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Respuesta:} \(R^2=1-\frac{1800}{6000}=0.70\) y
+\[
+\overline{R^2}=1-\frac{39}{37}\frac{1800}{6000}\approx 0.684.
+\]
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusiones}
+\begin{itemize}
+    \item El modelo de regresión múltiple permite estudiar efectos parciales, manteniendo constantes las demás variables incluidas.
+    \item La estimación MCO puede escribirse en forma matricial como \(\hat{\beta}=(X^\top X)^{-1}X^\top y\), siempre que \(X^\top X\) sea invertible.
+    \item Las propiedades algebraicas de MCO permiten definir medidas de ajuste como \(R^2\) y \(R^2\) ajustado.
+    \item El \(R^2\) ajustado es útil para comparar modelos con distinto número de regresores.
+\end{itemize}
 \end{frame}
 
 

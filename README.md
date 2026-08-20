@@ -19,7 +19,7 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 
 ## Contenido del curso (clases)
 
-Por ahora se presenta el material hasta la semana 3.
+Por ahora se presenta el material hasta la semana 7.
 
 | Semana | Clase | Tema | Contenido | Ejercicio |
 |---|---:|---|---|---|
@@ -30,6 +30,11 @@ Por ahora se presenta el material hasta la semana 3.
 | Semana 3 | Clase 3 | Causalidad, contrafactuales, ATE y ATT | [PDF](clases/sem3/Clase3.pdf) | [PDF](clases/sem3/guia_ejercicios_clase3.pdf) |
 | Semana 3 | Clase 4 | Variables omitidas y sesgo de selección | [PDF](clases/sem3/Clase4.pdf) | [PDF](clases/sem3/guia_ejercicios_clase4.pdf) |
 | Semana 3 | Clase 5 | Error de medición y sesgo de atenuación | [PDF](clases/sem3/Clase5.pdf) | [PDF](clases/sem3/guia_ejercicios_clase5.pdf) |
+| Semana 4 | Clase 6 | Estimación del modelo de regresión lineal múltiple | [PDF](clases/sem4/Clase6.pdf) | [PDF](clases/sem4/guia_ejercicios_clase6.pdf) |
+| Semana 4 | Clase 7 | Propiedades estadísticas del estimador MCO | [PDF](clases/sem4/Clase7.pdf) | [PDF](clases/sem4/guia_ejercicios_clase7.pdf) |
+| Semana 5 | Clase 8 | Propiedades estadísticas del estimador MCO: varianza y multicolinealidad | [PDF](clases/sem5/Clase8.pdf) | [PDF](clases/sem5/guia_ejercicios_clase8.pdf) |
+| Semana 6 | Clase 9 | Interpretación, no linealidades e interacciones | [PDF](clases/sem6/clase9.pdf) | [PDF](clases/sem6/guia_ejercicios_clase9.pdf) |
+| Semana 7 | Clase 10 | Inferencia sobre un parámetro | [PDF](clases/sem7/Clase10.pdf) | [PDF](clases/sem7/guia_ejercicios_clase10.pdf) |
 
 ### Recursos complementarios
 

@@ -7,7 +7,7 @@
 \usecolortheme{dolphin}
 \usepackage{graphicx}
 % \usepackage[english]{babel}
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{xcolor}
@@ -25,7 +25,7 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{enumerate}
-\usepackage[shortlabels]{enumitem}
+%\usepackage[shortlabels]{enumitem}
 \usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
 \usepackage{tcolorbox}
 
@@ -40,7 +40,7 @@
 
 \usepackage{caption}
 \setlength{\parindent}{0pt}
-\usepackage[hyperfootnotes=false]{hyperref}
+%\usepackage[hyperfootnotes=false]{hyperref}
 
 \usepackage{url}
 \usepackage{float}
@@ -50,7 +50,7 @@
 
 \title[ICS-162]{Econometría ICS-294\\ \small{Clase 8: Propiedades estadísticas del estimador MCO}}
 
-\author{Jocelyn Tapia Stefanoni}
+\author{Francisco Alfaro Medina}
 \institute[USM]
 {Universidad Técnica Federico Santa María\\ % Your institution for the title page
 	\medskip
@@ -58,7 +58,7 @@
 	
 }
 \logo{
-\includegraphics[width=3cm]{figuras/logoUSM.png}
+\includegraphics[width=3cm]{sem5/images/Logo_UTFSM.png}
 }
 \date{}
 \newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
@@ -306,4 +306,38 @@ En el modelo de regresión simple $y = \beta_0 + \beta_1 x + u$, sigue cumplién
 %     \end{enumerate}
 % \end{itemize}
 % \end{frame}
+\begin{frame}
+\frametitle{Ejercicio de cierre}
+
+En una regresión simple se obtiene:
+\[
+\hat{\sigma}^2=25, \qquad \sum_{i=1}^{n}(x_i-\bar{x})^2=100.
+\]
+
+\begin{enumerate}
+    \item Calcule \(\widehat{Var}(\hat{\beta}_1)\).
+    \item Calcule el error estándar de \(\hat{\beta}_1\).
+    \item ¿Qué ocurre con el error estándar si la variabilidad de \(x\) aumenta?
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Respuesta:}
+\[
+\widehat{Var}(\hat{\beta}_1)=\frac{25}{100}=0.25,
+\qquad se(\hat{\beta}_1)=\sqrt{0.25}=0.5.
+\]
+Si \(x\) tiene mayor variabilidad, el error estándar cae y la estimación es más precisa.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusiones}
+\begin{itemize}
+    \item La varianza de los estimadores MCO depende del ruido no explicado y de la información contenida en los regresores.
+    \item El estimador \(\hat{\sigma}^2=SSR/(n-k-1)\) permite aproximar la varianza desconocida del error.
+    \item Los errores estándar son la raíz cuadrada de las varianzas estimadas y serán claves para hacer inferencia.
+    \item Mayor variabilidad en los regresores suele mejorar la precisión de los coeficientes estimados.
+\end{itemize}
+\end{frame}
+
 \end{document}

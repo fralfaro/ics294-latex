@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[margin=2.5cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+
+\title{Econometría ICS-294\\Guía de ejercicios: Clase 7}
+\author{Francisco Alfaro Medina}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Objetivo}
+
+Practicar los supuestos clásicos del modelo de regresión lineal múltiple y las propiedades estadísticas del estimador MCO: insesgamiento, varianza y el rol de la exogeneidad.
+
+\section*{Ejercicios}
+
+\begin{enumerate}[label=\textbf{Ejercicio \arabic*.}, leftmargin=*]
+
+\item \textbf{Supuestos clásicos.}
+
+Para cada afirmación, indique qué supuesto clásico está relacionado y explique brevemente.
+
+\begin{enumerate}[label=\alph*)]
+    \item La muestra fue seleccionada aleatoriamente desde la población de interés.
+    \item Ninguna variable explicativa es combinación lineal exacta de otras.
+    \item El valor esperado del error, condicional en \(X\), es cero.
+    \item La varianza del error es constante para todos los valores de \(X\).
+\end{enumerate}
+
+\item \textbf{Exogeneidad.}
+
+Considere:
+\[
+salario_i=\beta_0+\beta_1educ_i+\beta_2exper_i+u_i.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Escriba el supuesto de exogeneidad para este modelo.
+    \item Mencione dos razones por las cuales este supuesto podría fallar.
+    \item Explique por qué este supuesto es clave para una interpretación causal.
+\end{enumerate}
+
+\item \textbf{Sesgo por variable omitida.}
+
+Suponga que habilidad afecta salario y está correlacionada positivamente con educación, pero no se incluye en la regresión.
+
+\begin{enumerate}[label=\alph*)]
+    \item ¿Qué supuesto se viola?
+    \item ¿Esperaría que el coeficiente de educación esté sesgado hacia arriba o hacia abajo?
+    \item Explique la intuición económica.
+\end{enumerate}
+
+\item \textbf{Insesgamiento de MCO.}
+
+Use:
+\[
+\hat{\beta}=(X^\top X)^{-1}X^\top y,
+\qquad
+y=X\beta+u.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Muestre que \(\hat{\beta}=\beta+(X^\top X)^{-1}X^\top u\).
+    \item Tome esperanza condicional en \(X\).
+    \item Explique qué condición permite concluir que \(E(\hat{\beta}\mid X)=\beta\).
+\end{enumerate}
+
+\item \textbf{Varianza condicional.}
+
+Bajo homocedasticidad y no autocorrelación:
+\[
+Var(u\mid X)=\sigma^2 I.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Escriba \(Var(\hat{\beta}\mid X)\).
+    \item Explique qué significa que la matriz sea condicional en \(X\).
+    \item ¿Qué ocurre si \(\sigma^2\) aumenta?
+\end{enumerate}
+
+\item \textbf{Heterocedasticidad.}
+
+Para cada caso, indique si parece razonable sospechar heterocedasticidad.
+
+\begin{enumerate}[label=\alph*)]
+    \item Salario como función de educación y experiencia.
+    \item Gasto de hogares como función de ingreso.
+    \item Puntaje en una prueba como función de horas de estudio.
+\end{enumerate}
+
+Explique en cuál caso esperaría que la varianza del error cambie más con los regresores.
+
+\item \textbf{No multicolinealidad perfecta.}
+
+Explique si hay o no multicolinealidad perfecta en cada caso.
+
+\begin{enumerate}[label=\alph*)]
+    \item Se incluye edad y edad al cuadrado.
+    \item Se incluye ingreso anual e ingreso mensual multiplicado por 12.
+    \item Se incluyen dummies para todas las regiones y una constante.
+    \item Se incluye educación y experiencia.
+\end{enumerate}
+
+\item \textbf{Matriz de varianzas-covarianzas.}
+
+Suponga que:
+\[
+\hat{V}(\hat{\beta})=
+\begin{bmatrix}
+16 & -2 & 1\\
+-2 & 4 & 0.5\\
+1 & 0.5 & 9
+\end{bmatrix}.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Identifique la varianza de \(\hat{\beta}_1\).
+    \item Calcule el error estándar de \(\hat{\beta}_1\).
+    \item Identifique la covarianza entre \(\hat{\beta}_1\) y \(\hat{\beta}_2\).
+\end{enumerate}
+
+\item \textbf{Discusión conceptual.}
+
+Explique la diferencia entre:
+\begin{enumerate}[label=\alph*)]
+    \item insesgamiento y precisión;
+    \item exogeneidad y homocedasticidad;
+    \item sesgo y varianza.
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{Preguntas de cierre}
+
+\begin{enumerate}[label=\arabic*.]
+    \item ¿Cuál es el supuesto más importante para interpretar causalmente un coeficiente?
+    \item ¿Bajo qué supuestos MCO es insesgado?
+    \item ¿Qué rol cumple la homocedasticidad en la fórmula de la varianza?
+    \item ¿Qué significa que MCO sea BLUE o MELI?
+\end{enumerate}
+
+\end{document}

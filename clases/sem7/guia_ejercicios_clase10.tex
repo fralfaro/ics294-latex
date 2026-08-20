@@ -1,0 +1,156 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[margin=2.5cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+
+\title{Econometría ICS-294\\Guía de ejercicios: Clase 10}
+\author{Francisco Alfaro Medina}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Objetivo}
+
+Practicar inferencia sobre un parámetro individual: hipótesis nula y alternativa, estadístico \(t\), regla de decisión, intervalos de confianza, valor-p y tests de una cola.
+
+\section*{Ejercicios}
+
+\begin{enumerate}[label=\textbf{Ejercicio \arabic*.}, leftmargin=*]
+
+\item \textbf{Hipótesis bilaterales.}
+
+Para cada pregunta, escriba \(H_0\) y \(H_1\).
+
+\begin{enumerate}[label=\alph*)]
+    \item ¿La educación tiene efecto sobre salario?
+    \item ¿El coeficiente de experiencia es distinto de 2?
+    \item ¿El efecto de una política pública es cero?
+\end{enumerate}
+
+\item \textbf{Estadístico \(t\).}
+
+En una regresión se obtiene \(\hat{\beta}_1=4.5\), \(se(\hat{\beta}_1)=1.5\). Se quiere probar:
+\[
+H_0:\beta_1=0
+\qquad\text{vs}\qquad
+H_1:\beta_1\neq 0.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el estadístico \(t\).
+    \item Compare con el valor crítico aproximado 1.96.
+    \item ¿Rechaza \(H_0\) al 5\%?
+\end{enumerate}
+
+\item \textbf{Valor nulo distinto de cero.}
+
+Suponga que \(\hat{\beta}_1=0.12\), \(se(\hat{\beta}_1)=0.04\). Testee:
+\[
+H_0:\beta_1=0.05
+\qquad\text{vs}\qquad
+H_1:\beta_1\neq 0.05.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el estadístico \(t\).
+    \item ¿Rechaza usando valor crítico 1.96?
+    \item Interprete el resultado.
+\end{enumerate}
+
+\item \textbf{Intervalo de confianza.}
+
+Con \(\hat{\beta}_1=2.4\), \(se(\hat{\beta}_1)=0.6\), construya un intervalo de confianza al 95\% usando 1.96.
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el límite inferior.
+    \item Calcule el límite superior.
+    \item ¿El intervalo contiene cero?
+    \item ¿Qué implica para un test bilateral al 5\%?
+\end{enumerate}
+
+\item \textbf{Valor-p.}
+
+Explique en palabras qué mide el valor-p. Luego ordene los siguientes resultados desde mayor a menor evidencia contra \(H_0\):
+
+\[
+p=0.20,\qquad p=0.08,\qquad p=0.03,\qquad p=0.001.
+\]
+
+\item \textbf{Test de una cola.}
+
+Se quiere evaluar si la experiencia tiene un efecto positivo:
+\[
+H_0:\beta_{exper}=0
+\qquad\text{vs}\qquad
+H_1:\beta_{exper}>0.
+\]
+
+Si \(\hat{\beta}_{exper}=0.03\) y \(se(\hat{\beta}_{exper})=0.015\):
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el estadístico \(t\).
+    \item Compare con el valor crítico aproximado 1.645.
+    \item ¿Rechaza \(H_0\) al 5\%?
+\end{enumerate}
+
+\item \textbf{Errores tipo I y II.}
+
+Explique qué ocurre en cada caso:
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Realidad & Decisión & Resultado \\
+\midrule
+\(H_0\) verdadera & No rechazar \(H_0\) & \\
+\(H_0\) verdadera & Rechazar \(H_0\) & \\
+\(H_0\) falsa & No rechazar \(H_0\) & \\
+\(H_0\) falsa & Rechazar \(H_0\) & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\item \textbf{Interpretación económica.}
+
+Se estima:
+\[
+\widehat{\log(salario)}=1.2+0.08\,educ+0.01\,exper.
+\]
+Para educación se obtiene \(se(\hat{\beta}_{educ})=0.02\).
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el estadístico \(t\) para \(H_0:\beta_{educ}=0\).
+    \item ¿Es estadísticamente significativo al 5\%?
+    \item Interprete la magnitud del coeficiente.
+\end{enumerate}
+
+\item \textbf{Significancia estadística versus económica.}
+
+Discuta si las siguientes afirmaciones son equivalentes:
+
+\begin{enumerate}[label=\alph*)]
+    \item Un coeficiente es estadísticamente significativo.
+    \item Un coeficiente es económicamente importante.
+\end{enumerate}
+
+Proponga un ejemplo donde un coeficiente sea estadísticamente significativo, pero de magnitud pequeña.
+
+\end{enumerate}
+
+\section*{Preguntas de cierre}
+
+\begin{enumerate}[label=\arabic*.]
+    \item ¿Qué compara el estadístico \(t\)?
+    \item ¿Cuál es la diferencia entre un test bilateral y uno unilateral?
+    \item ¿Cómo se relacionan intervalos de confianza y tests de hipótesis?
+    \item ¿Por qué un valor-p pequeño entrega evidencia contra \(H_0\)?
+\end{enumerate}
+
+\end{document}

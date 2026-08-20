@@ -1,0 +1,147 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[margin=2.5cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+
+\title{Econometría ICS-294\\Guía de ejercicios: Clase 8}
+\author{Francisco Alfaro Medina}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Objetivo}
+
+Practicar la estimación de la varianza del error, la matriz de varianzas-covarianzas de MCO, los errores estándar y la intuición detrás de la precisión de los estimadores.
+
+\section*{Ejercicios}
+
+\begin{enumerate}[label=\textbf{Ejercicio \arabic*.}, leftmargin=*]
+
+\item \textbf{Estimador de \(\sigma^2\).}
+
+En una regresión con \(n=50\), \(k=3\) y \(SSR=920\):
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule \(\hat{\sigma}^2\).
+    \item Explique por qué se divide por \(n-k-1\) y no por \(n\).
+    \item Calcule \(\hat{\sigma}\).
+\end{enumerate}
+
+\item \textbf{Matriz de varianzas.}
+
+Suponga que:
+\[
+(X^\top X)^{-1}=
+\begin{bmatrix}
+0.20 & -0.04\\
+-0.04 & 0.05
+\end{bmatrix},
+\qquad
+\hat{\sigma}^2=100.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule \(\hat{V}(\hat{\beta})\).
+    \item Identifique la varianza de \(\hat{\beta}_1\).
+    \item Calcule \(se(\hat{\beta}_1)\).
+\end{enumerate}
+
+\item \textbf{Regresión simple.}
+
+En el modelo \(y=\beta_0+\beta_1x+u\), se tiene:
+\[
+\widehat{Var}(\hat{\beta}_1)=\frac{\hat{\sigma}^2}{\sum_i(x_i-\bar{x})^2}.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule \(\widehat{Var}(\hat{\beta}_1)\) si \(\hat{\sigma}^2=36\) y \(\sum_i(x_i-\bar{x})^2=144\).
+    \item Calcule el error estándar.
+    \item ¿Qué pasa si \(\sum_i(x_i-\bar{x})^2\) se duplica?
+\end{enumerate}
+
+\item \textbf{Intuición de precisión.}
+
+Explique cómo cambia la precisión de \(\hat{\beta}_1\) en cada caso:
+
+\begin{enumerate}[label=\alph*)]
+    \item aumenta el tamaño muestral;
+    \item aumenta el ruido no explicado en \(y\);
+    \item \(x_1\) casi no varía en la muestra;
+    \item \(x_1\) está muy correlacionada con otros regresores.
+\end{enumerate}
+
+\item \textbf{Multicolinealidad imperfecta.}
+
+Considere:
+\[
+Var(\hat{\beta}_1\mid X)=\frac{\sigma^2}{SST_1(1-R_1^2)}.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique qué mide \(R_1^2\).
+    \item ¿Qué ocurre si \(R_1^2\) se acerca a 1?
+    \item ¿Por qué esto no necesariamente sesga \(\hat{\beta}_1\), pero sí lo vuelve impreciso?
+\end{enumerate}
+
+\item \textbf{Cálculo con \(R_1^2\).}
+
+Suponga que \(\sigma^2=25\), \(SST_1=100\). Calcule \(Var(\hat{\beta}_1\mid X)\) para:
+
+\begin{enumerate}[label=\alph*)]
+    \item \(R_1^2=0\);
+    \item \(R_1^2=0.5\);
+    \item \(R_1^2=0.9\).
+\end{enumerate}
+
+Interprete la relación entre colinealidad y precisión.
+
+\item \textbf{Errores estándar y significancia.}
+
+Dos estimaciones entregan el mismo coeficiente \(\hat{\beta}_1=2\), pero distintos errores estándar:
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Modelo & \(\hat{\beta}_1\) & \(se(\hat{\beta}_1)\) \\
+\midrule
+A & 2 & 0.5 \\
+B & 2 & 2.0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule el estadístico \(t\) contra \(H_0:\beta_1=0\) en cada modelo.
+    \item ¿Cuál entrega evidencia estadística más fuerte?
+    \item Explique la diferencia.
+\end{enumerate}
+
+\item \textbf{Trade-off entre sesgo y varianza.}
+
+Al estudiar el efecto de educación sobre salario, se duda si incluir habilidad medida con ruido.
+
+\begin{enumerate}[label=\alph*)]
+    \item ¿Por qué incluirla podría reducir sesgo?
+    \item ¿Por qué incluirla podría aumentar varianza?
+    \item Explique el trade-off en palabras.
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{Preguntas de cierre}
+
+\begin{enumerate}[label=\arabic*.]
+    \item ¿Qué es un error estándar?
+    \item ¿Qué factores hacen que un estimador sea más preciso?
+    \item ¿Por qué la multicolinealidad afecta la varianza?
+    \item ¿Cuál es la diferencia entre \(\sigma^2\) y \(\hat{\sigma}^2\)?
+\end{enumerate}
+
+\end{document}

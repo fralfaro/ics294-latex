@@ -7,7 +7,7 @@
 \usecolortheme{dolphin}
 \usepackage{graphicx}
 % \usepackage[english]{babel}
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \usepackage{multicol}
 \usepackage{color}
 \usepackage{xcolor}
@@ -25,7 +25,7 @@
 \usepackage[utf8]{inputenc}
 
 \usepackage{enumerate}
-\usepackage[shortlabels]{enumitem}
+%\usepackage[shortlabels]{enumitem}
 \usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
 \usepackage{tcolorbox}
 
@@ -40,7 +40,7 @@
 
 \usepackage{caption}
 \setlength{\parindent}{0pt}
-\usepackage[hyperfootnotes=false]{hyperref}
+%\usepackage[hyperfootnotes=false]{hyperref}
 
 \usepackage{url}
 \usepackage{float}
@@ -50,7 +50,7 @@
 
 \title[ICS-162]{Econometría ICS-294\\ \small{Clase 9: Interpretaci\'on}}
 
-\author{Jocelyn Tapia Stefanoni}
+\author{Francisco Alfaro Medina}
 \institute[USM]
 {Universidad Técnica Federico Santa María\\ % Your institution for the title page
 	\medskip
@@ -58,7 +58,7 @@
 	
 }
 \logo{
-\includegraphics[width=3cm]{figuras/logoUSM.png}
+\includegraphics[width=3cm]{sem6/images/Logo_UTFSM.png}
 }
 \date{}
 \newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
@@ -77,21 +77,21 @@
     \begin{enumerate}
         \item {\color{blue}Variable dependiente e independiente en niveles:}
         \begin{itemize}
-            \begin{center}$y_i = \beta_0 + \beta_1 x_{1,i} + \ldots + u_i$\end{center}
+            \item[] \begin{center}$y_i = \beta_0 + \beta_1 x_{1,i} + \ldots + u_i$\end{center}
             \item → \textbf{Ejemplo:} $salario_i = \beta_0 + \beta_1 educ_i + u_i$
             \item $\beta_1 = \frac{\Delta y}{\Delta x_1}$
             \item Por cada año más de educación se obtiene, en promedio, $\beta_1$ dólares más de salario.
         \end{itemize}
         \item {\color{blue}Variable dependiente en log e independiente en niveles:}
         \begin{itemize}
-            \begin{center} $\log(y_i) = \beta_0 + \beta_1 x_{1,i} + \ldots + u_i$\end{center}
+            \item[] \begin{center} $\log(y_i) = \beta_0 + \beta_1 x_{1,i} + \ldots + u_i$\end{center}
             \item → \textbf{Ejemplo:} $\log(salario)_i = \beta_0 + \beta_1 educ_i + u_i$
             \item $\beta_1 = \frac{\Delta \log y}{\Delta x_1}\approx \frac{\Delta \% y}{100\Delta x_1}$
             \item Por cada año más de educación se obtiene, en promedio, un aumento de $100 \cdot \beta_1 \%$ del salario, manteniendo todas las demás variables constantes.
         \end{itemize}
         \item {\color{blue}Variable dependiente e independiente en logs:}
         \begin{itemize}
-            \begin{center}$\log(y_i) = \beta_0 + \beta_1 \log(x_{1,i}) + \ldots + u_i$\end{center}
+            \item[] \begin{center}$\log(y_i) = \beta_0 + \beta_1 \log(x_{1,i}) + \ldots + u_i$\end{center}
             \item → \textbf{Ejemplo:} $\log(salario)_i = \beta_0 + \beta_1 \log(educ)_i + u_i$
             \item $\beta_1 = \frac{\Delta \log y}{\Delta \log x_1}\approx \frac{\Delta\% y}{ \Delta\% x_1}$
             \item Un aumento de 1\% de los años de educación implica, en promedio, un aumento de $\beta_1 \%$ del salario manteniendo todas las demás variables constantes. Es decir, representa una {\bf elasticidad}.
@@ -314,6 +314,39 @@ Si re-escala la variable $x$ por $\tilde{x} = \alpha x$ se estima:
     \label{tab:my_label}
 \end{table}
 
+\end{frame}
+
+\begin{frame}
+\frametitle{Ejercicio de cierre}
+
+Considere el modelo estimado:
+\[
+\widehat{\log(salario)}=1.8+0.08\,educ+0.03\,exper-0.0005\,exper^2.
+\]
+
+\begin{enumerate}
+    \item Interprete el coeficiente de \(educ\).
+    \item Calcule el efecto parcial de un año adicional de experiencia cuando \(exper=10\).
+    \item ¿La experiencia tiene retornos crecientes o decrecientes?
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Respuesta:} un año adicional de educación se asocia con cerca de \(8\%\) más de salario. Para \(exper=10\),
+\[
+\frac{\Delta \widehat{\log(salario)}}{\Delta exper}=0.03-2(0.0005)(10)=0.02,
+\]
+es decir, cerca de \(2\%\). El efecto es decreciente porque el término cuadrático es negativo.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusiones}
+\begin{itemize}
+    \item Las transformaciones logarítmicas permiten interpretar coeficientes como cambios porcentuales o elasticidades.
+    \item Los términos cuadráticos permiten modelar efectos marginales que cambian con el nivel del regresor.
+    \item Las interacciones permiten que el efecto de una variable dependa del valor de otra.
+    \item Reescalar variables cambia las unidades de los coeficientes, pero no altera el contenido económico del efecto estimado.
+\end{itemize}
 \end{frame}
 
 \end{document}

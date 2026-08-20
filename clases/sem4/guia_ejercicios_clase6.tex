@@ -1,0 +1,174 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[margin=2.5cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+
+\title{Econometría ICS-294\\Guía de ejercicios: Clase 6}
+\author{Francisco Alfaro Medina}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Objetivo}
+
+Practicar la estimación del modelo de regresión lineal múltiple, su interpretación ceteris paribus, la notación matricial, las propiedades algebraicas de MCO y las medidas de bondad de ajuste.
+
+\section*{Ejercicios}
+
+\begin{enumerate}[label=\textbf{Ejercicio \arabic*.}, leftmargin=*]
+
+\item \textbf{Interpretación ceteris paribus.}
+
+Considere el modelo:
+\[
+salario_i=\beta_0+\beta_1 educ_i+\beta_2 exper_i+\beta_3 mujer_i+u_i.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Interprete \(\beta_1\), \(\beta_2\) y \(\beta_3\).
+    \item Explique por qué la interpretación de \(\beta_1\) es ceteris paribus.
+    \item Mencione dos variables que podrían estar omitidas en \(u_i\).
+\end{enumerate}
+
+\item \textbf{Predicción con múltiples regresores.}
+
+Suponga que se estima:
+\[
+\widehat{salario}=100+40\,educ+10\,exper-30\,mujer.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Prediga el salario de un hombre con 12 años de educación y 5 años de experiencia.
+    \item Prediga el salario de una mujer con las mismas características.
+    \item Interprete la diferencia entre ambas predicciones.
+\end{enumerate}
+
+\item \textbf{Forma matricial.}
+
+Para el modelo \(y_i=\beta_0+\beta_1x_{1i}+\beta_2x_{2i}+u_i\), considere:
+\[
+X=\begin{bmatrix}
+1 & 1 & 2\\
+1 & 2 & 1\\
+1 & 3 & 4
+\end{bmatrix},
+\qquad
+y=\begin{bmatrix}
+5\\
+6\\
+10
+\end{bmatrix}.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item Identifique \(n\) y \(k\).
+    \item Escriba el vector \(\beta\).
+    \item Calcule \(X^\top y\).
+    \item Explique qué representa \(X^\top X\).
+\end{enumerate}
+
+\item \textbf{Condiciones normales.}
+
+Explique por qué las condiciones de primer orden de MCO pueden escribirse como:
+\[
+X^\top \hat{u}=0.
+\]
+
+Luego interprete esta condición para:
+\begin{enumerate}[label=\alph*)]
+    \item la constante;
+    \item una variable explicativa \(x_1\);
+    \item todas las variables explicativas en conjunto.
+\end{enumerate}
+
+\item \textbf{Propiedades algebraicas.}
+
+En una regresión con constante, explique por qué se cumple:
+\[
+\sum_{i=1}^{n}\hat{u}_i=0,
+\qquad
+\bar{y}=\bar{\hat{y}}.
+\]
+
+Use estas propiedades para explicar por qué la regresión estimada pasa por el punto de medias.
+
+\item \textbf{\(R^2\) y \(R^2\) ajustado.}
+
+Para un modelo con \(n=80\), \(k=3\), \(SSR=240\) y \(SST=1000\):
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule \(R^2\).
+    \item Calcule \(\overline{R^2}\).
+    \item Interprete ambos resultados.
+    \item Explique por qué \(\overline{R^2}\) puede ser menor que \(R^2\).
+\end{enumerate}
+
+\item \textbf{Comparación de modelos.}
+
+Dos modelos estimados con la misma variable dependiente entregan:
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Modelo & \(n\) & \(k\) & \(SSR\) \\
+\midrule
+A & 100 & 2 & 500 \\
+B & 100 & 5 & 460 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Suponga que \(SST=1200\).
+
+\begin{enumerate}[label=\alph*)]
+    \item Calcule \(R^2\) para cada modelo.
+    \item Calcule \(\overline{R^2}\) para cada modelo.
+    \item ¿Cuál modelo preferiría si se quiere penalizar la inclusión de regresores adicionales?
+\end{enumerate}
+
+\item \textbf{Multicolinealidad perfecta.}
+
+Suponga que en una base de datos se incluyen \(educ\), \(educ\_meses=12\cdot educ\) y una constante.
+
+\begin{enumerate}[label=\alph*)]
+    \item Explique por qué existe multicolinealidad perfecta.
+    \item ¿Qué problema genera para calcular \((X^\top X)^{-1}\)?
+    \item ¿Cómo corregiría el problema?
+\end{enumerate}
+
+\item \textbf{Discusión aplicada.}
+
+Se quiere estimar el efecto de educación sobre salario. Compare los modelos:
+\[
+salario_i=\beta_0+\beta_1educ_i+u_i
+\]
+y
+\[
+salario_i=\beta_0+\beta_1educ_i+\beta_2exper_i+\beta_3habilidad_i+u_i.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item ¿Por qué el segundo modelo puede entregar una interpretación más cercana a ceteris paribus?
+    \item ¿Qué costo estadístico podría tener agregar más variables?
+    \item ¿Qué variables sería importante incluir si se busca una interpretación causal?
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{Preguntas de cierre}
+
+\begin{enumerate}[label=\arabic*.]
+    \item ¿Qué significa mantener constantes las demás variables?
+    \item ¿Por qué \(X^\top X\) debe ser invertible?
+    \item ¿Qué diferencia hay entre \(R^2\) y \(R^2\) ajustado?
+    \item ¿Por qué agregar variables siempre aumenta o mantiene \(R^2\)?
+\end{enumerate}
+
+\end{document}

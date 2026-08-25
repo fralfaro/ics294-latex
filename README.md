@@ -15,6 +15,10 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 - [Proyecto: rúbrica](trabajo/rubrica.pdf)
 - [Material complementario](material/)
 
+## Controles y Talleres
+
+- [Control 01](controles/control_01.pdf) + [Paper Worms](material/Worms.pdf)
+
 ---
 
 ## Contenido del curso (clases)

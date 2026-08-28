@@ -25,6 +25,12 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 
 Material compilado disponible desde la semana 1 hasta la semana 13.
 
+**Cobertura de certámenes:**
+
+- **Certamen 1:** clases 1 a 6.
+- **Certamen 2:** clases 7 a 12.
+- **Certamen 3:** clases 13 a 18.
+
 | Semana | Clase | Tema | Contenido |
 |---|---:|---|---|
 | Semana 1 | Repaso | Estadística descriptiva e inferencia básica | [PDF](sem1/repaso_estadistica.pdf) · [TEX](sem1/repaso_estadistica.tex) |

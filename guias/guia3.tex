@@ -1,0 +1,219 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{fillbetween}
+\usepackage{float}
+\geometry{margin=2cm}
+\usepackage{hyperref}
+
+\usepackage{subcaption}
+
+\begin{document}
+
+\vspace{5cm}
+
+
+
+\begin{center}
+\begin{large}
+\textbf{\\Guía 3: Econometría ICS-294}
+\end{large}\\
+\end{center}
+
+\begin{enumerate}
+   
+\item 
+En la tabla 1  se muestran los resultados de una investigación que busca identificar los determinantes de los salarios de los profesores (avgsal).  Utilizan las siguientes variables explicativas 
+
+\begin{itemize}
+   \item \texttt{lunch}: porcentaje de estudiantes elegibles para almuerzo gratuito.
+  \item \texttt{enrol}: matrícula (número de estudiantes).
+  \item \texttt{staff}: personal por cada 1000 estudiantes.
+ 
+  \item \texttt{math4}: porcentaje que aprueba la prueba de matemáticas de 4.\textsuperscript{o} grado.
+  \item \texttt{story4}: porcentaje que aprueba la prueba de lectura de 4.\textsuperscript{o} grado.
+  \item \texttt{bs}: razón beneficios/salario, definida como \texttt{avgben/avgsal}.
+ \texttt{lenrol}: logaritmo natural de \texttt{enrol}.
+  \item \texttt{lstaff}: logaritmo natural de \texttt{staff}.
+\end{itemize}
+
+% Table created by stargazer v.5.2.3 by Marek Hlavac, Social Policy Institute. E-mail: marek.hlavac at gmail.com
+% Date and time: Tue, Oct 14, 2025 - 11:46:19 AM
+\begin{table}[H] \centering 
+  \caption{Salarios de los profesores}  \label{tabla_reg}%\caption{Comparación: Regresiones} 
+
+\begin{tabular}{@{\extracolsep{5pt}}lcc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & \multicolumn{2}{c}{\textit{Dependent variable:}} \\ 
+\cline{2-3} 
+\\[-1.8ex] & \multicolumn{2}{c}{log(avgsal)} \\ 
+\\[-1.8ex] & (1) & (2)\\ 
+\hline \\[-1.8ex] 
+ bs & $-$0.516$^{***}$ & $-$0.518$^{***}$ \\ 
+  & (0.110) & (0.110) \\ 
+  & & \\ 
+ lenrol & $-$0.028$^{***}$ & $-$0.028$^{***}$ \\ 
+  & (0.008) & (0.008) \\ 
+  & & \\ 
+ lstaff & $-$0.691$^{***}$ & $-$0.688$^{***}$ \\ 
+  & (0.018) & (0.018) \\ 
+  & & \\ 
+ lunch & $-$0.001$^{***}$ & $-$0.001$^{***}$ \\ 
+  & (0.0002) & (0.0002) \\ 
+  & & \\ 
+ math4 &  & 0.0004 \\ 
+  &  & (0.0004) \\ 
+  & & \\ 
+ story4 &  & $$0.001 \\ 
+  &  & (0.0005) \\ 
+  & & \\ 
+ Constant & 13.831$^{***}$ & 13.850$^{***}$ \\ 
+  & (0.110) & (0.113) \\ 
+  & & \\ 
+\hline \\[-1.8ex] 
+Observations & 1,848 & 1,848 \\ 
+R$^{2}$ & 0.488 & 0.493 \\ 
+
+\hline 
+\hline \\[-1.8ex] 
+\textit{Note:}  & \multicolumn{2}{r}{$^{*}$p$<$0.1; $^{**}$p$<$0.05; $^{***}$p$<$0.01} \\ 
+\end{tabular} 
+\end{table} 
+
+Debiese incluir las variables \texttt{math4} y \texttt{story4} en la investigación? Sustente su respuesta mediante la formulación y explicación de un test de hipótesis que permita evaluar su relevancia estadística en el modelo ($
+F_{0.05, (2, 1841)} \approx 3.00$).
+
+
+{\color{blue} Se desea contrastar la hipótesis nula de que las dos variables eliminadas no aportan información estadísticamente significativa al modelo. Para ello, se emplea el test $F$ de restricciones lineales:
+
+\[
+H_0: \beta_{math4} =\beta_{story4} =0 
+\]
+
+\[
+H_1: \text{Al menos uno es } \neq 0
+\]
+
+Los resultados estimados son los siguientes:
+
+\[
+R^2_{UR} = 0.493, \quad R^2_{R} = 0.488, \quad n = 1848, \quad k_{UR} = 6, \quad q = 2
+\]
+
+El estadístico de prueba se calcula como:
+
+\[
+F = \frac{(R^2_{UR} - R^2_{R}) / q}{(1 - R^2_{UR}) / (n - k_{UR} - 1)}
+\]
+
+Sustituyendo los valores:
+
+\[
+F = \frac{(0.493 - 0.488)/2}{(1 - 0.493)/(1848 - 6 - 1)} 
+   = \frac{0.005 / 2}{0.507 / 1841}
+   = \frac{0.0025}{0.0002754} \approx 9
+\]
+
+Por lo tanto, el estadístico $F$ sigue una distribución:
+
+\[
+F_{(q,\, n - k_{UR} - 1)} = F_{(2,\,1841)}
+\]
+
+El valor crítico al $5\%$ de significancia es aproximadamente:
+
+\[
+F_{0.05, (2, 1841)} \approx 3.00
+\]
+
+Dado que:
+
+\[
+F_{calc} = 9 > 3.00
+\]
+
+se \textbf{rechaza la hipótesis nula} $H_0$. 
+
+\bigskip
+
+\noindent
+\textbf Existe evidencia estadísticamente significativa al 5\% de que las dos variables contribuyen de manera conjunta a explicar la variabilidad de la variable dependiente. Debiese incluir ambas variables en la investigación.
+}
+
+
+\item Se plantea el modelo:
+
+$$votosA = \beta_0 + \beta_1 \cdot ln(\text{gasto A}) + \beta_2 \cdot ln(\text{gasto B}) + \beta_3 \cdot forpart + u$$
+
+\begin{table}[H]
+\centering
+\caption{Resultados de la estimación del modelo de regresión}
+\label{tab:regresion}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Variable} & \textbf{Coeficiente} & \textbf{Error estándar} & \textbf{t-valor} & \textbf{Pr(>|t|)} \\
+\midrule
+Intercepto & 45.07893 & 3.92631 & 11.48 & $<$2e-16$^{***}$ \\
+$\ln(\text{gasto A})$ & 6.08332 & 0.38215 & 15.92 & $<$2e-16$^{***}$ \\
+$\ln(\text{gasto B})$ & -6.61542 & 0.37882 & -17.46 & $<$2e-16$^{***}$ \\
+\textit{forpart} & 0.15196 & 0.06202 & 2.45 & 0.0153$^{*}$ \\
+\midrule
+\multicolumn{5}{l}{\textit{Signif. codes:} $^{***}p<0.001$, $^{**}p<0.01$, $^{*}p<0.05$} \\
+\midrule
+\multicolumn{5}{l}{Error estándar residual: 7.712 (169 g.l.)} \\
+\multicolumn{5}{l}{$R^2$ = 0.7926 \quad $R^2_{ajustado}$ = 0.7889} \\
+\multicolumn{5}{l}{Estadístico F = 215.2 (3; 169) \quad p-valor $<$ 2.2e-16} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Donde $ln(\text{gasto A})$ y $ln(\text{gasto B})$ son el logaritmo natural del gasto en campaña del candidato A y B, respectivamente, $forpart$ es una medida de la fortaleza del partido del candidato A (porcentaje de votos que ovtuvo el partido A en la elección presidencial más reciente), y votosA el porcentaje de votos recibidos por el candidato A.\\
+
+Además, se tiene que la matriz de varianzas-covarianzas de los estimadores es:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+ & (Intercept) & ln(gasto A) & ln(gasto B)	& forpart\\\hline
+(Intercept)	& 15.4158713 & -0.394937598	& -0.874063434 & -0.176167017\\
+ln(gasto A)	& -0.3949376 & 0.146038608 & -0.002681489 & -0.006546373\\
+ln(gasto B)	& -0.8740634 & -0.002681489	& 0.143504821 & 0.003577341\\
+forpart	& -0.1761670 & -0.006546373	& 0.003577341 & 0.003846245\\
+    \end{tabular}
+    %\caption{Caption}
+    %\label{tab:placeholder}
+\end{table}
+
+Plantee el test de hipótesis de que un aumento de un 1\% en los gastos de A es compensado por un aumento de 1\% en los gastos de B, determine la veracidad de lo anterior al 5\% y explique.\\
+\color{blue}
+\textbf{Respuesta:} El test de hipótesis planteado es el siguiente: 
+
+\begin{align*}
+    H_0 &: \beta_1 = -\beta_2\\
+    H_1 &: \beta_1 \neq -\beta_2
+\end{align*}
+
+\begin{align*}
+    H_0 &: \beta_1 +\beta_2=0\\
+H_1 &: \beta_1 +\beta_2 \neq 0 
+\end{align*}
+Luego, el cálculo de $t$ es:
+$$t = \frac{\widehat{\beta}_1 + \widehat{\beta}_2}{\sqrt{\hat{V}(\widehat{\beta}_1 + \widehat{\beta}_2)}}$$
+
+Reemplazando y aplicando la propiedad de la varianza de una suma\footnote{Los valores finales están calculados con todos los decimales, puede haber diferencias por aproximación}:
+
+$$t = \frac{6.083 - 6.615}{\sqrt{0.146 + 0.144 + 2\cdot (-0.003)}} \approx \frac{0.53324}{−0.53210 }= −0.9978$$
+
+Luego, el $|t_{calc}| < 1.96$, por lo tanto, no existe evidencia suficiente para rechazar la hipótesis nula y, efectivamente, un aumento de 1\% en el gasto en campaña del candidato A se ve contrarrestado por un aumento de 1\% en gasto de campaña del candidato B.
+    \end{enumerate}
+
+
+\end{enumerate}
+    \end{document}

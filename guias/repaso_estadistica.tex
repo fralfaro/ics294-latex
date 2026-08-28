@@ -1,0 +1,185 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{fillbetween}
+\usepackage{float}
+\geometry{margin=2cm}
+
+\usepackage{subcaption}
+
+\begin{document}
+
+\section{Distribución normal}
+
+La variable aleatoria X, que toma todos los valores reales, $-\infty<x<+\infty$, tiene una distribución normal o gaussiana si su función de densidad es de la forma:
+
+$$f(x)={1\over \sqrt{2\pi \sigma}}\exp\left ({-{1\over 2} \left ( {x-\mu\over \sigma}\right )^2 }\right)$$
+
+    Donde los parámetros $\mu$ y $\sigma$ representan la media y la desviación estándar de X y  satisfacen $-\infty<\mu<+\infty$, $0< \sigma$.
+
+    Usamos la notación: $X\sim N(\mu, \sigma^2)$
+
+
+\subsection{Normal estándar $Z\sim N(0, 1)$
+}
+
+\[
+P(Z < 0.54) = 0.7054
+\qquad
+P(Z < -0.54) = 1 - P(Z < 0.54) = 0.2946
+\]
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.95\linewidth]{guias/normal_1.png}
+        \caption{$P(Z < 0.54) = 0.7054$}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.95\linewidth]{guias/normal_2.png}
+        \caption{$P(Z < -0.54) = 0.2946$}
+    \end{subfigure}
+    \caption{Áreas bajo la curva normal estándar}
+    \label{fig:comparacion}
+\end{figure}
+ 
+
+% ----------------- Tabla Φ(z) -----------------
+\subsection*{Tabla de valores de $\Phi(z)$}
+\begin{center}
+\begin{tabular}{c|cccccccccc}
+$z$ & +0.00 & +0.01 & +0.02 & +0.03 & +0.04 & +0.05 & +0.06 & +0.07 & +0.08 & +0.09 \\
+\hline
+0.0 & 0.50000 & 0.50399 & 0.50798 & 0.51197 & 0.51595 & 0.51994 & 0.52392 & 0.52790 & 0.53188 & 0.53586 \\
+0.1 & 0.53983 & 0.54380 & 0.54776 & 0.55172 & 0.55567 & 0.55962 & 0.56360 & 0.56749 & 0.57142 & 0.57535 \\
+0.2 & 0.57926 & 0.58317 & 0.58706 & 0.59095 & 0.59483 & 0.59871 & 0.60257 & 0.60642 & 0.61026 & 0.61409 \\
+0.3 & 0.61791 & 0.62172 & 0.62552 & 0.62930 & 0.63307 & 0.63683 & 0.64058 & 0.64431 & 0.64803 & 0.65173 \\
+0.4 & 0.65542 & 0.65910 & 0.66276 & 0.66640 & 0.67003 & 0.67364 & 0.67724 & 0.68082 & 0.68439 & 0.68793 \\
+0.5 & 0.69146 & 0.69497 & 0.69847 & 0.70194 & \textbf{0.70540} & 0.70884 & 0.71226 & 0.71566 & 0.71904 & 0.72240 \\
+0.6 & 0.72575 & 0.72907 & 0.73237 & 0.73565 & 0.73891 & 0.74215 & 0.74537 & 0.74857 & 0.75175 & 0.75490 \\
+0.7 & 0.75804 & 0.76115 & 0.76424 & 0.76730 & 0.77035 & 0.77337 & 0.77637 & 0.77935 & 0.78230 & 0.78524 \\
+0.8 & 0.78814 & 0.79103 & 0.79389 & 0.79673 & 0.79955 & 0.80234 & 0.80511 & 0.80785 & 0.81057 & 0.81327 \\
+0.9 & 0.81594 & 0.81859 & 0.82121 & 0.82381 & 0.82639 & 0.82894 & 0.83147 & 0.83398 & 0.83646 & 0.83891 \\
+1.0 & 0.84134 & 0.84375 & 0.84614 & 0.84849 & 0.85083 & 0.85314 & 0.85543 & 0.85769 & 0.85993 & 0.86214 \\
+\end{tabular}
+\end{center}
+
+    
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{normal_no_est.png}
+\end{figure}
+
+
+
+\section{Distribución t de Student}
+
+
+
+Se define como:
+\[
+T = \frac{Z}{\sqrt{U / \nu}}, \quad Z \sim \mathcal{N}(0,1), \quad U \sim \chi^2_\nu \
+\]
+donde $\nu$ son los grados de libertad.
+
+ \[
+\text{g.l.} = \text{número de observaciones} - \text{número de parámetros estimados}
+\]
+
+
+
+\begin{itemize}
+    \item Simétrica respecto a cero, similar a la normal, pero con colas más pesadas.
+    \item A mayor $\nu$, más cercana a la normal.
+    \item Para $\nu \to \infty$, $\text{t}_\nu \to \mathcal{N}(0,1)$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\linewidth]{guias/t.png}
+\end{figure}
+
+\section{Teorema Central  del Límite}
+
+Sea $X_1, X_2, \dots, X_n$ una muestra aleatoria simple de variables independientes e idénticamente distribuidas (i.i.d.) con media $\mu$ y varianza $\sigma^2 < \infty$. La media muestral es:
+\[
+\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i
+\]
+El Teorema Central del Límite establece que, cuando $n \to \infty$:
+\[
+Z_n = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \ \xrightarrow{d} \ \mathcal{N}(0,1)
+\]
+donde $\xrightarrow{d}$ denota convergencia en distribución.
+
+
+\begin{itemize}
+    \item La distribución de $\bar{X}$ se aproxima a una normal estándar al aumentar $n$, aun si la distribución de cada $X_i$ no es normal.
+   
+    \item Para $n \geq 30$ suele aceptarse la aproximación normal en aplicaciones prácticas.
+\end{itemize}
+
+\section{Intervalos de confianza para media: $\sigma$ conocida vs. desconocida}
+
+\subsection{$\sigma$ conocida}
+Cuando la desviación estándar poblacional $\sigma$ es conocida:
+\[
+Z = \frac{\bar{X} - \mu_0}{\sigma / \sqrt{n}} \sim \mathcal{N}(0,1)
+\]
+Se utiliza la distribución normal estándar.
+
+\subsection{$\sigma$ desconocida}
+En la práctica, $\sigma$ se estima por la desviación estándar muestral:
+\[
+s = \sqrt{\frac{\sum_{i=1}^n (X_i - \bar{X})^2}{n-1}}
+\]
+
+La distribución es T-student:
+\[
+T = \frac{\bar{X} - \mu_0}{s / \sqrt{n}}
+\]
+El cual sigue una \textbf{distribución t de Student} con $n-1$ grados de libertad.
+
+\vspace{4cm}
+
+% Ecuación general con variable estandarizada
+\[ P\left( a \ \le \ \frac{\bar{X} - \mu}{SE} \ \le \ b \right) = 1 - \alpha\]
+
+% Definición de error estándar
+\[
+SE =
+\begin{cases}
+\dfrac{\sigma}{\sqrt{n}}, & \text{si } \sigma \text{ es conocida} \\
+\dfrac{s}{\sqrt{n}}, & \text{si } \sigma \text{ es desconocida}
+\end{cases}
+\]
+
+% Despeje para mu
+\[
+P\left( a \cdot SE \ \le \ \bar{X} - \mu \ \le \ b \cdot SE \right) = 1 - \alpha
+\]
+\[
+P\left( \bar{X} - b \cdot SE \ \le \ \mu \ \le \ \bar{X} - a \cdot SE \right) = 1 - \alpha
+\]
+
+% Valores de a y b según el caso
+\[
+\text{Caso normal:} \quad a = z_{\alpha/2}, \quad b = -z_{\alpha/2}
+\]
+\[
+\text{Caso t de Student:} \quad a = t_{\alpha/2,\,n-1}, \quad b =-t_{\alpha/2,\,n-1}
+\]
+
+
+\end{document}

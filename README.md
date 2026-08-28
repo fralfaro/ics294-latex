@@ -23,22 +23,35 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 
 ## Contenido del curso (clases)
 
-Por ahora se presenta el material hasta la semana 7.
+Material compilado disponible desde la semana 1 hasta la semana 13.
 
-| Semana | Clase | Tema | Contenido | Ejercicio |
-|---|---:|---|---|---|
-| Semana 1 | Repaso | Estadística descriptiva e inferencia básica | [PDF](clases/sem1/repaso_estadistica.pdf) | [PDF](clases/sem1/ejercicios_repaso_estadistica.pdf) |
-| Semana 1 | Ayudantía | Repaso aplicado de estadística | [PDF](clases/sem1/repaso_ayudantia.pdf) | - |
-| Semana 1 | Clase 1 | Introducción, tipos de datos y muestreo | [PDF](clases/sem1/clase1.pdf) | - |
-| Semana 2 | Clase 2 | Regresión lineal simple y MCO | [PDF](clases/sem2/clase2.pdf) | [PDF](clases/sem2/guia_ejercicios_clase2.pdf) |
-| Semana 3 | Clase 3 | Causalidad, contrafactuales, ATE y ATT | [PDF](clases/sem3/Clase3.pdf) | [PDF](clases/sem3/guia_ejercicios_clase3.pdf) |
-| Semana 3 | Clase 4 | Variables omitidas y sesgo de selección | [PDF](clases/sem3/Clase4.pdf) | [PDF](clases/sem3/guia_ejercicios_clase4.pdf) |
-| Semana 3 | Clase 5 | Error de medición y sesgo de atenuación | [PDF](clases/sem3/Clase5.pdf) | [PDF](clases/sem3/guia_ejercicios_clase5.pdf) |
-| Semana 4 | Clase 6 | Estimación del modelo de regresión lineal múltiple | [PDF](clases/sem4/Clase6.pdf) | [PDF](clases/sem4/guia_ejercicios_clase6.pdf) |
-| Semana 4 | Clase 7 | Propiedades estadísticas del estimador MCO | [PDF](clases/sem4/Clase7.pdf) | [PDF](clases/sem4/guia_ejercicios_clase7.pdf) |
-| Semana 5 | Clase 8 | Propiedades estadísticas del estimador MCO: varianza y multicolinealidad | [PDF](clases/sem5/Clase8.pdf) | [PDF](clases/sem5/guia_ejercicios_clase8.pdf) |
-| Semana 6 | Clase 9 | Interpretación, no linealidades e interacciones | [PDF](clases/sem6/clase9.pdf) | [PDF](clases/sem6/guia_ejercicios_clase9.pdf) |
-| Semana 7 | Clase 10 | Inferencia sobre un parámetro | [PDF](clases/sem7/Clase10.pdf) | [PDF](clases/sem7/guia_ejercicios_clase10.pdf) |
+| Semana | Clase | Tema | Contenido |
+|---|---:|---|---|
+| Semana 1 | Repaso | Estadística descriptiva e inferencia básica | [PDF](sem1/repaso_estadistica.pdf) · [TEX](sem1/repaso_estadistica.tex) |
+| Semana 1 | Ayudantía | Repaso aplicado de estadística | [PDF](sem1/repaso_ayudantia.pdf) · [TEX](sem1/repaso_ayudantia.tex) |
+| Semana 1 | Clase 1 | Introducción, tipos de datos y muestreo | [PDF](sem1/clase1.pdf) · [TEX](sem1/clase1.tex) |
+| Semana 2 | Clase 2 | Regresión lineal simple y MCO | [PDF](sem2/clase2.pdf) · [TEX](sem2/clase2.tex) |
+| Semana 2 | Clase 2 nueva | Regresión lineal simple, FEC y supuestos RLS | [PDF](sem2/clase2_nuevo.pdf) · [TEX](sem2/clase2_nuevo.tex) |
+| Semana 3 | Clase 3 | Causalidad, contrafactuales, ATE y ATT | [PDF](sem3/Clase3.pdf) · [TEX](sem3/Clase3.tex) |
+| Semana 3 | Clase 4 | Variables omitidas y sesgo de selección | [PDF](sem3/Clase4.pdf) · [TEX](sem3/Clase4.tex) |
+| Semana 4 | Clase 5 | Error de medición, variables omitidas y MCO | [PDF](sem4/Clase5.pdf) · [TEX](sem4/Clase5.tex) |
+| Semana 4 | Clase 6 | Regresión lineal múltiple y propiedades de MCO | [PDF](sem4/Clase6.pdf) · [TEX](sem4/Clase6.tex) |
+| Semana 4 | Apunte | Cálculo matricial para regresión | [PDF](sem4/calculo_matrices.pdf) · [TEX](sem4/calculo_matrices.tex) |
+| Semana 5 | Clase 7 | Varianza, errores estándar, precisión y multicolinealidad | [PDF](sem5/Clase7.pdf) · [TEX](sem5/Clase7.tex) |
+| Semana 6 | Clase 8 | No linealidades, logs, interacciones y cambios de escala | [PDF](sem6/clase8.pdf) · [TEX](sem6/clase8.tex) |
+| Semana 7 | Clase 9 | Inferencia sobre un parámetro, pruebas t, intervalos y valor-p | [PDF](sem7/Clase9.pdf) · [TEX](sem7/Clase9.tex) |
+| Semana 8 | Clase 10 | Hipótesis de igualdad de parámetros | [PDF](sem8/Clase10.pdf) · [TEX](sem8/Clase10.tex) |
+| Semana 9 | Clase 11 | Inferencia conjunta, modelos restringidos y test F | [PDF](sem9/Clase11.pdf) · [TEX](sem9/Clase11.tex) |
+| Semana 10 | Clase 12 | Propiedades asintóticas, consistencia y normalidad asintótica | [PDF](sem10/clase12.pdf) · [TEX](sem10/clase12.tex) |
+| Semana 11 | Clase 13 | Variables dummy e interacciones | [PDF](<sem11/clase 13.pdf>) · [TEX](<sem11/clase 13.tex>) |
+| Semana 11 | Clase 14 | Test de Chow y variables dependientes binarias | [PDF](sem11/clase14.pdf) · [TEX](sem11/clase14.tex) |
+| Semana 11 | Ejercicio | Variables dummy y heterocedasticidad | [PDF](sem11/ejercicio_dummy_hete.pdf) · [TEX](sem11/ejercicio_dummy_hete.tex) |
+| Semana 11 | Ejercicio | Aplicación de variables dummy | [PDF](sem11/ejer_dummy_clase15.pdf) · [TEX](sem11/ejer_dummy_clase15.tex) |
+| Semana 12 | Clase 16 | Heterocedasticidad, Breusch-Pagan, White y errores robustos | [PDF](<sem12/Clase 16 v2.pdf>) · [TEX](<sem12/Clase 16 v2.tex>) |
+| Semana 12 | Clase 17 | Endogeneidad y variables instrumentales | [PDF](<sem12/Clase 17 v2.pdf>) · [TEX](<sem12/Clase 17 v2.tex>) |
+| Semana 12 | Guía | Heterocedasticidad | [PDF](sem12/guia_heterocedasticidad.pdf) · [TEX](sem12/guia_heterocedasticidad.tex) |
+| Semana 12 | Apunte | Test de White y varianza robusta | [PDF](sem12/gl_test_white.pdf) · [PDF](sem12/varianza_estimador_heteroce.pdf) |
+| Semana 13 | Clase 18 | Multicolinealidad, detección e interpretación | [PDF](sem13/clase18.pdf) · [TEX](sem13/clase18.tex) |
 
 ### Recursos complementarios
 

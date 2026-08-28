@@ -1,0 +1,580 @@
+\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+\usepackage{booktabs}
+% \usepackage[english]{babel}
+\usepackage[dvipsnames]{xcolor} % opcional, para más colores
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\setitemize{itemsep=2pt, topsep=2pt}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage[table]{xcolor}
+\usetikzlibrary{patterns}
+
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 9: Inferencia sobre un parámetro}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=1cm]{Logo.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \begin{frame}
+% \frametitle{Introducción}
+% \textbf{Clase pasada:}
+% \begin{itemize}
+%     \item Planteamos los supuestos clásicos.
+%     \item Mostramos que bajo los supuestos clásicos 1-5, el estimador MCO es insesgado.
+%     \item Además, derivamos la forma matricial de la matriz de varianza-covarianzas y la varianza de cada estimador.
+% \end{itemize}
+% \textbf{Esta clase:}
+% \begin{itemize}
+%     \item Formula intuitiva para la varianza de los $\hat{\beta}$.
+%     \item Función de distribución de los $\hat{\beta}$.
+%     \item Test de hipótesis sobre un parámetro.
+% \end{itemize}
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}
+% \frametitle{Varianza estimada de cada estimador $\beta_j$}
+% Esta matriz de $(k + 1) \times (k + 1)$ se llama matriz de varianzas-covarianzas.
+% \[
+% \hat{Var}(\hat{\beta}|X) = \hat{\sigma}^2(X^{\top}X)^{-1}
+% \]
+% \begin{itemize}
+%     \item El elemento de la diagonal $a_{1,1}$ es $\hat{Var}(\hat{\beta}_0)$.
+%     \item El elemento de la diagonal $a_{2,2}$ es $\hat{Var}(\hat{\beta}_1)$.
+%     \item Generalizando: el elemento de la diagonal $a_{j+1,j+1}$ es $\hat{Var}(\hat{\beta}_j)$.
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}
+% \frametitle{Ejemplo}
+% Estimamos el siguiente modelo con dos variables:
+% \[
+% \text{salario}_i = \beta_0 + \beta_1 \text{educ}_i + \beta_2 \text{IQ}_i + u_i
+% \]
+
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase5/images/tabla0.png}
+%     \end{figure}
+    
+% \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Varianza del Estimador MCO: Ejemplo}
+% \begin{itemize}
+%     \item Supuestos clásicos $\Rightarrow \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1}$.
+%     \item Consideremos:
+%     \[
+%     (X^{\top}X)^{-1} =
+%     \begin{bmatrix}
+%     0.05987 & -0.00177 & -0.00035 \\
+%     -0.00177 & 0.00030 & -0.00002 \\
+%     -0.00035 & -0.00002 & 0.00001 \\
+%     \end{bmatrix}\]
+    
+%      \[\hat{\sigma}^2 = \frac{SSR}{n-k-1} = 141925
+%     \]
+%     \item Entonces, podemos calcular:
+%     \[
+%     \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1} =
+%     \begin{bmatrix}
+%     8497.57 & -250.80 & -49.04 \\
+%     -250.80 & 42.90 & -3.22 \\
+%     -49.04 & -3.22 & 0.91 \\
+%     \end{bmatrix}
+%     \]
+%     \item En la diagonal principal, tienen la varianza de cada uno de los estimadores.
+%     \item Ejemplo: $\hat{V}(\hat{\beta}_1) = 42.9$. Es decir, los $\hat{se}(\hat{\beta}_1) = \sqrt{\hat{V}(\hat{\beta}_1)} = 6.54$.
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Varianza del Estimador MCO}
+% \begin{itemize}
+%     \item Intuición de la varianza del $\hat{\beta}_1$ (elemento $a_{22}$ de la diagonal):
+%     \[
+%     \hat{Var}(\hat{\beta}_1|X) = \frac{\color{red}\hat{\sigma}^2}{SST_1(1 - R^2_1)}
+%     \]
+%     \item Donde:
+%     \begin{itemize}
+%         \item $SST_1 = \sum_{i=1}^{n}(x_{i1} - \bar{x}_1)^2 = n \cdot \text{Var}(x_1)$ es la suma total de los cuadrados de $x_1$.
+%         \item $R^2_1$: el coeficiente de determinación resultante de la regresión de $x_1$ (como variable dependiente) en todas las otras variables independientes. Intuitivamente, indica cuánto de la variabilidad de $x_1$ se puede explicar por $x_2, x_3, \ldots$.
+%     \end{itemize}
+%     \item Ejemplo:
+%     \begin{itemize}
+%         \item Modelo: $y_i = \beta_0 + \beta_1x_{1i} + \beta_2x_{2i} + \beta_3x_{3i} + u_i$.
+%         \item $R^2_1$ es el coeficiente de determinación de la regresión MCO auxiliar:
+%         \[
+%         x_{1i} = \alpha_0 + \alpha_2x_{2i} + \alpha_3x_{3i} + e_i
+%         \]
+%         $R^2_1$ indica cuánto de la variable $x_1$ es explicado por las otras variables independientes.
+%     \end{itemize}
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Varianza del estimador MCO: Modelo múltiple}
+% Intuición de la varianza del $\hat{\beta}_1$:
+% \[
+% \text{Var}(\hat{\beta}_1|X) = \frac{\sigma^2}{\text{SST}_1(1 - R_{1}^{2})}
+% \]
+% \begin{itemize}
+%     \item $\text{Var}(\hat{\beta}_1|X)$ es creciente en $\sigma^2$.
+%     \begin{itemize}
+%         \item Mientras más ruido no explicado haya en la ecuación, más difícil es estimar el efecto parcial de $x_1$ en $y$.
+%     \end{itemize}
+%     \item $\text{Var}(\hat{\beta}_1|X)$ es decreciente en $\text{SST}_1$.
+%     \begin{itemize}
+%         \item Esto implica que se prefiere una mayor variación muestral en $x_1$.
+%         \item Una alternativa para aumentar esta cantidad y reducir la varianza es aumentar el tamaño muestral.
+%         \item El supuesto 3 asegura que $\text{SST}_1 \neq 0$.
+%     \end{itemize}
+%     \item $\text{Var}(\hat{\beta}_1|X)$ es creciente en $R_{1}^{2}$.
+%     \begin{itemize}
+%         \item Intuición: Meter más variables le va quitando variabilidad a $x_1$. Esto hace que su estimador sea más impreciso.
+%     \end{itemize}
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Problema de Multicolinealidad}
+% \[
+% \text{Var}(\hat{\beta}_1|X) = \frac{\sigma^2}{SST_1(1 - \color{blue}R^2_1)}
+% \]
+% \begin{itemize}
+%     \item Si dos variables son linealmente dependientes o están muy correlacionadas, la varianza del estimador será muy alta. En el límite, $R^2_1 = 1$ y la varianza es infinita. Esto viola el supuesto 3 de no multicolinealidad perfecta. En este caso, hay multicolinealidad perfecta.
+%     \item Trade-offs:
+%     \begin{enumerate}
+%         \item \textbf{Varianza:} Incluir más variables explicativas \textcolor{red}{reduce la SSR ($\sigma^2$)}, pero \textcolor{blue}{aumenta $R^2_1$}. Efecto ambiguo sobre la varianza $\hat{\text{Var}}(\hat{\beta}_1)$.
+%         \item \textbf{Sesgo:} Incluir más variables puede evitar el sesgo del coeficiente si la variable omitida correlaciona con la $x$. A menudo sacrificamos aumentar la varianza para estar seguros de evitar el sesgo.
+%     \end{enumerate}
+% \end{itemize}
+% \end{frame}
+
+\begin{frame}
+\frametitle{Teorema de Gauss-Markov}
+\begin{itemize}
+    \item \textbf{Teorema:} Bajo los supuestos 1 a 5, el estimador de Mínimos Cuadrados Ordinarios (MCO) de $\beta$ es de mínima varianza entre los estimadores lineales insesgados de $\beta$.
+    \item El estimador MCO es el estimador lineal insesgado de menor varianza (MELI / BLUE).
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Supuesto 6: Normalidad de $u$}
+\begin{itemize}
+    \item Las perturbaciones $u$ se distribuyen como $u \sim N(0, \sigma^2)$.
+    \item Este supuesto es importante porque para realizar inferencia acerca de los $\beta$ y la construcción de intervalos de confianza se necesita la distribución de sus estimadores $\hat{\beta}$ (no basta con conocer su esperanza y varianza).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Normalidad}
+\begin{itemize}
+    \item  Como u es la suma de muchos factores distintos no observados que afectan a y, se puede apelar
+al teorema del límite central (TLC)  para concluir que u tiene una distribución
+aproximadamente normal.
+
+\item Se asume que todos los factores
+no observados afectan a y por separado en forma aditiva.  Si u
+es una  función no aditiva de los factores no observados, entonces el argumento del TLC no
+puede emplearse.
+\end{itemize}
+\end{frame}
+\begin{frame}{Supuestos del modelo lineal clásico (MLC)}
+
+\begin{itemize}
+\item Consisten en todos los supuestos de Gauss-Markov más el supuesto  del error
+distribuido normalmente.
+    \item Si se satisfacen los supuestos del MCL los estimadores de MCO son insesgados de varianza mínima, no es ya necesario restringir la
+comparación a estimadores lineales en y.
+\end{itemize}
+
+{\color{blue} $$ y|X\sim N(\beta_0+\beta_1x_1+...+\beta_kx_k, \sigma^2)$$}
+    
+\end{frame}
+
+
+
+\begin{frame}[shrink=10]
+\frametitle{Distribución del estimador de MCO}
+\begin{itemize}
+    \item Teorema: bajo los supuestos 1 a 6 se cumple $\hat{\beta}_j|X \sim N(\beta_j, \text{Var}(\hat{\beta}_j|X))$.
+    \item Esto implica que, condicional en las variables regresoras $X$,
+    $$\frac{\hat{\beta}_j - \beta_j}{\sqrt{\text{Var}(\hat{\beta}_j|X)}} \sim N(0, 1).$$
+    \item Pero, recuerden que no conocemos $\text{Var}(\hat{\beta}_j)$ porque no conocemos $\sigma^2$.
+    \item En su lugar, vamos a usar la estimación: $\hat{\text{Var}}(\hat{\beta}_j)$.
+    \item Nos queda que:
+    $$\color{red}t_{\hat{\beta_j}}=\frac{\hat{\beta}_j - \beta_j}{\text{s.e.}(\hat{\beta}_j)} \sim t_{n-k-1}$$ 
+    donde $\text{s.e.}(\hat{\beta}_j) = \sqrt{\hat{\text{Var}}(\hat{\beta}_j|X)}$.
+    \item \textcolor{red}{El término en rojo va a ser clave para hacer inferencia y construir intervalos de confianza.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Test de hipótesis sobre un parámetro individual}
+\begin{itemize}
+    \item Tenemos el modelo poblacional
+    $$Y_i = \beta_0 + \beta_1X_{i1} + \ldots + \beta_kX_{ik} + u_i$$
+    \item Hasta aquí, aprendimos a encontrar el estimador $\hat{\beta}$ de los $\beta$.
+    \item Además, aprendimos a estimar su varianza y su función de distribución.
+    \item Ahora queremos usar todo esto para testear hipótesis acerca del valor de $\beta$.
+    
+\end{itemize}
+\end{frame}
+
+\begin{frame}[shrink=10]
+\frametitle{Test de hipótesis sobre un parámetro individual}
+\begin{itemize}
+    \item Suponga que quiere testear si el coeficiente $\beta_j$ que acompaña a $x_j$ es significativamente distinto al valor $a_j$. Donde $a_j$ es una constante (un número). Es decir:
+    \begin{align*}
+        H_0 &: \beta_j = a_j \\
+        H_1 &: \beta_j \neq a_j
+    \end{align*}
+    \item {\color{red} Para el caso particular de $a_j = 0$, el test busca determinar si la variable $x_j$ es significativa o relevante para el modelo.
+
+     Si se rechaza $H_0$, entonces $x_j$ es estadísticamente significativa.}
+        
+    \item Para el test se usa el siguiente estadístico $t$ construido bajo la hipótesis nula:
+    $$t_{\hat{\beta}_j} = \frac{\hat{\beta}_j - a_j}{s.e.(\hat{\beta}_j)} \sim t_{n-k-1}$$
+    \item $t_{\hat{\beta}_j}$ mide en cuántas desviaciones estándar estimadas de $\hat{\beta}_j$, se aleja $\hat{\beta}_j$ de $a_j$. Valores de $t_{\hat{\beta}_j}$ alejados de $a_j$ son evidencia en contra de la hipótesis nula.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Error tipo I y Error tipo II}
+
+\begin{table}[h!]
+\centering
+%\caption{Errores en una prueba de hipótesis}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+\textbf{Realidad} & \textbf{Decisión} & \textbf{Resultado} & \textbf{Tipo de error} \\ \midrule
+$H_0$ verdadera & No se rechaza $H_0$ & Decisión correcta & -- \\
+$H_0$ verdadera & Se rechaza $H_0$ & Decisión incorrecta & {\color{red}Error tipo I ($\alpha$) }\\
+$H_0$ falsa     & No se rechaza $H_0$ & Decisión incorrecta & {\color{red}Error tipo II ($\beta$) }\\
+$H_0$ falsa     & Se rechaza $H_0$    & Decisión correcta & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+    
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Errores tipo I y II }
+    \renewcommand{\arraystretch}{1.3} % más espacio entre filas
+\setlength{\tabcolsep}{5pt} % reducir espacio entre columnas
+
+\rowcolors{2}{blue!5}{white} % alterna color de filas
+
+\begin{tabular}{|p{2.8cm}|p{4cm}|p{4cm}|}
+\hline
+\rowcolor{blue!20}
+\textbf{Característica} & \textbf{Error Tipo I ($\alpha$)} & \textbf{Error Tipo II ($\beta$)} \\
+\hline
+Definición & Rechazar $H_0$ cuando en realidad es verdadera. & No rechazar $H_0$ cuando en realidad es falsa. \\
+\hline
+% Interpretación & \textbf{Falso positivo}: concluir que hay un efecto cuando no lo hay. & \textbf{Falso negativo}: concluir que no hay efecto cuando sí lo hay. \\
+% \hline
+Control & Se fija con el \textbf{nivel de significancia} ($\alpha$). & Se reduce aumentando $n$. El \textbf{poder} de un test es  ($1-\beta$). \\
+\hline
+Consecuencia & Concluir efectos inexistentes. & No detectar un efecto real. \\
+
+\hline
+\end{tabular}
+
+\end{frame}
+\begin{frame}
+\frametitle{Test de hipótesis sobre un parámetro individual}
+\begin{itemize}
+    \item {\color{blue}Supongamos que se fija la probabilidad de cometer error tipo I en $\alpha$. Nivel de significancia
+o probabilidad de rechazar $H_0$ cuando en realidad es verdadera.}
+    \item {\color{red}Sea $t_{\alpha/2}$ el percentil $(1 - \frac{\alpha}{2})100$ de la distribución t-Student de $n - k - 1$ grados de libertad.}
+    \item Si $\left|\frac{\hat{\beta}_j - a_j}{s.e.(\hat{\beta}_j)}\right| \geq t_{\alpha/2}$, se rechaza $H_0$.
+\end{itemize}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{images/testhip.png}
+    \end{figure}
+    
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Test de hipótesis sobre un parámetro individual}
+\begin{itemize}
+    \item El anterior corresponde a un test de dos colas.
+    \item Un nivel de significancia del $5\%$ es el valor más común.
+    \item Esto significa que de todas las muestras aleatorias que se pueden tomar, en un $5\%$ de ellas se rechaza equivocadamente la hipótesis nula.
+    \item Si se rechaza $H_0$ a un nivel de significancia de $\alpha$, entonces también se rechaza para niveles de significancia más altos. Por ejemplo, si una variable es significativa al $1\%$, entonces también lo es al $5\%$, al $10\%$, $20\%$, etc.
+    \item \textcolor{blue}{Recuerde que $t_n \rightarrow N(0, 1)$ cuando $n \rightarrow \infty$. }
+    %En la práctica, cuando los grados de libertad del estadístico t son más de 120 se suele aproximar la distribución t-Student con la Normal y usar los valores críticos de esta distribución.}
+\end{itemize}
+\end{frame}
+
+
+
+% \begin{frame}{Valor-p}
+% \begin{itemize}
+%     \item Otra forma de reportar el rechazo - o no - de la hipótesis nula.
+%     \item El p-valor es el menor nivel de significancia al que se habría rechazado la hipótesis nula.
+%     \item Nos dice la probabilidad de rechazar incorrectamente la hipótesis nula.
+%     \item Valores-p pequeños son evidencia en contra de la hipótesis nula.
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}[shrink=10]{p-valor en gráfico}
+%     \begin{itemize}
+%         \item Ejemplo \( \hat{t}_{\hat{\beta}_1} = 2.4 \).
+%         \item Buscar la probabilidad de que los valores puedan ser más extremos que \( \hat{t}_{\hat{\beta}_1} \) estadístico.
+%     \end{itemize}
+
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase5/images/pval.png}
+%     \end{figure}
+    
+% \end{frame}
+
+% \begin{frame}[shrink=10]{p-valor en gráfico}
+%     \begin{itemize}
+%         \item Valor del estadístico \( \hat{t}_{\hat{\beta}_1} = 2.4 \).
+%         \item Buscar la probabilidad de que los valores puedan ser más extremos que \( \hat{t}_{\hat{\beta}_1} \).
+%     \end{itemize}
+
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase5/images/pval2.png}
+%     \end{figure}
+
+%     $p - value=0.016$
+% \end{frame}
+
+% \begin{frame}[shrink=10]{Ejemplo}
+%     \begin{itemize}
+
+%     En Stata, se reporta el t-estadístico y también el valor p.
+
+%     \[ y_i = \beta_0 + \beta_1 \text{educ} + \beta_2 \text{IQ} + u_i \] 
+    
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=0.8\linewidth]{clase5/images/tabla.png}
+%     \end{figure}
+    
+% Vemos que $p-value = 0.00$ para $\beta_1$. Que significa? Podemos rechazar que $\beta_1 = 0$ con un nivel de significancia de 0\%. O sea, seguro!
+%     \end{itemize}
+% \end{frame}
+
+\begin{frame}{Intervalos de Confianza para un Parámetro Individual}
+    \begin{itemize}
+        \item El intervalo de confianza al $(1-\alpha)100\%$ para $\beta_j$ es:
+        \[
+        \hat{\beta}_j - t_{\alpha/2} \text{s.e.}(\hat{\beta}_j) \leq \beta_j \leq \hat{\beta}_j + t_{\alpha/2} \text{s.e.}(\hat{\beta}_j)
+        \]
+        \item Esto nos indica que con un $(1 - \alpha)100\%$ de confianza, $\beta_j$ estará dentro de ese intervalo.
+        \item Si $\beta_j$ no está en el intervalo, entonces se rechaza la hipótesis nula al $(\alpha 100\%)$ de significancia.
+    \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Ejemplo: Datos}
+Consideremos el modelo de regresión lineal:
+\[
+y_i = \beta_0 + \beta_1 \text{educ}_i + \beta_2 \text{IQ}_i + u_i
+\]
+donde queremos evaluar la hipótesis de que, después de tener en cuenta el IQ, la educación no tiene efecto en el salario.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/tabla.png}
+\end{figure}
+
+  Número de observaciones=935 
+    
+\end{frame}
+
+\begin{frame}
+\frametitle{Ejemplo de Test de Hipótesis}
+
+
+\begin{enumerate}
+    \item \textbf{Paso 1:} Planteamos las hipótesis:
+    \[
+    H_0 : \beta_1 = 0 \quad \text{vs} \quad H_1 : \beta_1 \neq 0
+    \]
+    
+    \item \textbf{Paso 2:} Calculamos el estadístico t:
+    \[
+    t_{\hat{\beta}_1} = \frac{42.0576 - 0}{6.5498} = 6.4212
+    \]
+    
+    \item \textbf{Paso 3:} Regla $\Rightarrow$ rechazamos $H_0$ si $|6.42| > t_{2.5}$, con gl=932.
+    
+    \item \textbf{Paso 4:} Dado que $|6.42| \geq 1.96$, rechazamos $H_0$. Con un nivel de significatividad del $5\%$, concluimos que $\beta_1$ es significativamente diferente de cero.
+\end{enumerate}
+\end{frame}
+\begin{frame}[shrink=10]{Ejemplo}
+
+   
+    \begin{itemize}
+        \item Tomemos $\alpha 100 = 5\% \rightarrow t_{\alpha/2} =  1.96$
+        \item Recordando la fórmula:
+        \[
+        \hat{\beta}_1 - t_{\alpha/2} \text{s.e.}(\hat{\beta}_1) < \beta_1 < \hat{\beta}_1 + t_{\alpha/2} \text{s.e.}(\hat{\beta}_1)
+        \]
+        \item Reemplazando:
+        \[
+        42.0576 - 1.96 \times 6.5498 < \beta_1 < 42.0576 + 1.96 \times 6.5498
+        \]
+        \item Entonces:
+        \[
+        29.22 < \beta_1 < 54.895
+        \]
+        \item Esto significa que con 95\% de confianza, $\beta_1$ está entre esos valores.
+    \end{itemize}
+
+ \href{https://colab.research.google.com/drive/1ofQHrMDZSBYgfbw7JEjXtWvevykkMNX_?usp=sharing\#scrollTo=9Fdx9GNkxGIF}{LINK ejercicio}.   
+\end{frame}
+
+
+\begin{frame}{Valor-p (p-value)}
+
+
+    ¿Cuál es el menor nivel de
+significancia al que se habría rechazado la hipótesis nula? 
+
+{\color{blue}Este nivel se conoce como el valor-p
+de la prueba.}
+
+El valor-p es la probabilidad de observar un
+estadístico t tan extremo como el que se encontró si la hipótesis nula es verdadera.
+
+Esto significa
+que valores-p pequeños son evidencia contra la hipótesis nula.
+
+
+
+\end{frame}
+
+\begin{frame}{Valor-p}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/output (2).png}
+\end{figure}
+    
+\end{frame}
+\begin{frame}
+\frametitle{Tests de una cola}
+\begin{itemize}
+    \item Estos tests consideran  hipótesis del tipo:
+    \begin{itemize}
+        \item $H_0 : \beta_j = a_j$
+        \item $H_1 : \beta_j > a_j$
+    \end{itemize}
+
+    \item Valores negativos del estadístico $t _{\hat{\beta}_j}$ no representan evidencia en contra de la hipótesis nula.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/image.png}
+\end{figure}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Ejemplo: ecuación de salarios}
+Consideremos el modelo
+\[
+\log(\text{wage}) = \beta_0 + \beta_1 \text{educ} + \beta_2 \text{exper} + \beta_3 \text{tenure} + u
+\]
+donde \textbf{educ} son años de educación, \textbf{exper} son años de experiencia y \textbf{tenure} son años de permanencia en la firma.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/salarios.png}
+\end{figure}
+ 
+\end{frame}
+
+\begin{frame}
+\frametitle{Ejemplo: ecuación de salarios}
+Se busca testear si hay retornos positivos a la experiencia.
+
+\begin{itemize}
+    \item Paso 1: $H_0: \beta_2 =0$, $H_1: \beta_2 > 0$
+    \item Paso 2: El estadístico $t$ es $t_{\hat{\beta}_2} = \frac{0.0041}{0.0017} \approx 2.41$
+    \item Paso 3: Comparar $t_{\hat{\beta}_2}$ contra $t_{0.05}$. En este caso hay $n - k - 1 = 522$ gl, por lo que podemos usar valores de  la normal. El valor crítico a un nivel de significancia del 5\% es 1.645.
+    \item Paso 4: Por lo tanto, $2.41 > 1.645$ y se concluye que $\beta_2$ es estadísticamente mayor que 0 con un nivel de significancia del 5\%.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusiones}
+\begin{itemize}
+    \item Hemos visto cómo se puede hacer tests de hipótesis simples sobre estimadores del MCO.
+    \item El test más importante es determinar si el parámetro es significativamente diferente de cero.
+   
+\end{itemize}
+\end{frame}
+
+
+\end{document}

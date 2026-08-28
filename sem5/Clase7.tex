@@ -1,0 +1,307 @@
+\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{xcolor}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{amsmath} 
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{0pt}
+
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 7: Propiedades estadísticas del estimador MCO}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=1cm]{Logo.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Estimador MCO de $\sigma^2$}
+La matriz de varianzas-covarianzas viene dada por:
+\[
+\text{Var}(\hat{\beta}|X) = \sigma^2(X^{\top}X)^{-1}
+\]
+Notar que $(X^{\top}X)^{-1}$ es una matriz que se observa en los datos.
+
+Pero, $\sigma^2$ es la varianza del error poblacional. NO es observable.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Estimador MCO de $\sigma^2$}
+
+
+
+El estimador $\hat{\sigma}^2$ de $\sigma^2$:
+
+ $$\hat{\sigma}^2 = \frac{\sum_{i=1}^{n} \hat{u}_i^2 }{n-k-1}= \frac{SSR}{n - k - 1}$$
+
+
+\begin{itemize}
+    \item  El término n - k - 1  son los grados de libertad (gl) para el problema general de
+MCO con n observaciones y k variables independientes.
+\item  Como en un modelo de regresión con k variables independientes y un intercepto hay k + 1 parámetros.
+\item gl =  (observaciones) - (cantidad de parámetros estimados).
+\item  Bajo los supuestos del teorema de Gauss-Markov se cumple que $E[\hat{\sigma}^2|X] = \sigma^2$.
+\end{itemize}
+
+\end{frame}
+
+% \begin{frame}{}
+    
+% \end{frame}
+% Éstas pueden escribirse como Σ i1 n
+% u ˆ i  0 y
+% Σ i1 n
+% xij u ˆ i  0, donde j  1, 2, …, k. Por tanto, en la obtención de las estimaciones de MCO,
+% a los residuales de MCO se les impone k  1 restricciones. Esto significa que, dados n  (k 
+% 1) residuales, los restantes k  1 residuales se conocen: sólo hay n  (k  1) grados de libertad
+% en los residuales. (Esto se puede comparar con los errores ui, que tienen n grados de libertad en
+% la muestra.)
+ \begin{frame}
+\frametitle{Varianza Estimada de Cada Estimador $\hat{\beta}_j$}
+
+\[
+\hat{\text{Var}}(\hat{\beta}|X) = \hat{\sigma}^2(X^{\top}X)^{-1}
+\]
+Matriz de $(k + 1) \times (k + 1)$ de varianzas-covarianzas, tal que:
+\begin{itemize}
+    \item El elemento de la diagonal $a_{1,1}$ es $\hat{\text{Var}}(\hat{\beta}_0)$.
+    \item El elemento de la diagonal $a_{2,2}$ es $\hat{\text{Var}}(\hat{\beta}_1)$.
+    \item Generalizando: el elemento de la diagonal $a_{j+1,j+1}$ es $\hat{\text{Var}}(\hat{\beta}_j)$.
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}
+% \frametitle{Ejemplo}
+% Estimamos el siguiente modelo con dos variables:
+% \[
+% \text{salario}_i = \beta_0 + \beta_1 \text{educ}_i + \beta_2 \text{IQ}_i + u_i
+% \]
+% \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}
+% \frametitle{Ejemplo}
+% Estimamos el siguiente modelo con dos variables:
+% \[
+% \text{salario}_i = \beta_0 + \beta_1 \text{educ}_i + \beta_2 \text{IQ}_i + u_i
+% \]
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.8\linewidth]{clase4/images/ej.png}
+% \end{figure}
+
+% \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Varianza del Estimador MCO: Ejemplo}
+
+
+\begin{itemize}
+    \item Supuestos clásicos $\Rightarrow \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1}$.
+    \item De los datos obtenemos:
+    \[
+    (X^{\top}X)^{-1} =
+    \begin{bmatrix}
+    0.05987 & -0.00177 & -0.00035 \\
+    -0.00177 & 0.00030 & -0.00002 \\
+    -0.00035 & -0.00002 & 0.00001 \\
+    \end{bmatrix}; \]
+    
+\[\hat{\sigma}^2 = \frac{SSR}{n-k-1} =141925
+    \]
+%     n=28\\
+    
+% $SSR=\sum_{i=1}^{n} \hat{u}_i^2=3.548.125$
+    
+\end{itemize}
+\end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}
+% \frametitle{Varianza del Estimador MCO: Ejemplo}
+% \begin{itemize}
+%     \item Supuestos clásicos $\Rightarrow \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1}$.
+%     \item De los datos obtenemos:
+%     \[
+%     (X^{\top}X)^{-1} =  \begin{bmatrix}
+%     0.05987 & -0.00177 & -0.00035 \\
+%     -0.00177 & 0.00030 & -0.00002 \\
+%     -0.00035 & -0.00002 & 0.00001 \\
+%     \end{bmatrix}
+%     \]
+
+%     $ \quad \hat{\sigma}^2 = 141925$
+%     \item Entonces, podemos calcular:
+%     \[
+%     \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1} =
+%     \begin{bmatrix}
+%     8497.57 & -250.80 & -49.04 \\
+%     -250.80 & 42.90 & -3.22 \\
+%     -49.04 & -3.22 & 0.91 \\
+%     \end{bmatrix}
+%     \]
+% \end{itemize}
+% \end{frame}
+ \begin{frame}
+ \frametitle{Varianza del Estimador MCO: Ejemplo}
+\begin{itemize}
+    \item Supuestos clásicos $\Rightarrow \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1}$.
+    \item De los datos obtenemos:
+    \[
+    (X^{\top}X)^{-1} =
+    \begin{bmatrix}
+    0.05987 & -0.00177 & -0.00035 \\
+    -0.00177 & 0.00030 & -0.00002 \\
+    -0.00035 & -0.00002 & 0.00001 \\
+    \end{bmatrix}; \quad \hat{\sigma}^2 = 141925
+    \]
+    \item Entonces, podemos calcular:
+    \[
+    \hat{V}(\hat{\beta}) = \hat{\sigma}^2(X^{\top}X)^{-1} =
+    \begin{bmatrix}
+    8497.57 & -250.80 & -49.04 \\
+    -250.80 & 42.90 & -3.22 \\
+    -49.04 & -3.22 & 0.91 \\
+    \end{bmatrix}
+    \]
+    \item En la diagonal principal, tienen la varianza de cada uno de los estimadores.
+      \item Ejemplo: $\hat{V}(\hat{\beta}_1) = 42.6$. Es decir, los $\hat{se}(\hat{\beta}_1) = \sqrt{\hat{V}(\hat{\beta}_1)} = 6.53$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{El Caso Particular de Regresión con una Sola Variable Independiente}
+En el modelo de regresión simple $y = \beta_0 + \beta_1 x + u$, sigue cumpliéndose lo anterior.
+\[
+\hat{Var}(\hat{\beta}_1) = {\frac{{\hat{\sigma}}^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2}}
+\]
+\begin{itemize}
+    \item Si $x$ tiene más variabilidad, hace que $\hat{\beta}$ sea más preciso (tengo más información).
+    \item Si la varianza del residuo es más grande, mi estimador es menos preciso. Mi modelo no explica mucho de $y$.
+\end{itemize}
+ \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Varianza del Estimador MCO}
+% \begin{itemize}
+%     \item Intuición de la varianza del $\hat{\beta}_1$ (elemento $a_{22}$ de la diagonal):
+%     \[
+%     \hat{Var}(\hat{\beta}_1|X) = \frac{\hat{\sigma}^2}{SST_1(1 - R^2_1)}
+%     \]
+%     \item Donde:
+%     \begin{itemize}
+%         \item $SST_1 = \sum_{i=1}^{n}(x_{i1} - \bar{x}_1)^2 = n \cdot \text{Var}(x_1)$ es la suma total de los cuadrados de $x_1$.
+%         \item $R^2_1$: el coeficiente de determinación resultante de la regresión de $x_1$ (como variable dependiente) en todas las otras variables independientes. Intuitivamente, indica cuánto de la variabilidad de $x_1$ se puede explicar por $x_2, x_3, \ldots$.
+%     \end{itemize}
+%     \item Ejemplo:
+%     \begin{itemize}
+%         \item Modelo: $y_i = \beta_0 + \beta_1x_{1i} + \beta_2x_{2i} + \beta_3x_{3i} + u_i$.
+%         \item $R^2_1$ es el coeficiente de determinación de la regresión MCO auxiliar:
+%         \[
+%         x_{1i} = \alpha_0 + \alpha_2x_{2i} + \alpha_3x_{3i} + e_i
+%         \]
+%         $R^2_1$ indica cuánto de la variable $x_1$ es explicado por las otras variables independientes.
+%     \end{itemize}
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Varianza del estimador MCO: Modelo múltiple}
+% Intuición de la varianza del $\hat{\beta}_1$:
+% \[
+% \text{Var}(\hat{\beta}_1|X) = \frac{\sigma^2}{\text{SST}_1(1 - R_{1}^{2})}
+% \]
+% \begin{itemize}
+%     \item $\text{Var}(\hat{\beta}_1|X)$ es creciente en $\sigma^2$.
+%     \begin{itemize}
+%         \item Mientras más ruido no explicado haya en la ecuación, más difícil es estimar el efecto parcial de $x_1$ en $y$.
+%     \end{itemize}
+%     \item $\text{Var}(\hat{\beta}_1|X)$ es decreciente en $\text{SST}_1$.
+%     \begin{itemize}
+%         \item Esto implica que se prefiere una mayor variación muestral en $x_1$.
+%         \item Una alternativa para aumentar esta cantidad y reducir la varianza es aumentar el tamaño muestral.
+%         \item El supuesto 3 asegura que $\text{SST}_1 \neq 0$.
+%     \end{itemize}
+%     \item $\text{Var}(\hat{\beta}_1|X)$ es creciente en $R_{1}^{2}$.
+%     \begin{itemize}
+%         \item Intuición: Meter más variables le va quitando variabilidad a $x_1$. Esto hace que su estimador sea más impreciso.
+%     \end{itemize}
+% \end{itemize}
+% \end{frame}
+
+% \begin{frame}[shrink=10]
+% \frametitle{Problema de Multicolinealidad}
+% \[
+% \text{Var}(\hat{\beta}_1|X) = \frac{\sigma^2}{SST_1(1 - R^2_1)}
+% \]
+% \begin{itemize}
+%     \item Si dos variables son linealmente dependientes o están muy correlacionadas, la varianza del estimador será muy alta. En el límite, $R^2_1 = 1$ y la varianza es infinita. Esto viola el supuesto 3 de no multicolinealidad perfecta. En este caso, hay multicolinealidad perfecta.
+%     \item Trade-offs:
+%     \begin{enumerate}
+%         \item \textbf{Varianza:} Incluir más variables explicativas \textcolor{red}{reduce la SSR ($\sigma^2$)}, pero \textcolor{blue}{aumenta $R^2_1$}. Efecto ambiguo sobre la varianza $\hat{\text{Var}}(\hat{\beta}_1)$.
+%         \item \textbf{Sesgo:} Incluir más variables puede evitar el sesgo del coeficiente si la variable omitida correlaciona con la $x$. A menudo sacrificamos aumentar la varianza para estar seguros de evitar el sesgo.
+%     \end{enumerate}
+% \end{itemize}
+% \end{frame}
+\end{document}

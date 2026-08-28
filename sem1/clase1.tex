@@ -1,0 +1,400 @@
+\PassOptionsToPackage{hyperfootnotes=false}{hyperref}
+\documentclass{beamer}
+\usefonttheme{professionalfonts}
+%\usetheme{Rochester}
+%\usetheme{AnnArbor}
+\usetheme{Szeged}
+\useoutertheme{infolines}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+% \usepackage[english]{babel}
+\usepackage{multicol}
+\usepackage{color}
+%\usepackage{smartdiagram}
+
+
+%\definecolor{carmine}{rgb}{0.59, 0.0, 0.09}
+\usepackage{tikz}
+\usetikzlibrary{shapes.callouts}
+\usepackage{multirow}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsmath,amsthm,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
+\usepackage{tcolorbox}
+
+\usepackage{color} 
+\usepackage{amssymb, amsmath, amsbsy}
+\usepackage{adjustbox,lipsum}
+\usepackage{placeins}
+
+\usepackage{textpos}
+\usepackage{wrapfig}
+\usepackage[spanish, es-tabla]{babel}
+
+\usepackage{caption}
+\setlength{\parindent}{15pt}
+\usepackage{url}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+
+
+\title[ICS-162]{Econometría ICS-294\\ \small{Clase 1}}
+
+\author{Francisco Alfaro Medina}
+\institute[USM]
+{Universidad Técnica Federico Santa María\\ % Your institution for the title page
+	\medskip
+	\textit{} % Your email address
+	
+}
+\logo{
+\includegraphics[width=1cm]{Logo.png}
+}
+\date{}
+\newcommand\Fontvi{\fontsize{9}{7.2}\selectfont}
+\begin{document}
+	
+\begin{frame}
+	\titlepage % Print the title page as the first slide
+
+\end{frame}
+\section{Introducción}
+\begin{frame}{¿Qué es econometría?}
+ \begin{itemize}
+     \item  Es una disciplina que emplea la teor\'ia econ\'omica y m\'etodos estad\'isticos para
+contrastar distintas teor\'ias, pronosticar variables y evaluar pol\'iticas p\'ublicas
+utilizando bases de datos.
+\item  Es una aplicaci\'on del metodo cient\'ifico en econom\'ia. Nos permite refutar
+hip\'otesis econ\'omicas.
+\item  Nos permite contestar preguntas como por ejemplo:
+\begin{enumerate}
+    \item Cu\'al es la brecha salarial por g\'enero?
+    \item Cu\'al es el efecto de haber completado la universidad en el salario?
+\end{enumerate}
+
+ \end{itemize}
+ 
+\end{frame}
+
+
+\begin{frame}{Econometría moderna}
+
+
+  La econometr\'ia moderna se enfoca en contestar 3 tipos de preguntas:
+  \begin{itemize}
+      \item Estimar como la esperanza condicional de una variable depende de otra.
+      \item Estimar el impacto causal de una variable sobre la otra.
+      \item Predecir el comportamento de una variable hacia el futuro.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{M\'etodo econom\'etrico}
+    
+\begin{itemize}
+    \item Definir objetivo: qu\'e quiero estudiar?
+    \item  Estructura:
+    {\small
+\begin{enumerate}
+    \item {\color{blue} Modelo Econ\'omico:} modelos que explican el comportamiento de una variable económica en
+funci\'on de otras.\\
+
+ $Y = f (x_1; x_2; ...; x_k)$\\
+Ejemplo 1: Funci\'on de producci\'on $Y = AK^{\alpha}L^{\beta}$\\
+Ejemplo 2: Retornos educaci\'on\\
+salario = f (educ; experiencia; ingfamiliar ; habilidad)
+\item {\color{blue}Modelo econom\'etrico:} permite cuantificar, contrastar y evaluar el modelo
+econ\'omico.
+\begin{enumerate}
+    \item Especificar la funcion f (:).
+    \item Las variables econ\'omicas son aleatorias por lo que lo incorporamos con un termino de
+error:\\ 
+$y = f (x_1; x_2;...; x_k) + u$
+\item Los datos. 
+\end{enumerate} 
+
+\end{enumerate}}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Causalidad y correlación}
+
+{\color{blue}    Correlaci\'on no es causalidad}
+\begin{itemize}
+    \item  Muchas veces nos interesa conocer el efecto causal de una variable sobre otra.
+    \item  El concepto {\color{blue} ceteris paribus } es clave para la causalidad: efecto de X sobre Y
+{\it manteniendo todos los demas factores relevantes constantes}.
+ Muy dif\'icil en la pr\'actica en ciencias sociales.
+ \item  Vamos a ver en el curso los supuestos necesarios y t\'ecnicas para
+hacerlo.
+\end{itemize}
+{\color{blue}Correlaci\'on espuria:} existe una relación matem\'atica pero los factores no
+presentan una relaci\'on l\'ogica.
+\end{frame}
+
+\begin{frame}{Ejemplo}
+\begin{itemize}
+\item  Informaci\'on: En una base de individuos de 35 años de Chile, encuentro que las
+personas que terminaron la universidad ganan 30\% m\'as que las que no la terminaron.
+
+ \item Pregunta: De lo anterior, puedo concluir que ir a la universidad causa un
+aumento del ingreso de los individuos?   
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Ejemplo}
+
+No puedo concluir eso. 
+\begin{itemize}
+    \item Ir a la universidad est\'a asociado con un mont\'on de otras caracter\'isticas que
+tambien afectan ingreso.
+\item Por ejemplo, la habilidad, el ingreso de los padres, etc. 
+\end{itemize}
+    
+\end{frame}
+
+
+\begin{frame}{Econometr\'ia como herramienta aplicada}
+
+\begin{itemize}
+    \item {\color{blue}Pregunta: como solucionamos problemas de worms intestinales en Africa?}\\
+ Miguel y Kremer (2004), {\it Worms: Identifying Impacts on Education and Health in the Presence of Treatment Externalities}: Encuentran que repartir pildoras en colegios, mejora la
+salud, reduce el ausentismo educacional no solo de los tratados sino también de sus vecinos. Gracias a estos estudios la
+iniciativa deworming the world recauda billones de d\'olares para esta pol\'itica.
+\item {\color{blue} Pregunta: las consultoras de management pueden mejorar la productividad de
+las firmas?}
+
+Bloom et al. (2017) {\it Increasing Firm Productivity through Management Consulting
+Services in India}: Muestra que si y lo cuantifica.
+
+\href{https://www.povertyactionlab.org/evaluation/increasing-firm-productivity-through-management-consulting-services-india}{
+{\color{blue}JPAL}}
+\end{itemize}
+    \end{frame}
+
+
+    \begin{frame}{Tipos de Datos }
+      
+
+\begin{itemize}
+    \item {\color{blue}Experimentales}: el investigador asigna en forma aleatoria la exposici\'on.
+    \item {\color{blue} Pseudo-experimental}: el investigador controla la exposici\'on pero no
+asigna en forma aleatoria.
+\item {\color{blue}Observacional (o no-experimental)}: el investigador no controla la exposici\'on, depende de variables que el no controla.
+\end{itemize}
+
+{\color{blue} Rara vez usa datos experimentales
+extremadamente caros, problemas éticos.}
+    \end{frame}
+
+    \begin{frame}{Tipos de datos}
+
+   {\color{blue}Corte transversal: }Muestra de individuos, hogares, empresas, regiones, países, etc., recolectados en un tiempo dado.
+A veces el estudio no se realiza exactamente en el mismo periodo de tiempo para todos las unidades evaluadas, pero diferencias temporales menores se ignoran.
+Se asume que los datos fueron obtenidos por muestreo aleatorio (random sampling) desde la población subyacente.
+
+        
+    \end{frame}
+
+
+\begin{frame}{Tipos de datos}
+
+{\color{blue}Series de tiempo: }Observaciones de una o más variables en el tiempo.
+Ej. Precios de acciones, dólar, IPC, ventas de automóviles, etc.
+Eventos pasados influencian eventos futuros.
+Rezagos en el comportamiento son prevalentes en ciencias sociales.
+Tiempo es una dimensión importante en datos de series de tiempo.
+Frecuencia $\Delta$ tiempo=1, día, año, semestre, trimestre, etc. 
+A diferencia de datos de corte transversal, datos de series de tiempo no pueden asumirse independientes.
+
+\end{frame}
+
+\begin{frame}{Tipos de datos}
+
+{\color{blue}Datos longitudinales o de panel: }Consiste en una serie de tiempo para cada miembro del set de datos.
+Ejemplo: 10 años de datos de salario, educación y empleo sobre un set de individuos.
+Diferencias con los anteriores es que los mismos individuos, firmas o países, son seguidos por varios años.
+
+Varias ventajas:
+Control de ciertas características no observadas de individuos, firmas, etc.
+Facilita estudios de causa-efecto (inferencia causal).
+Permite estudiar los efectos del rezago en el comportamiento o resultado.
+
+\end{frame}
+
+\section{Conceptos } 
+
+\begin{frame}{Muestreo }
+
+Los datos experimentales son obtenidos sobre conjuntos de individuos u objetos, sobre los cuales se quiere conocer algunas características. 
+     
+     Llamaremos {\bf unidad de observaci\'on} a estos individuos
+y la totalidad de estas unidades de observación se denomina {\bf población.}
+
+    El Muestreo es la disciplina que trata con el conjunto de m\'etodos, t\'ecnicas y
+procedimientos para tomar u obtener una muestra particular  de la población a efecto de
+realizar inferencias a partir de la misma.
+%Existen dos grandes categor\'ias de muestreo: el Muestreo Probabil\'istico y el Muestreo No Probabil\'istico.
+
+ 
+\end{frame}
+
+
+
+
+ \begin{frame}{Muestreo}
+     Se dice que una muestra es representativa de una poblaci\'on si toda unidad de observaci\'on podr\'a aparecer en la muestra, y esto con una probabilidad conocida.
+
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{image.png}
+\end{figure}   
+ \end{frame}
+
+
+\begin{frame}{¿Por qué muestrear la población?}
+
+    \begin{itemize}
+        \item Imposibilidad física de chequear todos los ítems en la población.
+        \item El costo de estudiar todos los elementos en la población.
+        \item Los resultados del muestreo son normalmente adecuados.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Objetivos del muestreo}
+
+{\color{blue} {\bf Estimar los parámetros de la población.}}
+
+\begin{itemize}
+\item Variable: lo que se desea medir en la muestra. Ej. Nivel de educación, nivel de ingresos, etc.
+\item Parámetros:  valor numérico que describe una característica de una población completa. Promedio, desviación estándar, betas, etc.
+\item Estadístico: calculado sobre la muestra.
+\item Los parámetros normalmente son desconocidos, se estiman a través del estadístico. 
+\end{itemize}     
+\end{frame}
+
+\begin{frame}{Muestreo aleatorio} 
+
+\begin{itemize}
+    \item {\bf  Muestreo aleatorio simple:} muestra seleccionada de manera que cada elemento o individuo de la población tenga las mismas posibilidades de que se le incluya.
+    \item {\bf Muestreo aleatorio sistemático:} Los elementos o individuos de la población se ordenan de alguna manera. Se selecciona un punto aleatorio de inicio y posteriormente se elige cada k-esimo miembro de la población. 
+A nivel técnico, el muestreo sistemático no crea una muestra verdaderamente aleatoria. Sólo la selección del primer elemento de muestreo sistemático es una selección de probabilidad. Una vez que el primer elemento es seleccionado, algunos de los elementos tendrán una probabilidad cero de selección.
+\end{itemize}
+ 
+\end{frame}
+ 
+
+\begin{frame}{Muestreo aleatorio}
+\begin{itemize}
+    \item {\bf Muestreo aleatorio estratificado:} La población se divide en subgrupos denominados estratos y se selecciona al azar una muestra de cada estrato.
+    \item {\bf  Muestreo por conglomerados (cluster):} La población se divide en conglomerados a partir de límites geográficos o de otra clase. Luego se seleccionan los conglomerados al azar y se toma una muestra aleatoria con elementos de cada grupo. 
+\end{itemize}
+ \end{frame}   
+
+
+
+\begin{frame}{Muestreo Estratificado vs. Muestreo por Conglomerados}
+\begin{columns}
+\column{0.48\textwidth}
+\centering
+\textbf{Muestreo Estratificado} \\[1ex]
+\begin{tikzpicture}
+% Estratos homogéneos (una fila por color)
+\foreach \i/\color in {0/red, 1/blue, 2/green} {
+    \foreach \j in {0,1,2} {
+        \filldraw[fill=\color, draw=black] (\j*0.6,\i*0.6) circle (0.2);
+    }
+    \draw[thick] (-0.3,\i*0.6-0.3) rectangle (1.5,\i*0.6+0.3);
+}
+\end{tikzpicture}
+
+\vspace{1ex}
+\scriptsize
+Cada estrato es homogéneo. Se selecciona muestra dentro de cada uno.
+
+\column{0.48\textwidth}
+\centering
+\textbf{Muestreo por Conglomerados} \\[1ex]
+\begin{tikzpicture}
+% Conglomerados heterogéneos
+\foreach \i/\x in {0/0, 1/2, 2/4} {
+    \fill[red] (\x,0) circle (0.2);
+    \fill[blue] (\x+0.3,0.3) circle (0.2);
+    \fill[green] (\x+0.6,0) circle (0.2);
+    \fill[blue] (\x+0.3,-0.3) circle (0.2);
+    \draw[black,thick] (\x-0.2,-0.5) rectangle (\x+0.8,0.5);
+}
+\end{tikzpicture}
+
+\vspace{1ex}
+\scriptsize
+Cada conglomerado es heterogéneo. Se seleccionan grupos completos.
+\end{columns}
+
+\vspace{1ex}
+\begin{block}{Comparación Clave}
+\begin{itemize}
+    \item \textbf{Estratos:} Internamente homogéneos. Se muestrea dentro de cada grupo.
+    \item \textbf{Conglomerados:} Internamente heterogéneos. Se seleccionan grupos enteros.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Muestreo no probabilístico}
+\begin{itemize}
+ \item    En muestreo no probabilístico inclusión en la muestra es basada en el juicio de la persona que selecciona los individuos o elementos.
+   % \item El error de muestreo es la diferencia entre el estadístico de la muestra y su correspondiente parámetro de la población. 
+\end{itemize}
+\end{frame}
+% \begin{frame}{Muestreo}
+%   \begin{itemize}
+%       \item  Universo. Es el conjunto de todos los datos u observaciones de un suceso.
+% El universo puede ser finito, infinito contable e infinito no numerable.
+% \item Poblaci\'on. Elementos del universo que tienen una caracter\'istica com\'un y
+% es la que tratamos de estudiar.
+% \item Marco Muestral: es el conjunto de unidades del cual se seleccionar\'a una
+% muestra.  
+% \item Muestra Aleatoria (m.a.). Es un subconjunto de la poblaci\'on donde sus
+% elementos son escogidos al azar, es decir, no existe relaci\'on en la elecci\'on
+% de los elementos.
+%   \end{itemize}
+
+% \end{frame}
+
+% \begin{frame}{Muestreo}
+%      Una muestra est\'a correctamente seleccionada cuando es sacada de manera aleatoria
+% a partir de toda la poblaci\'on y es suficientemente grande para tener una precisi\'on aceptable.
+
+% \begin{itemize}
+%     \item Que no tenga sesgo, las características de la muestra no sobreestimen o no
+% subestimen las características de la poblaci\'on que se pretende evaluar.
+% \item Todo elemento de la poblaci\'on tiene la posibilidad de ser elegido en la muestra. 
+% \end{itemize}
+%  \end{frame}
+
+\begin{frame}{}
+   \begin{itemize}
+       \item {\color{blue}Estad\'istica Descriptiva o Deductiva.}  
+       
+       Si al analizar una muestra s\'olo se
+obtenemos conclusiones v\'alidas para la muestra sin que se puedan o
+se requieran generalizar sus resultados para toda la población.
+\item {\color{blue}Estad\'istica Inductiva o Inferencial.} 
+
+A partir de una muestra, podemos inferir conclusiones
+estad\'sticamente v\'alidas para todo la población.
+   \end{itemize} 
+\end{frame}
+
+
+
+
+
+\end{document}

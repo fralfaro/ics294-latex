@@ -1,0 +1,1287 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,left=3cm,right=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage[thmmarks, amsmath, thref]{ntheorem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{anysize}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{enumitem}
+\newtheorem{theorem}{Theorem}
+\theoremsymbol{\ensuremath{\blacksquare}}
+\newtheorem*{solution}{Solución:}
+
+\usepackage{xcolor}
+
+% Margenes y formalidades
+
+\textwidth 6.25in % Margen Derecho y ancho del texto
+\textheight 8.5in
+\oddsidemargin 0in % Margen Izquierdo
+\headheight 0in % Largo del texto
+\leftmargin 1in
+\parindent 0em % Salto entre la indentación (Sangría)https://www.overleaf.com/4519127669sdpptkhvsbfn
+\topmargin -0.5in % Margen Superior
+\parskip 0.5ex % Salto entre parrafos
+\baselineskip 1pt
+
+
+
+\lhead{\includegraphics[scale=0.11]{logoUSM.png}} % texto izquierda de la cabecera
+%\chead{}                                      % texto centro de la cabecera
+\rhead{Universidad Técnica Federico Santa María\\Ingeniería Comercial } % número de página a la derecha
+\renewcommand{\headrulewidth}{0.4pt} % grosor de la línea de la cabecera
+\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+
+\begin{document}
+\vspace{5cm}
+
+\begin{center}
+\begin{Large}
+\textbf{\\Guía 1: Econometría ICS-294}
+\end{Large}\\
+\end{center}
+
+\begin{enumerate}
+    \item 
+
+\item \textbf{RdeA9.1} (10 puntos) 
+Se tiene una población de 2500 individuos con una media de ingreso mensual de 325 y una desviación estándar de 75. Si se toma una muestra aleatoria simple de 400 individuos, ¿cuál es la media esperada y la desviación estándar de la media muestral? ¿Cuánto es el coeficiente de variación? Interprete.\\
+{\color{blue} \textbf{Respuesta:}
+
+\textbf{Media esperada de la media muestral.} El estimador $\bar X$  coincide exactamente con la media poblacional, independientemente del tamaño de la muestra \textbf{(2,5 puntos)}:
+$$E(\bar X) = \mu = 325$$
+
+\textbf{Desviación estándar de la media muestral.} El error estándar se calcula como \textbf{(2,5 puntos)}:
+$$\sigma_{\bar X} = \frac{\sigma}{\sqrt{n}} = \frac{75}{\sqrt{400}} = \frac{75}{20} = 3.75$$
+
+\textbf{Coeficiente de variación.} Se calcula como \textbf{(2,5 puntos)}:
+$$CV(\bar X) = \frac{\sigma_{\bar X}}{E(\bar X)} \cdot 100 = \frac{3.75}{325}\cdot 100 = 1.154\%$$
+
+Esto corresponde a un coeficiente de variación bajo, es decir, hay alta precisión en la estimación.\footnote{La desviación estándar también podría haberse calculado aplicando el factor de corrección para poblaciones finitas $\sqrt{\dfrac{N-n}{N-1}}$, obteniéndose $\sigma_{\bar X} = 3.438$ y $CV(\bar X)=1.058\%$; ambas formas se consideran correctas.}
+}
+\item \textbf{RdeA9.1} (10 puntos) 
+Considere el modelo de regresión lineal simple:
+
+$$y_i = \beta_0 + \beta_1 x_i + u_i, \quad i = 1, \ldots, n$$
+
+donde se asume que $E[u_i \mid x_i] = 0$ y $\text{Var}(u_i \mid x_i) = \sigma^2$.
+
+El estimador MCO de la pendiente está dado por:
+$$\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}$$
+Demuestre que $E[\hat{\beta}_1 \mid \mathbf{x}] = \beta_1$.
+
+\textit{Hint: Defina $w_i = \dfrac{x_i - \bar{x}}{\sum_{i=1}^n (x_i - \bar{x})^2}$ y muestre que $\hat{\beta}_1$ puede escribirse como $\hat{\beta}_1 = \beta_1 + \sum_{i=1}^n w_i u_i$.}
+
+{\color{blue} \textbf{Respuesta:}
+
+\medskip
+\textbf{Paso 1: Representación como combinación lineal de $u_i$.}
+
+Definamos $S_{xx} = \sum_{i=1}^n (x_i - \bar{x})^2$ y $w_i = \dfrac{x_i - \bar{x}}{S_{xx}}$.
+Observemos que el numerador de $\hat{\beta}_1$ puede desarrollarse usando $y_i = \beta_0 + \beta_1 x_i + u_i$:
+
+\begin{align*}
+\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})
+&= \sum_{i=1}^n (x_i - \bar{x})\,y_i - \bar{y}\underbrace{\sum_{i=1}^n (x_i - \bar{x})}_{=\,0} \\
+&= \sum_{i=1}^n (x_i - \bar{x})\,y_i.
+\end{align*}
+
+Sustituyendo $y_i = \beta_0 + \beta_1 x_i + u_i$:
+
+\begin{align*}
+\sum_{i=1}^n (x_i - \bar{x})\,y_i
+&= \sum_{i=1}^n (x_i - \bar{x})(\beta_0 + \beta_1 x_i + u_i) \\
+&= \beta_0\underbrace{\sum_{i=1}^n (x_i - \bar{x})}_{=\,0}
+  + \beta_1 \sum_{i=1}^n (x_i - \bar{x})\,x_i
+  + \sum_{i=1}^n (x_i - \bar{x})\,u_i.
+\end{align*}
+
+Nótese que $\sum_{i=1}^n (x_i-\bar{x})\,x_i = \sum_{i=1}^n (x_i-\bar{x})^2 = S_{xx}$ (pues
+$\sum(x_i-\bar{x})\bar{x}=0$). Por tanto:
+$$\hat{\beta}_1
+= \frac{\beta_1 S_{xx} + \sum_{i=1}^n (x_i - \bar{x})\,u_i}{S_{xx}}
+= \beta_1 + \sum_{i=1}^n \frac{x_i - \bar{x}}{S_{xx}}\,u_i
+= \beta_1 + \sum_{i=1}^n w_i\,u_i.$$
+
+\medskip
+\textbf{Paso 2: Propiedades de los pesos $w_i$.}
+
+Las siguientes propiedades son inmediatas de la definición:
+\begin{equation}\label{eq:sum_w}
+\sum_{i=1}^n w_i = \frac{\sum_{i=1}^n (x_i - \bar{x})}{S_{xx}} = 0,
+\end{equation}
+\begin{equation}\label{eq:sum_wx}
+\sum_{i=1}^n w_i x_i = \frac{\sum_{i=1}^n (x_i - \bar{x})\,x_i}{S_{xx}} = \frac{S_{xx}}{S_{xx}} = 1.
+\end{equation}
+
+\medskip
+\textbf{Paso 3: Cálculo de $E[\hat{\beta}_1 \mid \mathbf{x}]$.}
+
+Tomando esperanza condicional en $\mathbf{x} = (x_1,\ldots,x_n)$:
+
+\begin{align*}
+E[\hat{\beta}_1 \mid \mathbf{x}]
+&= E\!\left[\beta_1 + \sum_{i=1}^n w_i\,u_i \;\middle|\; \mathbf{x}\right] \\
+&= \beta_1 + \sum_{i=1}^n w_i\,E[u_i \mid \mathbf{x}].
+\end{align*}
+
+En la segunda igualdad usamos que $\beta_1$ es una constante y que los $w_i$ son funciones
+deterministas de $\mathbf{x}$, por lo que salen de la esperanza condicional.
+
+Bajo el supuesto $E[u_i \mid x_i] = 0$ (y, por tanto, $E[u_i \mid \mathbf{x}] = 0$
+si los errores son independientes de los regresores):
+$$E[\hat{\beta}_1 \mid \mathbf{x}]
+= \beta_1 + \sum_{i=1}^n w_i \cdot 0 = \beta_1.$$
+
+\medskip
+\textbf{Conclusión:} Se ha demostrado que $E[\hat{\beta}_1 \mid \mathbf{x}] = \beta_1$, es decir, el estimador MCO de la pendiente es \textbf{insesgado}. $\blacksquare$
+
+
+
+}
+
+
+
+    \item \textbf{RdeA9.1} (10 puntos) 
+        Considere el modelo de regresión lineal simple
+
+    $$
+        y_i
+        =
+        \beta_0
+        +
+        \beta_1
+        x_i
+        +
+        u_i
+        ,
+        \quad
+        i
+        =
+        1
+        ,
+        \ldots
+        ,
+        n
+    $$
+    y sus estimadores MCO $(\hat \beta_0, \hat \beta_1)$.
+    
+    \smallskip
+    \begin{enumerate}
+
+        \item  (8 puntos) Usando las propiedades algebraicas del estimador MCO, muestre que
+
+
+            $$
+                SST
+                =
+                SSE
+                +
+                SSR
+                \text{,}
+            $$
+            donde
+
+            $$
+                SST
+                =
+                \sum_{i=1}^n
+                    \left(
+                        y_i
+                        -
+                        \bar y
+                    \right)
+                    ^
+                    2
+                ,
+                \qquad
+                SSE
+                =
+                \sum_{i=1}^n
+                    \left(
+                        \hat y_i
+                        -
+                        \bar y
+                    \right)
+                    ^
+                    2
+                ,
+                \qquad
+                SSR
+                =
+                \sum_{i=1}^n
+                    \hat u_i
+                    ^
+                    2
+                \text{,}
+            $$
+            con $\bar y = ( 1 / n ) \sum_{i=1}^n y_i$, $\hat u_i = y_i - \hat y_i$ y $\hat y_i = \hat \beta_0 + \hat \beta_1 x_i$.
+
+            \medskip
+            \textit{Hint:} Note que
+                $
+                    y_i
+                    -
+                    \bar y
+                    =
+                    \left(
+                        \hat y_i
+                        -
+                        \bar y
+                    \right)
+                    +
+                    \hat u_i
+                $.
+
+        \smallskip
+        \item (2 puntos) Defina el coeficiente de determinación $R^2$ en términos de $SST$, $SSE$, y $SSR$, e interprete brevemente qué mide.
+        
+    \end{enumerate}
+
+    {
+        \color{blue}
+        \textbf{Respuesta:}
+        \begin{enumerate}
+
+            \item Usando las propiedades algebraicas del estimador MCO
+                $$
+                    \sum_{i=1}^n
+                        \hat u_i
+                    =
+                    0
+                    ,
+                    \qquad
+                    \sum_{i=1}^n
+                        x_{i}
+                        \,
+                        \hat u_i
+                    =
+                    0
+%                    ,
+%                    \qquad
+%                    \bar y
+%                    =
+%                    \bar{\hat y}
+                    \text{,}
+                $$
+                podemos descomponer
+                \begin{align*}
+                    SST
+                    &=
+                    \sum_{i=1}^n
+                        \left(
+                            y_i
+                            -
+                            \bar
+                            y
+                        \right)
+                        ^
+                        2
+                    \\[2ex]
+                    &=
+                    \sum_{i=1}^n
+                        \Big(
+                            \left(
+                                \hat y_i
+                                -
+                                \bar y
+                            \right)
+                            +
+                            \hat u_i
+                        \Big)
+                        ^
+                        2
+                    \\[2ex]
+                    &=
+                    \underbrace{
+                        \sum_{i=1}^n
+                            \left(
+                                \hat y_i
+                                -
+                                \bar y
+                            \right)
+                            ^
+                            2
+                    }_{SSE}
+                    +
+                    \underbrace{
+                        2
+                        \sum_{i=1}^n
+                            \left(
+                                \hat y_i
+                                -
+                                \bar y
+                            \right)
+                            \,
+                            \hat u_i
+                    }_{0}
+                    +
+                    \underbrace{
+                        \sum_{i=1}^n
+                            \hat u_i
+                            ^
+                            2
+                    }_{SSR}
+                    \\[2ex]
+                    &=
+                    SSE
+                    +
+                    SSR
+                    \text{,}
+                \end{align*}
+                ya que
+                \begin{align*}
+                    \sum_{i=1}^n
+                        \left(
+                            \hat y_i
+                            -
+                            \bar y
+                        \right)
+                        \,
+                        \hat u_i
+                    &=
+                    \sum_{i=1}^n
+                        \hat y_i
+                        \,
+                        \hat u_i
+                    -
+                    \bar y
+                    \,
+                    \underbrace{
+                        \sum_{i=1}^n
+                            \hat u_i
+                    }_{0}
+                    \\[2ex]
+                    &=
+                    \sum_{i=1}^n
+                        \left(
+                            \hat \beta_0
+                            +
+                            \hat \beta_1
+                            x_i
+                        \right)
+                        \,
+                        \hat  u_i
+                    \\[2ex]
+                    &=
+                    \hat \beta_0
+                    \,
+                    \underbrace{
+                        \sum_{i=1}^n
+                            \hat u_i
+                    }_{0}
+                    +
+                    \hat \beta_1
+                    \,
+                    \underbrace{
+                        \sum_{i=1}^n
+                            x_i
+                            \,
+                            \hat u_i
+                    }_{0}
+                    \\[2ex]
+                    &=
+                    0
+                    \text{.}
+                    \quad
+                    \blacksquare
+                \end{align*}
+
+            \item El coeficiente de determinación se define como
+                $$
+                    R^2
+                    =
+                    \frac
+                        {
+                            SSE
+                        }
+                        {
+                            SST
+                        }
+                    =
+                    1
+                    -
+                    \frac
+                        {
+                            SSR
+                        }
+                        {
+                            SST
+                        }
+                $$
+                y mide la proporción de la variabilidad muestral de la variable dependiente que es explicada por la regresión estimada.
+
+        \end{enumerate}
+        
+    }
+    
+   
+
+    
+
+     \item \textbf{RdeA3.2 y 9.1} (10 puntos)
+
+Un candidato quiere estimar su proporción  de votos en una ciudad de 500,000 habitantes. Contrata una encuestadora que selecciona una muestra aleatoria simple de votantes.
+  
+    Se encuestan $n = 400$ personas y $x = 160$ declaran que votarían por el candidato.
+    
+    \begin{enumerate}
+        \item  (5 puntos) Construya un intervalo de confianza del $95\%$ para la proporción de votantes $p$. Interprete el resultado en el contexto del problema.
+        
+        \[
+        \hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}
+        \]
+        
+        Recuerde que para $95\%$, $z_{0.025} = 1.96$.
+
+        {\color{blue}  $\hat{p} = {160 \over 400} = 0.4,\quad z_{0.025}=1.96,\quad \text{Error estándar} = \sqrt{\frac{0.4\times0.6}{400}} \approx 0.02449$ 
+        
+        $\text{Margen de error} = 1.96\times0.02449 \approx 0.0480$
+
+$\text{IC }95\%:\ 0.4 \pm 0.0480 = (0.3520,\ 0.4480)$
+
+{Interpretación: Con un 95\% de confianza, la proporción  de votos en la ciudad está entre 35.2\% y 44.8\%.}}
+    
+    \item (5 puntos) El candidato quiere repetir la encuesta para tener un \textbf{margen de error (error absoluto)} del $3\%$ con un nivel de confianza del $95\%$. ¿Cuántas personas deben encuestar si usa el valor de $\hat{p}$ obtenido en la primera encuesta?
+
+    {\color{blue} $n = \frac{z_{\alpha/2}^2 \cdot \hat{p}(1-\hat{p})}{E^2} = \frac{(1.96)^2 \cdot 0.4 \cdot 0.6}{(0.03)^2} = \frac{3.8416 \times 0.24}{0.0009} = \frac{0.921984}{0.0009} \approx 1024.43$
+
+{Redondeando al alza: } n = 1025 { personas.}}
+    \end{enumerate}
+    
+
+
+      \item \textbf{RdeA3.2} (20 puntos) 
+  
+Se tiene la siguiente información sobre un modelo de regresión lineal muestral:
+
+$$X'X = \begin{pmatrix}
+20 & 4 & -4 \\
+4 & 36 & 8 \\
+-4 & 8 & 30
+\end{pmatrix}, \qquad
+X'Y = \begin{pmatrix}
+76 \\
+68 \\
+52
+\end{pmatrix}$$
+
+$$\sum_{i=1}^{N} Y_i^2 = 510, \qquad \sum_{i=1}^{N}(Y_i - \bar{Y})^2 = 170$$
+
+\vspace{0.5cm}
+
+\textbf{Preguntas:}
+
+\begin{enumerate}
+    \item[(a)] \textbf{(2 puntos)} ¿Cuál es el tamaño de la muestra?
+    \item[(b)] \textbf{(12 puntos)} Calcule los estimadores MCO ($\hat{\bm{\beta}}$) del modelo.
+    \item[(c)] \textbf{(3 puntos)} Escriba la ecuación del modelo predicho e interprete.
+    \item[(d)] \textbf{(3 puntos)} Calcule el coeficiente de determinación $R^2$ e interprete.
+\end{enumerate}
+
+\vspace{1cm}
+\hrule
+\vspace{0.5cm}
+
+{\color{blue}\textbf{Soluciones:}
+
+\begin{enumerate}
+
+%-----------------------------------------------------------
+\item[(a)] El elemento $(1,1)$ de $X'X$ corresponde a $\sum_{i=1}^{n} 1^2 = n$:
+
+$$n = 20$$
+
+El tamaño de la muestra es \textbf{20 observaciones}.
+
+%-----------------------------------------------------------
+\item[(b)] Para calcular el estimador MCO usamos la fórmula:
+
+$$\hat{\bm{\beta}} = (X'X)^{-1} X'Y$$
+
+Sea $A = X'X$.
+
+\vspace{0.3cm}
+\textbf{Paso 1: Determinante de $A$ (2 puntos)}
+
+$$\det(A) = 20 \cdot \begin{vmatrix} 36 & 8 \\ 8 & 30 \end{vmatrix}
+- 4 \cdot \begin{vmatrix} 4 & 8 \\ -4 & 30 \end{vmatrix}
++ (-4) \cdot \begin{vmatrix} 4 & 36 \\ -4 & 8 \end{vmatrix}$$
+
+\begin{align*}
+\begin{vmatrix} 36 & 8 \\ 8 & 30 \end{vmatrix} &= 36 \cdot 30 - 8 \cdot 8 = 1080 - 64 = 1016 \\
+\begin{vmatrix} 4 & 8 \\ -4 & 30 \end{vmatrix} &= 4 \cdot 30 - (-4) \cdot 8 = 120 + 32 = 152 \\
+\begin{vmatrix} 4 & 36 \\ -4 & 8 \end{vmatrix} &= 4 \cdot 8 - (-4) \cdot 36 = 32 + 144 = 176
+\end{align*}
+
+$$\det(A) = 20(1016) - 4(152) + (-4)(176) = 20320 - 608 - 704 = \boxed{19008}$$
+
+\vspace{0.3cm}
+\textbf{Paso 2: Matriz de cofactores (4 puntos)}
+
+\begin{align*}
+C_{11} &= \begin{vmatrix} 36 & 8 \\ 8 & 30 \end{vmatrix} = 1016 \\[4pt]
+C_{12} &= -\begin{vmatrix} 4 & 8 \\ -4 & 30 \end{vmatrix} = -152 \\[4pt]
+C_{13} &= \begin{vmatrix} 4 & 36 \\ -4 & 8 \end{vmatrix} = 176 \\[4pt]
+C_{21} &= -\begin{vmatrix} 4 & -4 \\ 8 & 30 \end{vmatrix} = -(4 \cdot 30 - (-4) \cdot 8) = -(120 + 32) = -152 \\[4pt]
+C_{22} &= \begin{vmatrix} 20 & -4 \\ -4 & 30 \end{vmatrix} = 20 \cdot 30 - (-4)(-4) = 600 - 16 = 584 \\[4pt]
+C_{23} &= -\begin{vmatrix} 20 & 4 \\ -4 & 8 \end{vmatrix} = -(20 \cdot 8 - 4 \cdot (-4)) = -(160 + 16) = -176 \\[4pt]
+C_{31} &= \begin{vmatrix} 4 & -4 \\ 36 & 8 \end{vmatrix} = 4 \cdot 8 - (-4) \cdot 36 = 32 + 144 = 176 \\[4pt]
+C_{32} &= -\begin{vmatrix} 20 & -4 \\ 4 & 8 \end{vmatrix} = -(20 \cdot 8 - (-4) \cdot 4) = -(160 + 16) = -176 \\[4pt]
+C_{33} &= \begin{vmatrix} 20 & 4 \\ 4 & 36 \end{vmatrix} = 20 \cdot 36 - 4 \cdot 4 = 720 - 16 = 704
+\end{align*}
+
+$$\text{Cof}(A) =
+\begin{pmatrix}
+1016 & -152 & 176 \\
+-152 & 584 & -176 \\
+176 & -176 & 704
+\end{pmatrix}$$
+
+\vspace{0.3cm}
+\textbf{Paso 3: Matriz adjunta (2 puntos)}
+
+Dado que $X'X$ es simétrica, su matriz de cofactores también lo es, por lo tanto
+$\text{adj}(A) = \text{Cof}(A)^{T} = \text{Cof}(A)$:
+
+$$\text{adj}(A) =
+\begin{pmatrix}
+1016 & -152 & 176 \\
+-152 & 584 & -176 \\
+176 & -176 & 704
+\end{pmatrix}$$
+
+\vspace{0.3cm}
+\textbf{Paso 4: Inversa de $A$ (2 puntos)}
+
+$$A^{-1} = \frac{1}{19008}
+\begin{pmatrix}
+1016 & -152 & 176 \\
+-152 & 584 & -176 \\
+176 & -176 & 704
+\end{pmatrix}
+\approx
+\begin{pmatrix}
+0.0535 & -0.0080 & 0.0093 \\
+-0.0080 & 0.0307 & -0.0093 \\
+0.0093 & -0.0093 & 0.0370
+\end{pmatrix}$$
+
+\vspace{0.3cm}
+\textbf{Paso 5: Cálculo de $\hat{\bm{\beta}} = A^{-1} X'Y$ (2 puntos)}
+
+\begin{align*}
+\hat{\beta}_0 &= \frac{1016(76) - 152(68) + 176(52)}{19008}
+= \frac{77216 - 10336 + 9152}{19008}
+= \frac{76032}{19008} = 4 \\[8pt]
+\hat{\beta}_1 &= \frac{-152(76) + 584(68) - 176(52)}{19008}
+= \frac{-11552 + 39712 - 9152}{19008}
+= \frac{19008}{19008} = 1 \\[8pt]
+\hat{\beta}_2 &= \frac{176(76) - 176(68) + 704(52)}{19008}
+= \frac{13376 - 11968 + 36608}{19008}
+= \frac{38016}{19008} = 2
+\end{align*}
+
+$$\boxed{\hat{\bm{\beta}} = \begin{pmatrix} 4 \\ 1 \\ 2 \end{pmatrix}}$$
+
+%-----------------------------------------------------------
+\item[(c)] La ecuación estimada del modelo es \textbf{(1 punto)}:
+
+$$\hat{Y}_i = 4 + 1 \cdot X_{1i} + 2 \cdot X_{2i}$$
+
+\textit{Interpretación \textbf{(2 puntos)}:} Controlando por $X_2$, un aumento de una unidad en $X_1$ se asocia a un
+incremento de 1 unidad en $\hat{Y}$. Del mismo modo, controlando por $X_1$, un aumento
+de una unidad en $X_2$ se asocia a un incremento de 2 unidades en $\hat{Y}$. El intercepto indica que cuando $X_1 = X_2 = 0$, el valor predicho de $Y$ es 4.
+
+%-----------------------------------------------------------
+\item[(5)] Primero se obtiene la suma de cuadrados de los residuos ($SSR$):
+
+$$SSR = Y'Y - \hat{\bm{\beta}}' X'Y$$
+
+$$\hat{\bm{\beta}}' X'Y = 4(76) + 1(68) + 2(52) = 304 + 68 + 104 = 476$$
+
+$$SSR = 510 - 476 = 34$$
+
+Luego, con $SST = \displaystyle\sum_{i=1}^{N}(Y_i - \bar{Y})^2 = 170$:
+
+$$R^2 = 1 - \frac{SSR}{SST} = 1 - \frac{34}{170} = 1 - 0{,}20 = \boxed{0{,}80}$$
+
+\textit{Interpretación:} El modelo explica el \textbf{80\%} de la variabilidad total de $Y$.
+Las variables $X_1$ y $X_2$, junto con el intercepto, capturan una proporción sustancial de la varianza de la variable dependiente, dejando solo un 20\% sin explicar. 
+
+\end{enumerate}
+}
+
+            \item \textbf{RdeA3.2 y 9.1}  (20 puntos) 
+
+    Queremos estudiar el efecto de participar en un curso de reforzamiento académico sobre el puntaje obtenido en una prueba final. Defina \(T_i=1\) si el estudiante \(i\) participó en el curso y \(T_i=0\) si no participó.
+
+    Se toman dos muestras aleatorias independientes: una de estudiantes que participaron en el curso y otra de estudiantes que no participaron. Se obtiene la siguiente información:
+    $$
+        \overline Y_1
+        =
+        80,
+        \qquad
+        \overline Y_0
+        =
+        68,
+        \qquad
+        n_1=100,
+        \qquad
+        n_0=100
+        \text{,}
+    $$
+    donde $\overline Y_t$ y $n_t$ ---con $t \in \lbrace 0, 1 \rbrace$--- representan la media muestral de $Y_i$ y el tamaño muestral para la muestra con $T_i = t$, respectivamente.
+    
+    Suponga además que las desviaciones estándar poblacionales son conocidas e iguales a
+    $$
+        \sigma_1=20,
+        \qquad
+        \sigma_0=25
+    $$
+    para las poblaciones de participantes y no--participantes del programa, respectivamente.
+    
+    \begin{enumerate}
+        \item (3 puntos) Calcule la diferencia de medias muestrales entre el grupo tratado y el grupo de control.
+    
+        \item (5 puntos) Construya un intervalo de confianza del 95\% para la diferencia de medias poblacionales
+        $$
+            E[Y_i\mid T_i=1]
+            -
+            E[Y_i\mid T_i=0]
+            \text{.}
+        $$
+        Recuerde que para $\alpha = 0.05$, los cuantiles relevantes de la distribución normal estándar son $z_{0.025} \approx -1,96$ y $z_{0.975} = - z_{0.025} \approx 1,96$.
+    
+        \item (3 puntos) Interprete el intervalo obtenido. ¿Entregan los datos evidencia estadística, al 95\% de confianza, de una diferencia entre ambos grupos?
+    
+        \item (6 puntos) Usando notación de outcomes potenciales, donde $Y_i^{T}$ denota el puntaje potencial del estudiante $i$ si participara en curso de reforzamiento y $Y_i^{NT}$ denota su puntaje potencial si no participara, demuestre que
+        $$
+            E[Y_i\mid T_i=1]
+            -
+            E[Y_i\mid T_i=0]
+            =
+            E[Y_i^T-Y_i^{NT}\mid T_i=1]
+            +
+            \left(
+            E[Y_i^{NT}\mid T_i=1]-E[Y_i^{NT}\mid T_i=0]
+            \right)
+        \text{.}
+        $$
+        Interprete cada término.
+    
+        \item (3 puntos) Explique brevemente por qué un intervalo de confianza que excluye al cero en la parte (b) no implica, en general, que el efecto estimado sea causal. ¿Bajo qué condición esta diferencia podría interpretarse causalmente?
+    \end{enumerate}
+
+    {
+        \color{blue}
+        \textbf{Respuesta:}
+
+        \begin{enumerate}
+
+            \item La diferencia de medias muestrales es
+                $$
+                    \overline Y_1
+                    -
+                    \overline Y_0
+                    =
+                    80
+                    -
+                    68
+                    =
+                    12
+                    \text{.}
+                $$
+                El grupo tratado obtuvo, en promedio, 12 puntos más que el grupo control en la muestra.
+
+            \item Usando la fórmula para el intervalo de confianza de 95\% para la diferencia de medias con desviaciones estándar conocidas,
+                \begin{align*}
+                    \mathrm{IC}_{95\%}
+                    &=
+                    \left(
+                        \overline Y_1
+                        -
+                        \overline Y_0
+                    \right)
+                    \pm
+                    z_{\alpha/2}
+                    \sqrt{
+                        \frac
+                            {
+                                \sigma_1^2
+                            }
+                            {
+                                n_1
+                            }
+                        +
+                        \frac
+                            {
+                                \sigma_0^2
+                            }
+                            {
+                                n_0
+                            }
+                    }
+                    \\[2ex]
+                    &\approx
+                    12
+                    \pm
+                    (-1,96)
+                    \,
+                    \sqrt{
+                       \frac
+                            {
+                                20^2
+                            }
+                            {
+                                100
+                            }
+                        +
+                        \frac
+                            {
+                                25^2
+                            }
+                            {
+                                100
+                            } 
+                    }
+                    \\[2ex]
+                    &\approx
+                    \left[
+                        5,72
+                        ,
+                        18,28
+                    \right]
+                \end{align*}
+
+            \item Sea $\beta \equiv E[Y_i\mid T_i=1] - E[Y_i\mid T_i=0]$ la diferencia de medias poblacionales. En muestreos repetidos, el intervalo de confianza de 95\% contendrá al parámetro poblacional $\beta$ en el 95\% de todas las muestras posibles, es decir,
+            $$
+                P\left(
+                    \left(
+                        \overline Y_1
+                        -
+                        \overline Y_0
+                    \right)
+                    +
+                    z_{0.025}
+                    \sqrt{
+                        \frac
+                            {
+                                \sigma_1^2
+                            }
+                            {
+                                n_1
+                            }
+                        +
+                        \frac
+                            {
+                                \sigma_0^2
+                            }
+                            {
+                                n_0
+                            }
+                    }
+                    \leq
+                    \beta
+                    \leq
+                    \left(
+                        \overline Y_1
+                        -
+                        \overline Y_0
+                    \right)
+                    -
+                    z_{0.025}
+                    \sqrt{
+                        \frac
+                            {
+                                \sigma_1^2
+                            }
+                            {
+                                n_1
+                            }
+                        +
+                        \frac
+                            {
+                                \sigma_0^2
+                            }
+                            {
+                                n_0
+                            }
+                    }
+                \right)
+                =
+                0,95
+            $$
+            El intervalo de confianza del 95\% obtenido es $\left[5,72, 18,28 \right]$. Como este intervalo no contiene al cero, los datos proveen evidencia suficiente para rechazar la hipótesis nula $H_0\!\!: \beta = 0$ al 5\% de significancia. Es decir, la evidencia estadística sugiere que el puntaje promedio difiere entre los grupos de tratamiento y control.
+
+            \item Notando que
+                $$
+                    Y_i
+                    =
+                    T_i
+                    \,
+                    Y_i^{T}
+                    +
+                    \left(
+                        1
+                        -
+                        T_i
+                    \right)
+                    \,
+                    Y_i^{NT}
+                $$
+                es decir, el outcome observado es el outcome potencial bajo tratamiento ($Y_i = Y_i^T$) para un individuo tratado ($T_i = 1$) o en ausencia de tratamiento ($Y_i = Y_i^{NT}$) para un individuo no tratado ($T_i = 0$), podemos escribir
+                \begin{align*}
+                    E[Y_i\mid T_i=1]
+                    -
+                    E[Y_i\mid T_i=0]
+                    &=
+                    E[Y_i^T \mid T_i = 1]
+                    -
+                    E[Y_i^{NT} \mid T_i = 0]
+                    \\[2ex]
+                    &=
+                    \left(
+                        E[Y_i^T \mid T_i = 1]
+                        {
+                            \color{red}
+                            -
+                            E[Y_i^{NT} \mid T_i = 1]
+                        }
+                    \right)
+                    \textcolor{red}{+}
+                    \left(
+                        \textcolor{red}{E[Y_i^{NT} \mid T_i = 1]}
+                        -
+                        E[Y_i^{NT} \mid T_i = 0]
+                    \right)
+                    \\[2ex]
+                    &=
+                    \underbrace{
+                        E[
+                            Y_i^T
+                            -
+                            Y_i^{NT} 
+                            \mid 
+                            T_i 
+                            = 
+                            1
+                        ]
+                    }_{ATT}
+                    +
+                    \underbrace{
+                        \left(
+                            E[Y_i^{NT} \mid T_i = 1]
+                            -
+                            E[Y_i^{NT} \mid T_i = 0]
+                        \right)
+                        \text{.}
+                    }_{\text{sesgo de selección}}
+                \end{align*}
+                El primer término corresponde al efecto \textbf{causal} promedio del tratamiento para los tratados, $ATT$ (\textit{average treatment effect on the treated}).
+                El segundo término es el sesgo de selección, que captura diferencias entre los grupos de tratamiento y control que existirían incluso en ausencia del tratamiento.
+                
+                \medskip
+                En el contexto del problema, el $ATT$ mide el efecto causal promedio del curso de reforzamiento en las notas de quienes participan en él.
+                El sesgo de selección mide la diferencia que habría entre las notas de los participantes y los no participantes en ausencia del curso de reforzamiento académico.
+
+                \item Un intervalo de confianza de 95\% que excluye al cero solo indica que al 95\% de confianza rechazamos que los grupos de tratamiento y control tengan el mismo puntaje promedio.
+                Pero, como derivamos en la parte (d), la diferencia de los puntajes promedio poblacionales entre los grupos tratamiento y control no mide necesariamente el efecto causal del tratamiento, ya que captura la suma del $ATT$ y el sesgo de selección.
+                Esta diferencia de medias puede interpretarse como un efecto causal cuando el sesgo de selección es cero, es decir, cuando los grupos de tratamiento y control obtendrían en promedio el mismo puntaje en ausencia del curso de reforzamiento.
+                Esto se cumpliría, por ejemplo, si la asistencia al curso fuese asignada en forma aleatoria, o en general, cuando el grupo de control provee un contrafactual válido para el grupo tratado.
+            
+        \end{enumerate}
+        
+    }
+
+  \item \textbf{RdeA3.2} (20 puntos) 
+Se dispone de datos de 5 estudiantes sobre las horas semanales dedicadas al estudio ($X$) y la calificación obtenida en un examen ($Y$):
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Estudiante & Horas de estudio ($X$) & Calificación ($Y$) \\
+\hline
+1 & 1 & 2 \\
+2 & 2 & 4 \\
+3 & 3 & 5 \\
+4 & 4 & 7 \\
+5 & 5 & 8 \\
+\hline
+\end{tabular}
+\end{center}
+
+Con base en esta información, realice lo siguiente:
+
+\begin{enumerate}
+\item (6 puntos) Calcule los coeficientes de regresión $\hat{\beta}_0$ (intercepto) y $\hat{\beta}_1$ (pendiente) del modelo $\hat{Y}_i = \hat{\beta}_0 + \hat{\beta}_1 X_i$. Utilice las fórmulas:
+\[
+\hat{\beta}_1 = \frac{\sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^{n} (X_i - \bar{X})^2}, \qquad
+\hat{\beta}_0 = \bar{Y} -\hat{\beta}_1 \bar{X}.
+\]
+
+{\color{blue} \[
+\bar{X} = \frac{1+2+3+4+5}{5} = \frac{15}{5}=3, \qquad 
+\bar{Y} = \frac{2+4+5+7+8}{5} = \frac{26}{5}=5.2
+\]
+
+\[
+\begin{aligned}
+\sum (X_i-\bar{X})(Y_i-\bar{Y}) &= (1-3)(2-5.2)+(2-3)(4-5.2)+(3-3)(5-5.2)\\
+&\quad +(4-3)(7-5.2)+(5-3)(8-5.2)\\
+&= (-2)(-3.2)+(-1)(-1.2)+(0)(-0.2)+(1)(1.8)+(2)(2.8)\\
+&= 6.4+1.2+0+1.8+5.6 = 15
+\end{aligned}
+\]
+
+\[
+\sum (X_i-\bar{X})^2 = (-2)^2+(-1)^2+0^2+1^2+2^2 = 4+1+0+1+4 = 10
+\]
+
+\[
+\hat{\beta}_1 = \frac{15}{10} = 1.5, \qquad 
+\hat{\beta}_0 = \bar{Y} - \hat{\beta}_1\bar{X} = 5.2 - 1.5\cdot3 = 5.2 - 4.5 = 0.7
+\]
+
+Por lo tanto, el modelo estimado es:
+\[
+\boxed{\hat{Y}_i = 0.7 + 1.5\,X_i}
+\]}
+
+
+\item (2 puntos)  Con base en el modelo estimado, prediga la calificación para un estudiante que estudia 6 horas a la semana. 
+{\color{blue}
+\[
+\hat{Y}(6) = 0.7 + 1.5 \times 6 = 0.7 + 9 = 9.7
+\]
+Se espera una calificación de \textbf{9.7} puntos.}
+
+
+\item  (4 puntos) ¿Cuál es el cambio esperado en la calificación si un estudiante aumenta sus horas de estudio en 3 horas semanales? Justifique su respuesta.
+
+{\color{blue}
+La pendiente $\hat{\beta}_1 = 1.5$ indica que, en promedio, por cada hora adicional de estudio la calificación aumenta en 1.5 puntos. Por tanto, al aumentar 3 horas:
+\[
+\Delta \hat{Y} = \hat{\beta}_1 \times 3 = 1.5 \times 3 = 4.5
+\]
+Se espera un incremento de \textbf{4.5 puntos} en la calificación.
+
+}
+\item (4 puntos) Represente gráficamente la recta de regresión muestral obtenida. En el mismo
+gráfico, marque los valores observados de la calificación y señale los residuos correspondientes a
+cada observación.
+
+
+La siguiente figura muestra la recta de regresión muestral (línea continua), los puntos observados (círculos azules) y los residuos (segmentos verticales rojos) como la distancia desde cada punto a la recta.
+
+\begin{table}[h]
+\centering
+{\color{blue!80}
+\begin{tabular}{c|c|c|c|c}
+Estudiante & Horas $(X_i)$ & Calificación $(Y_i)$ & $\hat{Y}_i = 0.7 + 1.5X_i$ & Residuo $\hat{u}_i = Y_i - \hat{Y}_i$ \\
+\hline
+1 & 1 & 2 & 2.2 & -0.2 \\
+2 & 2 & 4 & 3.7 & 0.3 \\
+3 & 3 & 5 & 5.2 & -0.2 \\
+4 & 4 & 7 & 6.7 & 0.3 \\
+5 & 5 & 8 & 8.2 & -0.2 \\
+\end{tabular}
+}
+\end{table}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+% Ejes
+\draw[->] (0,0) -- (7,0) node[below] {Horas de estudio ($X$)};
+\draw[->] (0,0) -- (0,11) node[left] {Calificación ($Y$)};
+% Marcas de los ejes
+\foreach \x in {1,2,3,4,5} \draw (\x,0.1) -- (\x,-0.1) node[below] {\x};
+\foreach \y in {2,4,6,8,10} \draw (0.1,\y) -- (-0.1,\y) node[left] {\y};
+
+% Recta de regresión: y = 0.7 + 1.5x
+\draw[thick, blue] (0,0.7) -- (6,9.7) node[right] {$\hat{Y}=0.7+1.5X$};
+
+% Residuos (segmentos verticales rojos) - calculados automáticamente
+\draw[red, dashed, thick] (1,2) -- (1,{0.7+1.5*1});
+\draw[red, dashed, thick] (2,4) -- (2,{0.7+1.5*2});
+\draw[red, dashed, thick] (3,5) -- (3,{0.7+1.5*3});
+\draw[red, dashed, thick] (4,7) -- (4,{0.7+1.5*4});
+\draw[red, dashed, thick] (5,8) -- (5,{0.7+1.5*5});
+
+% Puntos observados (se dibujan después para que tapen el extremo de la línea roja)
+\filldraw[blue] (1,2) circle (3pt);
+\filldraw[blue] (2,4) circle (3pt);
+\filldraw[blue] (3,5) circle (3pt);
+\filldraw[blue] (4,7) circle (3pt);
+\filldraw[blue] (5,8) circle (3pt);
+
+% Leyenda
+\draw[blue] (5.5,1) circle (3pt) node[right] {Observaciones};
+\draw[red, dashed, thick] (5.5,0.5) -- (6,0.5) node[right] {Residuos};
+\end{tikzpicture}
+\end{center}
+\item (4 puntos)  Calcule el coeficiente de determinación $R^2$ e interprete su significado.
+
+{\color{blue}  El coeficiente de determinación se calcula como:
+\[
+R^2 = 1 - \frac{SSR}{SST} = 1 - \frac{\sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2}{\sum_{i=1}^{n} (Y_i - \bar{Y})^2}.
+\]
+
+De los datos:
+\[
+\begin{aligned}
+\sum (Y_i - \hat{Y}_i)^2 &= (-0.2)^2 + (0.3)^2 + (-0.2)^2 + (0.3)^2 + (-0.2)^2 = 0.30,\\
+\sum (Y_i - \bar{Y})^2 &= (2-5.2)^2 + (4-5.2)^2 + (5-5.2)^2 + (7-5.2)^2 + (8-5.2)^2 = 22.8.
+\end{aligned}
+\]
+
+Por lo tanto:
+\[
+R^2 = 1 - \frac{0.30}{22.8} = 1 - 0.01316 \approx 0.98684.
+\]
+
+\boxed{$R^2 \approx 0.987$}
+
+\textbf{Interpretación:} El $98.7\%$ de la variabilidad observada en las calificaciones es explicada por la relación lineal con las horas de estudio.}
+
+\end{enumerate}
+
+
+
+
+
+  \item \textbf{RdeA3.2} (20 puntos) 
+Una empresa quiere estudiar el efecto del gasto en 
+publicidad sobre sus ventas mensuales. Un analista estima inicialmente el siguiente 
+modelo simple:
+$$V_i = \alpha + \beta P_i + \mu_i$$
+donde $V_i$ son las ventas mensuales (en millones de pesos) y $P_i$ es el gasto en 
+publicidad (en cientos de miles de pesos). Sin embargo, sospecha que el precio promedio 
+del producto $Q_i$ también influye en las ventas y podría estar correlacionado con el 
+gasto en publicidad.
+
+Se cuenta con la siguiente muestra de 6 períodos:
+
+\begin{center}
+\begin{tabular}{cccc}
+\hline
+\textbf{Período} & \textbf{Publicidad} ($P$) & \textbf{Precio} ($Q$) & \textbf{Ventas} ($V$) \\
+\hline
+1 & 2 & 10 & 32 \\
+2 & 3 &  9 & 38 \\
+3 & 4 &  8 & 45 \\
+4 & 5 &  7 & 50 \\
+5 & 6 &  6 & 56 \\
+6 & 7 &  5 & 63 \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Variable omitida (20 puntos)}
+
+\begin{enumerate}[label=(\alph*)]
+
+\item (10 puntos) Estime por MCO el modelo simple $V_i = \alpha + \beta P_i + \mu_i$. 
+Calcule $\hat{\beta}$ e interprete en el contexto del ejercicio.
+
+\textit{Hint: Recuerde que $\hat{\beta} = \dfrac{\sum_{i=1}^n (P_i - \bar{P})(V_i - 
+\bar{V})}{\sum_{i=1}^n (P_i - \bar{P})^2}$ y que $\hat{\alpha} = \bar{V} - 
+\hat{\beta}\bar{P}$.}
+
+\item (10 puntos) Sabiendo que al incluir el precio el modelo estimado resulta:
+$$\hat{V}_i = 20 + 4.5\, P_i - 1.8\, Q_i$$
+calcule el valor numérico del sesgo en $\hat{\beta}$ y discuta su dirección. 
+¿Es consistente con la relación esperada entre $P_i$ y $Q_i$?
+
+\textit{Hint: El sesgo por variable omitida está dado por $\text{Sesgo} = \hat{\beta} - 
+\hat{\beta}^*$, donde $\hat{\beta}^*$ es el coeficiente de $P_i$ en el modelo ampliado. 
+Analice el signo de la correlación entre $P_i$ y $Q_i$ en los datos para justificar la 
+dirección del sesgo.}
+
+{\color{blue} \textbf{Respuesta:}
+
+\textbf{Datos:} $n = 6$ períodos.
+ 
+\begin{center}
+\begin{tabular}{ccccccc}
+\toprule
+$i$ & $P_i$ & $Q_i$ & $V_i$ & $P_i - \bar{P}$ & $V_i - \bar{V}$ & $(P_i-\bar{P})(V_i-\bar{V})$ \\
+\midrule
+1 & 2 & 10 & 32 & $-2.5$ & $-15$ & $37.5$ \\
+2 & 3 &  9 & 38 & $-1.5$ & $-9$  & $13.5$ \\
+3 & 4 &  8 & 45 & $-0.5$ & $-2$  & $1.0$  \\
+4 & 5 &  7 & 50 & $0.5$  & $3$   & $1.5$  \\
+5 & 6 &  6 & 56 & $1.5$  & $9$   & $13.5$ \\
+6 & 7 &  5 & 63 & $2.5$  & $16$  & $40.0$ \\
+\midrule
+$\sum$ & 27 & 45 & 284 & 0 & 0 & $107.0$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+ 
+\medskip
+Las medias son:
+$$\bar{P} = \frac{27}{6} = 4.5, \qquad
+  \bar{V} = \frac{284}{6} \approx 47.33.$$
+ 
+% ─────────────────────────────────────────────
+\begin{enumerate}[label=(\alph*)]
+ 
+% ── PARTE (a) ────────────────────────────────
+\item \textbf{Estimación del modelo simple por MCO.}
+ 
+\medskip
+Calculamos las sumas necesarias:
+
+\begin{eqnarray*}
+    \sum_{i=1}^6 (P_i - \bar{P})^2
+= (-2.5)^2+(-1.5)^2+(-0.5)^2+(0.5)^2+(1.5)^2+(2.5)^2\\
+= 6.25+2.25+0.25+0.25+2.25+6.25 = 17.5
+\end{eqnarray*}
+
+
+
+ 
+\[
+\sum_{i=1}^6 (P_i - \bar{P})(V_i - \bar{V})
+= 37.5 + 13.5 + 1.0 + 1.5 + 13.5 + 40.0 = 107.0
+\]
+ 
+Aplicando la fórmula MCO:
+ 
+\[
+\boxed{\hat{\beta}
+= \frac{\displaystyle\sum_{i=1}^6 (P_i-\bar{P})(V_i-\bar{V})}
+       {\displaystyle\sum_{i=1}^6 (P_i-\bar{P})^2}
+= \frac{107.0}{17.5} \approx 6.114}
+\]
+ 
+El intercepto:
+ 
+\[
+\hat{\alpha} = \bar{V} - \hat{\beta}\,\bar{P}
+= 47.33 - 6.114 \times 4.5
+= 47.33 - 27.51 \approx 19.82
+\]
+ 
+Por tanto, el modelo simple estimado es:
+ 
+\[
+\hat{V}_i = 19.82 + 6.114\, P_i
+\]
+ 
+\textbf{Interpretación de $\hat{\beta}$:} Un aumento de 1 unidad en el gasto en publicidad
+(es decir, 100 mil pesos adicionales) se asocia, en promedio, con un incremento de
+\textbf{6.114 millones de pesos} en las ventas mensuales, manteniendo todo lo demás
+constante (en este modelo, sin controles adicionales).
+ 
+% ── PARTE (b) ────────────────────────────────
+\item \textbf{Sesgo por variable omitida y su dirección.}
+ 
+\medskip
+El modelo ampliado estimado es:
+\[
+\hat{V}_i = 20 + 4.5\, P_i - 1.8\, Q_i
+\]
+por lo que el coeficiente de $P_i$ en el modelo completo es $\hat{\beta}^* = 4.5$.
+ 
+\textbf{Cálculo del sesgo:}
+\[
+\boxed{\text{Sesgo} = \hat{\beta} - \hat{\beta}^* \approx 6.114 - 4.5 = 1.614 > 0}
+\]
+ 
+El sesgo es \textbf{positivo}: el modelo simple sobreestima el efecto de la publicidad
+sobre las ventas.
+ 
+\medskip
+\textbf{Justificación mediante la fórmula del sesgo.}
+ 
+La fórmula teórica del sesgo por variable omitida es:
+\[
+\text{Sesgo} = \hat{\gamma}_Q \cdot \hat{\delta}_{PQ}
+\]
+donde $\hat{\gamma}_Q = -1.8$ es el coeficiente de $Q_i$ en el modelo ampliado y
+$\hat{\delta}_{PQ}$ es el coeficiente de la regresión auxiliar de $Q_i$ sobre $P_i$.
+ 
+Calculamos $\hat{\delta}_{PQ}$. Observando los datos: cada vez que $P_i$ aumenta en 1,
+$Q_i$ disminuye en 1, por lo que la relación es perfectamente lineal negativa.
+ 
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$i$ & $P_i - \bar{P}$ & $Q_i - \bar{Q}$ & $(P_i-\bar{P})(Q_i-\bar{Q})$ \\
+\midrule
+1 & $-2.5$ & $2.5$  & $-6.25$ \\
+2 & $-1.5$ & $1.5$  & $-2.25$ \\
+3 & $-0.5$ & $0.5$  & $-0.25$ \\
+4 & $0.5$  & $-0.5$ & $-0.25$ \\
+5 & $1.5$  & $-1.5$ & $-2.25$ \\
+6 & $2.5$  & $-2.5$ & $-6.25$ \\
+\midrule
+$\sum$ & 0 & 0 & $-17.5$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+ 
+donde $\bar{Q} = 45/6 = 7.5$ y $\sum(Q_i-\bar{Q})^2 = 17.5$.
+ 
+\[
+\hat{\delta}_{PQ}
+= \frac{\sum(P_i-\bar{P})(Q_i-\bar{Q})}{\sum(P_i-\bar{P})^2}
+= \frac{-17.5}{17.5} = -1
+\]
+ 
+\textbf{Verificación:}
+\[
+\text{Sesgo} = \hat{\gamma}_Q \cdot \hat{\delta}_{PQ}
+= (-1.8) \times (-1) = 1.8 \approx 1.614
+\]
+ 
+(La pequeña diferencia es por redondeo en $\hat{\beta}$.)
+ 
+\medskip
+\textbf{Discusión de la dirección del sesgo:}
+ 
+\begin{itemize}
+  \item \textbf{Correlación entre $P_i$ y $Q_i$:} $\hat{\delta}_{PQ} = -1 < 0$.
+  Los datos muestran que a mayor gasto en publicidad, menor es el precio promedio del
+  producto (correlación perfectamente negativa). Esto es económicamente plausible: la
+  empresa baja precios al mismo tiempo que intensifica la publicidad para estimular
+  la demanda.
+ 
+  \item \textbf{Efecto de $Q_i$ sobre $V_i$:} $\hat{\gamma}_Q = -1.8 < 0$.
+  Un mayor precio reduce las ventas, signo esperado por la ley de demanda.
+ 
+  \item \textbf{Resultado:} Como $\text{Sesgo} = \hat{\gamma}_Q \times \hat{\delta}_{PQ}
+  = (-)(-) = (+) > 0$, el modelo simple \textbf{sobreestima} el efecto de la publicidad.
+  Al omitir el precio, parte de la reducción de ventas causada por precios altos
+  (asociados a baja publicidad) se atribuye erróneamente a la \emph{falta} de publicidad,
+  inflando artificialmente el coeficiente estimado de $P_i$.
+\end{itemize}
+ 
+\textbf{Conclusión:} El sesgo es consistente con la relación esperada. La correlación
+negativa entre $P_i$ y $Q_i$ combinada con el efecto negativo del precio sobre las ventas
+produce un sesgo positivo en $\hat{\beta}$, que sobrevalora el retorno de la inversión
+publicitaria. El modelo ampliado corrige este sesgo, reduciendo el coeficiente de $P_i$
+de $6.114$ a $4.5$.
+\end{enumerate}
+
+}
+
+
+
+\end{enumerate}
+
+
+
+
+\end{enumerate}
+\end{document}

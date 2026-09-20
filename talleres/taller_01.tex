@@ -1,0 +1,205 @@
+\documentclass[letterpaper,11pt]{article}
+
+% -------------------------
+% PAQUETES
+% -------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{realboxes}
+\geometry{margin=2.5cm}
+\graphicspath{{../controles/}}
+
+\definecolor{lightgrey}{rgb}{0.95,0.95,0.95}
+\newcommand{\code}[1]{\Colorbox{lightgrey}{\texttt{#1}}}
+
+\begin{document}
+
+\noindent
+\begin{minipage}{0.39\textwidth}
+    \includegraphics[width=\linewidth]{logoUSM.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.59\textwidth}
+    \raggedleft
+    \textbf{INGENIERÍA COMERCIAL}\\
+    \textbf{2026-2}
+\end{minipage}
+
+\vspace{0.4cm}
+\hrule
+\vspace{0.1cm}
+
+\begin{center}
+    {\Large \textbf{Taller 1: Avance preliminar}}\\
+    Econometría ICS-294\\
+    II Semestre 2026\\
+    \vspace{0.3cm}
+    Profesor: Francisco Alfaro Medina
+\end{center}
+
+\textbf{Objetivo:} construir la primera mitad del proyecto aplicado utilizando
+la base de datos \texttt{wage1} del paquete \texttt{wooldridge}. Este taller
+corresponde al avance preliminar descrito en las instrucciones del trabajo.
+
+\textbf{Instrucciones:}
+
+\begin{itemize}
+    \item El trabajo se realizará en los grupos definidos para el proyecto.
+    \item Utilice R en Google Colab y entregue el notebook junto con una versión
+          exportada a PDF o HTML.
+    \item Incluya el código utilizado, sus resultados y una breve explicación
+          de cada procedimiento. El análisis debe ser reproducible.
+    \item Use como guía el notebook
+          \texttt{colab/regresion\_wage\_inferencia.ipynb}, pero redacte sus
+          propias respuestas e interpretaciones.
+\end{itemize}
+
+\section{Preguntas}
+
+Todas las respuestas deben referirse a la base \texttt{wage1}. En el notebook,
+cargue la base mediante \texttt{data('wage1', package = 'wooldridge')} y
+construya \texttt{lwage = log(wage)} si esta variable no estuviera disponible.
+
+\subsection*{I. Conocimiento y calidad de la base de datos}
+
+\begin{enumerate}
+
+\item Cargue la base y describa su estructura.
+    \begin{enumerate}[label=(\alph*)]
+        \item Indique el número de observaciones y variables.
+        \item Presente una tabla con el nombre, tipo y descripción económica de
+              las variables que utilizará en el proyecto.
+        \item Identifique cuáles variables serán la dependiente y las
+              explicativas principales. Justifique esta elección en función de
+              una pregunta económica.
+    \end{enumerate}
+
+\item Realice una auditoría básica de calidad de los datos.
+    \begin{enumerate}[label=(\alph*)]
+        \item Reporte el número de valores faltantes por variable y el número
+              de filas incompletas.
+        \item Verifique si existen filas duplicadas.
+        \item Revise los rangos y valores atípicos evidentes de \texttt{wage},
+              \texttt{educ}, \texttt{exper} y \texttt{tenure}.
+        \item Explique si es necesario eliminar o transformar observaciones.
+              Toda decisión de limpieza debe quedar documentada y justificada.
+    \end{enumerate}
+
+\end{enumerate}
+
+\subsection*{II. Descripción estadística y visualización}
+
+\begin{enumerate}[resume]
+
+\item Construya una tabla de estadística descriptiva para las variables clave.
+    Para cada variable numérica reporte, al menos, el tamaño muestral, media,
+    desviación estándar, mínimo, percentil 25, mediana, percentil 75 y máximo.
+    \begin{enumerate}[label=(\alph*)]
+        \item Incluya \texttt{wage}, \texttt{lwage}, \texttt{educ},
+              \texttt{exper} y \texttt{tenure}.
+        \item Para \texttt{female}, \texttt{married} y \texttt{nonwhite},
+              presente frecuencias y porcentajes para los valores cero y uno.
+        \item Interprete al menos tres resultados de la tabla y comente qué
+              variables presentan mayor dispersión.
+    \end{enumerate}
+
+\item Elabore gráficos descriptivos con títulos, ejes y unidades claramente
+    identificados.
+    \begin{enumerate}[label=(\alph*)]
+        \item Construya histogramas de \texttt{wage} y \texttt{lwage}. Compare
+              sus formas y explique por qué puede ser conveniente trabajar con
+              el logaritmo del salario.
+        \item Construya un boxplot de \texttt{lwage} según \texttt{female} y
+              otro según \texttt{married}. Describa las diferencias visibles.
+        \item Construya un gráfico de dispersión entre \texttt{educ} y
+              \texttt{lwage}, incluyendo una recta de ajuste lineal.
+        \item Construya al menos un gráfico adicional que ayude a estudiar la
+              relación entre salario y experiencia o antigüedad. Explique qué
+              patrón espera encontrar.
+    \end{enumerate}
+
+\end{enumerate}
+
+\subsection*{III. Pregunta de investigación y modelo propuesto}
+
+\begin{enumerate}[resume]
+
+\item Formule la pregunta económica que guiará el proyecto.
+    \begin{enumerate}[label=(\alph*)]
+        \item Escriba al menos dos hipótesis económicas verificables sobre el
+              salario por hora. Indique el signo esperado de cada efecto.
+        \item Señale cuál de sus hipótesis corresponde a un efecto individual y
+              cuál requiere considerar varias variables simultáneamente.
+        \item Explique por qué una relación observada en los datos no implica,
+              por sí sola, un efecto causal.
+    \end{enumerate}
+
+\item Especifique el modelo de regresión poblacional que utilizará en el
+    informe final. Considere como punto de partida:
+    \[
+        \log(\texttt{wage}_i)
+        =\beta_0+\beta_1\texttt{educ}_i
+        +\beta_2\texttt{exper}_i
+        +\beta_3\texttt{tenure}_i+u_i.
+    \]
+    \begin{enumerate}[label=(\alph*)]
+        \item Explique la elección de \texttt{lwage} como variable dependiente.
+        \item Justifique la inclusión de \texttt{educ}, \texttt{exper} y
+              \texttt{tenure}. Discuta si incluiría también \texttt{female} o
+              \texttt{married} y por qué.
+        \item Interprete económicamente cada coeficiente del modelo propuesto
+              antes de estimarlo.
+        \item Escriba una segunda especificación razonable, por ejemplo una que
+              incluya una variable dummy o un término cuadrático para la
+              experiencia. Explique qué hipótesis adicional permitiría estudiar.
+    \end{enumerate}
+
+\item Entregue un breve avance escrito que sintetice sus decisiones. Debe
+    incluir: descripción de la base, tabla descriptiva, gráficos principales,
+    pregunta de investigación, hipótesis, justificación de variables y los
+    modelos poblacionales propuestos.
+
+\end{enumerate}
+
+\newpage
+\section{Formulario}
+
+\begin{itemize}
+    \item Media y desviación estándar muestral:
+    \[
+        \bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i,
+        \qquad
+        s=\sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})^2}.
+    \]
+
+    \item Transformación logarítmica:
+    \[
+        \texttt{lwage}_i=\log(\texttt{wage}_i).
+    \]
+    En un modelo log-nivel, un aumento de una unidad en una variable
+    explicativa se asocia aproximadamente con un cambio de $100\beta_j$ por
+    ciento en el salario.
+
+    \item Modelo lineal poblacional:
+    \[
+        y_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_kx_{ik}+u_i.
+    \]
+
+    \item Comandos útiles en R: \texttt{dim()}, \texttt{str()},
+    \texttt{summary()}, \texttt{is.na()}, \texttt{duplicated()},
+    \texttt{mean()}, \texttt{sd()}, \texttt{quantile()}, \texttt{hist()},
+    \texttt{boxplot()} y \texttt{ggplot()}.
+\end{itemize}
+
+\end{document}

@@ -19,12 +19,13 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 
 - [Control 01](controles/control_01.pdf) · [Pauta](controles/control_01_pauta.pdf) · [Paper Worms](material/Worms.pdf)
 - [Precertamen 1](guias/precertamen1.pdf)
+- [Taller 1](talleres/taller_01.pdf) · [Guía](talleres/taller_01_guia.ipynb)
 
 ---
 
 ## Contenido del curso (clases)
 
-Material compilado disponible desde la semana 1 hasta la semana 13.
+Material compilado disponible desde la semana 1 hasta la semana 14.
 
 **Cobertura de certámenes:**
 
@@ -59,6 +60,9 @@ Material compilado disponible desde la semana 1 hasta la semana 13.
 | Semana 12 | Guía | Heterocedasticidad | [PDF](sem12/guia_heterocedasticidad.pdf) · [TEX](sem12/guia_heterocedasticidad.tex) |
 | Semana 12 | Apunte | Test de White y varianza robusta | [PDF](sem12/gl_test_white.pdf) · [PDF](sem12/varianza_estimador_heteroce.pdf) |
 | Semana 13 | Clase 18 | Multicolinealidad, detección e interpretación | [PDF](sem13/clase18.pdf) · [TEX](sem13/clase18.tex) |
+| Semana 14 | Clase 19 | Dependencia de los errores en series de tiempo | [PDF](sem14/clase19_v2.pdf) · [TEX](sem14/clase19_v2.tex) |
+| Semana 14 | Clase 20 | Procesos de series de tiempo, estacionariedad y modelos AR/MA | [PDF](sem14/clase20v3.pdf) · [TEX](sem14/clase20v3.tex) |
+| Semana 14 | Clase 21 | Tendencias, caminatas aleatorias, estacionariedad y regresiones espurias | [PDF](sem14/clase21v2.pdf) · [TEX](sem14/clase21v2.tex) |
 
 ### Recursos complementarios
 

@@ -1,0 +1,372 @@
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{realboxes}
+\geometry{margin=2.5cm}
+
+\definecolor{lightgrey}{rgb}{0.95,0.95,0.95}
+\newcommand{\code}[1]{\Colorbox{lightgrey}{\texttt{#1}}}
+\newcommand{\respuesta}{\color{blue}\paragraph{Respuesta.}}
+
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Control 2: preguntas y respuestas}}\\
+    Econometría ICS-294 --- II Semestre 2026
+\end{center}
+
+\vspace{0.3cm}
+\noindent\textbf{Nota:} En los contrastes se utiliza un nivel de significancia
+del 5\%, salvo que se indique lo contrario.
+
+\section*{I. Interpretación y especificación de modelos}
+
+\begin{enumerate}
+
+\item\color{black} Se estima el modelo
+\[
+    \log(\text{PRICE})=4{,}8+0{,}72\log(\text{SQFT})+u.
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item\color{black} Interprete $\hat\beta_1=0{,}72$. ¿Qué concepto económico representa?
+
+    \respuesta En un modelo log--log, el coeficiente es una elasticidad.
+    Manteniendo constantes los demás factores, un aumento de 1\% en la
+    superficie se asocia con un aumento aproximado de 0{,}72\% en el precio.
+
+    \item\color{black} Si la superficie aumenta en un 10\%, determine en cuánto cambia
+    aproximadamente el precio.
+
+    \respuesta El cambio aproximado es
+    \[
+        \Delta\log(\text{PRICE})\approx 0{,}72(10\%)=7{,}2\%.
+    \]
+    Por lo tanto, el precio aumenta aproximadamente un 7{,}2\%. Si se calcula
+    el cambio exacto implícito en el modelo, se obtiene
+    $1{,}1^{0{,}72}-1\approx 0{,}0710$, es decir, un 7{,}10\%.
+\end{enumerate}
+
+\item\color{black} El salario esperado está dado por
+\[
+    \widehat{\log(\text{salario})}
+    =2{,}5+0{,}25\,\texttt{exper}
+    -0{,}005\,\texttt{exper}^{2}.
+\]
+Determine el nivel de experiencia en el cual el retorno marginal de una unidad
+adicional de experiencia se anula e interprete el resultado.
+
+\respuesta El retorno marginal es
+\[
+    \frac{\partial\widehat{\log(\text{salario})}}
+         {\partial\texttt{exper}}
+    =0{,}25-0{,}01\,\texttt{exper}.
+\]
+Al igualarlo a cero,
+\[
+    0{,}25-0{,}01\,\texttt{exper}=0
+    \quad\Longrightarrow\quad \texttt{exper}=25.
+\]
+El retorno marginal se anula a los 25 años de experiencia. Antes de ese
+nivel, la experiencia aumenta el salario esperado; después, el efecto
+marginal es negativo.
+
+\end{enumerate}
+
+\section*{II. MCO e inferencia sobre parámetros individuales}
+
+\begin{enumerate}[resume]
+
+\item\color{black} Para 1.500 trabajadores se estima
+\[
+    \log(\text{WAGE})
+    =2{,}15+0{,}083\,\texttt{EDUC}
+    +0{,}041\,\texttt{EXPER}
+    -0{,}214\,\texttt{RURAL}+u,
+\]
+con errores estándar $0{,}031$, $0{,}018$ y $0{,}094$, respectivamente.
+\begin{enumerate}[label=(\alph*)]
+    \item\color{black} Plantee las hipótesis para evaluar si la educación tiene un efecto
+    positivo y significativo sobre el salario.
+
+    \respuesta El contraste apropiado es unilateral:
+    \[
+        H_0:\beta_{\texttt{EDUC}}\leq 0,
+        \qquad
+        H_1:\beta_{\texttt{EDUC}}>0.
+    \]
+    Es unilateral porque la alternativa plantea una dirección específica:
+    que el efecto de la educación sea positivo.
+
+    \item\color{black} Calcule los estadísticos $t$ para \texttt{EDUC} y \texttt{RURAL}.
+
+    \respuesta Para \texttt{EDUC},
+    \[
+        t_{\texttt{EDUC}}=\frac{0{,}083}{0{,}031}=2{,}677.
+    \]
+    Para \texttt{RURAL},
+    \[
+        t_{\texttt{RURAL}}=\frac{-0{,}214}{0{,}094}=-2{,}277.
+    \]
+    Como $|t|>1{,}96$ en ambos casos, las dos variables son
+    individualmente significativas al 5\% en un contraste bilateral.
+    La educación tiene un efecto positivo y significativo: un año adicional
+    se asocia aproximadamente con un aumento de 8{,}3\% en el salario.
+    La residencia rural tiene un efecto negativo y significativo:
+    manteniendo lo demás constante, se asocia con un salario
+    aproximadamente 21{,}4\% menor en la interpretación aproximada del
+    modelo log-nivel.
+
+    \item\color{black} Para \texttt{EXPER}, el valor-$p$ reportado es $0{,}038$.
+
+    \respuesta El valor-$p$ es la probabilidad, suponiendo verdadera la
+    hipótesis nula de que el coeficiente sea cero, de observar un estadístico
+    al menos tan extremo como el obtenido. Como $0{,}038<0{,}05$, se rechaza
+    $H_0$ al 5\%. Sin embargo, como $0{,}038>0{,}01$, no se rechaza $H_0$ al
+    1\%. La conclusión cambia al utilizar el nivel de significancia del 1\%.
+\end{enumerate}
+
+\item\color{black} Se estima, con 4.137 alumnos,
+\[
+    \widehat{\texttt{colgpa}}
+    =2{,}000-0{,}5000\,\texttt{hsperc}
+    +0{,}0100\,\texttt{sat},
+    \qquad R^2=0{,}273,
+\]
+y se tiene
+\[
+    (X'X)^{-1}=\begin{bmatrix}
+        8{,}5 & 0{,}19 & -0{,}11\\
+        0{,}19 & 0{,}5 & -0{,}02\\
+        -0{,}11 & -0{,}02 & 0{,}04
+    \end{bmatrix},
+    \qquad \widehat{\sigma}^{2}=0{,}01.
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item\color{black} Calcule el promedio predicho cuando \texttt{hsperc}$=20$ y
+    \texttt{sat}$=900$.
+
+    \respuesta
+    \[
+        \widehat{\texttt{colgpa}}=2-0{,}5(20)+0{,}01(900)=1.
+    \]
+    El promedio predicho es $1{,}0$.
+
+    \item\color{black} Explique el signo de \texttt{hsperc} y contraste la hipótesis de que
+    su coeficiente poblacional es negativo. Use $t_{0{,}05;4134}=1{,}645$.
+
+    \respuesta El signo negativo es razonable si \texttt{hsperc} está medido
+    como un rango percentil en que un número menor representa una mejor
+    posición relativa. En ese caso, un valor menor de \texttt{hsperc} se
+    asocia con un promedio universitario mayor.
+
+    El contraste unilateral es
+    \[
+        H_0:\beta_{\texttt{hsperc}}\geq 0,
+        \qquad H_1:\beta_{\texttt{hsperc}}<0.
+    \]
+    Como $\operatorname{Var}(\widehat\beta_{\texttt{hsperc}})
+    =0{,}01(0{,}5)=0{,}005$, su error estándar es
+    $\sqrt{0{,}005}=0{,}07071$. Por tanto,
+    \[
+        t=\frac{-0{,}5000}{0{,}07071}=-7{,}071.
+    \]
+    Como $-7{,}071<-1{,}645$, se rechaza $H_0$. Hay evidencia de que el
+    coeficiente de \texttt{hsperc} es negativo.
+
+    \item\color{black} Contraste $H_0:\beta_1+10\beta_2=0$ y calcule el estadístico.
+
+    \respuesta La estimación de la combinación lineal es
+    \[
+        \widehat\beta_1+10\widehat\beta_2=-0{,}5+10(0{,}01)=-0{,}4.
+    \]
+    Con $c=(0,1,10)'$, la varianza estimada es
+    \[
+    \begin{aligned}
+        \widehat{\operatorname{Var}}(c'\widehat\beta)
+        &=0{,}01\left(0{,}5+10^2(0{,}04)+2(1)(10)(-0{,}02)\right)\\
+        &=0{,}041,
+    \end{aligned}
+    \]
+    por lo que $se(c'\widehat\beta)=0{,}2025$. El estadístico es
+    \[
+        t=\frac{-0{,}4}{0{,}2025}=-1{,}975.
+    \]
+    En un contraste bilateral al 5\%, $|t|=1{,}975>1{,}96$, por lo que se
+    rechaza por poco $H_0$. Los datos no respaldan que la compensación sea
+    exactamente de diez puntos de \texttt{sat} por cada punto de
+    \texttt{hsperc}.
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{III. Restricciones lineales y pruebas conjuntas}
+
+\begin{enumerate}[resume]
+
+\item\color{black} Para 353 jugadores de béisbol se estiman los modelos
+\[
+\begin{aligned}
+\text{Modelo 1 (no restringido):}\quad
+\log(\text{salario})&=\beta_0+\beta_1\texttt{years}
+ +\beta_2\texttt{gamesyr}\\
+&\quad +\beta_3\texttt{hrunsyr}+\beta_4\texttt{rbisyr}+v,\\
+R_1^2&=0{,}627,
+\end{aligned}
+\]
+y
+\[
+\begin{aligned}
+\text{Modelo 2 (restringido):}\quad
+\log(\text{salario})&=\gamma_0+\gamma_1\texttt{years}
+ +\gamma_2\texttt{gamesyr}+\varepsilon,\\
+R_2^2&=0{,}597.
+\end{aligned}
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item\color{black} Contraste $H_0:\beta_3=\beta_4=0$ frente a que al menos uno sea
+    distinto de cero.
+
+    \respuesta El modelo no restringido es el Modelo 1 y el restringido es el
+    Modelo 2, pues bajo $H_0$ se eliminan \texttt{hrunsyr} y \texttt{rbisyr}.
+    Hay $j=2$ restricciones y $k=4$ regresores en el modelo no restringido:
+    \[
+        F=\frac{(0{,}627-0{,}597)/2}{1-0{,}627}(353-4-1)
+        =\frac{0{,}030}{0{,}373}\frac{348}{2}
+        \approx 7{,}00.
+    \]
+    Como $7{,}00>F_{0{,}05}^{(2,348)}\approx3{,}02$, se rechaza $H_0$.
+    \texttt{hrunsyr} y/o \texttt{rbisyr} aporta significancia conjunta.
+
+    \item\color{black} Contraste la significancia global:
+    $H_0:\beta_1=\beta_2=\beta_3=\beta_4=0$.
+
+    \respuesta El modelo no restringido es el Modelo 1. El modelo restringido
+    solo contiene la constante, por lo que $R_R^2=0$. Con $j=4$:
+    \[
+        F=\frac{0{,}627-0}{1-0{,}627}\frac{348}{4}
+        =\frac{0{,}627}{0{,}373}\frac{348}{4}
+        \approx146{,}25.
+    \]
+    Como $146{,}25>F_{0{,}05}^{(4,348)}\approx2{,}40$, se rechaza $H_0$.
+    Los regresores son conjuntamente significativos.
+
+    \item\color{black} Los valores críticos son $F_{0{,}05}^{(2,348)}\approx3{,}02$ y
+    $F_{0{,}05}^{(4,348)}\approx2{,}40$.
+
+    \respuesta Las decisiones son las indicadas en (a) y (b): se rechazan
+    ambas hipótesis nulas.
+\end{enumerate}
+
+\item\color{black} Demuestre que, para $j$ restricciones lineales,
+\[
+    \widehat F
+    =\frac{SSR_R-SSR_{UR}}{SSR_{UR}}\frac{n-k-1}{j}
+    =\frac{R^2_{UR}-R^2_R}{1-R^2_{UR}}\frac{n-k-1}{j}.
+\]
+
+\respuesta Por definición,
+\[
+    \widehat F=\frac{(SSR_R-SSR_{UR})/j}{SSR_{UR}/(n-k-1)}
+    =\frac{SSR_R-SSR_{UR}}{SSR_{UR}}\frac{n-k-1}{j}.
+\]
+Para ambos modelos, al incluir constante, $SST$ es el mismo y
+\[
+    R^2_R=1-\frac{SSR_R}{SST},
+    \qquad
+    R^2_{UR}=1-\frac{SSR_{UR}}{SST}.
+\]
+Por tanto,
+\[
+    SSR_R-SSR_{UR}=SST(R^2_{UR}-R^2_R),
+    \qquad
+    SSR_{UR}=SST(1-R^2_{UR}).
+\]
+Al sustituir estas expresiones, se obtiene
+\[
+    \widehat F=
+    \frac{R^2_{UR}-R^2_R}{1-R^2_{UR}}\frac{n-k-1}{j}.
+\]
+Aquí $SSR_R$ y $SSR_{UR}$ son las sumas de cuadrados de los residuos de los
+modelos restringido y no restringido, respectivamente. Además,
+$R_R^2$ y $R_{UR}^2$ son sus correspondientes coeficientes de determinación.
+
+\item\color{black} Se tiene
+\[
+    y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_3+u,
+    \qquad n=150,
+\]
+con
+\[
+    \widehat{\boldsymbol\beta}=\begin{bmatrix}5{,}5\\10{,}1\\1{,}2\\2{,}1\end{bmatrix},
+    \qquad \widehat{\sigma}^{2}=1{,}5,
+\]
+y
+\[
+    (X'X)^{-1}=\begin{bmatrix}
+        1{,}1&0{,}3&0{,}4&0{,}3\\
+        0{,}3&2{,}2&0{,}25&1{,}3\\
+        0{,}4&0{,}25&0{,}27&-0{,}16\\
+        0{,}3&1{,}3&-0{,}16&1{,}3
+    \end{bmatrix}.
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item\color{black} Plantee las hipótesis para contrastar $3\beta_2=2\beta_3$.
+
+    \respuesta
+    \[
+        H_0:3\beta_2-2\beta_3=0,
+        \qquad H_1:3\beta_2-2\beta_3\neq0.
+    \]
+
+    \item\color{black} Calcule el estadístico $t$ y determine si se rechaza la hipótesis
+    nula al 5\%.
+
+    \respuesta La estimación de la combinación lineal es
+    \[
+        3\widehat\beta_2-2\widehat\beta_3
+        =3(1{,}2)-2(2{,}1)=-0{,}6.
+    \]
+    Usando $c=(0,0,3,-2)'$,
+    \[
+    \begin{aligned}
+        \widehat{\operatorname{Var}}(c'\widehat\beta)
+        &=1{,}5\left[9(0{,}27)+4(1{,}3)
+          +2(3)(-2)(-0{,}16)\right]\\
+        &=1{,}5(9{,}55)=14{,}325.
+    \end{aligned}
+    \]
+    Así, $se(c'\widehat\beta)=\sqrt{14{,}325}=3{,}7848$ y
+    \[
+        t=\frac{-0{,}6}{3{,}7848}=-0{,}159.
+    \]
+    Con $k=3$, los grados de libertad son $150-3-1=146$. Como
+    $|t|<t_{0{,}975;146}\approx1{,}976$, no se rechaza $H_0$ al 5\%.
+
+    \item\color{black} Construya un intervalo de confianza al 95\% para
+    $3\beta_2-2\beta_3$ e interprételo.
+
+    \respuesta Usando $t_{0{,}975;146}\approx1{,}976$,
+    \[
+        -0{,}6\pm1{,}976(3{,}7848)
+        =-0{,}6\pm7{,}4788.
+    \]
+    Por tanto,
+    \[
+        IC_{95\%}(3\beta_2-2\beta_3)
+        \approx[-8{,}079,\;6{,}879].
+    \]
+    El intervalo contiene al cero, por lo que es consistente con no rechazar
+    la igualdad $3\beta_2=2\beta_3$ al 5\%.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

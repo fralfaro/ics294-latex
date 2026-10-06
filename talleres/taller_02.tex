@@ -1,0 +1,297 @@
+\documentclass[letterpaper,11pt]{article}
+
+% -------------------------
+% PAQUETES
+% -------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{realboxes}
+\geometry{margin=2.5cm}
+\graphicspath{{../controles/}}
+
+\definecolor{lightgrey}{rgb}{0.95,0.95,0.95}
+\newcommand{\code}[1]{\Colorbox{lightgrey}{\texttt{#1}}}
+
+\begin{document}
+
+\noindent
+\begin{minipage}{0.39\textwidth}
+    \includegraphics[width=\linewidth]{logoUSM.png}
+\end{minipage}
+\hfill
+\begin{minipage}{0.59\textwidth}
+    \raggedleft
+    \textbf{INGENIERÍA COMERCIAL}\\
+    \textbf{2026-2}
+\end{minipage}
+
+\vspace{0.4cm}
+\hrule
+\vspace{0.1cm}
+
+\begin{center}
+    {\Large \textbf{Taller 2: Estimación e informe final}}\\
+    Econometría ICS-294\\
+    II Semestre 2026\\
+    \vspace{0.3cm}
+    Profesor: Francisco Alfaro Medina
+\end{center}
+
+\textbf{Objetivo:} completar la segunda mitad del proyecto aplicado utilizando
+la base \texttt{wage1}. Este taller parte del avance descriptivo elaborado en
+el Taller 1 y se concentra en estimación, inferencia, diagnóstico, predicción y
+conclusiones.
+
+\textbf{Instrucciones:}
+
+\begin{itemize}
+    \item Continúe trabajando con la misma base, pregunta de investigación y
+          decisiones de modelación del Taller 1.
+    \item Entregue un notebook reproducible en R y un informe en PDF. Incluya
+          el código, las tablas y los gráficos necesarios para replicar sus
+          resultados.
+    \item Reporte resultados con un nivel de significancia del 5\%, salvo que
+          se indique lo contrario. No basta con copiar la salida de R: cada
+          resultado debe ser interpretado en el contexto económico.
+    \item Recuerde que significancia estadística no equivale a causalidad.
+\end{itemize}
+
+\section{Preguntas}
+
+Use \texttt{wage1} del paquete \texttt{wooldridge} y construya
+\texttt{lwage = log(wage)}. Considere como modelo ampliado de referencia:
+\[
+    \texttt{lwage}_i=\beta_0+\beta_1\texttt{educ}_i
+    +\beta_2\texttt{exper}_i+\beta_3\texttt{tenure}_i+u_i.
+\]
+
+\subsection*{I. Estimación y bondad de ajuste}
+
+\begin{enumerate}
+
+\item Estime por MCO los siguientes tres modelos:
+    \begin{align*}
+        \text{Modelo 1: }&\texttt{lwage}\sim\texttt{educ},\\
+        \text{Modelo 2: }&\texttt{lwage}\sim\texttt{educ+exper},\\
+        \text{Modelo 3: }&\texttt{lwage}\sim\texttt{educ+exper+tenure}.
+    \end{align*}
+    \begin{enumerate}[label=(\alph*)]
+        \item Presente una tabla comparable con los coeficientes, errores
+              estándar, observaciones y niveles de significancia.
+        \item Interprete el signo, magnitud y significancia económica de los
+              coeficientes del Modelo 3. Entregue tanto la interpretación
+              aproximada como, cuando corresponda, la transformación exacta
+              $100(\exp(\widehat\beta_j)-1)$.
+        \item Explique cómo cambia la interpretación de \texttt{educ} al pasar
+              del Modelo 1 al Modelo 3.
+    \end{enumerate}
+
+\item Compare la bondad de ajuste de los tres modelos.
+    \begin{enumerate}[label=(\alph*)]
+        \item Reporte $R^2$, $R^2$ ajustado, RMSE y el estadístico $F$ global.
+        \item Explique por qué el $R^2$ no disminuye al agregar variables y por
+              qué también conviene observar el $R^2$ ajustado.
+        \item Construya un gráfico de valores observados versus ajustados para
+              el Modelo 3 y comente la calidad del ajuste.
+    \end{enumerate}
+
+\end{enumerate}
+
+\subsection*{II. Inferencia individual y restricciones lineales}
+
+\begin{enumerate}[resume]
+
+\item Realice inferencia sobre los parámetros del Modelo 3.
+    \begin{enumerate}[label=(\alph*)]
+        \item Para cada variable explicativa, contraste
+              $H_0:\beta_j=0$ frente a $H_1:\beta_j\neq0$. Reporte el
+              estadístico $t$, el valor-$p$ y la decisión.
+        \item Construya intervalos de confianza al 95\% para los coeficientes.
+              Relacione cada intervalo con el contraste bilateral
+              correspondiente.
+        \item Repita la inferencia utilizando errores estándar robustos a
+              heterocedasticidad. Compare las decisiones con las obtenidas
+              usando errores estándar convencionales.
+    \end{enumerate}
+
+\item Evalúe una hipótesis sobre la diferencia entre retornos.
+    \begin{enumerate}[label=(\alph*)]
+        \item Contraste $H_0:\beta_1-\beta_2=0$, es decir, que el retorno de
+              un año adicional de educación sea igual al de un año adicional
+              de experiencia.
+        \item Realice el contraste con una restricción lineal utilizando la
+              covarianza entre los estimadores. No compare simplemente los
+              dos valores-$p$ individuales.
+        \item Interprete el resultado en términos de la pregunta económica del
+              proyecto.
+    \end{enumerate}
+
+\item Evalúe conjuntamente la relevancia de experiencia y antigüedad.
+    \begin{enumerate}[label=(\alph*)]
+        \item Plantee $H_0:\beta_2=0$ y $\beta_3=0$ frente a la alternativa de
+              que al menos uno de los dos parámetros sea distinto de cero.
+        \item Identifique el Modelo 3 como no restringido y estime el modelo
+              restringido omitiendo \texttt{exper} y \texttt{tenure}.
+        \item Realice la prueba $F$ mediante `linearHypothesis()` y mediante
+              la comparación de modelos anidados. Compare ambos resultados.
+        \item Explique por qué una prueba conjunta no es equivalente a realizar
+              dos pruebas individuales por separado.
+    \end{enumerate}
+
+\end{enumerate}
+
+\subsection*{III. Diagnóstico y correcciones}
+
+\begin{enumerate}[resume]
+
+\item Verifique gráficamente los supuestos del modelo de regresión lineal.
+    \begin{enumerate}[label=(\alph*)]
+        \item Construya un gráfico de residuos versus valores ajustados.
+              Describa si observa patrones, curvaturas o forma de embudo.
+        \item Construya un gráfico QQ de los residuos estandarizados y discuta
+              la aproximación a la normalidad.
+        \item Explique qué aspectos de la exogeneidad
+              $E(u_i\mid X_i)=0$ no pueden verificarse únicamente mediante
+              estos gráficos.
+    \end{enumerate}
+
+\item Aplique pruebas y medidas de diagnóstico adicionales.
+    \begin{enumerate}[label=(\alph*)]
+        \item Realice una prueba de Breusch--Pagan y, si corresponde, una
+              prueba de White. Interprete la hipótesis nula de cada prueba.
+        \item Calcule el factor de inflación de la varianza (VIF) para las
+              variables explicativas. Identifique posibles problemas de
+              multicolinealidad.
+        \item Discuta si los resultados sugieren heterocedasticidad,
+              multicolinealidad o una especificación funcional insuficiente.
+    \end{enumerate}
+
+\item Si detecta problemas en los supuestos, proponga y aplique correcciones.
+    \begin{enumerate}[label=(\alph*)]
+        \item Si existe heterocedasticidad, reporte nuevamente los contrastes
+              utilizando errores estándar HC1 robustos.
+        \item Si existe evidencia de no linealidad, estime una especificación
+              alternativa que incluya una transformación o un término
+              cuadrático de la experiencia. Justifique la modificación.
+        \item Explique qué problemas no se solucionan usando errores estándar
+              robustos, como variables omitidas, simultaneidad o endogeneidad.
+    \end{enumerate}
+
+\end{enumerate}
+
+\subsection*{IV. Predicción y conclusiones del proyecto}
+
+\begin{enumerate}[resume]
+
+\item Utilice el Modelo 3 para predecir el log-salario medio de los siguientes
+    perfiles, manteniendo experiencia igual a 10 años y antigüedad igual a 5
+    años:
+    \[
+    \begin{array}{c|ccc}
+        &\texttt{educ}&\texttt{exper}&\texttt{tenure}\\ \hline
+        \text{Perfil A}&12&10&5\\
+        \text{Perfil B}&16&10&5\\
+        \text{Perfil C}&18&10&5
+    \end{array}
+    \]
+    \begin{enumerate}[label=(\alph*)]
+        \item Calcule predicciones puntuales e intervalos de confianza al 95\%
+              para la media condicional.
+        \item Transforme las predicciones desde log-salario a salario mediante
+              la exponencial e interprete las diferencias entre perfiles.
+        \item Explique la diferencia entre un intervalo de confianza para el
+              salario medio y un intervalo de predicción para un trabajador
+              individual.
+    \end{enumerate}
+
+\item Complete el informe final del proyecto.
+    \begin{enumerate}[label=(\alph*)]
+        \item Resuma la pregunta de investigación, los datos y la estrategia
+              empírica.
+        \item Presente los resultados de estimación, bondad de ajuste,
+              significancia, pruebas de hipótesis y diagnóstico.
+        \item Indique cuáles hipótesis fueron respaldadas por los datos y cuáles
+              no. Distinga claramente entre asociación y causalidad.
+        \item Discuta limitaciones del análisis, posibles variables omitidas y
+              mejoras para una investigación posterior.
+        \item Formule conclusiones y recomendaciones coherentes con la
+              evidencia obtenida.
+    \end{enumerate}
+
+\end{enumerate}
+
+\newpage
+\section{Formulario}
+
+\begin{itemize}
+    \item Estimador de MCO:
+    \[
+        \widehat{\boldsymbol\beta}=(X'X)^{-1}X'y.
+    \]
+
+    \item Descomposición de sumas de cuadrados y $R^2$:
+    \[
+        SST=\sum_{i=1}^{n}(y_i-\bar y)^2,\qquad
+        SSE=\sum_{i=1}^{n}(\widehat y_i-\bar y)^2,\qquad
+        SSR=\sum_{i=1}^{n}\widehat u_i^2,
+    \]
+    \[
+        SST=SSE+SSR,\qquad
+        R^2=\frac{SSE}{SST}=1-\frac{SSR}{SST}.
+    \]
+
+    \item Estadístico $t$ para $H_0:\beta_j=a_j$:
+    \[
+        t=\frac{\widehat\beta_j-a_j}{se(\widehat\beta_j)}.
+    \]
+
+    \item Intervalo de confianza de $100(1-\alpha)\%$:
+    \[
+        \widehat\beta_j\pm t_{\alpha/2,\,n-k-1}
+        se(\widehat\beta_j).
+    \]
+
+    \item Para una combinación lineal $c'\beta=r$:
+    \[
+        se(c'\widehat\beta)
+        =\sqrt{c'\widehat{\operatorname{Var}}(\widehat\beta)c},
+        \qquad
+        t=\frac{c'\widehat\beta-r}{se(c'\widehat\beta)}.
+    \]
+
+    \item Estadístico $F$ para $j$ restricciones:
+    \[
+        \widehat F
+        =\frac{SSR_R-SSR_{UR}}{SSR_{UR}}\frac{n-k-1}{j}
+        =\frac{R^2_{UR}-R^2_R}{1-R^2_{UR}}\frac{n-k-1}{j}.
+    \]
+
+    \item Interpretación en un modelo log-nivel:
+    \[
+        100\left(\exp(\widehat\beta_j)-1\right)\% 
+    \]
+    es el cambio porcentual exacto aproximado asociado a un aumento de una
+    unidad en $x_j$; $100\widehat\beta_j\%$ es la aproximación usual.
+
+    \item Diagnóstico y estimación en R:
+    \begin{itemize}[noitemsep]
+        \item Estimación y ajuste: \texttt{lm()}, \texttt{summary()}.
+        \item Inferencia: \texttt{confint()}, \texttt{coeftest()},
+              \texttt{vcovHC()}, \texttt{linearHypothesis()},
+              \texttt{anova()}.
+        \item Diagnóstico: \texttt{bptest()} y \texttt{vif()}.
+    \end{itemize}
+\end{itemize}
+
+\end{document}

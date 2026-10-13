@@ -32,8 +32,8 @@ Material compilado disponible desde la semana 1 hasta la semana 14.
 **Cobertura de certámenes:**
 
 - **Certamen 1:** clases 1 a 6.
-- **Certamen 2:** clases 7 a 12.
-- **Certamen 3:** clases 13 a 18.
+- **Certamen 2:** clases 7 a 11.
+- **Certamen 3:** clases 12 en adelante.
 
 | Semana | Clase | Tema | Contenido |
 |---|---:|---|---|
@@ -85,9 +85,8 @@ Material compilado disponible desde la semana 1 hasta la semana 14.
 | Certamen 1 | 20 | 5 de septiembre |
 | Certamen 2 | 20 | 10 de octubre |
 | Certamen 3 | 20 | 28 de noviembre |
-| Controles de avance y talleres | 15 | Controles: 25 de agosto y 29 de septiembre. Talleres: 9 de septiembre, 19 de octubre y 9 de noviembre |
-| Trabajo Práctico: 1ra entrega | 5 | 28 de octubre |
-| Trabajo Práctico: informe final | 10 | 30 de noviembre |
+| Controles de avance y talleres | 15 | Controles: Semana del 25 de agosto, 29 de septiembre, 16 de Noviembre. Talleres: Semana del 09 de septiembre, 02  de noviembre |
+| Trabajo Práctico: informe + código | 15 | 30 de noviembre |
 | Trabajo Práctico: presentaciones | 10 | 1 y 2 de diciembre |
 | **Total** | **100** | |
 
@@ -103,12 +102,10 @@ $$
 C = \frac{C_1 + C_2 + C_3}{3}
 $$
 
-$$
-P = 0.20TP_1 + 0.40TP_2 + 0.40TP_3
-$$
+
 
 $$
-CT = \text{Controles de avance y talleres}
+CT = \frac{Q_1 + Q_2 + Q_3 + T_1 + T_2}{5}
 $$
 
 **Requisitos de aprobación:** promedio final igual o superior a 55, con promedio de certámenes sobre 50 y al menos un certamen con nota igual o superior a 55. En caso de no cumplirse la condición señalada sobre los certámenes, el promedio semestral corresponderá al promedio simple de los tres certámenes.

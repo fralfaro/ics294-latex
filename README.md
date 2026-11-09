@@ -19,6 +19,7 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 
 - [Control 01](controles/control_01.pdf) · [Pauta](controles/control_01_pauta.pdf) · [Paper Worms](material/Worms.pdf)
 - [Control 02](controles/control_02.pdf) · [Pauta](controles/control_02_respuestas.pdf)
+- [Control 03](controles/control_03.pdf) · [TEX](controles/control_03.tex)
 - [Precertamen 1](guias/precertamen1.pdf)
 - [Guía 3](guias/guia3.pdf)
 - [Taller 1](talleres/taller_01.pdf) · [Guía](talleres/taller_01_guia.ipynb)

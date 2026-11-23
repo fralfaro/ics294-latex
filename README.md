@@ -22,6 +22,7 @@ Material LaTeX/Beamer del curso **ICS294 Econometría**, Universidad Técnica Fe
 - [Control 03](controles/control_03.pdf) · [Pauta](controles/control_03_respuestas.pdf)
 - [Precertamen 1](guias/precertamen1.pdf)
 - [Guía 3](guias/guia3.pdf)
+- [Preguntas de práctica Certamen 3](controles/preguntas_practica_c3.pdf) · [TEX](controles/preguntas_practica_c3.tex)
 - [Taller 1](talleres/taller_01.pdf) · [Guía](talleres/taller_01_guia.ipynb) · [Solución](talleres/taller_01_solucion.ipynb)
 - [Taller 2](talleres/taller_02.pdf) · [Solución](talleres/taller_02_solucion.ipynb)
 

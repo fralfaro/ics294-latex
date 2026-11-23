@@ -1,0 +1,590 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,margin=2.5cm]{geometry}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{icomma}
+\usepackage[shortlabels]{enumitem}
+\usepackage[svgnames]{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\footnotesize Universidad Técnica Federico Santa María -- Ingeniería Comercial}
+\lhead{\footnotesize ICS-294 Econometría}
+\cfoot{\thepage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6ex}
+
+% Operadores y atajos
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\plim}{plim}
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+
+% Respuestas en azul
+\newenvironment{resp}{\begingroup\color{blue}\par\noindent\textbf{Respuesta.}\ }{\par\endgroup}
+
+% Etiquetas de pregunta
+\newcommand{\tema}[1]{\section*{#1}}
+\newcommand{\conc}{\textbf{[Concepto]}}
+\newcommand{\ejer}{\textbf{[Ejercicio]}}
+
+\begin{document}
+
+\begin{center}
+{\large\textbf{PREGUNTAS DE PRÁCTICA -- CERTAMEN 3}}\\[0.3em]
+{\large\textbf{ECONOMETRÍA ICS-294}}\\[0.3em]
+\small Por cada tema: dos preguntas de \textbf{concepto} (10 puntos c/u) y un \textbf{ejercicio} (25 puntos).\\
+Las respuestas están en \textcolor{blue}{azul}. Valores críticos al $5\%$ salvo que se indique otra cosa.
+\end{center}
+
+\vspace{0.5em}
+\textbf{Índice de temas:}
+(1) Endogeneidad y variables instrumentales;
+(2) Teoría asintótica;
+(3) Heterocedasticidad;
+(4) Series de tiempo (autocorrelación, AR/MA y tendencias);
+(5) Raíz unitaria y Dickey-Fuller;
+(6) Variables explicativas binarias;
+(7) Test de Chow e interpretación con dummies;
+(8) Multicolinealidad;
+(9) Modelo de probabilidad lineal (MPL).
+
+\newpage
+%==================================================================
+\tema{Tema 1: Endogeneidad y variables instrumentales}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 1.1 ----------------
+\item \conc\ (10 puntos) Un analista estima por MCO el efecto de los años de escolaridad sobre el salario y sospecha que la habilidad no observada está en el error y correlacionada con la escolaridad. Comenta: ``Como mi muestra es enorme ($n=2\,000\,000$), el sesgo desaparece y MCO es confiable''. Comente.
+
+\begin{resp}
+\textbf{Falso.} El sesgo por endogeneidad no es un problema de muestra pequeña, es un problema de \emph{identificación}. En el modelo simple $y=\beta_0+\beta_1x+u$ con $\cov(x,u)\neq0$,
+\[
+\plim\hat\beta_1^{MCO}=\beta_1+\frac{\cov(x,u)}{\var(x)}\neq\beta_1,
+\]
+es decir, MCO es \textbf{inconsistente}: al crecer $n$ el estimador converge, pero al valor equivocado. Más datos solo reducen la varianza y dan una estimación muy precisa del número incorrecto. Si la habilidad se correlaciona positivamente con escolaridad y salario, el sesgo es hacia arriba. La solución requiere un instrumento válido (relevante y exógeno), no más observaciones.
+\end{resp}
+
+% ---------------- 1.2 ----------------
+\item \conc\ (10 puntos) Un investigador usa un único instrumento $z$ para una variable endógena $x$. Obtiene en la primera etapa un estadístico $t=1{,}2$ para el coeficiente de $z$. Además afirma: ``la exogeneidad del instrumento ($\cov(z,u)=0$) quedó verificada porque el $t$ de la primera etapa es alto''. (a) ¿Qué problema tiene la primera etapa? (b) Evalúe la afirmación.
+
+\begin{resp}
+(a) Un $t=1{,}2$ implica $F=t^2=1{,}44$, muy inferior a la regla práctica $F>10$: el instrumento es \textbf{débil} (poco relevante, $\cov(z,x)\approx0$). Como $\hat\beta^{IV}=\widehat{\cov}(z,y)/\widehat{\cov}(z,x)$, un denominador cercano a cero vuelve el estimador muy variable y, además, si $z$ tiene aunque sea una pequeña correlación con $u$, el sesgo se amplifica: $\plim\hat\beta^{IV}=\beta_1+\dfrac{\cov(z,u)}{\cov(z,x)}$.
+
+(b) \textbf{Falso.} El $t$ (o $F$) de la primera etapa contrasta \emph{relevancia} ($\cov(z,x)\neq0$), que sí es verificable con los datos. La exogeneidad $\cov(z,u)=0$ (restricción de exclusión) involucra al error $u$, que no se observa, y con un instrumento por variable endógena (modelo exactamente identificado) no puede contrastarse; se defiende con argumentos económicos.
+\end{resp}
+
+% ---------------- 1.3 ----------------
+\item \ejer\ (25 puntos) Para estimar el efecto de las horas mensuales de capacitación ($x$) sobre la productividad ($y$, unidades por trabajador) en $n=400$ empresas, se considera el modelo
+\[
+y_i=\beta_0+\beta_1x_i+u_i .
+\]
+Se teme que las empresas que más capacitan sean distintas en factores no observados. Una política pública asignó \textbf{al azar} un subsidio a la capacitación: $z_i=1$ si la empresa lo recibió y $z_i=0$ si no. Se obtiene:
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & $z=1$ (con subsidio) & $z=0$ (sin subsidio)\\
+\midrule
+$n$ & 200 & 200\\
+Promedio de $x$ & 30 & 20\\
+Promedio de $y$ & 52 & 50\\
+\bottomrule
+\end{tabular}
+\end{center}
+Además $\widehat{\var}(x)=25$ y $\widehat{\cov}(x,y)=2{,}5$.
+\begin{enumerate}[a)]
+\item (5 puntos) Calcule el estimador de variables instrumentales de $\beta_1$ e interprételo.
+\item (5 puntos) Escriba la primera etapa y la forma reducida. Calcule sus pendientes y muestre que $\hat\beta_1^{IV}=\hat\pi_1/\hat\gamma_1$.
+\item (5 puntos) La primera etapa entrega $t=4{,}0$ para $\hat\gamma_1$. ¿Es el instrumento débil?
+\item (6 puntos) Calcule el estimador MCO y compárelo con el de VI. Suponiendo que el instrumento es válido, deduzca $\cov(x,u)$ e indique la dirección del sesgo de MCO. Dé una explicación económica.
+\item (4 puntos) Discuta si la restricción de exclusión es plausible en este contexto.
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item Con un instrumento binario, el estimador VI es el estimador de Wald:
+\[
+\hat\beta_1^{IV}=\frac{\bar y_1-\bar y_0}{\bar x_1-\bar x_0}=\frac{52-50}{30-20}=0{,}2 .
+\]
+Una hora adicional de capacitación al mes aumenta la productividad en $0{,}2$ unidades, usando solo la variación de $x$ inducida por el subsidio.
+\item Primera etapa: $x_i=\gamma_0+\gamma_1z_i+v_i$, con $\hat\gamma_1=\bar x_1-\bar x_0=10$ (el subsidio aumenta la capacitación en 10 horas). Forma reducida: $y_i=\pi_0+\pi_1z_i+e_i$, con $\hat\pi_1=\bar y_1-\bar y_0=2$. Entonces $\hat\pi_1/\hat\gamma_1=2/10=0{,}2=\hat\beta_1^{IV}$.
+\item $F=t^2=16>10$: el instrumento no es débil; la condición de relevancia se cumple.
+\item $\hat\beta_1^{MCO}=\widehat{\cov}(x,y)/\widehat{\var}(x)=2{,}5/25=0{,}1<0{,}2$. Como $\plim\hat\beta_1^{MCO}=\beta_1+\cov(x,u)/\var(x)$ y $\beta_1\approx0{,}2$:
+\[
+0{,}1=0{,}2+\frac{\cov(x,u)}{25}\;\Rightarrow\;\cov(x,u)=-2{,}5<0 .
+\]
+MCO está sesgado \textbf{hacia abajo}. Explicación posible: las empresas con baja productividad no observada (mala gestión) son las que más capacitan para compensar, de modo que $x$ se correlaciona negativamente con $u$.
+\item \emph{Relevancia:} se cumple. \emph{Exclusión:} como el subsidio se asigna al azar, $\cov(z,u)=0$ es plausible. Aun así, el subsidio podría afectar la productividad por otra vía distinta de la capacitación (por ejemplo, liberar caja para invertir en maquinaria), lo que violaría la exclusión. No es contrastable directamente.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 2: Teoría asintótica}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 2.1 ----------------
+\item \conc\ (10 puntos) Un estudiante dice: ``Con $n=5\,000$ ya no necesito suponer que los errores son normales para usar el test $t$ de MCO''. Comente, indicando qué supuestos siguen siendo necesarios y qué problemas \emph{no} resuelve un $n$ grande.
+
+\begin{resp}
+\textbf{Verdadero, con matices.} Bajo muestreo aleatorio, rango completo, exogeneidad $\E{u|X}=0$ y varianzas finitas, el Teorema Central del Límite implica
+\[
+\sqrt n(\hat\beta_j-\beta_j)\xrightarrow{d}N(0,\ \sigma^2_\beta),\qquad t=\frac{\hat\beta_j-\beta_j}{se(\hat\beta_j)}\ \overset{a}{\sim}\ N(0,1),
+\]
+aunque $u$ no sea normal; por eso se usan valores críticos normales (1,96). Lo que \textbf{no} soluciona un $n$ grande: (i) la endogeneidad (MCO sigue inconsistente, ver Tema 1); (ii) la heterocedasticidad, pues los errores estándar usuales siguen siendo incorrectos (hay que usar errores robustos); (iii) la dependencia serial de los errores (se requieren errores HAC) ni la no estacionariedad.
+\end{resp}
+
+% ---------------- 2.2 ----------------
+\item \conc\ (10 puntos) Sea $\{y_i\}_{i=1}^n$ una muestra i.i.d. con $\E{y}=\mu$ y $\var(y)=\sigma^2<\infty$. Considere los estimadores
+\[
+\tilde\mu_1=\bar y+\frac{10}{n},\qquad\qquad \tilde\mu_2=y_n\ (\text{la última observación}).
+\]
+Determine si cada uno es insesgado y/o consistente. ¿Qué conclusión general obtiene?
+
+\begin{resp}
+$\tilde\mu_1$: $\E{\tilde\mu_1}=\mu+10/n\neq\mu$, por lo que es \textbf{sesgado} en muestra finita; pero $\plim\tilde\mu_1=\plim\bar y+\lim 10/n=\mu+0=\mu$, por lo que es \textbf{consistente} (el sesgo desaparece cuando $n\to\infty$).
+
+$\tilde\mu_2$: $\E{y_n}=\mu$, por lo que es \textbf{insesgado}; pero $\var(y_n)=\sigma^2$ no depende de $n$, así que no se concentra en $\mu$ y \textbf{no es consistente}.
+
+Conclusión: insesgamiento (propiedad de muestra finita) y consistencia (propiedad asintótica) son propiedades distintas; ninguna implica a la otra. Un estimador consistente puede ser sesgado, y uno insesgado puede ser inconsistente.
+\end{resp}
+
+% ---------------- 2.3 ----------------
+\item \ejer\ (25 puntos) En una regresión de $\ln(salario)$ sobre años de escolaridad y otros controles, con $n=400$ trabajadores, se obtiene $\hat\beta_{educ}=0{,}08$ con error estándar $0{,}04$.
+\begin{enumerate}[a)]
+\item (5 puntos) Construya un intervalo de confianza asintótico al $95\%$ para $\beta_{educ}$.
+\item (5 puntos) Contraste $H_0:\beta_{educ}=0{,}05$ contra $H_1:\beta_{educ}\neq0{,}05$ al $5\%$.
+\item (7 puntos) Suponga que con $n=1\,600$ se obtiene la misma estimación puntual $0{,}08$. ¿Qué ocurre con el error estándar? Repita a) y b) y contraste además $H_0:\beta_{educ}=0$.
+\item (8 puntos) En el modelo con $k=4$ regresores y $n=60$ se obtiene $SSR=110$. Calcule $\hat\sigma^2=SSR/(n-k-1)$ y $\tilde\sigma^2=SSR/n$. ¿Cuál es insesgado? ¿Son ambos consistentes? Justifique.
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item $0{,}08\pm1{,}96\cdot0{,}04=0{,}08\pm0{,}0784=[0{,}0016;\ 0{,}1584]$.
+\item $z=\dfrac{0{,}08-0{,}05}{0{,}04}=0{,}75<1{,}96$: no se rechaza $H_0$; los datos son compatibles con $\beta_{educ}=0{,}05$.
+\item El error estándar decrece a tasa $1/\sqrt n$: como $n$ se multiplica por 4, el error estándar se divide por 2, $se=0{,}02$. Entonces
+$IC_{95\%}=0{,}08\pm1{,}96\cdot0{,}02=[0{,}0408;\ 0{,}1192]$, mucho más estrecho. Para $H_0:\beta=0{,}05$: $z=0{,}03/0{,}02=1{,}5<1{,}96$, aún no se rechaza. Para $H_0:\beta=0$: $z=0{,}08/0{,}02=4{,}0>1{,}96$, se rechaza (con $n=400$ el $z$ era $2{,}0$, apenas significativo). Con más datos aumenta el poder del test.
+\item $\hat\sigma^2=110/(60-4-1)=110/55=2{,}0$ y $\tilde\sigma^2=110/60\approx1{,}833$. Solo $\hat\sigma^2$ es insesgado, pues $\E{\tilde\sigma^2}=\dfrac{n-k-1}{n}\sigma^2$ (sesgo hacia abajo). Ambos son consistentes porque $\dfrac{n-k-1}{n}\to1$: la diferencia desaparece cuando $n\to\infty$.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 3: Heterocedasticidad}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 3.1 ----------------
+\item \conc\ (10 puntos) Un test de White rechaza la hipótesis de homocedasticidad. Un compañero concluye: ``entonces los coeficientes MCO son sesgados e inconsistentes y el $R^2$ ya no sirve''. Comente.
+
+\begin{resp}
+\textbf{Falso.} La homocedasticidad no es necesaria para el insesgamiento ni la consistencia de MCO; solo se requiere $\E{u|X}=0$ (y rango completo). Con heterocedasticidad:
+\begin{itemize}
+\item $\hat\beta^{MCO}$ sigue siendo insesgado y consistente.
+\item Deja de ser el estimador lineal insesgado de mínima varianza (MELI).
+\item La fórmula usual $\widehat{\var}(\hat\beta)=\hat\sigma^2(X'X)^{-1}$ es incorrecta, por lo que los errores estándar, los estadísticos $t$ y $F$ y los intervalos de confianza no son válidos, ni siquiera en muestras grandes.
+\end{itemize}
+El $R^2$ (y $R^2$ ajustado) siguen siendo estimadores consistentes del ajuste poblacional, pues no dependen de la homocedasticidad. La solución: usar errores estándar robustos de White (o estimar por MCG/MCP si se conoce la forma de la varianza).
+\end{resp}
+
+% ---------------- 3.2 ----------------
+\item \conc\ (10 puntos) Un colega argumenta: ``Como los errores robustos de White son válidos con y sin heterocedasticidad, no tiene sentido hacer tests de Breusch-Pagan o White: siempre reporto errores robustos''. Comente.
+
+\begin{resp}
+\textbf{Incierto (parcialmente correcto).} Es cierto que los errores robustos son \emph{asintóticamente} válidos en ambos casos, y por eso reportarlos sistemáticamente es una práctica común. Pero:
+\begin{itemize}
+\item En muestras pequeñas el estadístico $t$ robusto puede tener un tamaño distorsionado (rechaza demasiado), mientras que, si hay homocedasticidad, el $t$ usual es exacto bajo normalidad y más preciso.
+\item Los tests de BP o White informan \emph{cómo} depende la varianza de los regresores. Si se conoce o se puede estimar la forma de $\var(u|x)$, MCP (MCG factibles) es más eficiente que MCO con errores robustos.
+\item También sirven como diagnóstico de mala especificación (variable omitida, forma funcional).
+\end{itemize}
+\end{resp}
+
+% ---------------- 3.3 ----------------
+\item \ejer\ (25 puntos) Con datos de $n=120$ comunas se estima el gasto municipal en educación (millones de pesos por habitante):
+\[
+Gasto_i=\beta_0+\beta_1Ingreso_i+\beta_2Poblacion_i+\beta_3Urbano_i+u_i ,
+\]
+con $Ingreso$ (ingreso comunal), $Poblacion$ (miles de habitantes) y $Urbano$ (\% de población urbana). Resultados por MCO:
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+Variable & Coef. & EE usual & EE robusto & $t$ usual & $t$ robusto\\
+\midrule
+$Ingreso$   & $0{,}60$ & $0{,}20$ & $0{,}25$ & & \\
+$Poblacion$ & $0{,}15$ & $0{,}06$ & $0{,}09$ & & \\
+$Urbano$    & $0{,}30$ & $0{,}25$ & $0{,}20$ & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+Valores críticos: $t_{0{,}025}(116)=1{,}98$; $\chi^2_{0{,}95}(2)=5{,}99$; $\chi^2_{0{,}95}(3)=7{,}81$; $\chi^2_{0{,}95}(9)=16{,}92$.
+\begin{enumerate}[a)]
+\item (6 puntos) Plantee la regresión auxiliar y las hipótesis del test de Breusch-Pagan. Si $R^2_{aux}=0{,}10$, calcule $LM$ y concluya.
+\item (6 puntos) Para el test de White completo (niveles, cuadrados y productos cruzados) se obtiene $R^2_{aux}=0{,}12$. Indique cuántos regresores tiene la auxiliar, calcule $LM$ y concluya. En la versión simplificada de White (regresando $\hat u^2$ sobre $\hat y$ y $\hat y^2$) se obtiene $R^2_{aux}=0{,}07$; calcule $LM$ y concluya. ¿Por qué pueden diferir las conclusiones?
+\item (7 puntos) Complete la tabla (estadísticos $t$) y compare la significancia individual con errores usuales y robustos al $5\%$.
+\item (6 puntos) Suponga que $\var(u_i|X_i)=\sigma^2\,Poblacion_i$. Explique cómo obtener un estimador eficiente y muestre que el error transformado es homocedástico.
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item Con $\hat u_i$ los residuos de MCO: $\hat u_i^2=\delta_0+\delta_1Ingreso_i+\delta_2Poblacion_i+\delta_3Urbano_i+v_i$, con $H_0:\delta_1=\delta_2=\delta_3=0$ (homocedasticidad) contra $H_1:$ algún $\delta_j\neq0$. $LM=nR^2_{aux}=120\cdot0{,}10=12{,}0>\chi^2_{0{,}95}(3)=7{,}81$: se rechaza $H_0$; hay evidencia de heterocedasticidad.
+\item La auxiliar completa tiene $3$ niveles $+\,3$ cuadrados $+\,3$ productos cruzados $=9$ regresores. $LM=120\cdot0{,}12=14{,}4<\chi^2_{0{,}95}(9)=16{,}92$: no se rechaza $H_0$. En la versión simplificada (2 regresores): $LM=120\cdot0{,}07=8{,}4>\chi^2_{0{,}95}(2)=5{,}99$: se rechaza $H_0$. Difieren porque el White completo gasta muchos grados de libertad y pierde poder cuando $n$ es moderado; la versión simplificada concentra el poder en una forma de heterocedasticidad ligada al valor ajustado. Con evidencia mixta, lo prudente es usar errores robustos.
+\item Regla: se rechaza $H_0:\beta_j=0$ si $|t|>1{,}98$.
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Variable & $t$ usual & ¿Signif.? & $t$ robusto & ¿Signif.?\\
+\midrule
+$Ingreso$   & $0{,}60/0{,}20=3{,}00$ & Sí & $0{,}60/0{,}25=2{,}40$ & Sí\\
+$Poblacion$ & $0{,}15/0{,}06=2{,}50$ & Sí & $0{,}15/0{,}09\approx1{,}67$ & \textbf{No}\\
+$Urbano$    & $0{,}30/0{,}25=1{,}20$ & No & $0{,}30/0{,}20=1{,}50$ & No\\
+\bottomrule
+\end{tabular}
+\end{center}
+La conclusión cambia para $Poblacion$: era significativa con errores usuales, pero no con los robustos (válidos). Los errores usuales \emph{subestimaban} su incertidumbre. En otras variables el error robusto puede ser menor que el usual (como $Urbano$): la dirección del sesgo de los errores usuales no es única.
+\item Se estima por \textbf{Mínimos Cuadrados Ponderados} (MCG): se divide todo el modelo por $\sqrt{Poblacion_i}$,
+\[
+\frac{Gasto_i}{\sqrt{Pob_i}}=\beta_0\frac{1}{\sqrt{Pob_i}}+\beta_1\frac{Ingreso_i}{\sqrt{Pob_i}}+\beta_2\frac{Pob_i}{\sqrt{Pob_i}}+\beta_3\frac{Urbano_i}{\sqrt{Pob_i}}+\frac{u_i}{\sqrt{Pob_i}} .
+\]
+El nuevo error cumple $\var\!\left(\dfrac{u_i}{\sqrt{Pob_i}}\Big|X_i\right)=\dfrac{\var(u_i|X_i)}{Pob_i}=\dfrac{\sigma^2Pob_i}{Pob_i}=\sigma^2$, constante. Aplicando MCO al modelo transformado se obtiene el estimador MELI (los coeficientes conservan su interpretación original).
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 4: Series de tiempo (autocorrelación, AR/MA y tendencias)}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 4.1 ----------------
+\item \conc\ (10 puntos) Un economista estima una regresión de series de tiempo trimestrales y encuentra que los errores están positivamente autocorrelacionados: $\cov(u_t,u_{t-1})>0$. Comente: ``Por lo tanto, los estimadores MCO son sesgados y debemos descartar los resultados''. Indique qué se debe hacer.
+
+\begin{resp}
+\textbf{Falso.} La autocorrelación serial viola el supuesto de muestreo aleatorio/independencia de los errores, pero no la exogeneidad $\E{u_t|X}=0$ (en modelos con regresores estrictamente exógenos). Por lo tanto $\hat\beta^{MCO}$ sigue siendo insesgado y consistente. Lo que se pierde es: (i) la eficiencia (MCO deja de ser MELI), y (ii) la validez de la fórmula usual de los errores estándar, por lo que los estadísticos $t$ y $F$ y los intervalos son inválidos. Con autocorrelación positiva, los errores usuales suelen \emph{subestimar} la variabilidad real, y se rechaza $H_0$ con demasiada frecuencia. Solución: estimar por MCO y corregir la inferencia con errores estándar robustos a heterocedasticidad y autocorrelación (HAC, Newey-West).
+\end{resp}
+
+% ---------------- 4.2 ----------------
+\item \conc\ (10 puntos) Se quiere explicar el consumo de electricidad $y_t$ (con tendencia creciente en el tiempo) con el PIB $x_t$ (también con tendencia creciente). Un analista estima $y_t=\beta_0+\beta_1x_t+u_t$ y obtiene un $\hat\beta_1$ muy significativo. ¿Qué problema puede tener esta estimación y cómo se resuelve si ambas series tienen \emph{tendencia determinística}? ¿Cambia la interpretación de $\beta_1$?
+
+\begin{resp}
+Si ambas series crecen con el tiempo, el tiempo $t$ es una \textbf{variable omitida} correlacionada con $x_t$ y con $y_t$: parte de la relación estimada se debe a que ambas crecen, no a que $x_t$ explique a $y_t$ (correlación espuria, sesgo por variable omitida). Solución: incluir una tendencia lineal,
+\[
+y_t=\beta_0+\beta_1x_t+\alpha\,t+u_t ,
+\]
+donde $\alpha$ es el cambio anual de $y$ debido solo al paso del tiempo (si $y$ está en logs, es una tasa de crecimiento). Ahora $\beta_1$ mide la relación entre $x_t$ e $y_t$ \emph{una vez descontada la tendencia común} (con $t$ constante), y suele ser menor y menos significativo que sin tendencia. (Si la tendencia fuera \emph{estocástica}, raíz unitaria, la solución sería diferenciar; ver Tema 5.)
+\end{resp}
+
+% ---------------- 4.3 ----------------
+\item \ejer\ (25 puntos) La inflación mensual desestacionalizada (en puntos porcentuales) se modela como un proceso AR(1) estacionario:
+\[
+x_t=2+0{,}6\,x_{t-1}+\varepsilon_t,\qquad \varepsilon_t\sim\text{ruido blanco},\ \ \var(\varepsilon_t)=4 .
+\]
+\begin{enumerate}[a)]
+\item (3 puntos) Verifique que el proceso es estacionario.
+\item (4 puntos) Calcule la media $\mu=\E{x_t}$.
+\item (4 puntos) Calcule la varianza $\gamma(0)=\var(x_t)$.
+\item (5 puntos) Calcule $\rho(1),\rho(2),\rho(3)$ y $\gamma(2)$. ¿Cómo es la ACF?
+\item (5 puntos) Si en el último mes observado $x_T=7$, calcule el pronóstico a uno y a dos meses, y diga a qué valor converge el pronóstico.
+\item (4 puntos) Para un MA(1) $x_t=\varepsilon_t+0{,}5\,\varepsilon_{t-1}$ calcule $\rho(1)$ y $\rho(2)$, y compare la ACF con la del AR(1).
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item Un AR(1) $x_t=c+\phi x_{t-1}+\varepsilon_t$ es estacionario si $|\phi|<1$. Aquí $\phi=0{,}6$, se cumple.
+\item $\mu=\dfrac{c}{1-\phi}=\dfrac{2}{1-0{,}6}=5$.
+\item $\gamma(0)=\dfrac{\sigma^2_\varepsilon}{1-\phi^2}=\dfrac{4}{1-0{,}36}=\dfrac{4}{0{,}64}=6{,}25$.
+\item $\rho(h)=\phi^h$: $\rho(1)=0{,}6$, $\rho(2)=0{,}36$, $\rho(3)=0{,}216$. $\gamma(2)=\rho(2)\gamma(0)=0{,}36\cdot6{,}25=2{,}25$. La ACF decae geométricamente hacia cero (sin cortarse), sin cambios de signo porque $\phi>0$.
+\item $\hat x_{T+1}=2+0{,}6\cdot7=6{,}2$; $\hat x_{T+2}=2+0{,}6\cdot6{,}2=5{,}72$. El pronóstico converge a la media incondicional $\mu=5$ al aumentar el horizonte (reversión a la media).
+\item $\rho(1)=\dfrac{\theta}{1+\theta^2}=\dfrac{0{,}5}{1{,}25}=0{,}4$ y $\rho(h)=0$ para $h\geq2$, entonces $\rho(2)=0$. La ACF del MA(1) \emph{se corta} después del rezago 1, mientras que la del AR(1) decae gradualmente.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 5: Raíz unitaria y Dickey-Fuller}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 5.1 ----------------
+\item \conc\ (10 puntos) Comente: ``El gráfico del PIB muestra una tendencia claramente creciente, por lo tanto la serie tiene raíz unitaria y hay que diferenciarla''.
+
+\begin{resp}
+\textbf{Falso (o incierto).} Una serie con tendencia creciente puede tener dos orígenes distintos: (i) \emph{tendencia determinística} (la serie es estacionaria alrededor de una tendencia lineal, $y_t=\alpha+\delta t+\varepsilon_t$), o (ii) \emph{tendencia estocástica} (raíz unitaria, caminata aleatoria con deriva). El gráfico solo sugiere cuál especificación usar en el test, no decide. La decisión se toma con el test de Dickey-Fuller ($H_0:\phi=0$, raíz unitaria, contra $H_1:\phi<0$, estacionaria), incluyendo tendencia en la regresión cuando el gráfico la muestra. Si no se rechaza $H_0$, se diferencia; si se rechaza, se trabaja en niveles incluyendo una tendencia determinística (diferenciar una serie estacionaria alrededor de tendencia introduce problemas innecesarios).
+\end{resp}
+
+% ---------------- 5.2 ----------------
+\item \conc\ (10 puntos) Se regresa una caminata aleatoria $y_t=y_{t-1}+\varepsilon_t$ sobre otra caminata aleatoria \emph{independiente} $x_t=x_{t-1}+v_t$. (a) ¿Qué resultados es típico encontrar? (b) ¿Cómo se llama el problema y cómo se corrige? (c) ¿Por qué no basta contrastar $H_0:\rho=1$ con el estadístico $t$ usual en $y_t=\alpha+\rho y_{t-1}+\epsilon_t$?
+
+\begin{resp}
+(a) Un $R^2$ alto y un coeficiente $\hat\beta_1$ ``significativo'' con frecuencia, aunque las series no tienen relación alguna: \textbf{regresión espuria}.
+
+(b) Se origina en que ambas series son no estacionarias (raíz unitaria, tendencias estocásticas); los supuestos de MCO no se cumplen. Se corrige trabajando con las \textbf{primeras diferencias}: $\Delta y_t=\beta_0+\beta_1\Delta x_t+u_t$, que son estacionarias.
+
+(c) Bajo $H_0:\rho=1$ el estadístico $t$ no sigue una distribución $t$ ni normal, ni siquiera asintóticamente. Dickey y Fuller derivan la distribución correcta (valores críticos más exigentes que los usuales). Por eso se estima $\Delta y_t=\alpha+\phi y_{t-1}+\epsilon_t$ con $\phi=\rho-1$, y se compara el $t$ de $\hat\phi$ con las tablas de Dickey-Fuller.
+\end{resp}
+
+% ---------------- 5.3 ----------------
+\item \ejer\ (25 puntos) Con datos anuales de $T=40$ años se analiza el logaritmo del consumo agregado, $y_t=\ln(C_t)$. El gráfico muestra crecimiento sostenido. Se estima primero (modelo con constante):
+\[
+\Delta y_t=\alpha+\phi\,y_{t-1}+\epsilon_t,\qquad \hat\phi=-0{,}12,\ \ se(\hat\phi)=0{,}06 .
+\]
+Luego se agrega una tendencia lineal (modelo con constante y tendencia):
+\[
+\Delta y_t=\alpha+\phi\,y_{t-1}+\delta\,t+\epsilon_t,\qquad \hat\phi=-0{,}40,\ \ se(\hat\phi)=0{,}10,\ \ \hat\delta=0{,}02\ (\text{significativo}).
+\]
+Valores críticos de Dickey-Fuller al $5\%$ (usar la fila $T=50$): $-2{,}93$ (solo constante) y $-3{,}50$ (constante y tendencia); al $1\%$ con tendencia: $-4{,}15$.
+\begin{enumerate}[a)]
+\item (4 puntos) Plantee las hipótesis del test de Dickey-Fuller.
+\item (5 puntos) Realice el test con el modelo con solo constante y concluya.
+\item (4 puntos) En ese modelo $\hat\rho=1+\hat\phi=0{,}88<1$. ¿Por qué no se puede concluir que la serie es estacionaria?
+\item (7 puntos) Realice el test con el modelo con tendencia y concluya al $5\%$ y al $1\%$.
+\item (5 puntos) ¿Cuál de los dos modelos es el adecuado y por qué? ¿Cómo debería trabajarse la serie?
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item $H_0:\phi=0\ (\rho=1)$, la serie tiene raíz unitaria (no estacionaria), contra $H_1:\phi<0\ (\rho<1)$, la serie es estacionaria (en torno a una constante o a una tendencia, según el modelo). El test es de una cola.
+\item $t=\dfrac{-0{,}12}{0{,}06}=-2{,}0$. Como $-2{,}0>-2{,}93$ (equivalentemente $|-2{,}0|<|-2{,}93|$), \textbf{no se rechaza} $H_0$: la serie tendría raíz unitaria bajo esta especificación.
+\item Porque bajo $H_0$ el estimador de $\rho$ está sesgado hacia abajo en muestras finitas y su distribución no es estándar: un $\hat\rho=0{,}88$ puede ser perfectamente compatible con $\rho=1$. Solo la comparación del $t$ con los valores críticos de Dickey-Fuller permite decidir.
+\item $t=\dfrac{-0{,}40}{0{,}10}=-4{,}0$. Al $5\%$: $-4{,}0<-3{,}50$, se \textbf{rechaza} $H_0$. Al $1\%$: $-4{,}0>-4{,}15$, \textbf{no se rechaza}. Hay evidencia de estacionariedad alrededor de una tendencia al $5\%$, pero no al $1\%$ (evidencia moderada).
+\item Dado que el gráfico muestra crecimiento sostenido y $\hat\delta$ es significativo, el modelo adecuado es el que \textbf{incluye tendencia}: el primer test no era apropiado porque la alternativa (estacionaria con constante) no describe una serie que crece. Al $5\%$ se concluye que la serie es estacionaria alrededor de una tendencia determinística: se trabaja en niveles incluyendo $t$ como regresor (o se quita la tendencia), sin diferenciar. Dado que no se rechaza al $1\%$, conviene reportar la sensibilidad del resultado a la especificación y al nivel de significancia.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 6: Variables explicativas binarias}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 6.1 ----------------
+\item \conc\ (10 puntos) La variable \emph{zona} de residencia de un trabajador tiene tres categorías: Norte, Centro y Sur. Se quiere estimar $\ln(salario)$ en función de educación y zona. (a) ¿Qué ocurre si se incluyen las tres dummies junto con la constante? (b) Escriba un modelo correcto con Centro como base e interprete los coeficientes de las dummies. (c) ¿Cambia la bondad de ajuste si se cambia la categoría base?
+
+\begin{resp}
+(a) Como $Norte_i+Centro_i+Sur_i=1$ para todo $i$, coincide con la columna de unos de la constante: hay \textbf{multicolinealidad perfecta} (trampa de las dummies) y MCO no se puede calcular (la matriz $X'X$ no es invertible). Se debe omitir una categoría (o eliminar la constante).
+
+(b) $\ln(salario_i)=\beta_0+\beta_1educ_i+\delta_1Norte_i+\delta_2Sur_i+u_i$. $\delta_1$ es la diferencia en $\ln(salario)$ promedio entre un trabajador del Norte y uno del Centro (categoría base) con la misma educación; $100\,\delta_1\approx$ diferencia porcentual. Lo mismo para $\delta_2$ (Sur vs. Centro). $\beta_0$ es el intercepto para el Centro. La diferencia Norte–Sur se obtiene como $\delta_1-\delta_2$, y su error estándar requiere $\cov(\hat\delta_1,\hat\delta_2)$.
+
+(c) No. Cambiar la base reordena los coeficientes de las dummies, pero el $R^2$, los residuos y las predicciones son idénticos; también lo son los contrastes sobre diferencias entre zonas.
+\end{resp}
+
+% ---------------- 6.2 ----------------
+\item \conc\ (10 puntos) En una regresión $\ln(salario_i)=\ldots-0{,}40\,Mujer_i+\ldots$, un estudiante concluye: ``las mujeres ganan 40\% menos que los hombres''. ¿Es correcta la interpretación? Calcule la diferencia porcentual exacta y explique cuándo la aproximación es razonable.
+
+\begin{resp}
+Es solo una \textbf{aproximación}, y mala para coeficientes grandes. Con $\hat\delta=-0{,}40$ en un modelo log-nivel, el cambio porcentual exacto es
+\[
+100\,(e^{\hat\delta}-1)=100\,(e^{-0{,}40}-1)=100\,(0{,}6703-1)\approx-33{,}0\%.
+\]
+Es decir, ceteris paribus las mujeres ganan alrededor de $33\%$ menos, no $40\%$. La aproximación $100\,\hat\delta$ viene de $\ln(1+g)\approx g$ y solo es razonable para $|\hat\delta|$ pequeño (por ejemplo, $|\hat\delta|<0{,}1$). Además, la interpretación requiere ``manteniendo constantes las demás variables'' del modelo.
+\end{resp}
+
+% ---------------- 6.3 ----------------
+\item \ejer\ (25 puntos) Con $n=300$ trabajadores se estima:
+\[
+\widehat{\ln(sueldo)}=1{,}80+0{,}080\,educ+0{,}015\,exper-0{,}200\,mujer+0{,}010\,(mujer\times educ)
+\]
+con $se(\hat\beta_{mujer\times educ})=0{,}004$. Se tiene $SSR=52$ para el modelo anterior. Para el modelo restringido sin $mujer$ ni $mujer\times educ$ se obtiene $SSR_R=60$. Valores críticos: $t_{0{,}025}(295)=1{,}97$; $F_{0{,}05}(2,295)=3{,}03$.
+\begin{enumerate}[a)]
+\item (4 puntos) Interprete el coeficiente de $mujer$. ¿Tiene sentido por sí solo?
+\item (5 puntos) Obtenga el retorno porcentual (aproximado) de un año adicional de educación para hombres y para mujeres.
+\item (6 puntos) Calcule la brecha salarial aproximada de las mujeres respecto de los hombres con $educ=12$ y con $educ=16$. ¿A partir de qué nivel de educación se cierra la brecha?
+\item (4 puntos) Contraste si el retorno a la educación es distinto entre mujeres y hombres.
+\item (6 puntos) Contraste conjuntamente que no hay diferencias entre mujeres y hombres ($H_0:\beta_{mujer}=\beta_{mujer\times educ}=0$).
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item $-0{,}200$ es la diferencia de $\ln(sueldo)$ entre una mujer y un hombre con $educ=0$ y $exper$ igual: una brecha de aprox. $20\%$ para $educ=0$. Por sí solo \emph{no} tiene mucho sentido, pues casi no hay trabajadores con 0 años de educación (extrapolación); la brecha relevante depende de $educ$.
+\item Hombres ($mujer=0$): $\partial\ln(sueldo)/\partial educ=0{,}080\Rightarrow\approx8{,}0\%$. Mujeres: $0{,}080+0{,}010=0{,}090\Rightarrow\approx9{,}0\%$. El retorno es 1 punto porcentual mayor para las mujeres.
+\item Brecha $=-0{,}200+0{,}010\,educ$. Con $educ=12$: $-0{,}08\Rightarrow$ aprox. $-8\%$ (exacto: $100(e^{-0{,}08}-1)=-7{,}7\%$). Con $educ=16$: $-0{,}04\Rightarrow$ aprox. $-4\%$ (exacto $-3{,}9\%$). La brecha se anula cuando $-0{,}200+0{,}010\,educ=0\Rightarrow educ=20$ años.
+\item $H_0:\beta_{mujer\times educ}=0$. $t=\dfrac{0{,}010}{0{,}004}=2{,}5>1{,}97$: se rechaza $H_0$; el retorno a la educación es estadísticamente distinto entre mujeres y hombres.
+\item Con $q=2$ restricciones y $n-k-1=300-5=295$:
+\[
+F=\frac{(SSR_R-SSR_{UR})/q}{SSR_{UR}/(n-k-1)}=\frac{(60-52)/2}{52/295}=\frac{4}{0{,}1763}\approx22{,}69>3{,}03 .
+\]
+Se rechaza $H_0$: hay diferencias entre mujeres y hombres (en nivel y/o pendiente).
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 7: Test de Chow e interpretación con dummies}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 7.1 ----------------
+\item \conc\ (10 puntos) Un test de Chow rechaza la hipótesis de que los coeficientes son iguales en dos grupos. Un analista concluye: ``por lo tanto, la pendiente del ingreso es distinta entre los grupos''. Comente y explique cómo averiguar \emph{cuáles} coeficientes difieren.
+
+\begin{resp}
+\textbf{Incierto / conclusión excesiva.} El test de Chow contrasta la hipótesis \emph{conjunta} $H_0:$ todos los coeficientes (intercepto y pendientes) son iguales en ambos grupos. Si se rechaza, solo sabemos que \emph{al menos uno} difiere; no cuál (podría ser solo el intercepto). Para identificar cuáles, se estima el modelo con una dummy de grupo $D$ y sus interacciones con cada regresor:
+\[
+y=\beta_0+\beta_1x+\delta_0D+\delta_1(D\cdot x)+u ,
+\]
+y se contrasta individualmente $\delta_0=0$ (intercepto) y $\delta_1=0$ (pendiente) con tests $t$. El test $F$ conjunto de $\delta_0=\delta_1=0$ es equivalente al test de Chow.
+\end{resp}
+
+% ---------------- 7.2 ----------------
+\item \conc\ (10 puntos) ¿Qué supuesto adicional hace el test de Chow clásico (calculado con las sumas de residuos cuadrados) sobre los errores de los dos grupos? Si no se cumple, ¿qué se hace?
+
+\begin{resp}
+Supone que la varianza del error es \textbf{la misma en ambos grupos} ($\sigma_1^2=\sigma_2^2$, homocedasticidad entre grupos), además de errores normales o muestras grandes. Si las varianzas difieren entre los grupos, el estadístico $F$ de Chow no sigue la distribución $F$ y el test puede rechazar (o no rechazar) incorrectamente. Alternativa: estimar el modelo con dummy e interacciones (equivalente al Chow) pero usando \textbf{errores estándar robustos a heterocedasticidad} y contrastar con un test de Wald robusto; o estimar por MCP. Además, el test supone que el punto de quiebre (o la definición de los grupos) es conocido de antemano.
+\end{resp}
+
+% ---------------- 7.3 ----------------
+\item \ejer\ (25 puntos) Con $n=200$ hogares ($n_1=120$ urbanos y $n_2=80$ rurales) se estima la función de consumo
+\[
+C_i=\beta_0+\beta_1Y_i+\beta_2W_i+u_i ,
+\]
+con $C$ el consumo, $Y$ el ingreso y $W$ la riqueza (miles de pesos). Se obtienen las sumas de cuadrados residuales: muestra completa $SSR_R=480$; urbanos $SSR_1=270$; rurales $SSR_2=170$. Valores críticos: $F_{0{,}05}(3,194)=2{,}65$ y $t_{0{,}025}(194)=1{,}97$.
+\begin{enumerate}[a)]
+\item (4 puntos) Plantee las hipótesis del test de Chow para saber si la función de consumo es la misma en zonas urbanas y rurales.
+\item (6 puntos) Calcule el estadístico de Chow y concluya.
+\item (5 puntos) Escriba el modelo equivalente con una dummy $R_i$ (rural) y sus interacciones, y señale qué hipótesis se contrasta.
+\item (6 puntos) En el modelo con dummies se obtiene: $\hat\delta_0=-5{,}0$ ($ee=2{,}5$), $\hat\delta_Y=-0{,}10$ ($ee=0{,}03$), $\hat\delta_W=0{,}01$ ($ee=0{,}02$) para $R$, $R\cdot Y$ y $R\cdot W$, respectivamente. Contraste cada coeficiente individualmente.
+\item (4 puntos) Si en los hogares urbanos $\hat\beta_1=0{,}80$, ¿cuál es la propensión marginal a consumir del ingreso en los hogares rurales? Interprete.
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item $H_0:\beta_0^{urb}=\beta_0^{rur},\ \beta_1^{urb}=\beta_1^{rur},\ \beta_2^{urb}=\beta_2^{rur}$ (misma función de consumo) contra $H_1:$ al menos una igualdad no se cumple.
+\item $SSR_{UR}=SSR_1+SSR_2=270+170=440$; $q=k+1=3$; $n-2(k+1)=200-6=194$.
+\[
+F=\frac{(SSR_R-SSR_1-SSR_2)/(k+1)}{(SSR_1+SSR_2)/(n-2(k+1))}=\frac{(480-440)/3}{440/194}=\frac{13{,}33}{2{,}268}\approx5{,}88>2{,}65 .
+\]
+Se rechaza $H_0$: la función de consumo difiere entre zonas urbanas y rurales.
+\item $C_i=\beta_0+\beta_1Y_i+\beta_2W_i+\delta_0R_i+\delta_YR_iY_i+\delta_WR_iW_i+u_i$. Se contrasta $H_0:\delta_0=\delta_Y=\delta_W=0$ con un test $F$ (3 restricciones), el mismo estadístico de Chow ($F\approx5{,}88$).
+\item Rechazar si $|t|>1{,}97$. Intercepto: $t=-5{,}0/2{,}5=-2{,}0$, se rechaza (diferencia de nivel, aunque justa). Pendiente de $Y$: $t=-0{,}10/0{,}03\approx-3{,}33$, se rechaza. Pendiente de $W$: $t=0{,}01/0{,}02=0{,}5$, no se rechaza. Las diferencias provienen sobre todo de la sensibilidad del consumo al ingreso (y algo del nivel).
+\item $\hat\beta_1^{rur}=\hat\beta_1+\hat\delta_Y=0{,}80-0{,}10=0{,}70$. Por cada mil pesos adicionales de ingreso, los hogares urbanos consumen $800$ pesos y los rurales $700$ pesos (ceteris paribus la riqueza); la propensión marginal a consumir es menor en el sector rural.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 8: Multicolinealidad}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 8.1 ----------------
+\item \conc\ (10 puntos) Un investigador revisa la matriz de correlaciones y ve que ningún par de regresores tiene correlación mayor a $0{,}5$. Concluye: ``no hay multicolinealidad''. Comente. ¿Qué herramienta es más adecuada?
+
+\begin{resp}
+\textbf{Falso.} La multicolinealidad puede surgir de relaciones entre \emph{más de dos} variables: por ejemplo, $x_3\approx x_1+x_2$ puede ocurrir con correlaciones bivariadas moderadas. La herramienta adecuada es la regresión auxiliar de cada regresor sobre todos los demás, cuyo $R^2_j$ entrega el factor de inflación de la varianza,
+\[
+VIF_j=\frac{1}{1-R^2_j},
+\]
+con la regla práctica $VIF_j>10$ (equivalentemente $R^2_j>0{,}90$) como indicio de multicolinealidad severa. Otros síntomas: $R^2$ y $F$ altos con $t$ individuales no significativos, y coeficientes inestables ante pequeños cambios en la muestra.
+\end{resp}
+
+% ---------------- 8.2 ----------------
+\item \conc\ (10 puntos) Un modelo incluye el ingreso medido en pesos ($ingr$) y el ingreso medido en miles de pesos ($ingr\_miles=ingr/1000$). (a) ¿Qué ocurre al estimarlo por MCO? (b) ¿Ocurre lo mismo si se incluyen $ingr$ e $ingr^2$? (c) ¿Qué distingue la multicolinealidad perfecta de la imperfecta en cuanto a las propiedades de MCO?
+
+\begin{resp}
+(a) $ingr\_miles$ es una función lineal exacta de $ingr$: \textbf{multicolinealidad perfecta}, se viola el supuesto de rango completo y el estimador MCO no existe (hay infinitas soluciones); el software descarta una de las variables.
+
+(b) No: $ingr^2$ es una función \emph{no lineal} de $ingr$, por lo que no hay dependencia lineal exacta. Pueden estar altamente correlacionadas (se puede reducir centrando la variable), pero el modelo es estimable y es de uso estándar.
+
+(c) Con colinealidad perfecta MCO no se puede calcular. Con colinealidad imperfecta se siguen cumpliendo los supuestos de Gauss-Markov: MCO es insesgado, consistente y MELI; el efecto es una varianza grande ($\var(\hat\beta_j)=\sigma^2/[SST_j(1-R^2_j)]$), es decir, estimaciones imprecisas, no sesgadas.
+\end{resp}
+
+% ---------------- 8.3 ----------------
+\item \ejer\ (25 puntos) Con $n=51$ observaciones se estima $y=\beta_0+\beta_1x_1+\beta_2x_2+\beta_3x_3+\beta_4x_4+u$ y se obtiene $\hat\sigma^2=4$. Para $x_1$: $SST_1=100$ y el $R^2$ de la regresión auxiliar de $x_1$ sobre los demás regresores es $R^2_1=0{,}96$. Además $\hat\beta_1=1{,}5$. Valores críticos: $t_{0{,}025}(46)=2{,}013$ y $F_{0{,}05}(2,46)=3{,}20$.
+\begin{enumerate}[a)]
+\item (4 puntos) Calcule el $VIF$ de $x_1$ y diga si hay multicolinealidad severa.
+\item (5 puntos) Calcule el error estándar de $\hat\beta_1$ y compárelo con el que se tendría sin colinealidad ($R^2_1=0$). ¿En qué factor se infla?
+\item (5 puntos) Calcule el estadístico $t$ de $\hat\beta_1$ y un intervalo de confianza al $95\%$. ¿Qué habría pasado sin colinealidad?
+\item (6 puntos) Los regresores $x_1$ y $x_2$ están fuertemente correlacionados, y ninguno es individualmente significativo. El modelo completo tiene $R^2=0{,}70$ y el modelo sin $x_1$ ni $x_2$ tiene $R^2=0{,}40$. Contraste $H_0:\beta_1=\beta_2=0$.
+\item (5 puntos) Si se mantiene $R^2_1=0{,}96$, ¿cuánto debería valer $SST_1$ para que el error estándar de $\hat\beta_1$ fuera $0{,}5$? ¿Qué implica esto en términos de tamaño muestral?
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item $VIF_1=\dfrac{1}{1-0{,}96}=25>10$: sí, multicolinealidad severa en $x_1$.
+\item $\var(\hat\beta_1)=\dfrac{\hat\sigma^2}{SST_1(1-R^2_1)}=\dfrac{4}{100\cdot0{,}04}=1\Rightarrow ee(\hat\beta_1)=1$. Sin colinealidad: $\dfrac{4}{100}=0{,}04\Rightarrow ee=0{,}2$. El error estándar se infla en $\sqrt{VIF}=\sqrt{25}=5$ veces ($1/0{,}2=5$).
+\item $t=1{,}5/1=1{,}5<2{,}013$: no significativo. $IC_{95\%}=1{,}5\pm2{,}013\cdot1=[-0{,}513;\ 3{,}513]$, que incluye el cero. Sin colinealidad: $ee=0{,}2\Rightarrow t=1{,}5/0{,}2=7{,}5$, altamente significativo.
+\item Restricciones $q=2$ ($x_1$ y $x_2$ se omiten), $n-k-1=51-5=46$:
+\[
+F=\frac{(R^2_{UR}-R^2_R)/q}{(1-R^2_{UR})/(n-k-1)}=\frac{(0{,}70-0{,}40)/2}{0{,}30/46}=\frac{0{,}15}{0{,}006522}=23{,}0>3{,}20 .
+\]
+Se rechaza $H_0$: $x_1$ y $x_2$ son conjuntamente significativas, aunque no lo sean individualmente (típico de la multicolinealidad: no se puede separar el efecto individual, pero sí el conjunto).
+\item $\var=0{,}25=\dfrac{4}{SST_1\cdot0{,}04}\Rightarrow SST_1=\dfrac{4}{0{,}25\cdot0{,}04}=400$. Se necesita cuadruplicar la variación muestral de $x_1$: como $SST_1\approx n\,\widehat{\var}(x_1)$, requeriría aproximadamente cuadruplicar el tamaño muestral, algo caro o inviable en muchos casos. Alternativas: eliminar o combinar variables (con riesgo de sesgo por variable omitida) o usar regularización.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\newpage
+%==================================================================
+\tema{Tema 9: Modelo de probabilidad lineal (MPL)}
+%==================================================================
+
+\begin{enumerate}[1.]
+
+% ---------------- 9.1 ----------------
+\item \conc\ (10 puntos) En un MPL el coeficiente estimado de $x$ es $0{,}05$. Un estudiante dice: ``un aumento de una unidad en $x$ aumenta la probabilidad de $y=1$ en $5\%$''. ¿Es correcta la interpretación? Explique además por qué el efecto marginal en el MPL es constante y qué problema implica.
+
+\begin{resp}
+\textbf{Incorrecta.} En el MPL, $\E{y|x}=\prob{y=1|x}=\beta_0+\beta_1x+\ldots$, por lo que $\beta_1$ mide el cambio en la \emph{probabilidad} (en puntos porcentuales), no un cambio porcentual: una unidad más de $x$ aumenta $\prob{y=1}$ en $0{,}05$, es decir, $5$ \textbf{puntos porcentuales}, manteniendo lo demás constante (si la probabilidad era $0{,}30$, pasa a $0{,}35$, no a $0{,}315$). El efecto es constante porque el modelo es lineal: $\partial\prob{y=1|x}/\partial x=\beta_1$ para todo valor de $x$. Esto implica que, para valores extremos de $x$, la probabilidad predicha puede salir de $[0,1]$, y no se pueden capturar rendimientos marginales decrecientes (Logit/Probit lo resuelven).
+\end{resp}
+
+% ---------------- 9.2 ----------------
+\item \conc\ (10 puntos) Demuestre que en el MPL el error es heterocedástico y diga cómo se hace inferencia válida. ¿Es posible aplicar mínimos cuadrados ponderados con ponderadores $1/\hat p_i(1-\hat p_i)$? Discuta.
+
+\begin{resp}
+Con $y\in\{0,1\}$, $y|x\sim\text{Bernoulli}(p(x))$ con $p(x)=\prob{y=1|x}=x'\beta$. Como $u=y-p(x)$,
+\[
+\var(u|x)=\var(y|x)=p(x)\,[1-p(x)] ,
+\]
+que depende de $x$ salvo que $p(x)$ sea constante: hay heterocedasticidad \emph{por construcción}. Consecuencias: MCO sigue siendo insesgado y consistente (si el modelo está bien especificado), pero los errores estándar usuales y los tests $t,F$ no son válidos. Se usa inferencia con \textbf{errores estándar robustos de White}.
+
+MCP con ponderadores $1/[\hat p_i(1-\hat p_i)]$ es en principio eficiente, pero exige $0<\hat p_i<1$ para toda observación: si alguna probabilidad predicha cae fuera de $(0,1)$, el ponderador es negativo o indefinido. Por eso, en la práctica se prefieren errores robustos o modelos Logit/Probit.
+\end{resp}
+
+% ---------------- 9.3 ----------------
+\item \ejer\ (25 puntos) Un banco estima un MPL para la probabilidad de que un cliente caiga en mora ($Mora_i=1$ si hay mora), donde $Ingreso$ está en cientos de miles de pesos mensuales, $Deudas$ es el número de tarjetas de crédito y $Desempl_i=1$ si el cliente está desempleado:
+\[
+\widehat{Mora}_i=0{,}45-0{,}05\,Ingreso_i+0{,}08\,Deudas_i+0{,}10\,Desempl_i .
+\]
+\begin{enumerate}[a)]
+\item (4 puntos) Interprete los coeficientes de $Ingreso$ y de $Desempl$.
+\item (4 puntos) Calcule la probabilidad predicha de mora para un cliente con $Ingreso=3$, $Deudas=3$ y empleado.
+\item (4 puntos) Calcule la probabilidad predicha para un cliente con $Ingreso=1$, $Deudas=5$ y desempleado.
+\item (5 puntos) Calcule la probabilidad predicha para un cliente con $Ingreso=12$, $Deudas=0$ y empleado. ¿Qué problema ilustra?
+\item (5 puntos) Calcule $\var(u_i|X_i)$ para los clientes de b) y c) y comente.
+\item (3 puntos) ¿Cómo debe hacerse la inferencia con este modelo?
+\end{enumerate}
+
+\begin{resp}
+\begin{enumerate}[a)]
+\item $\hat\beta_{Ingreso}=-0{,}05$: si el ingreso aumenta en 1 (cien mil pesos al mes), la probabilidad de mora disminuye en $0{,}05$ ($5$ puntos porcentuales), manteniendo constantes $Deudas$ y $Desempl$. $\hat\beta_{Desempl}=0{,}10$: un cliente desempleado tiene una probabilidad de mora $10$ puntos porcentuales mayor que uno empleado con igual ingreso y deudas.
+\item $0{,}45-0{,}05\cdot3+0{,}08\cdot3+0{,}10\cdot0=0{,}45-0{,}15+0{,}24=0{,}54$. Probabilidad de mora de $54\%$.
+\item $0{,}45-0{,}05\cdot1+0{,}08\cdot5+0{,}10\cdot1=0{,}45-0{,}05+0{,}40+0{,}10=0{,}90$, es decir, $90\%$.
+\item $0{,}45-0{,}05\cdot12+0{,}08\cdot0+0=0{,}45-0{,}60=-0{,}15<0$: una probabilidad negativa, imposible. Ilustra el problema de que el MPL puede predecir probabilidades fuera de $[0,1]$ para valores extremos de los regresores.
+\item Con $\var(u|X)=p(1-p)$: para b), $0{,}54\cdot0{,}46=0{,}2484$; para c), $0{,}90\cdot0{,}10=0{,}09$. Las varianzas son distintas: hay \textbf{heterocedasticidad}; la varianza es máxima cuando $p=0{,}5$ y baja cuando $p$ se acerca a $0$ o $1$.
+\item Con errores estándar robustos de White (los estimadores MCO siguen siendo insesgados y consistentes). Como alternativa, un modelo Logit o Probit, que además garantiza probabilidades en $(0,1)$.
+\end{enumerate}
+\end{resp}
+\end{enumerate}
+
+\end{document}

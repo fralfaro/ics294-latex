@@ -1,0 +1,599 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[letterpaper,margin=2.5cm,headheight=36pt]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{icomma}
+\usepackage[svgnames]{xcolor}
+\usepackage{booktabs}
+\usepackage{pdfrender} % letra mas gruesa
+\usepackage{textcomp}
+\usepackage{listings}
+\lstdefinestyle{Rout}{
+  basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,
+  keepspaces=true,
+  upquote=true,
+  showstringspaces=false,
+  literate={~}{{\raisebox{-0.55ex}{\textasciitilde}}}1,
+  backgroundcolor=\color{gray!8},
+  frame=single,
+  rulecolor=\color{gray!40},
+  xleftmargin=1em, framexleftmargin=0.6em,
+  xrightmargin=1em, framexrightmargin=0.6em,
+  aboveskip=1em,
+  belowskip=1em
+}
+
+\pagestyle{fancy}
+\lhead{\includegraphics[scale=0.08]{logoUSM.png}}
+\rhead{\footnotesize Universidad Técnica Federico Santa María\\Ingeniería Comercial }
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.5ex}
+
+% Custom commands
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\pr}[1]{\left(#1\right)}
+\newcommand{\ps}[1]{\left[#1\right]}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\rdea}[1]{\textsf{\small [RdeA #1]}}
+\DeclareMathOperator{\cov}{Cov}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator{\plim}{plim}
+
+% Color de las respuestas
+\newcommand{\sol}{\color{blue}}
+
+\begin{document}
+\pdfrender{TextRenderingMode=2, LineWidth=0.3pt}
+
+\begin{center}
+{\large \textbf{CERTAMEN 3 (GUÍA DE PRÁCTICA): ECONOMETRÍA ICS-294}}\\
+\vspace{0.2cm}
+II Semestre 2026\\
+Preguntas inventadas, de formato y dificultad similares al Certamen 3
+\end{center}
+
+\textbf{Instrucciones:}
+\begin{itemize}
+    \item Usted dispone de 90 minutos para intentar los 90 puntos del certamen.
+    \item Cuide la presentación y redacción de sus respuestas.
+    \item No puede utilizar celular, computador o tablet, pero sí una calculadora científica o financiera.
+    \item El certamen consta de dos secciones. En la Sección 1 debe elegir y responder \textbf{4 de las 5} preguntas propuestas (40 puntos); en la Sección 2 debe elegir y responder \textbf{2 de las 4} preguntas propuestas (50 puntos).
+    \item Indique claramente, al inicio de cada sección, el número de las preguntas que eligió responder.
+    \item Si responde más preguntas de las solicitadas en una sección, se corregirán únicamente las primeras que aparezcan en su desarrollo.
+    \item \textbf{Decimales:} no redondee los cálculos intermedios y reporte los resultados finales con \textbf{3 decimales}, salvo que la pregunta indique otra cosa.
+\end{itemize}
+
+%==========================================================
+\section{Preguntas cortas (40 puntos)}
+\begin{enumerate}
+
+%---------------------------------------------------------- 1
+\item \textbf{(10 puntos)} \rdea{3.2, 4.1} \textbf{Variable omitida.} Un investigador desea estimar el efecto de la educación sobre el salario. El modelo poblacional es
+\[
+\ln(salario_i)=\beta_0+\beta_1\,educ_i+\beta_2\,hab_i+u_i,\qquad \E{u\mid educ,hab}=0,
+\]
+donde $hab$ es la habilidad del trabajador, que no se observa. Por ello estima por MCO el modelo corto $\ln(salario_i)=\gamma_0+\gamma_1\,educ_i+v_i$ y obtiene $\hat\gamma_1=0{,}110$. Un estudio externo, que sí observa la habilidad, indica que $\beta_2=0{,}15$ y que la regresión auxiliar $hab_i=\delta_0+\delta_1\,educ_i+w_i$ entrega $\delta_1=0{,}40$.
+
+\begin{enumerate}[label=\alph*)]
+    \item (4 puntos) Muestre que $\plim\,\hat\gamma_1=\beta_1+\beta_2\,\delta_1$ e indique qué condiciones deben cumplirse para que exista sesgo.
+    \item (3 puntos) Calcule el sesgo asintótico y el valor implícito de $\beta_1$. ¿Hacia dónde está sesgado el estimador del modelo corto?
+    \item (3 puntos) Proponga una forma de obtener un estimador consistente de $\beta_1$ cuando la habilidad no se observa.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{Idea:} el modelo corto mete la habilidad dentro del error, y como la habilidad se relaciona con la educación, el error queda correlacionado con $educ$.
+
+    \textit{Paso 1.} El estimador MCO de la pendiente del modelo corto es
+    \[
+        \hat\gamma_1=\frac{\widehat{\cov}(educ,\ln(salario))}{\widehat{\var}(educ)} .
+    \]
+    \textit{Paso 2.} Se reemplaza $\ln(salario)$ por el modelo verdadero (largo):
+    \[
+        \hat\gamma_1=\beta_1+\beta_2\,\frac{\widehat{\cov}(educ,hab)}{\widehat{\var}(educ)}+\frac{\widehat{\cov}(educ,u)}{\widehat{\var}(educ)} .
+    \]
+    \textit{Paso 3.} El cociente $\cov(educ,hab)/\var(educ)$ es justamente el coeficiente de la regresión auxiliar $hab$ sobre $educ$, es decir, $\delta_1$. Además $\cov(educ,u)=0$ porque $\E{u\mid educ,hab}=0$. Tomando límites,
+    \[
+        \plim\hat\gamma_1=\beta_1+\beta_2\,\delta_1 \qquad\textbf{(3 puntos)}.
+    \]
+    (Equivalente: sustituyendo $hab_i$ en el modelo largo, $\ln(salario_i)=(\beta_0+\beta_2\delta_0)+(\beta_1+\beta_2\delta_1)educ_i+(u_i+\beta_2w_i)$, y el coeficiente de $educ$ es $\beta_1+\beta_2\delta_1$.)
+
+    \textbf{Condiciones para que haya sesgo:} $\beta_2\neq0$ (la omitida afecta a $y$) \textbf{y} $\delta_1\neq0$ (la omitida está correlacionada con el regresor incluido). Si falla cualquiera de las dos, el sesgo es cero \textbf{(1 punto)}.
+
+    \item \textit{Sesgo asintótico} $=\beta_2\,\delta_1=0{,}15\times0{,}40=0{,}060$.
+
+    \textit{Valor implícito:} como $\plim\hat\gamma_1=\beta_1+0{,}060=0{,}110$, entonces $\beta_1=0{,}110-0{,}060=0{,}050$ \textbf{(2 puntos)}.
+
+    \textit{Dirección:} como $\beta_2>0$ y $\delta_1>0$, el sesgo es \textbf{positivo}: el modelo corto \textbf{sobrestima} el retorno de la educación ($11\%$ en lugar de $5\%$), porque atribuye a la educación parte del efecto de la habilidad. La regla general es: signo del sesgo $=$ signo$(\beta_2)\times$signo$(\delta_1)$ \textbf{(1 punto)}.
+
+    \item Tres alternativas (basta una, bien justificada):
+    \begin{itemize}
+        \item \textbf{Proxy:} incluir una variable observable correlacionada con la habilidad (p.ej. puntaje de un test de aptitud), que absorbe la parte de $hab$ correlacionada con $educ$.
+        \item \textbf{Variable instrumental:} un instrumento $z$ que sea relevante ($\cov(z,educ)\neq0$) y exógeno ($\cov(z,u)=0$), por ejemplo la educación de los padres.
+        \item \textbf{Datos de panel:} si la habilidad es constante en el tiempo, se elimina con efectos fijos o primeras diferencias.
+    \end{itemize}
+    \textbf{(3 puntos)}
+\end{enumerate}}
+
+%---------------------------------------------------------- 2
+\item \textbf{(10 puntos)} \rdea{3.2, 4.2} \textbf{Heterocedasticidad.} Con una muestra de $n=400$ trabajadores se estima por MCO
+$\ln(salario_i)=\beta_0+\beta_1\,exper_i+u_i$ y se obtiene:
+
+\begin{center}
+\begin{tabular}{lccc}
+\hline\hline
+ & Coeficiente & E.E. usual & E.E. robusto (White) \\ \hline
+$exper$ & 0,040 & 0,015 & 0,025 \\
+\hline\hline
+\end{tabular}
+\end{center}
+
+Un analista afirma: ``como el error estándar robusto es mayor que el usual, el estimador MCO es sesgado e inconsistente; hay que descartar el coeficiente $0{,}040$ y concluir que la experiencia es significativa solo si usamos el error estándar usual''. Comente, usando valor crítico $1{,}96$.
+
+{\sol
+\textbf{Respuesta.} La afirmación es \textbf{falsa}. Se separa en tres partes:
+
+\textbf{1) El coeficiente sigue siendo válido.} El sesgo y la consistencia de MCO dependen del supuesto $\E{u\mid x}=0$. La heterocedasticidad, $\var(u\mid x)=\sigma^2(x)$ no constante, solo afecta al segundo momento del error, no a su media. Por lo tanto $\hat\beta_1$ sigue siendo \textbf{insesgado y consistente}, y el valor $0{,}040$ no se descarta \textbf{(3 puntos)}.
+
+\textbf{2) Lo que se rompe es la varianza.} La fórmula usual, $\widehat{\var}(\hat\beta_1)=\hat\sigma^2/\sum(x_i-\bar x)^2$, supone $\sigma^2$ constante y deja de ser válida. Con ella, los $t$, los $F$ y los intervalos de confianza son incorrectos. La corrección consiste en usar errores estándar \textbf{robustos} (White), que estiman
+\[
+    \widehat{\var}(\hat\beta_1)=\frac{\sum_i(x_i-\bar x)^2\,\hat u_i^2}{\left[\sum_i(x_i-\bar x)^2\right]^2},
+\]
+y no en cambiar el estimador del coeficiente. El robusto puede ser mayor o menor que el usual; aquí es mayor, lo que indica que el usual \textbf{subestimaba} la incertidumbre \textbf{(3 puntos)}.
+
+\textbf{3) El test.} Con $H_0:\beta_1=0$ versus $H_1:\beta_1\neq0$, se rechaza si $|t|>1{,}96$:
+\[
+t_{usual}=\frac{0{,}040}{0{,}015}\approx2{,}667>1{,}96,\qquad
+t_{robusto}=\frac{0{,}040}{0{,}025}=1{,}600<1{,}96.
+\]
+Con el error estándar usual (inválido) se rechazaría $H_0$; con el robusto (válido) \textbf{no} se rechaza al $5\%$. La conclusión correcta es que la experiencia \textbf{no es significativa} al $5\%$, que es lo contrario de lo que sostiene el analista \textbf{(4 puntos)}.}
+
+%---------------------------------------------------------- 3
+\item \textbf{(10 puntos)} \rdea{4.2} \textbf{Modelo Logit.} Se modela la probabilidad de que una mujer participe en el mercado laboral con un Logit, $\prob{trabaja=1\mid x}=\Lambda(x'\beta)=\dfrac{1}{1+e^{-x'\beta}}$, y se estima
+\[
+\widehat{x'\beta}=-3{,}00+0{,}25\,educ-0{,}80\,hijos+0{,}05\,exper,
+\]
+donde $hijos$ es el número de hijos menores de 6 años y $exper$ los años de experiencia.
+
+\begin{enumerate}[label=\alph*)]
+    \item (3 puntos) Calcule el \textit{odds ratio} de $hijos$ e interprételo.
+    \item (3 puntos) Calcule la probabilidad predicha para una mujer con $educ=12$, $hijos=1$ y $exper=10$.
+    \item (2 puntos) Calcule el efecto marginal de un año adicional de educación sobre la probabilidad para esa misma mujer.
+    \item (2 puntos) Mencione una ventaja del Logit frente al modelo de probabilidad lineal y cómo se estima.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}[label=\alph*)]
+    \item \textit{Definición:} los \textit{odds} son $\dfrac{p}{1-p}=e^{x'\beta}$, así que un aumento de una unidad en $x_j$ multiplica los odds por $e^{\beta_j}$.
+
+    Para $hijos$: $e^{-0{,}80}\approx0{,}449$. Un hijo menor adicional \textbf{multiplica} los odds de participar por $0{,}449$, es decir, los \textbf{reduce} en $(1-0{,}449)\times100\approx55{,}1\%$, manteniendo constantes $educ$ y $exper$ \textbf{(3 puntos)}. Importante: $\beta_j$ no es un efecto sobre la probabilidad; solo su signo indica la dirección.
+
+    \item \textit{Paso 1 (índice lineal):}
+    \[
+        x'\beta=-3+0{,}25(12)-0{,}80(1)+0{,}05(10)=-3+3-0{,}8+0{,}5=-0{,}3 .
+    \]
+    \textit{Paso 2 (función logística):}
+    \[
+        \hat p=\frac{1}{1+e^{-(-0{,}3)}}=\frac{1}{1+e^{0{,}3}}=\frac{1}{1+1{,}350}=\frac{1}{2{,}350}\approx0{,}426 .
+    \]
+    Esa mujer tiene una probabilidad predicha de participar de $42{,}6\%$ \textbf{(3 puntos)}.
+
+    \item En el Logit, $\dfrac{\partial p}{\partial x_j}=\beta_j\,p(1-p)$, que depende del punto donde se evalúa. Con $\hat p=0{,}426$:
+    \[
+        \frac{\partial p}{\partial educ}=0{,}25\times0{,}426\times(1-0{,}426)=0{,}25\times0{,}426\times0{,}574\approx0{,}061 .
+    \]
+    Un año más de educación aumenta la probabilidad en cerca de $6{,}1$ puntos porcentuales para esa mujer. Para otra mujer (otra $x$) el efecto sería distinto; es máximo cuando $p=0{,}5$ \textbf{(2 puntos)}.
+
+    \item \textbf{Ventaja:} las probabilidades predichas siempre quedan en $(0,1)$, mientras que el modelo de probabilidad lineal (MPL) puede predecir valores fuera de $[0,1]$; además, el MPL tiene errores heterocedásticos por construcción y efectos marginales constantes poco realistas. \textbf{Estimación:} por \textbf{máxima verosimilitud}, maximizando $\sum_i\left[y_i\ln\Lambda(x_i'\beta)+(1-y_i)\ln(1-\Lambda(x_i'\beta))\right]$, no por MCO \textbf{(2 puntos)}.
+\end{enumerate}}
+
+%---------------------------------------------------------- 4
+\item \textbf{(10 puntos)} \rdea{3.2} \textbf{Variables cualitativas.} Se estima, para una muestra de trabajadores de tres macrozonas (Norte, Centro y Sur), el modelo
+\[
+\ln(salario_i)=\beta_0+\delta_1\,Sur_i+\delta_2\,Centro_i+\beta_1\,exper_i+u_i,
+\]
+y se obtiene $\hat\delta_1=-0{,}07$ y $\hat\delta_2=0{,}18$, con $Sur_i=1$ si el trabajador vive en el Sur y $Centro_i=1$ si vive en el Centro.
+
+\begin{enumerate}[label=\alph*)]
+    \item (3 puntos) ¿Por qué no se incluye una tercera dummy $Norte_i$ junto con la constante? ¿Cuál es la categoría base?
+    \item (3 puntos) Interprete $\hat\delta_2$ (aproximación y valor exacto).
+    \item (4 puntos) Calcule la diferencia porcentual aproximada entre el salario del Centro y el del Sur, y explique cómo se puede testear si esa diferencia es estadísticamente distinta de cero.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}[label=\alph*)]
+    \item Cada trabajador pertenece a una y solo una zona, por lo que $Norte_i+Sur_i+Centro_i=1$ para todo $i$. Pero la constante es una columna de unos, de modo que una columna de la matriz $X$ sería combinación lineal exacta de otras: \textbf{multicolinealidad perfecta} (\textit{trampa de las dummies}). Entonces $X'X$ no es invertible y MCO no se puede calcular \textbf{(2 puntos)}. Se omite una categoría, que pasa a ser la \textbf{categoría base}: el \textbf{Norte} \textbf{(1 punto)}.
+
+    \item Los coeficientes de las dummies se interpretan \textbf{respecto de la categoría base}. Como la variable dependiente está en logaritmos:
+    \begin{itemize}
+        \item \textit{Aproximación:} $100\times\hat\delta_2=100\times0{,}18=18\%$ (válida para coeficientes pequeños).
+        \item \textit{Valor exacto:} $100\,(e^{\hat\delta_2}-1)=100\,(e^{0{,}18}-1)=100\,(1{,}197-1)\approx19{,}7\%$.
+    \end{itemize}
+    Un trabajador del Centro gana, en promedio, entre $18\%$ y $19{,}7\%$ más que uno del Norte con igual experiencia \textbf{(3 puntos)}. (Análogamente, el Sur gana $\approx7\%$ menos que el Norte.)
+
+    \item Con la base en el Norte, el salario esperado en logaritmos es $\beta_0+\delta_2+\beta_1exper$ en el Centro y $\beta_0+\delta_1+\beta_1exper$ en el Sur. La diferencia es
+    \[
+        \hat\delta_2-\hat\delta_1=0{,}18-(-0{,}07)=0{,}25 ,
+    \]
+    es decir, $\approx25\%$ más en el Centro que en el Sur (exacto: $e^{0{,}25}-1\approx28{,}4\%$) \textbf{(2 puntos)}.
+
+    \textbf{Test:} $H_0:\delta_2-\delta_1=0$ versus $H_1:\delta_2-\delta_1\neq0$, con
+    \[
+        t=\frac{\hat\delta_2-\hat\delta_1}{ee(\hat\delta_2-\hat\delta_1)},\qquad
+        ee(\hat\delta_2-\hat\delta_1)=\sqrt{\widehat{\var}(\hat\delta_2)+\widehat{\var}(\hat\delta_1)-2\,\widehat{\cov}(\hat\delta_1,\hat\delta_2)} .
+    \]
+    Se necesita la covarianza entre los estimadores, que sale de la matriz de varianzas y covarianzas. Alternativa más simple: re-estimar el modelo con el \textbf{Sur como categoría base} (incluyendo $Norte$ y $Centro$) y testear si el coeficiente de $Centro$ es cero \textbf{(2 puntos)}.
+\end{enumerate}}
+
+%---------------------------------------------------------- 5
+\item \textbf{(10 puntos)} \rdea{3.2} \textbf{Identificación con la ACF.} Se tienen tres series de $T=200$ observaciones: un AR(1), un MA(1) y un ruido blanco. Las primeras cinco autocorrelaciones muestrales son:
+
+\begin{center}
+\begin{tabular}{lccccc}
+\hline\hline
+Serie & $\hat\rho_1$ & $\hat\rho_2$ & $\hat\rho_3$ & $\hat\rho_4$ & $\hat\rho_5$ \\ \hline
+A & $0{,}58$ & $0{,}35$ & $0{,}22$ & $0{,}12$ & $0{,}07$ \\
+B & $0{,}41$ & $0{,}03$ & $-0{,}04$ & $0{,}02$ & $0{,}05$ \\
+C & $0{,}05$ & $-0{,}03$ & $0{,}08$ & $-0{,}06$ & $0{,}02$ \\
+\hline\hline
+\end{tabular}
+\end{center}
+
+Use la banda de confianza al $95\%$ para ruido blanco, $\pm1{,}96/\sqrt{T}$.
+
+\begin{enumerate}[label=\alph*)]
+    \item (3 puntos) Calcule la banda e indique qué proceso es cada serie.
+    \item (5 puntos) Justifique su respuesta con la forma teórica de la ACF de cada proceso.
+    \item (2 puntos) Para la serie A, estime $\phi$ y verifique si $\hat\rho_2$ es coherente con ese valor.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}[label=\alph*)]
+    \item \textit{Banda:} $\pm\dfrac{1{,}96}{\sqrt{200}}=\pm\dfrac{1{,}96}{14{,}142}\approx\pm0{,}139$. Una autocorrelación fuera de esa banda es significativamente distinta de cero al $5\%$; dentro de la banda, no se distingue de cero.
+
+    \textit{Clasificación:} Serie A $\to$ AR(1); Serie B $\to$ MA(1); Serie C $\to$ ruido blanco \textbf{(1 punto cada una)}.
+
+    \item \textbf{Formas teóricas de la ACF} (la ACF de un proceso estacionario siempre cumple $\rho_0=1$):
+    \begin{center}
+    \begin{tabular}{lll}
+    \hline
+    Proceso & ACF teórica & Patrón \\ \hline
+    Ruido blanco & $\rho_k=0$ para todo $k\ge1$ & todo dentro de la banda \\
+    MA($q$) & $\rho_k\neq0$ hasta $k=q$ y $\rho_k=0$ para $k>q$ & se \textbf{corta} \\
+    AR(1) & $\rho_k=\phi^k$ & \textbf{decae} geométricamente \\
+    \hline
+    \end{tabular}
+    \end{center}
+        \begin{itemize}
+        \item \textbf{Serie C:} $|\hat\rho_k|\le0{,}08<0{,}139$ para los cinco rezagos: ninguna es significativa, coherente con $\rho_k=0$ (ruido blanco) \textbf{(1,5 puntos)}.
+        \item \textbf{Serie B:} solo $\hat\rho_1=0{,}41>0{,}139$ es significativa y $\hat\rho_2,\dots,\hat\rho_5$ caen dentro de la banda. La ACF se \textbf{corta} tras el rezago $q=1$, característica de un MA(1) \textbf{(1,75 puntos)}.
+        \item \textbf{Serie A:} las autocorrelaciones son todas positivas y decrecen gradualmente ($0{,}58;\ 0{,}35;\ 0{,}22;\ 0{,}12;\ 0{,}07$) sin cortarse de golpe, como en un AR(1) estacionario con $\phi>0$, donde $\rho_k=\phi^k$. Las cuatro primeras están fuera de la banda \textbf{(1,75 puntos)}.
+    \end{itemize}
+
+    \item Como $\rho_1=\phi$ en un AR(1), $\hat\phi\approx\hat\rho_1=0{,}58$. La ACF teórica implica entonces
+    \[
+        \rho_2=\phi^2=0{,}58^2=0{,}336,\qquad \rho_3=\phi^3\approx0{,}195,\qquad \rho_4=\phi^4\approx0{,}113 .
+    \]
+    Frente a los valores muestrales $0{,}35;\ 0{,}22;\ 0{,}12$ las diferencias son menores que la banda ($0{,}139$), por lo que los datos son coherentes con un AR(1) con $\phi\approx0{,}58$ \textbf{(2 puntos)}.
+\end{enumerate}}
+
+\end{enumerate}
+
+%==========================================================
+\section{Ejercicios (50 puntos)}
+\begin{enumerate}
+
+%---------------------------------------------------------- 1
+\item \textbf{(25 puntos)} \rdea{4.1, 4.2} \textbf{Variables instrumentales.} Para estimar el retorno de la escolaridad se considera el modelo simple
+\[
+\ln(salario_i)=\beta_0+\beta_1\,educ_i+u_i ,
+\]
+donde se sospecha que $educ$ es endógena. Se propone como instrumento los años de escolaridad de la madre, $meduc$. Con una muestra de $n=1\,500$ trabajadores se obtienen las siguientes cantidades muestrales:
+\[
+\widehat{\cov}(educ,\ln(salario))=0{,}34,\quad \widehat{\var}(educ)=4{,}0,\quad
+\widehat{\cov}(meduc,\ln(salario))=0{,}09,
+\]
+\[
+\widehat{\cov}(meduc,educ)=1{,}5,\quad \widehat{\var}(meduc)=6{,}25.
+\]
+
+\begin{enumerate}[label=\alph*)]
+    \item (5 puntos) Enuncie las dos condiciones que debe cumplir $meduc$ para ser un instrumento válido y discuta si son plausibles.
+    \item (5 puntos) Calcule el estimador MCO de $\beta_1$ y explique por qué es inconsistente si $educ$ es endógena.
+    \item (5 puntos) Calcule el estimador de variables instrumentales de $\beta_1$ e interprételo. Compare con MCO.
+    \item (6 puntos) Calcule el coeficiente $\hat\gamma_1$ de la primera etapa ($educ$ sobre $meduc$) y el coeficiente $\hat\pi_1$ de la forma reducida ($\ln(salario)$ sobre $meduc$). Muestre que $\hat\beta_1^{IV}=\hat\pi_1/\hat\gamma_1$.
+    \item (4 puntos) El error estándar de $\hat\gamma_1$ es $0{,}030$. Calcule el estadístico $F$ de la primera etapa y evalúe si el instrumento es débil, usando la regla práctica $F>10$.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}[label=\alph*)]
+    \item Un instrumento $z$ para el regresor endógeno $x$ debe cumplir:
+    \begin{itemize}
+        \item \textbf{Relevancia:} $\cov(z,x)\neq0$. Aquí, hijos de madres más educadas tienden a estudiar más, por lo que es plausible. Es \textbf{contrastable} mirando la significancia de $z$ en la primera etapa \textbf{(2,5 puntos)}.
+        \item \textbf{Exogeneidad:} $\cov(z,u)=0$, es decir, $z$ afecta a $y$ solo a través de $x$. Es \textbf{discutible} y \textbf{no se puede testear} con un solo instrumento: la educación de la madre suele correlacionarse con la habilidad heredada y el nivel socioeconómico del hogar, que podrían afectar directamente al salario del hijo \textbf{(2,5 puntos)}.
+    \end{itemize}
+
+    \item \textit{Estimador:}
+    \[
+        \hat\beta_1^{MCO}=\frac{\widehat{\cov}(educ,\ln(salario))}{\widehat{\var}(educ)}=\frac{0{,}34}{4{,}0}=0{,}085 \qquad\textbf{(2 puntos)}.
+    \]
+    \textit{Inconsistencia:} reemplazando $y$ por el modelo, $\hat\beta_1^{MCO}=\beta_1+\widehat{\cov}(educ,u)/\widehat{\var}(educ)$, de donde
+    \[
+        \plim\hat\beta_1^{MCO}=\beta_1+\frac{\cov(educ,u)}{\var(educ)}\neq\beta_1 \quad\text{si }\cov(educ,u)\neq0 .
+    \]
+    Si $educ$ es endógena se viola $\E{u\mid educ}=0$ y MCO es sesgado e inconsistente, aunque la muestra crezca \textbf{(3 puntos)}.
+
+    \item \textit{Derivación:} de $y=\beta_0+\beta_1x+u$, se tiene $\cov(z,y)=\beta_1\cov(z,x)+\cov(z,u)$. Con $\cov(z,u)=0$, se despeja $\beta_1=\cov(z,y)/\cov(z,x)$. Entonces
+    \[
+        \hat\beta_1^{IV}=\frac{\widehat{\cov}(meduc,\ln(salario))}{\widehat{\cov}(meduc,educ)}=\frac{0{,}09}{1{,}5}=0{,}060 \qquad\textbf{(3 puntos)}.
+    \]
+    \textit{Interpretación:} un año adicional de escolaridad aumenta el salario en cerca de $6\%$, usando solo la variación de $educ$ que es inducida por $meduc$ (que se supone exógena). \textit{Comparación:} $0{,}060<0{,}085$. Si el instrumento es válido, MCO está sesgado \textbf{al alza} en $0{,}025$ puntos, consistente con habilidad omitida positivamente correlacionada con educación (implica $\cov(educ,u)\approx0{,}025\times4=0{,}10>0$) \textbf{(2 puntos)}.
+
+    \item \textit{Primera etapa} ($educ=\gamma_0+\gamma_1\,meduc+v$):
+    \[
+        \hat\gamma_1=\frac{\widehat{\cov}(meduc,educ)}{\widehat{\var}(meduc)}=\frac{1{,}5}{6{,}25}=0{,}240 .
+    \]
+    \textit{Forma reducida} ($\ln(salario)=\pi_0+\pi_1\,meduc+e$):
+    \[
+        \hat\pi_1=\frac{\widehat{\cov}(meduc,\ln(salario))}{\widehat{\var}(meduc)}=\frac{0{,}09}{6{,}25}=0{,}0144 \qquad\textbf{(4 puntos)}.
+    \]
+    \textit{Cociente:}
+    \[
+        \frac{\hat\pi_1}{\hat\gamma_1}=\frac{0{,}09/\widehat{\var}(meduc)}{1{,}5/\widehat{\var}(meduc)}=\frac{0{,}09}{1{,}5}=0{,}060=\hat\beta_1^{IV}
+    \]
+    porque $\widehat{\var}(meduc)$ se cancela \textbf{(2 puntos)}. Esto es el estimador de mínimos cuadrados indirectos (MCI): el efecto total de $z$ sobre $y$ ($\pi_1$) dividido por el efecto de $z$ sobre $x$ ($\gamma_1$) da el efecto de $x$ sobre $y$. Numéricamente: $0{,}24\times0{,}06=0{,}0144$.
+
+    \item Con un solo regresor excluido, el $F$ de significancia conjunta en la primera etapa es el cuadrado del $t$:
+    \[
+        t=\frac{\hat\gamma_1}{ee(\hat\gamma_1)}=\frac{0{,}240}{0{,}030}=8,\qquad F=t^2=64 \qquad\textbf{(2 puntos)}.
+    \]
+    Como $64>10$, el instrumento \textbf{no es débil}: hay relevancia fuerte. Un instrumento débil ($F<10$) produce estimadores IV con sesgo importante en muestras finitas y con distribuciones muy alejadas de la normal \textbf{(2 puntos)}.
+\end{enumerate}}
+
+%---------------------------------------------------------- 2
+\item \textbf{(25 puntos)} \rdea{3.2, 4.2} \textbf{Multicolinealidad y heterocedasticidad.} Con una muestra de $n=100$ viviendas, se estima el precio de venta (en millones de pesos):
+\[
+Precio_i=\beta_0+\beta_1\,Superficie_i+\beta_2\,Dormitorios_i+\beta_3\,Baños_i+\beta_4\,Antigüedad_i+u_i .
+\]
+
+\begin{center}
+\begin{tabular}{lcccc}
+\hline
+Variable & Coeficiente & Error estándar & Estadístico $t$ & VIF \\
+\hline
+Constante    & $20{,}0$ & $15{,}0$ & $1{,}33$ & --- \\
+$Superficie$ & $0{,}60$ & $0{,}40$ & $1{,}50$ & $12{,}5$ \\
+$Dormitorios$& $4{,}00$ & $3{,}20$ & $1{,}25$ & $11{,}1$ \\
+$Baños$      & $8{,}00$ & $2{,}00$ & $4{,}00$ & $1{,}4$ \\
+$Antigüedad$ & $-0{,}50$& $0{,}20$ & $-2{,}50$& $1{,}1$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Información adicional: $R^2=0{,}75$. Valores críticos al $5\%$: $t_{0,025}(95)=1{,}985$, $F_{0,05}(4,95)=2{,}47$ y $\chi^2_{0,95}(4)=9{,}488$.
+
+\begin{enumerate}[label=\alph*)]
+    \item (5 puntos) Realice las pruebas de significancia individual y la prueba de significancia global. ¿Qué patrón llama la atención?
+    \item (6 puntos) Interprete los VIF y vincúlelos con el patrón anterior. Para $Superficie$, calcule el $R^2$ de la regresión auxiliar y el factor en que se infla su error estándar. ¿Son sesgados los estimadores?
+    \item (6 puntos) Se sospecha que la varianza del error crece con la superficie. Plantee la regresión auxiliar y las hipótesis del test de Breusch-Pagan; si el $R^2_{aux}=0{,}12$, calcule el estadístico $LM$ y concluya.
+    \item (5 puntos) Con errores robustos de White se obtiene $ee(\hat\beta_1)=0{,}55$, $ee(\hat\beta_2)=4{,}50$, $ee(\hat\beta_3)=3{,}00$ y $ee(\hat\beta_4)=0{,}28$. ¿Cambian las conclusiones del item a)?
+    \item (3 puntos) Si $\var(u_i\mid x_i)=\sigma^2\,Superficie_i$, describa cómo estimaría por Mínimos Cuadrados Ponderados (MCP).
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}[label=\alph*)]
+    \item \textit{Significancia individual.} Para cada $j$, $H_0:\beta_j=0$ versus $H_1:\beta_j\neq0$, con $t_j=\hat\beta_j/ee(\hat\beta_j)$ y regla: rechazar si $|t_j|>1{,}985$ (los $t$ de la tabla ya están calculados).
+    \begin{itemize}
+        \item $Superficie$ ($1{,}50$) y $Dormitorios$ ($1{,}25$): $|t|<1{,}985$, \textbf{no} son significativas.
+        \item $Baños$ ($4{,}00$) y $Antigüedad$ ($-2{,}50$): $|t|>1{,}985$, \textbf{sí} lo son.
+    \end{itemize}
+    \textit{Significancia global.} $H_0:\beta_1=\beta_2=\beta_3=\beta_4=0$ versus $H_1$: algún $\beta_j\neq0$, con $k=4$ regresores y $n-k-1=95$:
+    \[
+        F=\frac{R^2/k}{(1-R^2)/(n-k-1)}=\frac{0{,}75/4}{0{,}25/95}=\frac{0{,}1875}{0{,}002632}=71{,}250>2{,}47,
+    \]
+    se rechaza $H_0$: el modelo es globalmente significativo. \textbf{Patrón llamativo:} $R^2$ y $F$ muy altos, pero dos variables importantes (superficie y dormitorios) individualmente no significativas. Este es el síntoma clásico de multicolinealidad \textbf{(5 puntos)}.
+
+    \item \textit{Lectura de los VIF.} $VIF_j=\dfrac{1}{1-R_j^2}$, donde $R_j^2$ es el $R^2$ de regresar $x_j$ sobre las demás explicativas. Regla: $VIF>10$ indica multicolinealidad severa ($VIF>5$ es solo señal de alerta).
+    \begin{itemize}
+        \item $Superficie$ ($12{,}5$) y $Dormitorios$ ($11{,}1$) superan $10$: están fuertemente correlacionadas entre sí (las casas más grandes tienen más dormitorios).
+        \item $Baños$ ($1{,}4$) y $Antigüedad$ ($1{,}1$) no presentan problema.
+    \end{itemize}
+    El vínculo con a): como
+    \[
+        \var(\hat\beta_j\mid X)=\frac{\sigma^2}{SST_j\,(1-R_j^2)}=\frac{\sigma^2}{SST_j}\cdot VIF_j ,
+    \]
+    un VIF alto \textbf{infla la varianza}, los errores estándar de $\hat\beta_1$ y $\hat\beta_2$ crecen y sus $t$ caen, aunque el modelo en conjunto explique bien el precio \textbf{(3 puntos)}.
+
+    \textit{Regresión auxiliar de $Superficie$:}
+    \[
+        R^2_{aux}=1-\frac{1}{VIF}=1-\frac{1}{12{,}5}=0{,}920,\qquad \sqrt{VIF}=\sqrt{12{,}5}\approx3{,}536 .
+    \]
+    Las demás variables explican $92\%$ de la variabilidad de $Superficie$, y su error estándar es unas $3{,}5$ veces mayor que si no hubiese colinealidad.
+
+    \textit{Sesgo:} \textbf{no}. Mientras la colinealidad no sea perfecta, los estimadores MCO siguen siendo insesgados, consistentes y de mínima varianza lineal; solo pierden precisión. Tampoco afecta a la predicción del modelo \textbf{(3 puntos)}.
+
+    \item \textit{Test de Breusch-Pagan.} \textbf{Paso 1:} estimar el modelo original y guardar los residuos $\hat u_i$. \textbf{Paso 2:} regresión auxiliar
+    \[
+        \hat u_i^2=\delta_0+\delta_1 Superficie_i+\delta_2 Dormitorios_i+\delta_3 Baños_i+\delta_4 Antigüedad_i+v_i .
+    \]
+    \textbf{Hipótesis:} $H_0:\delta_1=\delta_2=\delta_3=\delta_4=0$ (homocedasticidad) versus $H_1$: algún $\delta_j\neq0$ (heterocedasticidad) \textbf{(3 puntos)}.
+
+    \textbf{Paso 3:} estadístico $LM=n\cdot R^2_{aux}$, que bajo $H_0$ se distribuye $\chi^2(k)$ con $k=4$:
+    \[
+        LM=100\times0{,}12=12{,}000>\chi^2_{0,95}(4)=9{,}488 .
+    \]
+    Se rechaza $H_0$ al $5\%$: hay evidencia de \textbf{heterocedasticidad} \textbf{(3 puntos)}.
+
+    \item \textit{Nuevos $t$ con errores robustos:}
+    \[
+        t_1=\frac{0{,}60}{0{,}55}\approx1{,}091,\quad
+        t_2=\frac{4{,}00}{4{,}50}\approx0{,}889,\quad
+        t_3=\frac{8{,}00}{3{,}00}\approx2{,}667,\quad
+        t_4=\frac{-0{,}50}{0{,}28}\approx-1{,}786 \quad\textbf{(3 puntos)}.
+    \]
+    Con valor crítico $1{,}985$: $Superficie$ y $Dormitorios$ siguen sin ser significativas, y $Baños$ sigue siéndolo. Pero \textbf{$Antigüedad$ deja de ser significativa} al $5\%$ ($|-1{,}786|<1{,}985$): para esa variable la conclusión \textbf{sí cambia}. Los coeficientes no cambian (MCO sigue siendo insesgado y consistente); solo cambian los errores estándar, que con heterocedasticidad eran inválidos \textbf{(2 puntos)}.
+
+    \item Si $\var(u_i\mid x_i)=\sigma^2h_i$ con $h_i=Superficie_i$, se multiplica todo el modelo por $1/\sqrt{h_i}$:
+    \[
+        \frac{Precio_i}{\sqrt{S_i}}=\beta_0\frac{1}{\sqrt{S_i}}+\beta_1\frac{S_i}{\sqrt{S_i}}+\beta_2\frac{Dorm_i}{\sqrt{S_i}}+\beta_3\frac{Ba\tilde nos_i}{\sqrt{S_i}}+\beta_4\frac{Ant_i}{\sqrt{S_i}}+\frac{u_i}{\sqrt{S_i}},
+    \]
+    con $S_i=Superficie_i$. El nuevo error cumple $\var\!\left(u_i/\sqrt{S_i}\right)=\sigma^2S_i/S_i=\sigma^2$ (constante). Se aplica MCO al modelo transformado (la constante pasa a ser la variable $1/\sqrt{S_i}$), lo que equivale a MCO ponderado con pesos $1/S_i$. El estimador es eficiente (MELI) \textbf{solo si} la forma de la varianza está bien especificada; si no, se usa MCO con errores robustos \textbf{(3 puntos)}.
+\end{enumerate}}
+
+%---------------------------------------------------------- 3
+\item \textbf{(25 puntos)} \rdea{4.3}
+Un analista estudia si el logaritmo del Producto Interno Bruto (PIB) de Chile,
+$y_t = \ln(\text{PIB}_t)$, tiene raíz unitaria (es decir, si es o no estacionario). Tiene datos trimestrales desde 2000Q1 hasta 2025Q4
+($T = 104$ observaciones). Dado que la serie muestra un crecimiento sostenido en el tiempo,
+considera el siguiente modelo con constante y tendencia determinística:
+\begin{equation*}
+\Delta y_t = \alpha + \beta\, t + \delta\, y_{t-1} + \varepsilon_t ,
+\qquad \varepsilon_t \sim \text{i.i.d.}(0,\sigma^2)
+\end{equation*}
+
+La estimación por MCO entregó los siguientes resultados:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\hline
+\multicolumn{5}{c}{Variable dependiente: $\Delta y_t$ \quad | \quad Muestra efectiva: 2000Q2--2025Q4 ($n=103$)} \\
+\hline
+Variable & Coeficiente & Error estándar & Estadístico $t$ & Valor-$p$ \\
+\hline
+Constante        & $0{,}9800$  & $0{,}2300$ & $4{,}261$  & $0{,}0000$ \\
+Tendencia ($t$)  & $0{,}0035$  & $0{,}0010$ & $3{,}500$  & $0{,}0007$ \\
+$y_{t-1}$        & $-0{,}2150$ & $0{,}0480$ & $\;\;?\;\;$ & $0{,}0000$ \\
+\hline
+\multicolumn{5}{l}{$R^2 = 0{,}178$ \qquad $\bar R^2 = 0{,}162$ \qquad Durbin--Watson $= 2{,}03$} \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Tabla: Valores críticos de Dickey--Fuller} (Fuller, 1976)
+
+\begin{center}
+\begin{tabular}{c|ccc|ccc}
+\hline
+ & \multicolumn{3}{c|}{Con constante ($\tau_\mu$)}
+ & \multicolumn{3}{c}{Con constante y tendencia ($\tau_\tau$)} \\
+$T$ & 1\% & 5\% & 10\% & 1\% & 5\% & 10\% \\
+\hline
+25       & $-3{,}75$ & $-3{,}00$ & $-2{,}63$ & $-4{,}38$ & $-3{,}60$ & $-3{,}24$ \\
+50       & $-3{,}58$ & $-2{,}93$ & $-2{,}60$ & $-4{,}15$ & $-3{,}50$ & $-3{,}18$ \\
+100      & $-3{,}51$ & $-2{,}89$ & $-2{,}58$ & $-4{,}04$ & $-3{,}45$ & $-3{,}15$ \\
+250      & $-3{,}46$ & $-2{,}88$ & $-2{,}57$ & $-3{,}99$ & $-3{,}43$ & $-3{,}13$ \\
+500      & $-3{,}44$ & $-2{,}87$ & $-2{,}57$ & $-3{,}98$ & $-3{,}42$ & $-3{,}13$ \\
+$\infty$ & $-3{,}43$ & $-2{,}86$ & $-2{,}57$ & $-3{,}96$ & $-3{,}41$ & $-3{,}12$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent Se pide:
+\begin{enumerate}
+  \item[(a)] \textbf{(5 pts)} Plantee la hipótesis nula y la alternativa del test en términos del
+  parámetro $\delta$. Interprete cada una en términos de la serie $y_t$ (¿qué tipo de proceso
+  es $y_t$ bajo $H_0$ y bajo $H_1$?).
+  \item[(b)] \textbf{(5 pts)} Calcule el estadístico de prueba que falta en la tabla.
+  \item[(c)] \textbf{(7 pts)} El software reporta un valor-$p$ de $0{,}0000$ para $y_{t-1}$. ¿Es
+  válido usarlo para concluir sobre la raíz unitaria? Justifique.
+  \item[(d)] \textbf{(8 pts)} Elija el valor crítico adecuado y justifique su elección (columna y
+  fila de la tabla). Realice el test al 1\%, 5\% y 10\% y concluya sobre la existencia de raíz unitaria en $y_t$.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}
+  \item[(a)] $H_0: \delta = 0$: $y_t$ tiene raíz unitaria, es decir, es un paseo aleatorio con
+  deriva y no es estacionario. $H_1: \delta < 0$: $y_t$ es estacionaria en torno a una tendencia
+  determinística. Es un test de una cola (izquierda) \textbf{(2,5 pts por cada hipótesis bien interpretada)}.
+  \item[(b)] $\tau_\tau = \hat\delta / se(\hat\delta) = -0{,}2150/0{,}0480 = -4{,}479$ \textbf{(2 pts por la fórmula del estadístico y 3 pts por el valor correcto)}.
+  \item[(c)] No es válido. Bajo $H_0$ el estadístico no sigue una distribución $t$ de Student
+  (ni normal), sino la distribución de Dickey--Fuller, porque el regresor $y_{t-1}$ no es
+  estacionario. Además, el valor-$p$ reportado es de dos colas. Hay que comparar con los
+  valores críticos de DF, que son más negativos \textbf{(1 pt por decir que no es válido, 4 pts por explicar que bajo $H_0$ la distribución es la de Dickey--Fuller y no la $t$, y 2 pts por notar que hay que usar los valores críticos de DF)}.
+  \item[(d)] Se usa la columna $\tau_\tau$, porque el modelo incluye constante y tendencia, y la
+  fila $T=100$, la más cercana al tamaño muestral ($n=103$). Los valores críticos son $-4{,}04$ (1\%), $-3{,}45$ (5\%) y $-3{,}15$ (10\%). Como
+  $-4{,}479 < -4{,}04$, se rechaza $H_0$ incluso al $1\%$ (y por lo tanto también al $5\%$ y al $10\%$). No hay evidencia de raíz unitaria: el
+  log-PIB es estacionario en torno a una tendencia determinística \textbf{(2 pts por elegir la columna $\tau_\tau$ justificando, 1 pt por la fila, 3 pts por comparar correctamente en los tres niveles y 2 pts por concluir que no hay raíz unitaria)}.
+\end{enumerate}}
+
+%---------------------------------------------------------- 4
+\item \textbf{(25 puntos)} \rdea{4.3}
+Suponga que se estima un modelo de series de tiempo para las exportaciones de Chile,
+con datos anuales de 1971 a 2025 (55 observaciones), de la siguiente forma:
+\[
+\Delta \ln(X_t) = \alpha + \phi \ln(X_{t-1}) + \delta t + \epsilon_t
+\]
+donde $\Delta \ln(X_t) = \ln(X_t) - \ln(X_{t-1})$ y $t$ es una tendencia lineal.
+En el output, \texttt{d\_lx} corresponde a $\Delta \ln(X_t)$, \texttt{lx\_1} a
+$\ln(X_{t-1})$ y \texttt{tendencia} a $t$.
+
+\begin{lstlisting}[style=Rout]
+Call:
+lm(formula = d_lx ~ lx_1 + tendencia, data = exportaciones)
+
+Residuals:
+     Min       1Q   Median       3Q      Max
+-0.19842 -0.05213  0.00341  0.05127  0.24618
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)
+(Intercept)  0.912480   0.402115   2.269   0.0275 *
+lx_1        -0.142260   0.064120  -2.219   0.0309 *
+tendencia    0.005830   0.002610   2.234   0.0299 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.08731 on 51 degrees of freedom
+Multiple R-squared:  0.0940,   Adjusted R-squared:  0.0585
+F-statistic: 2.646 on 2 and 51 DF,  p-value: 0.0807
+\end{lstlisting}
+
+Con la información disponible (y la tabla de valores críticos de Dickey--Fuller del ejercicio anterior) se le pide responder lo siguiente:
+
+\begin{enumerate}
+    \item [a)] \textbf{(6 puntos)} La serie es estacionaria, ya que el modelo ya está calculado en diferencias. Comente.
+    \item [b)] \textbf{(4 puntos)} ¿Qué se puede concluir al respecto de cómo trabajar el modelo? ¿Cuál es la solución?
+    \item [c)] \textbf{(7 puntos)} Un compañero dice: ``el valor-$p$ de \texttt{lx\_1} es $0{,}0309<0{,}05$, por lo tanto se rechaza la raíz unitaria al $5\%$''. ¿Es correcto? Justifique.
+    \item [d)] \textbf{(8 puntos)} Al aplicar el test de Dickey--Fuller con constante sobre $\Delta \ln(X_t)$ ($T=54$) se obtiene $\hat\phi=-0{,}9150$ con error estándar $0{,}1320$. Calcule el estadístico, elija el valor crítico adecuado (columna y fila) y concluya sobre el orden de integración de $\ln(X_t)$.
+\end{enumerate}
+
+{\sol
+\textbf{Respuesta.}
+\begin{enumerate}
+    \item [a)] Falso. Al aplicar el test de raíz unitaria donde
+    $$H_0: \phi = 0$$
+    $$H_a: \phi < 0$$
+    se calcula con $\hat{\phi} = -0{,}142260$ y $\hat{\sigma}_{\phi} = 0{,}064120$, por lo tanto \textbf{(2 puntos)}
+    $$\frac{-0{,}142260 - 0}{0{,}064120} \approx -2{,}22$$
+    (Acá puede haber calculado o indicado que del resultado sale el valor de $t$.)
+
+    Luego, contrastando con Dickey--Fuller al $5\%$ con $T = 50$ y con tendencia (el modelo lo especifica), se tiene que \textbf{(2 puntos)}
+    $$-2{,}22 > -3{,}50 \quad\text{(es decir, } |-2{,}22| < |-3{,}50|\text{)}$$
+    Por lo tanto, no se rechaza la hipótesis nula y el proceso no es estacionario. Así, se concluye que la afirmación era falsa \textbf{(2 puntos)}.
+
+    \item [b)] Al no poder rechazar la $H_0$, el proceso tiene una raíz unitaria. Esto significa que si hacemos inferencia estadística con el modelo en niveles podríamos concluir efectos que en realidad no son tales. Para solucionar esto, el modelo debe ser estimado en diferencias, lo que mitiga justamente el problema de caminata aleatoria \textbf{(4 puntos)}.
+
+    \item [c)] No es correcto. Bajo $H_0$ el regresor $\ln(X_{t-1})$ no es estacionario, por lo que el estadístico no sigue una distribución $t$ de Student, sino la distribución de Dickey--Fuller, y el valor-$p$ que reporta el software (que asume una $t$ y es de dos colas) no sirve para contrastar la raíz unitaria \textbf{(4 puntos)}. Hay que comparar $\tau_\tau=-2{,}22$ con los valores críticos de DF ($-3{,}50$ al $5\%$ con $T=50$ y tendencia): como $-2{,}22>-3{,}50$ no se rechaza $H_0$, la conclusión contraria a la del compañero \textbf{(3 puntos)}.
+
+    \item [d)] \textit{Estadístico:} $\tau_\mu=\hat\phi/se(\hat\phi)=-0{,}9150/0{,}1320\approx-6{,}932$ \textbf{(2 puntos)}. Se usa la columna $\tau_\mu$ (con constante, porque la primera diferencia ya no tiene tendencia) y la fila $T=50$, la más cercana a $T=54$ \textbf{(2 puntos)}: los valores críticos son $-3{,}58$ (1\%), $-2{,}93$ (5\%) y $-2{,}60$ (10\%). Como $-6{,}932<-3{,}58$, se rechaza $H_0$ en los tres niveles \textbf{(2 puntos)}. Entonces $\Delta\ln(X_t)$ es estacionaria y, como $\ln(X_t)$ tiene raíz unitaria en niveles, $\ln(X_t)$ es integrada de orden uno, $I(1)$ \textbf{(2 puntos)}.
+\end{enumerate}}
+
+\end{enumerate}
+
+\end{document}
